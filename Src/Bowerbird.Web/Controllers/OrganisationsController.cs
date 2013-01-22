@@ -3,13 +3,15 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- Project Manager: 
+ Organisation Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
  Funded by:
  * Atlas of Living Australia
  
 */
 
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
@@ -21,6 +23,11 @@ using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
 using Bowerbird.Core.Config;
 using System;
+using System.Linq;
+using System.Collections;
+using Raven.Client;
+using Raven.Client.Linq;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -36,6 +43,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IPermissionManager _permissionManager;
+        private readonly IDocumentSession _documentSession;
 
         #endregion
 
@@ -49,7 +57,8 @@ namespace Bowerbird.Web.Controllers
             IActivityViewModelBuilder activityViewModelBuilder,
             IPostViewModelBuilder postViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
-            IPermissionManager permissionManager
+            IPermissionManager permissionManager,
+            IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -60,6 +69,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(permissionManager, "permissionManager");
+            Check.RequireNotNull(documentSession, "documentSession");
 
             _messageBus = messageBus;
             _userContext = userContext;
@@ -69,6 +79,7 @@ namespace Bowerbird.Web.Controllers
             _postViewModelBuilder = postViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
             _permissionManager = permissionManager;
+            _documentSession = documentSession;
         }
 
         #endregion
@@ -78,46 +89,6 @@ namespace Bowerbird.Web.Controllers
         #endregion
 
         #region Methods
-
-        [HttpGet]
-        public ActionResult Activity(string id, ActivityInput activityInput, PagingInput pagingInput)
-        {
-            string organisationId = VerbosifyId<Organisation>(id);
-
-            if (!_permissionManager.DoesExist<Organisation>(organisationId))
-            {
-                return HttpNotFound();
-            }
-
-            var viewModel = _activityViewModelBuilder.BuildGroupActivityList(organisationId, activityInput, pagingInput);
-
-            return RestfulResult(
-                viewModel,
-                "organisations",
-                "activity");
-        }
-
-        [HttpGet]
-        public ActionResult Sightings(string id, PagingInput pagingInput)
-        {
-            string organisationId = VerbosifyId<Organisation>(id);
-
-            if (!_permissionManager.DoesExist<Organisation>(organisationId))
-            {
-                return HttpNotFound();
-            }
-
-            var viewModel = new
-            {
-                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
-                Sightings = _sightingViewModelBuilder.BuildGroupSightingList(organisationId, null)
-            };
-
-            return RestfulResult(
-                viewModel,
-                "organisations",
-                "sightings");
-        }
 
         [HttpGet]
         public ActionResult Posts(string id, PagingInput pagingInput)
@@ -151,11 +122,32 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
+            queryInput.PageSize = 15;
+
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "z-a"))
             {
-                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId),
-                Members = _userViewModelBuilder.BuildGroupUserList(organisationId, queryInput)
+                queryInput.Sort = "a-z";
+            }
+
+            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            viewModel.Members = _userViewModelBuilder.BuildGroupUserList(organisationId, queryInput);
+            viewModel.Query = new
+            {
+                Id = organisationId,
+                queryInput.Page,
+                queryInput.PageSize,
+                queryInput.Sort
             };
+            viewModel.ShowMembers = true;
+            viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
+            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
+            viewModel.SightingCountDescription = "Sighting" + (organisation.SightingCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
 
             return RestfulResult(
                 viewModel,
@@ -173,11 +165,26 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            throw new NotImplementedException();
+            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            viewModel.ShowAbout = true;
+            viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
+            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
+            viewModel.SightingCountDescription = "Sighting" + (organisation.SightingCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
+            viewModel.OrganisationAdministrators = _userViewModelBuilder.BuildGroupUserList(organisationId, "roles/" + RoleNames.OrganisationAdministrator);
+            viewModel.ActivityTimeseries = CreateActivityTimeseries(organisationId);
+
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "about");
         }
 
         [HttpGet]
-        public ActionResult Index(string id)
+        public ActionResult Index(string id, ActivityInput activityInput, PagingInput pagingInput)
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
@@ -186,10 +193,16 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
-            {
-                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId)
-            };
+            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = organisation;
+            viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(organisationId, activityInput, pagingInput);
+            viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
+            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
+            viewModel.SightingCountDescription = "Sighting" + (organisation.SightingCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
+            viewModel.ShowActivities = true;
 
             return RestfulResult(
                 viewModel,
@@ -198,12 +211,38 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult List(PagingInput pagingInput)
+        public ActionResult List(OrganisationsQueryInput queryInput)
         {
-            var viewModel = new
+            queryInput.PageSize = 15;
+
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
+                queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "z-a"))
             {
-                Organisations = _organisationViewModelBuilder.BuildOrganisationList(pagingInput)
+                queryInput.Sort = "newest";
+            }
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisations = _organisationViewModelBuilder.BuildOrganisationList(queryInput);
+            viewModel.Query = new
+            {
+                queryInput.Page,
+                queryInput.PageSize,
+                queryInput.Sort
             };
+
+            if (_userContext.IsUserAuthenticated())
+            {
+                var user = _documentSession
+                    .Query<All_Users.Result, All_Users>()
+                    .AsProjection<All_Users.Result>()
+                    .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                    .Single();
+
+                viewModel.ShowOrganisationExploreWelcome = user.User.CallsToAction.Contains("organisation-explore-welcome");
+            }
 
             return RestfulResult(
                 viewModel,
@@ -215,21 +254,14 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult CreateForm()
         {
-            if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
-            {
-                return HttpUnauthorized();
-            }
-
-            var viewModel = new
-            {
-                Organisation = _organisationViewModelBuilder.BuildNewOrganisation()
-            };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = _organisationViewModelBuilder.BuildCreateOrganisation();
+            viewModel.Create = true;
 
             return RestfulResult(
                 viewModel,
                 "organisations",
-                "create", 
-                new Action<dynamic>(x => x.Model.Create = true));
+                "create");
         }
 
         [HttpGet]
@@ -248,16 +280,14 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var viewModel = new
-            {
-                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId)
-            };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = _organisationViewModelBuilder.BuildUpdateOrganisation(organisationId);
+            viewModel.Update = true;
 
             return RestfulResult(
                 viewModel,
                 "organisations",
-                "update", 
-                new Action<dynamic>(x => x.Model.Update = true));
+                "update");
         }
 
         [HttpGet]
@@ -271,21 +301,20 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
+            // BUG: Fix this to check the parent groups' permission
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
 
-            var viewModel = new
-            {
-                Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId)
-            };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            viewModel.Delete = true;
 
             return RestfulResult(
                 viewModel,
                 "organisations",
-                "delete", 
-                new Action<dynamic>(x => x.Model.Delete = true));
+                "delete");
         }
 
         [Transaction]
@@ -300,12 +329,6 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            // TODO: Not sure what this permission check is actually checking???
-            if (!_userContext.HasGroupPermission(PermissionNames.JoinOrganisation, organisationId))
-            {
-                return HttpUnauthorized();
-            }
-
             if (!ModelState.IsValid)
             {
                 return JsonFailed();
@@ -317,7 +340,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId(),
                     GroupId = organisationId,
                     CreatedByUserId = _userContext.GetAuthenticatedUserId(),
-                    Roles = new[] { RoleNames.OrganisationMember }
+                    Roles = new[] { "roles/organisationmember" }
                 });
 
             return JsonSuccess();
@@ -335,11 +358,11 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            // TODO: Not sure what this permission check is actually checking???
-            if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, organisationId))
-            {
-                return HttpUnauthorized();
-            }
+            //// TODO: Not sure what this permission check is actually checking???
+            //if (!_userContext.HasGroupPermission(PermissionNames.LeaveOrganisation, organisationId))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -350,7 +373,8 @@ namespace Bowerbird.Web.Controllers
                 new MemberDeleteCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = organisationId
+                    GroupId = organisationId,
+                    ModifiedByUserId = _userContext.GetAuthenticatedUserId()
                 });
 
             return JsonSuccess();
@@ -361,11 +385,6 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Create(OrganisationCreateInput createInput)
         {
-            if (!_userContext.HasAppRootPermission(PermissionNames.CreateOrganisation))
-            {
-                return HttpUnauthorized();
-            }
-
             if (!ModelState.IsValid)
             {
                 return JsonFailed();
@@ -378,7 +397,8 @@ namespace Bowerbird.Web.Controllers
                     Name = createInput.Name,
                     Description = createInput.Description,
                     Website = createInput.Website,
-                    AvatarId = createInput.AvatarId
+                    AvatarId = createInput.AvatarId,
+                    BackgroundId = createInput.BackgroundId
                 });
 
             return JsonSuccess();
@@ -407,14 +427,15 @@ namespace Bowerbird.Web.Controllers
             }
 
             _messageBus.Send(
-                new OrganisationUpdateCommand
+                new OrganisationUpdateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = updateInput.Id,
+                    Id = organisationId,
                     Name = updateInput.Name,
                     Description = updateInput.Description,
                     Website = updateInput.Website,
-                    AvatarId = updateInput.AvatarId
+                    AvatarId = updateInput.AvatarId,
+                    BackgroundId = updateInput.BackgroundId
                 });
 
             return JsonSuccess();
@@ -432,7 +453,8 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            if (!_userContext.HasAppRootPermission(PermissionNames.DeleteOrganisation))
+            // BUG: Fix this to check the parent groups' permission
+            if (!_userContext.HasGroupPermission(PermissionNames.DeleteOrganisation, organisationId))
             {
                 return HttpUnauthorized();
             }
@@ -450,6 +472,76 @@ namespace Bowerbird.Web.Controllers
                 });
 
             return JsonSuccess();
+        }
+
+        private dynamic CreateActivityTimeseries(string organisationId)
+        {
+            var fromDate = DateTime.UtcNow.Subtract(TimeSpan.FromDays(30)).Date;
+            var toDate = DateTime.UtcNow.Date;
+
+            var result = _documentSession
+                .Advanced
+                .LuceneQuery<All_Contributions.Result, All_Contributions>()
+                .SelectFields<All_Contributions.Result>("ContributionId", "SubContributionId", "ContributionType", "CreatedDateTime")
+                .WhereGreaterThan(x => x.CreatedDateTime, fromDate)
+                .AndAlso()
+                .WhereIn("GroupIds", new[] { organisationId })
+                .AndAlso()
+                .WhereIn("ContributionType", new[] { "observation", "record", "note", "post", "comment" })
+                .ToList();
+
+            var contributions = result.Select(x => new
+            {
+                x.ContributionId,
+                x.SubContributionId,
+                x.ContributionType,
+                x.CreatedDateTime
+            })
+                .GroupBy(x => x.CreatedDateTime.Date);
+
+            var timeseries = new List<dynamic>();
+
+            for (DateTime dateItem = fromDate; dateItem <= toDate; dateItem = dateItem.AddDays(1))
+            {
+                string createdDateFormat;
+
+                if (dateItem == fromDate ||
+                    dateItem.Day == 1)
+                {
+                    createdDateFormat = "d MMM";
+                }
+                else
+                {
+                    createdDateFormat = "%d";
+                }
+
+                if (contributions.Any(x => x.Key.Date == dateItem.Date))
+                {
+                    timeseries.Add(contributions
+                        .Where(x => x.Key.Date == dateItem.Date)
+                        .Select(x => new
+                        {
+                            CreatedDate = dateItem.ToString(createdDateFormat),
+                            SightingCount = x.Count(y => y.ContributionType == "observation" || y.ContributionType == "record"),
+                            NoteCount = x.Count(y => y.ContributionType == "note"),
+                            PostCount = x.Count(y => y.ContributionType == "post"),
+                            CommentCount = x.Count(y => y.ContributionType == "comment")
+                        }
+                        ).First());
+                }
+                else
+                {
+                    timeseries.Add(new
+                    {
+                        CreatedDate = dateItem.ToString(createdDateFormat),
+                        SightingCount = 0,
+                        NoteCount = 0,
+                        PostCount = 0,
+                        CommentCount = 0
+                    });
+                }
+            }
+            return timeseries;
         }
 
         #endregion

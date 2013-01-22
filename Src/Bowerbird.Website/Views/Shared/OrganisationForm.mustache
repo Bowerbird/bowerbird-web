@@ -1,44 +1,77 @@
-﻿<h2>New Organisation</h2>
-<form action="/organisations/create" method="post"  enctype="multipart/form-data">
+﻿<h2>
+  <span class="small-icon organisation-icon"></span>Organisation
+</h2>
+<div class="form-details">
+  <form action="/organisations/create" method="post"  enctype="multipart/form-data">
     <fieldset>
-        <legend>Organisation Details</legend>
+      <legend class="hidden">Organisation Details</legend>
+      <div class="field-row">
+        <div class="field avatar-field">
+          <div>
+            <label for="avatar">Avatar</label>
+          </div>
+          <div>
+            <div id="avatar-viewer"></div>
+            <div id="avatar-upload-button" class="button avatar-upload-button">
+              Change<input id="file" type="file" name="file" value="Change Avatar" />
+            </div>
+          </div>
+        </div>
         <div id="name-field" class="field">
-        <div>
-            <label for="name">Name</label>
-        </div>
-        <div>
+          <div>
+            <label for="name">
+              Name <span>Required</span>
+            </label>
+          </div>
+          <div>
             <input type="text" id="Name" name="name" value="{{Model.Organisation.Name}}" />
-        </div>
-        </div>
-        <div id="description-field" class="field">
-        <div>
-            <label for="description">Description</label>
-        </div>
-        <div>
-            <textarea rows="4" cols="100" id="Description" name="description">{{Model.Organisation.Description}}</textarea>
-        </div>
+          </div>
         </div>
         <div id="website-field" class="field">
-        <div>
+          <div>
             <label for="website">Website</label>
-        </div>
-        <div>
+          </div>
+          <div>
             <input type="text" id="Website" name="website" value="{{Model.Organisation.Website}}" />
+            <p>Add a link to your organisation's existing website</p>
+          </div>
         </div>
+      </div>
+      <div class="field-row">
+        <div id="description-field" class="field">
+          <div>
+            <label for="description">
+              Description
+            </label>
+          </div>
+          <div>
+            <textarea rows="4" cols="100" id="Description" name="description">{{Model.Organisation.Description}}</textarea>
+            <p>Describe your organisation so that others can easily find it and (hopefully) join.</p>
+          </div>
         </div>
-        <div class="field">
-        <div>
-            <label for="avatar">Organisation Avatar</label>
+      </div>
+
+      <div class="field-row">
+        <div class="field background-field">
+          <div>
+            <label for="background">Heading Background Image</label>
+          </div>
+          <div>
+            <div id="background-viewer">
+              <img src="{{Model.Organisation.Background.Image.Large.Uri}}" alt="" />
+            </div>
+            <div id="background-upload-button" class="button background-upload-button">
+              Change<input id="file" type="file" name="file" value="Change Background" />
+            </div>
+            <p>Give your organisation some character by customising the heading background image.</p>
+          </div>
         </div>
-        <div id="avatar-viewer" class="field avatar-field">
-        </div>
-        <div id="avatar-upload-button" class="field button avatar-upload-button">
-            Change Avatar<input id="fileupload" type="file" name="file" multiple="" class="avatar-uploader" />
-        </div>
-        </div>
+      </div>
+
     </fieldset>
     <fieldset>
-        <input type="button" value="Save" id="save" />
-        <input type="button" value="Cancel" id="cancel" />
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
     </fieldset>
-</form>
+  </form>
+</div>

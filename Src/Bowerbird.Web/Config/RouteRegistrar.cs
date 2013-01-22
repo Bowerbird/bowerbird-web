@@ -96,7 +96,17 @@ namespace Bowerbird.Web.Config
             routes.MapRoute(
                 "leave-project",
                 "projects/{id}/leave",
-                new { controller = "projects", action = "leave" });
+                new { controller = "organisation", action = "leave" });
+
+            routes.MapRoute(
+                "join-organisation",
+                "organisations/{id}/join",
+                new { controller = "organisations", action = "join" });
+
+            routes.MapRoute(
+                "leave-organisation",
+                "organisations/{id}/leave",
+                new { controller = "organisations", action = "leave" });
 
             routes.MapRoute(
                 "sighting-note-create-form",

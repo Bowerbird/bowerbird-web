@@ -15,7 +15,7 @@ using SignalR.Hubs;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class DebugHub : Hub, IDisconnect
+    public class DebugHub : Hub
     {
         #region Members
 
@@ -38,10 +38,10 @@ namespace Bowerbird.Web.Hubs
             Caller.debugToClient("Connected to debug hub with: " + Context.ConnectionId);
         }
 
-        public Task Disconnect()
-        {
-            return Groups.Remove(Context.ConnectionId, "debugger");
-        }
+        //public Task Disconnect()
+        //{
+        //    return Groups.Remove(Context.ConnectionId, "debugger");
+        //}
 
         #endregion
 

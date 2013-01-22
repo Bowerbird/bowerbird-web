@@ -136,7 +136,7 @@ article
 .tab-bar .tab-image-button,
 .tab-bar .tab-list-button
 {
-    border: 1px solid rgb(153, 153, 153);
+    border: 1px solid rgb(204, 204, 204);
     border-radius: 2px 2px 2px 2px;
     color: rgb(68, 68, 68);
     display: block;
@@ -177,7 +177,7 @@ article
 }
 .tab-list-button > ul {
     background-color: white;
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px;
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
     display: none;
     list-style: none outside none;
@@ -222,13 +222,13 @@ article
 }
 .tab-list-button > ul li:first-child a 
 {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
 }
 .tab-list-button > ul li:last-child a 
 {
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 .tab-list-button > ul li a:hover
 {
@@ -399,12 +399,12 @@ article
 .sub-menu-button ul li:first-child a,
 .sub-menu-button ul li:first-child span
 {
-    border-radius: 4px 4px 0 0;
+    border-radius: 2px 2px 0 0;
 }
 .sub-menu-button ul li:last-child a,
 .sub-menu-button ul li:last-child span
 {
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 2px 2px;
 }
 .sub-menu-button ul li a,
 .sub-menu-button ul li span
@@ -421,6 +421,10 @@ article
 {
     border-bottom: 1px solid rgb(233, 233, 233);
     margin: 0;
+}
+.sub-menu-button ul li.new-section
+{
+    border-top: 1px solid rgb(233, 233, 233);
 }
 /*
 *
@@ -937,17 +941,26 @@ a.multiSelect:focus,
 {
     position: relative;
 }
+
+.field-row.media-field-row {
+    height: 275px;
+    margin-bottom: 1em;
+    position: relative;
+}
 .form .media-field
 {
-    white-space: nowrap;
-    width: 100%;
-    height: 284px;
+    padding-right: 1em;
+}
+.form .media-field >label {
+    display: block;
+    float: left;
 }
 .form .field > div.media-view-pane {
+    clear: both;
+    display: block;
     float: left;
-    margin-right: 2%;
     position: relative;
-    width: 72%;
+    width: 70%;
 }
 .form .avatar-media-uploader
 {
@@ -961,12 +974,15 @@ a.multiSelect:focus,
 }
 .form .field > div.media-add-pane
 {
-    float: left;
+    float: right;
     height: 250px;
+    margin-left: 70%;
+    padding-left: 2px;
     padding-right: 0;
+    padding-top: 1.5em;
+    position: absolute;
     white-space: normal;
-    width: 26%;
-    margin-left: 74%;
+    width: 30%;
 }
 .form #avatar-add-pane
 {
@@ -1293,7 +1309,7 @@ a.multiSelect:focus,
 }
 .form.sighting-note-form #selected-identification-field,
 .form.observation-form #selected-identification-field {
-    width: 72%;
+    width: 70%;
 }
 .form .add-identification-pane {
     float: right;
@@ -1321,10 +1337,11 @@ a.multiSelect:focus,
 .form .add-sighting-identification-pane,
 .form .add-sighting-note-pane {
     float: right;
-    width: 26%;
+    width: 30%;
 }
 .form #add-sighting-note-field {
-    width: 72%;
+    padding-right: 1em;
+    width: 70%;
 }
 .form #add-sighting-note-field > div:last-child {
     background-color: rgb(234, 234, 234);
@@ -1620,11 +1637,11 @@ a.multiSelect:focus,
 }
 .form #title-field
 {
-    padding-right: 2%;
-    width: 74%;
+    padding-right: 1em;
+    width: 70%;
 }
 .form #category-field {
-    width: 26%;
+    width: 30%;
 }
 .form #ObservedOn
 {
@@ -1632,8 +1649,8 @@ a.multiSelect:focus,
 }
 .form #observedon-field
 {
-    width: 26%;
     margin-bottom: 10px;
+    width: 30%;
 }
 .form #observedon-field > div > i
 {
@@ -1666,16 +1683,16 @@ a.multiSelect:focus,
 }
 .form #location-details {
     float: left;
-    margin-right: 2%;
+    padding-right: 1em;
     position: relative;
-    width: 72%;
+    width: 70%;
 }
 .form #location-options-button {
     height: 41px;
     margin: 0;
     overflow: hidden;
     position: absolute;
-    right: 0;
+    right: 1em;
     top: 26px;
     width: 64px;
 }
@@ -1690,7 +1707,7 @@ a.multiSelect:focus,
 }
 .form #location-map
 {
-    border-radius: 4px 4px 4px 4px;
+    border-radius: 2px 2px 0 0;
     float: left;
     height: 242px;
     width: 100%;
@@ -1729,7 +1746,7 @@ a.multiSelect:focus,
 }
 .form #anonymise-location-field {
     position: absolute;
-    right: 0;
+    right: 1em;
     top: 155px;
     width: 139px;
 }
@@ -1745,7 +1762,7 @@ a.multiSelect:focus,
 {
     height: 67px;
     position: absolute;
-    right: 70px;
+    right: 83px;
     width: 59px;
 }
 .form #pin-field > div:last-child
@@ -1775,7 +1792,7 @@ a.multiSelect:focus,
 }
 .form #projects-field
 {
-    width: 26%;
+    width: 30%;
 }
 .form #projects-field a.multiSelect .selected-project img
 {
@@ -2146,7 +2163,8 @@ a.multiSelect i
 {
     padding-right: 15px;
 }
-.project-form #name-field {
+.project-form #name-field,
+.organisation-form #name-field {
     float: none;
     margin-bottom: 10px;
     margin-left: 145px;
@@ -2409,34 +2427,44 @@ header.default-header #search-menu input[type=text]:focus
     margin-bottom: 18px;
     width: 100%;  
 }
-#sidebar #action-menu li
+#sidebar #action-menu > ul > li
 {
     display: block;
     float: left;
     list-style-type: none;
-    width: 33.334%;
+    margin-right: 2%;
+    width: 29%;
+}
+#sidebar #action-menu > ul > li.new-observation-option-button
+{
+    width: 38%;
+}
+#sidebar #action-menu > ul > li.new-organisation-option-button
+{
+    margin-right: 0;
 }
 #sidebar #action-menu .button
 {
     display: block;
     height: 50px;
     margin: 0;
-    position: relative;
-    text-indent: -99999px;
     padding: 0;
-    line-height: 0.01em;
 }
-#sidebar #action-menu .button span {
+#sidebar #action-menu .button > span {
     background-image: url("/img/icons.png");
     background-repeat: no-repeat;
+    background-size: 625% auto;
     display: block;
-    background-size: 625%;
     margin: 5px auto 0;
+    text-indent: -99999px;
 }
 #sidebar #action-menu .new-observation-button 
 {
     border-bottom-right-radius: 0;
+    border-right: 0 none;
     border-top-right-radius: 0;
+    float: left;
+    width: 75%;
 }
 #sidebar #action-menu .new-observation-button span
 {
@@ -2444,26 +2472,50 @@ header.default-header #search-menu input[type=text]:focus
     height: 40px;
     width: 40px;
 }
-#sidebar #action-menu .new-record-button 
+#sidebar #action-menu .more-button 
 {
-    border-left: 0 none;
-    border-radius: 0 0 0 0;
-    border-right: 0 none;
+    border-left: 1px dotted rgb(83, 120, 156);
+    border-radius: 0 2px 2px 0;
+    cursor: pointer;
+    float: left;
+    position: relative;
+    text-shadow: none;
+    width: 25%;
 }
-#sidebar #action-menu .new-record-button span
-{
-    background-position: -84px -1px;
-    height: 40px;
-    width: 40px;
+#sidebar #action-menu .more-button.active {
+    background-color: rgb(27, 131, 235);
 }
-#sidebar #action-menu .new-project-button 
+#sidebar #action-menu .more-button > span 
 {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    background-position: -141px -173px;
+    background-size: 3100% auto;
+    height: 18px;
+    margin: 15px auto 0 1px;
+    width: 18px;
+}
+#sidebar #action-menu .more-button.sub-menu-button ul {
+    top: 16px;
+    left: 0px;
+}
+#sidebar #action-menu .more-button.sub-menu-button ul li a .sighting-explanation {
+    color: rgb(119, 119, 119);
+    font-size: 0.875em;
+    font-weight: 400;
+    line-height: 1.3em;
+    padding: 0;
+}
+#sidebar #action-menu .more-button.sub-menu-button ul li:hover a .sighting-explanation {
+    color: rgb(255, 255, 255);
 }
 #sidebar #action-menu .new-project-button span
 {
     background-position: -42px -1px;
+    height: 40px;
+    width: 40px;
+}
+#sidebar #action-menu .new-organisation-button span
+{
+    background-position: -208px -1px;
     height: 40px;
     width: 40px;
 }

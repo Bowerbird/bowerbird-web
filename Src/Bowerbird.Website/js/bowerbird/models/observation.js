@@ -99,6 +99,10 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
             }, this);
         },
 
+        setIdentification: function (identification) {
+            this.set('Identification', identification.toJSON());
+        },
+        
         setSightingNote: function (sightingNote) {
             this.set('Note', sightingNote.toJSON());
         }

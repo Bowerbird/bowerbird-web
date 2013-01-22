@@ -27,7 +27,7 @@ using Bowerbird.Web.Builders;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class UserHub : Hub, IDisconnect
+    public class UserHub : Hub
     {
         #region Members
 
@@ -105,20 +105,20 @@ namespace Bowerbird.Web.Hubs
             return onlineUsers;
         }
 
-        public Task Disconnect()
-        {
-            // Remove this connection session from user
-            var user = GetUserByConnectionId(Context.ConnectionId);
-            // TODO: This throws an exception when user not found.. 
-            user.RemoveSession(Context.ConnectionId);
-            _documentSession.Store(user);
-            _documentSession.SaveChanges();
+        //public Task Disconnect()
+        //{
+        //    // Remove this connection session from user
+        //    var user = GetUserByConnectionId(Context.ConnectionId);
+        //    // TODO: This throws an exception when user not found.. 
+        //    user.RemoveSession(Context.ConnectionId);
+        //    _documentSession.Store(user);
+        //    _documentSession.SaveChanges();
 
-            Groups.Remove(Context.ConnectionId, "online-users");
-            Groups.Remove(Context.ConnectionId, "user-" + user.Id);
+        //    Groups.Remove(Context.ConnectionId, "online-users");
+        //    Groups.Remove(Context.ConnectionId, "user-" + user.Id);
 
-            return Task.Factory.StartNew(() => { });
-        }
+        //    return Task.Factory.StartNew(() => { });
+        //}
 
         private User GetUserByConnectionId(string connectionId)
         {

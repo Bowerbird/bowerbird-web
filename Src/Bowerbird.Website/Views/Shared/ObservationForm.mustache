@@ -6,7 +6,7 @@
     <fieldset>
       <legend class="hidden">Sighting Details</legend>
 
-      <div class="field-row">
+      <div class="field-row media-field-row">
 
         <div id="media-details" class="media-field field">
           <label>
@@ -59,21 +59,6 @@
                 </li>-->
               </ul>
             </div>
-            
-            
-            
-            
-            
-            
-            <!--<div class="button file-upload-button">
-              Add Media<input id="file" type="file" name="file" multiple="" value="Add Media" />
-            </div>-->
-
-            <!--<button id="youtube-upload-button" class="website-upload-button youtube" title="Import videos from Youtube">Youtube</button>
-          <button id="vimeo-upload-button" class="website-upload-button vimeo" title="Import your videos from Vimeo">Vimeo</button>
-          <button id="flickr-upload-button" class="website-upload-button flickr" title="Import your photos from Flickr">Flickr</button>
-          <button id="picasa-upload-button" class="website-upload-button picasa" title="Import your photos from Picasa">Picasa</button>-->
-
             <div id="upload-progress-status">
               <div id="upload-progress-message"></div>
               <div class="ui-progress-bar ui-container" id="upload-progress-bar">
@@ -118,7 +103,7 @@
             </label>
           </div>
           <div>
-            <select id="Category" name="category" title="Select a category or identify the sighting">
+            <select id="Category" name="category" title="Select a category for your sighting">
               <option></option>
               {{#Model.CategorySelectList}}
               <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>

@@ -67,7 +67,7 @@ function ($, _, Backbone, ich, app, moment, Voter) {
 
             this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button');
             this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
-            this.$el.find('.vote-panel .vote-score').text(this.model.get('TotalVoteScore'));
+            this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
         },
 
         voteDown: function (e) {
@@ -75,7 +75,7 @@ function ($, _, Backbone, ich, app, moment, Voter) {
 
             this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button');
             this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
-            this.$el.find('.vote-panel .vote-score').text(this.model.get('TotalVoteScore'));
+            this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
         },
 
         addToFavourites: function (e) {

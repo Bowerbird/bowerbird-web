@@ -1,24 +1,28 @@
 ﻿/// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+/// <reference path="../../libs/jquery/jquery.fileupload.js" />
+/// <reference path="../../libs/jquery/load-image.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// OrganisationFormLayoutView
-// --------------------------
+// OrganisationFormView
+// ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'fileupload', 'multiselect'],
-function ($, _, Backbone, app, ich, loadImage, EditAvatarView) 
-{
-    var OrganisationFormLayoutView = Backbone.Marionette.Layout.extend({
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'views/editavatarview', 'views/backgroundimageformview', 'fileupload', 'multiselect'],
+function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundImageFormView) {
 
-        className: 'form single-medium organisation-form',
+    var OrganisationFormView = Backbone.Marionette.Layout.extend({
+        viewType: 'form',
+
+        className: 'form form-medium single organisation-form',
 
         template: 'OrganisationForm',
 
         regions: {
-            avatar: '#avatar-fieldset'
+            avatar: '#avatar-fieldset',
+            backgroundRegion: '#background-fieldset'
         },
 
         events: {
@@ -30,11 +34,14 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
         },
 
         initialize: function (options) {
-            log('organisationFormLayoutView.initialize');
+            if (this.model.id) {
+                this.viewEditMode = 'update';
+            } else {
+                this.viewEditMode = 'create';
+            }
         },
 
         serializeData: function () {
-            log('organisationFormLayoutView:serializeData');
             return {
                 Model: {
                     Organisation: this.model.toJSON()
@@ -43,25 +50,23 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
         },
 
         onShow: function () {
-            log('organisationFormLayoutView:onShow');
             this._showDetails();
         },
 
         showBootstrappedDetails: function () {
-            log('organisationFormLayoutView:showBootstrappedDetails');
             this.initializeRegions();
-            this.$el = $('#content .organisation-form');
             this._showDetails();
         },
 
         _showDetails: function () {
-            log('organisationFormLayoutView:_showDetails');
-            var editAvatarView = new EditAvatarView({ el: '#avatar-fieldset', model: this.model });
-            editAvatarView.render();
+            var avatarImageFormView = new AvatarImageFormView({ el: '.avatar-field', model: this.model });
+            avatarImageFormView.render();
+
+            var backgroundImageFormView = new BackgroundImageFormView({ el: '.background-field', model: this.model });
+            backgroundImageFormView.render();
         },
 
         _contentChanged: function (e) {
-            log('organisationFormLayoutView:_contentChanged');
             var target = $(e.currentTarget);
             var data = {};
             data[target.attr('id')] = target.attr('value');
@@ -73,10 +78,14 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView)
         },
 
         _save: function () {
+            if (this.viewEditMode == 'update') {
+                this.model.set('Id', this.model.id.replace('organisations/', ''));
+            }
+
             this.model.save();
             app.showPreviousContentView();
         }
     });
 
-    return OrganisationFormLayoutView;
+    return OrganisationFormView;
 });

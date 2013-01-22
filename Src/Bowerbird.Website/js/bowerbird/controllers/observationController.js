@@ -19,8 +19,11 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
             'observations/:sightingId/updateidentification/:sightingNoteId': 'showSightingIdentificationUpdateForm',
             'observations/:sightingId/updatenote/:sightingNoteId': 'showSightingNoteUpdateForm',
             'observations/create*': 'showObservationCreateForm',
+            //'records/create*': 'showRecordCreateForm',
             'observations/:id/update': 'showObservationUpdateForm',
+            //'records/:id/update': 'showRecordUpdateForm',
             'observations/:id': 'showObservationDetails'
+            //'records/:id': 'showRecordDetails'
         }
     });
 
@@ -41,6 +44,22 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
                 app.showContentView('Edit Sighting', observationFormView, 'observations');
             });
     };
+
+//    var showRecordForm = function (uri) {
+//        $.when(getModel(uri, 'records'))
+//        .done(function (model) {
+//            var record = new Record(model.Record);
+
+//            var options = { model: record, categorySelectList: model.CategorySelectList, categories: model.Categories, projectsSelectList: model.ProjectsSelectList };
+
+//            if (app.isPrerenderingView('observations')) {
+//                options['el'] = '.observation-form';
+//            }
+
+//            var observationFormView = new ObservationFormView(options);
+//            app.showContentView('Edit Sighting', observationFormView, 'observations');
+//        });
+//    };
 
     var showSightingIdentificationForm = function (uri) {
         $.when(getModel(uri, 'identification'))

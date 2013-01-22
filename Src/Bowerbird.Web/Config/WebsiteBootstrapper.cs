@@ -39,7 +39,7 @@ namespace Bowerbird.Web.Config
 
             ServiceLocator.Current.GetInstance<ISystemStateManager>().SetupSystem(true);
 
-            RavenProfiler.InitializeFor(ServiceLocator.Current.GetInstance<IDocumentStore>());
+            //RavenProfiler.InitializeFor(ServiceLocator.Current.GetInstance<IDocumentStore>());
         }
     }
 }

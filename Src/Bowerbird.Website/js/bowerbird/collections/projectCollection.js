@@ -5,13 +5,13 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// UserCollection
-// --------------
+// ProjectCollection
+// -----------------
 
 define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/project'],
 function ($, _, Backbone, PaginatedCollection, Project) {
 
-    var UserCollection = PaginatedCollection.extend({
+    var ProjectCollection = PaginatedCollection.extend({
 
         model: Project,
 
@@ -80,6 +80,6 @@ function ($, _, Backbone, PaginatedCollection, Project) {
         }
     });
 
-    return UserCollection;
+    return ProjectCollection;
 
 });

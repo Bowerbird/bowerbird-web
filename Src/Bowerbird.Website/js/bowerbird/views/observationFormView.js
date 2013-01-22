@@ -8,8 +8,8 @@
 // ObservationFormView
 // -------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/sightingnote', 'models/identification', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'views/sightingnotesubformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormView, ObservationMediaFormView, IdentificationFormView, SightingNoteSubFormView, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/sightingnote', 'models/identification', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'views/sightingidentificationsubformview', 'views/sightingnotesubformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormView, ObservationMediaFormView, IdentificationFormView, IdentificationSubFormView, SightingNoteSubFormView, moment) {
 
     var ObservationFormView = Backbone.Marionette.Layout.extend({
 
@@ -22,7 +22,8 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
         regions: {
             media: '#media-resources-fieldset',
             location: '#location-fieldset',
-            sightingNoteRegion: '.sighting-note-fieldset'
+            sightingNoteRegion: '.sighting-note-fieldset',
+            identificationRegion: '.sighting-identification-fieldset'
         },
 
         events: {
@@ -37,7 +38,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
             'click #location-options-button': '_locationOptionsClicked',
-            'click #identify-observation-option': '_showIdentificationForm',
+            'click #add-sighting-identification-button': '_showIdentificationForm',
             'click #add-sighting-note-button': '_showSightingNoteForm'
         },
 
@@ -105,7 +106,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 selectAll: false,
                 listHeight: 260,
                 singleSelect: true,
-                messageText: 'Select a category, or <a href="#" id="identify-observation-option">identify the sighting</a>',
                 noOptionsText: 'No Categories',
                 noneSelected: '<span class="default-option">Select Category</span>',
                 oneOrMoreSelected: function (selectedOptions) {
@@ -156,50 +156,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             if (target.attr('id') === 'Address') {
                 this._latLongChanged(e);
             }
-        },
-
-        _showIdentificationForm: function (e) {
-            e.preventDefault();
-            var that = this;
-
-            // If sighting note exists, and id exists, send it to ID form;
-            // Else if category exists, get id and send it to ID form;
-            // Else nothing exists, send empty id to ID form.
-            if (this.sightingNote && this.sightingNote.get('Taxonomy') != '') {
-                $.ajax({
-                    url: '/species?query=' + that.sightingNote.get('Taxonomy') + '&field=taxonomy'
-                }).done(function (data) {
-                    that._renderIdentificationForm(new Identification(data.Model.Species.PagedListItems[0]));
-                });
-            } else if (this.model.get('Category') !== '') {
-                $.ajax({
-                    url: '/species?query=' + _.find(that.categories, function (item) { return item.Name === this.model.get('Category'); }, that).Taxonomy + '&field=taxonomy'
-                }).done(function (data) {
-                    that._renderIdentificationForm(new Identification(data.Model.Species.PagedListItems[0]));
-                });
-            } else {
-                this._renderIdentificationForm(new Identification());
-            }
-        },
-
-        _renderIdentificationForm: function (identification) {
-            $('body').append('<div id="modal-dialog"></div>');
-            this.identificationFormView = new IdentificationFormView({ el: $('#modal-dialog'), categories: this.categories, categorySelectList: this.categorySelectList, model: identification });
-            this.identificationFormView.on('identificationdone', this._onIdentificationDone, this);
-
-            $('#Category').multiSelectOptionsHide();
-
-            this.identificationFormView.render();
-        },
-
-        _onIdentificationDone: function (identification) {
-            if (identification.get('Category') !== this.model.get('Category')) {
-                this.$el.find('input[name="Category[]"][value="' + identification.get('Category') + '"]').click();
-                this.$el.find('#Category').html('<span><span>' + identification.get('Category') + '</span></span><i></i>');
-            }
-
-            this._setCategory(identification.get('Category'));
-            this._setIdentification(identification);
         },
 
         _observedOnChanged: function (e) {
@@ -253,19 +209,18 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
         _setCategory: function (category) {
             this.model.set('Category', category);
         },
-
-        _setIdentification: function (identification) {
-            if (identification && !this.sightingNote) {
-                this.sightingNote = new SightingNote();
-                this._showSightingNoteForm();
-            }
-            if (this.sightingNote) {
-                this.sightingNote.setIdentification(identification);
-            }
-        },
-
+        
         _locationOptionsClicked: function (e) {
             this.$el.find('#location-options').toggle();
+        },
+
+        _showIdentificationForm: function () {
+            if (!this.identification) {
+                this.identification = new Identification();
+            }
+            var identificationSubFormView = new IdentificationSubFormView({ model: this.identification, categories: this.categories, categorySelectList: this.categorySelectList });
+            this.identificationSubFormView = identificationSubFormView;
+            this.identificationRegion.show(identificationSubFormView);
         },
 
         _showSightingNoteForm: function () {
@@ -288,6 +243,10 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
 
             if (this.viewEditMode == 'update') {
                 this.model.set('Id', this.model.id.replace('observations/', ''));
+            }
+
+            if (this.identification) {
+                this.model.setIdentification(this.identification);
             }
 
             if (this.sightingNote) {

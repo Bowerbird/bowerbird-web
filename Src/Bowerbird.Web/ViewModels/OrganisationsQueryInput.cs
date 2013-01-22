@@ -12,10 +12,9 @@
  
 */
 
-using System.ComponentModel.DataAnnotations;
 namespace Bowerbird.Web.ViewModels
 {
-    public class OrganisationUpdateInput
+    public class OrganisationsQueryInput : PagingInput
     {
         #region Fields
 
@@ -23,27 +22,32 @@ namespace Bowerbird.Web.ViewModels
 
         #region Constructors
 
+        public OrganisationsQueryInput()
+            : base()
+        {
+            InitMembers();
+        }
+
         #endregion
 
         #region Properties
 
-        [Required]
-        public string Id { get; set; }
+        public string Query { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+        public string Field { get; set; }
 
-        public string Description { get; set; }
-
-        public string Website { get; set; }
-
-        public string AvatarId { get; set; }
-
-        public string BackgroundId { get; set; }
+        public string Sort { get; set; }
 
         #endregion
 
         #region Methods
+
+        private void InitMembers()
+        {
+            Query = string.Empty;
+            Field = string.Empty;
+            Sort = "newest";
+        }
 
         #endregion
     }

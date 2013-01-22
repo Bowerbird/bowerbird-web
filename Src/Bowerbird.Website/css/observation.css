@@ -549,6 +549,7 @@
     float: left;
     padding-top: 50px;
     position: relative;
+    width: 100%;
 }
 .projects .join-project-button {
     background-color: rgb(82, 177, 82);
@@ -1159,8 +1160,18 @@ OBSERVATION FULL DETAILS
     font-size: 1.3em;
     font-weight: 700;
     letter-spacing: -0.03em;
-    padding-top: 2px;
+    margin-top: 3px;
     text-align: center;
+    border-radius: 2px 2px 2px 2px;
+    min-width: 25px;
+    padding-left: 5px;
+    padding-right: 6px;
+    text-align: center;
+}
+.vote-panel .vote-score.user-vote-score1,
+.vote-panel .vote-score.user-vote-score-1 {
+    background-color: rgb(109, 173, 118);
+    color: rgb(255, 255, 255);
 }
 .vote-panel .vote-label {
     color: rgb(102, 102, 102);

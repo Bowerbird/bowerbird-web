@@ -180,66 +180,26 @@ function ($, _, Backbone, ich, app, moment, Voter) {
         },
 
         voteUp: function (e) {
-            //            var scoreModifier = 0;
-            //            if (this.model.get('UserVoteScore') === -1) {
-            //                app.vent.trigger('update-sighting-vote', this.model, 1);
-            //                scoreModifier = 2;
-            //            } else if (this.model.get('UserVoteScore') === 1) {
-            //                app.vent.trigger('update-sighting-vote', this.model, 0);
-            //                scoreModifier = -1;
-            //            } else {
-            //                app.vent.trigger('update-sighting-vote', this.model, 1);
-            //                scoreModifier = 1;
-            //            }
-            //            this.model.set('UserVoteScore', this.model.get('UserVoteScore') + scoreModifier);
-            //            this.model.set('TotalVoteScore', this.model.get('TotalVoteScore') + scoreModifier);
             Voter.voteUp(this.model);
 
-            this.$el.find('.sighting-actions .vote-down').removeClass().addClass('vote-down button');
-            this.$el.find('.sighting-actions .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
-            this.$el.find('.sighting-actions .vote-score').text(this.model.get('TotalVoteScore'));
+            this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button');
+            this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
+            this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
         },
 
         voteDown: function (e) {
-            //            var scoreModifier = 0;
-            //            if (this.model.get('UserVoteScore') === 1) {
-            //                app.vent.trigger('update-sighting-vote', this.model, -1);
-            //                scoreModifier = -2;
-            //            } else if (this.model.get('UserVoteScore') === -1) {
-            //                app.vent.trigger('update-sighting-vote', this.model, 0);
-            //                scoreModifier = 1;
-            //            } else {
-            //                app.vent.trigger('update-sighting-vote', this.model, -1);
-            //                scoreModifier = -1;
-            //            }
-            //            this.model.set('UserVoteScore', this.model.get('UserVoteScore') + scoreModifier);
-            //            this.model.set('TotalVoteScore', this.model.get('TotalVoteScore') + scoreModifier);
             Voter.voteDown(this.model);
 
-            this.$el.find('.sighting-actions .vote-up').removeClass().addClass('vote-up button');
-            this.$el.find('.sighting-actions .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
-            this.$el.find('.sighting-actions .vote-score').text(this.model.get('TotalVoteScore'));
+            this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button');
+            this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
+            this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
         },
 
         addToFavourites: function (e) {
-            //            app.vent.trigger('update-favourites', this.model);
-
-            //            var favouritesModifier = 0;
-            //            var userFavourite = this.model.get('UserFavourite');
-            //            if (userFavourite === true) {
-            //                favouritesModifier = -1;
-            //                userFavourite = false;
-            //            } else {
-            //                favouritesModifier = 1;
-            //                userFavourite = true;
-            //            }
-
-            //            this.model.set('UserFavourite', userFavourite);
-            //            this.model.set('FavouritesCount', this.model.get('FavouritesCount') + favouritesModifier);
             Voter.addToFavourites(this.model);
 
-            this.$el.find('.sighting-actions .favourites-count').text(this.model.get('FavouritesCount'));
-            this.$el.find('.sighting-actions .favourites-button').toggleClass('selected');
+            this.$el.find('.favourites-panel .favourites-count').text(this.model.get('FavouritesCount'));
+            this.$el.find('.favourites-panel .favourites-button').toggleClass('selected');
         }
 
     });

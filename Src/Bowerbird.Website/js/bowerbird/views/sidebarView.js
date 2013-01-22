@@ -32,7 +32,8 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             'click #default-menu-group .sub-menu': 'showMenu',
             'click #default-menu-group .sub-menu a': 'selectMenuItem',
             'click #action-menu a': 'selectMenuItem',
-            'click #default-menu-group .menu-group-item > a': 'selectMenuItem'
+            'click #default-menu-group .menu-group-item > a': 'selectMenuItem',
+            'click .more-button': 'showMoreMenu'
         },
 
         onRender: function () {
@@ -70,6 +71,14 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
 
         showMenu: function (e) {
             app.vent.trigger('close-sub-menus');
+            $(e.currentTarget).addClass('active');
+            e.stopPropagation();
+        },
+
+        showMoreMenu: function (e) {
+            app.vent.trigger('close-sub-menus');
+            var left = $(e.currentTarget).parent().width() - $(e.currentTarget).width();
+            $(e.currentTarget).find('ul').css({ left: '-' + left +'px' });
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },

@@ -195,6 +195,9 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\views\organisationAboutView.js" />
+    <Content Include="js\bowerbird\views\organisationDetailsView.js" />
+    <Content Include="js\bowerbird\views\organisationExploreView.js" />
     <Content Include="js\bowerbird\voter.js" />
     <Content Include="js\bowerbird\sightingNoteDescriptions.js" />
     <Content Include="js\bowerbird\models\identification.js" />
@@ -287,7 +290,7 @@
     <Content Include="js\bowerbird\views\homePrivateView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
-    <Content Include="js\bowerbird\views\organisationFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\organisationFormView.js" />
     <Content Include="js\bowerbird\views\teamFormLayoutView.js" />
     <Content Include="js\bowerbird\views\dummyOverlayView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />

@@ -29,7 +29,7 @@ using System.Dynamic;
 
 namespace Bowerbird.Web.Hubs
 {
-    public class ChatHub : Hub//, IDisconnect
+    public class ChatHub : Hub
     {
         #region Members
 

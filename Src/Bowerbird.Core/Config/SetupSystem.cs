@@ -15,17 +15,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
 using NLog;
-using Raven.Abstractions.Commands;
 using Raven.Client;
 using System.Threading;
 using System.IO;
 using Bowerbird.Core.Factories;
-using Raven.Json.Linq;
 
 namespace Bowerbird.Core.Config
 {
@@ -34,8 +31,7 @@ namespace Bowerbird.Core.Config
         #region Members
 
         private Logger _logger = LogManager.GetLogger("SetupSystem");
-
-        private int _testImportLimit = 3000; // In test mode, the max number of species to import per kingdom
+        private const int _testImportLimit = 3000; // In test mode, the max number of species to import per kingdom
 
 #if DEBUG
         private bool _testImport = false;
@@ -48,19 +44,8 @@ namespace Bowerbird.Core.Config
         private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IMessageBus _messageBus;
         private readonly IDocumentStore _documentStore;
-
-        private readonly string[] _speciesFileHeaderColumns = {
-                                                                  "Category", 
-                                                                  "Kingdom", 
-                                                                  "Group Name", 
-                                                                  "Species Common Names", 
-                                                                  "Taxonomy", 
-                                                                  "Order", 
-                                                                  "Family", 
-                                                                  "Genus", 
-                                                                  "Species",
-                                                                  "Synonym"
-                                                              };
+        private const string doubleSpace = "  ";
+        private const string singleSpace = " ";
 
         #endregion
 
@@ -110,29 +95,29 @@ namespace Bowerbird.Core.Config
                 Roles = new List<Role>();
                 Users = new List<User>();
 
-                // Create the temporary AppRoot to be used before the actual app root is created
+                // Create the AppRoot to be used before the actual app root is created
                 AddAppRoot();
 
-                // Add permissions first
+                // Wait for indexing to finish so that we have access to AppRoot doc
+                WaitForIndexingToFinish();
+
+                // Add permissions
                 AddPermissions();
 
-                // Add roles, using permissions
+                // Add roles
                 AddRoles();
 
                 // Add system admins
                 AddAdminUsers();
 
-                // Wait for all stale indexes to complete.
-                WaitForIndexingToFinish();
-
-                // Add species data
-                AddAllSpecies();
-
-                // Wait for all stale indexes to complete.
+                // Wait for indexing to finish so that we have can turn on all services
                 WaitForIndexingToFinish();
 
                 // Enable all services
                 _systemStateManager.SwitchServicesOn();
+
+                // Add species data
+                AddAllSpecies();
             }
             catch (Exception exception)
             {
@@ -312,13 +297,10 @@ namespace Bowerbird.Core.Config
             using (var documentSession = CreateSession())
             {
                 AddUser("password", "frank@radocaj.com", "Frank Radocaj", documentSession, "globaladministrator", "globalmember");
-                //documentSession.SaveChanges();
 
                 AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish Crittenden", documentSession, "globaladministrator", "globalmember");
-                //documentSession.SaveChanges();
 
                 AddUser("password", "kwalker@museum.vic.gov.au", "Ken Walker", documentSession, "globaladministrator", "globalmember");
-                //documentSession.SaveChanges();
 
                 // Set the user now that we have one
                 TheAppRoot.SetCreatedByUser(Users.First());
@@ -697,12 +679,6 @@ namespace Bowerbird.Core.Config
                 .Replace("Incertae Sedis", singleSpace)
                 .Replace("Incertae sedis", singleSpace)
                 .Replace("incertae sedis", singleSpace);
-            //.Replace("sp.", singleSpace)
-            //.Replace("Sp.", singleSpace);
-            //.Replace("cf.", singleSpace)
-            //.Replace("c.f.", singleSpace)
-            //.Replace("aff.", singleSpace)
-            //.Replace("affin", singleSpace);
         }
 
         private string RemoveQuotes(string val)
@@ -746,9 +722,6 @@ namespace Bowerbird.Core.Config
 
             return string.IsNullOrWhiteSpace(newVal) ? string.Empty : newVal.Trim();
         }
-
-        private string doubleSpace = "  ";
-        private string singleSpace = " ";
 
         private IDocumentSession CreateSession()
         {

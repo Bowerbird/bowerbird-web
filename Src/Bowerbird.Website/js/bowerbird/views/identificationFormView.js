@@ -24,7 +24,6 @@ function ($, _, Backbone, app, ich, Identification) {
         },
 
         serializeData: function () {
-            //log(this.identification);
             return {
                 Model: {
                     CategorySelectList: this.categorySelectList,
@@ -52,13 +51,19 @@ function ($, _, Backbone, app, ich, Identification) {
             $.ajax({
                 url: '/species?query=' + this.model.get('Taxonomy') + '&field=allranks&pagesize=50'
             }).done(function (data) {
-                var rankNames = that.model.get('Taxonomy').split(':');
+                var rankNames = [];
+                if (that.model.get('Taxonomy') != null) {
+                    rankNames = that.model.get('Taxonomy').split(':');
+                }
 
                 for (var rank = 0; rank < data.Model.Species.length; rank++) {
                     var $list = $('<ul></ul>');
 
                     for (var x = 0; x < data.Model.Species[rank].PagedListItems.length; x++) {
-                        var selected = $.trim(rankNames[rank]) === data.Model.Species[rank].PagedListItems[x].RankName;
+                        var selected = false;
+                        if (rankNames.length >= rank) {
+                            selected = $.trim(rankNames[rank]) === data.Model.Species[rank].PagedListItems[x].RankName;
+                        }
                         that._appendTaxaToList(data.Model.Species[rank].PagedListItems[x], $list, selected);
                     }
 

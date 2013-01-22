@@ -70,12 +70,6 @@ namespace Bowerbird.Core.Config
             {
                 SetupSystem setupSystem = new SetupSystem(this, _configSettings, _mediaResourceFactory, _messageBus, _documentStore);
                 setupSystem.Execute();
-
-                if (doSetupTestData)
-                {
-                    SetupTestData setupTestData = new SetupTestData(_documentSession, this, _messageBus, _configSettings, _mediaResourceFactory);
-                    setupTestData.Execute();
-                }
             }
         }
 
