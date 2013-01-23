@@ -24,7 +24,6 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         regions: {
             projectsMenu: '.menu-projects',
             watchlistsMenu: '#watch-menu-group #watch-list',
-            teamsMenu: '.menu-teams',
             organisationsMenu: '.menu-organisations'
         },
 
@@ -43,15 +42,14 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             sidebarProjectMenuGroupView.itemView = SidebarProjectItemView;
             this.projectsMenu.show(sidebarProjectMenuGroupView);
 
-            if (this.model.organisations.length > 0) {
+            //if (this.model.organisations.length > 0) {
                 var sidebarOrganisationMenuGroupView = new SidebarMenuGroupView({ id: 'organisation-menu-group', collection: this.model.organisations, type: 'organisation', label: 'Organisations' });
                 sidebarOrganisationMenuGroupView.itemView = SidebarOrganisationItemView;
                 this.organisationsMenu.show(sidebarOrganisationMenuGroupView);
-            }
+            //}
 
-            app.authenticatedUser.projects.on('add', this.addProject, this);
-
-            app.authenticatedUser.projects.on('remove', this.removeProject, this);
+            //app.authenticatedUser.projects.on('add', this.addProject, this);
+            //app.authenticatedUser.projects.on('remove', this.removeProject, this);
 
             this.$el.find('#action-menu a').not('.new-observation-button').tipsy({ gravity: 'n', html: true });
             this.$el.find('.new-observation-button').tipsy({ gravity: 'nw', html: true });
@@ -62,7 +60,6 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             return {
                 Model: {
                     User: this.model.user.toJSON(),
-                    Teams: this.model.teams.length > 0,
                     Organisations: this.model.organisations.length > 0,
                     AppRoot: this.model.appRoot != null
                 }
@@ -78,7 +75,7 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         showMoreMenu: function (e) {
             app.vent.trigger('close-sub-menus');
             var left = $(e.currentTarget).parent().width() - $(e.currentTarget).width();
-            $(e.currentTarget).find('ul').css({ left: '-' + left +'px' });
+            $(e.currentTarget).find('ul').css({ left: '-' + left + 'px' });
             $(e.currentTarget).addClass('active');
             e.stopPropagation();
         },
@@ -88,15 +85,15 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             app.vent.trigger('close-sub-menus');
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
-        },
-
-        addProject: function (project) {
-            log('project added', project, this);
-        },
-
-        removeProject: function (project) {
-            log('project removed', project, this);
         }
+
+        //        addProject: function (project) {
+        //            log('project added', project, this);
+        //        },
+
+        //        removeProject: function (project) {
+        //            log('project removed', project, this);
+        //        }
     });
 
     // Initialize the sidebar layout
@@ -107,7 +104,6 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
                 var model = {
                     user: app.authenticatedUser.user,
                     projects: app.authenticatedUser.projects,
-                    teams: app.authenticatedUser.teams,
                     organisations: app.authenticatedUser.organisations,
                     appRoot: app.authenticatedUser.appRoot
                 };

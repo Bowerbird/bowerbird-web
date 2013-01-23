@@ -69,7 +69,8 @@ namespace Bowerbird.Core.Indexes
             }
         }
 
-        public All_Groups()
+
+        public All_Groups()  
         {
             AddMap<AppRoot>(
                 appRoots => from appRoot in appRoots

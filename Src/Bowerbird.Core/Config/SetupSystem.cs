@@ -34,7 +34,7 @@ namespace Bowerbird.Core.Config
         private const int _testImportLimit = 3000; // In test mode, the max number of species to import per kingdom
 
 #if DEBUG
-        private bool _testImport = false;
+        private bool _testImport = true;
 #else
         private bool _testImport = false;
 #endif

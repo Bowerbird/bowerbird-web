@@ -3,10 +3,8 @@
  Developers: 
  * Frank Radocaj : frank@radocaj.com
  * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
+ Organisation Manager: 
  * Ken Walker : kwalker@museum.vic.gov.au
- 
  Funded by:
  * Atlas of Living Australia
  
@@ -17,10 +15,11 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Bowerbird.Core.Config;
 using System;
 using Raven.Client.Linq;
 using Bowerbird.Core.Factories;
+using Bowerbird.Core.Config;
+using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -54,15 +53,14 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        /// <summary>
-        /// Ancestry = The AppRoot.
-        /// Is not a descendant of any parent object (we don't add descendants to the app root)
-        /// </summary>
         public void Handle(OrganisationCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
-            var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
+            // Get parent group
+            Group parentGroup = null;
+
+            parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
             // Make organisation
             var organisation = new Organisation(
@@ -71,8 +69,9 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description,
                 command.Website,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Organisation) : _documentSession.Load<MediaResource>(command.AvatarId),
+                string.IsNullOrWhiteSpace(command.BackgroundId) ? _mediaResourceFactory.MakeDefaultBackgroundImage("organisation") : _documentSession.Load<MediaResource>(command.BackgroundId),
                 DateTime.UtcNow,
-                appRoot);
+                parentGroup);
             _documentSession.Store(organisation);
 
             // Add administrator membership to creating user
@@ -85,6 +84,8 @@ namespace Bowerbird.Core.CommandHandlers
                     .Where(x => x.Id.In("roles/organisationadministrator", "roles/organisationmember"))
                     .ToList());
             _documentSession.Store(user);
+
+            _documentSession.SaveChanges();
         }
 
         #endregion

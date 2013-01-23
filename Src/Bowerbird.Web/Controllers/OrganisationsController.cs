@@ -40,7 +40,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IOrganisationViewModelBuilder _organisationViewModelBuilder;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IPermissionManager _permissionManager;
         private readonly IDocumentSession _documentSession;
@@ -53,7 +52,6 @@ namespace Bowerbird.Web.Controllers
             IMessageBus messageBus,
             IUserContext userContext,
             IOrganisationViewModelBuilder organisationViewModelBuilder,
-            ISightingViewModelBuilder sightingViewModelBuilder,
             IActivityViewModelBuilder activityViewModelBuilder,
             IPostViewModelBuilder postViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
@@ -64,7 +62,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(organisationViewModelBuilder, "organisationViewModelBuilder");
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
@@ -74,7 +71,6 @@ namespace Bowerbird.Web.Controllers
             _messageBus = messageBus;
             _userContext = userContext;
             _organisationViewModelBuilder = organisationViewModelBuilder;
-            _sightingViewModelBuilder = sightingViewModelBuilder;
             _activityViewModelBuilder = activityViewModelBuilder;
             _postViewModelBuilder = postViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
@@ -146,7 +142,6 @@ namespace Bowerbird.Web.Controllers
             viewModel.ShowMembers = true;
             viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
             viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.SightingCountDescription = "Sighting" + (organisation.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
 
             return RestfulResult(
@@ -172,7 +167,6 @@ namespace Bowerbird.Web.Controllers
             viewModel.ShowAbout = true;
             viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
             viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.SightingCountDescription = "Sighting" + (organisation.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
             viewModel.OrganisationAdministrators = _userViewModelBuilder.BuildGroupUserList(organisationId, "roles/" + RoleNames.OrganisationAdministrator);
             viewModel.ActivityTimeseries = CreateActivityTimeseries(organisationId);
@@ -200,7 +194,6 @@ namespace Bowerbird.Web.Controllers
             viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(organisationId, activityInput, pagingInput);
             viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
             viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.SightingCountDescription = "Sighting" + (organisation.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
             viewModel.ShowActivities = true;
 
@@ -218,7 +211,7 @@ namespace Bowerbird.Web.Controllers
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
                 (queryInput.Sort.ToLower() != "newest" &&
                 queryInput.Sort.ToLower() != "oldest" &&
-                queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "a-z" && 
                 queryInput.Sort.ToLower() != "z-a"))
             {
                 queryInput.Sort = "newest";
@@ -487,7 +480,7 @@ namespace Bowerbird.Web.Controllers
                 .AndAlso()
                 .WhereIn("GroupIds", new[] { organisationId })
                 .AndAlso()
-                .WhereIn("ContributionType", new[] { "observation", "record", "note", "post", "comment" })
+                .WhereIn("ContributionType", new[] { "post", "comment" })
                 .ToList();
 
             var contributions = result.Select(x => new
@@ -522,8 +515,6 @@ namespace Bowerbird.Web.Controllers
                         .Select(x => new
                         {
                             CreatedDate = dateItem.ToString(createdDateFormat),
-                            SightingCount = x.Count(y => y.ContributionType == "observation" || y.ContributionType == "record"),
-                            NoteCount = x.Count(y => y.ContributionType == "note"),
                             PostCount = x.Count(y => y.ContributionType == "post"),
                             CommentCount = x.Count(y => y.ContributionType == "comment")
                         }
@@ -534,8 +525,6 @@ namespace Bowerbird.Web.Controllers
                     timeseries.Add(new
                     {
                         CreatedDate = dateItem.ToString(createdDateFormat),
-                        SightingCount = 0,
-                        NoteCount = 0,
                         PostCount = 0,
                         CommentCount = 0
                     });

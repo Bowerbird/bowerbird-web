@@ -1,0 +1,27 @@
+﻿<h2>
+  <span class="small-icon organisation-icon"></span>Organisations
+</h2>
+{{#Model.ShowOrganisationExploreWelcome}}
+<div class="call-to-action" id="organisation-explore-welcome">
+  <a href="#" class="close-call-to-action" title="Close">Close</a>
+  <h2>Explore the world of BowerBird organisations</h2>
+  <p>Join organisations and get updates about your club, society or field naturalists organisation.</p>
+
+  <p>
+    Being a member of a organisation you get to:
+  </p>
+  <ul>
+    <li>See organisation posts in your timeline;</li>
+    <li>Quick access to the organisation in your navigation bar (on the left).</li>
+  </ul>
+
+  <p>Become a member of as many organisations as you like. Its as simple as pressing the Join button!</p>
+</div>
+{{/Model.ShowOrganisationExploreWelcome}}
+<div class="details">
+  <div class="list">
+    <div>
+      {{>OrganisationList}}
+    </div>
+  </div>
+</div>

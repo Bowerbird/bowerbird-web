@@ -41,12 +41,6 @@ function ($, _, Backbone, app, Project) {
                 return false;
             });
 
-//            this.$el.find('#action-menu a, #default-menu-group a').on('click', function (e) {
-//                e.preventDefault();
-//                Backbone.history.navigate($(this).attr('href'), { trigger: true });
-//                return false;
-//            });
-
             app.vent.on('newactivity:' + this.model.id + ':sightingadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':sightingnoteadded', this.onNewActivityReceived, this);
 
             this.$el.find('#project-menu-group-list .sub-menu a, #project-menu-group-list .sub-menu span').tipsy({ gravity: 'w', live: true });

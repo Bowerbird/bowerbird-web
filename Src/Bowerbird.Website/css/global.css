@@ -2522,6 +2522,10 @@ header.default-header #search-menu input[type=text]:focus
 #sidebar .menu-group
 {
     margin-bottom: 2px;
+    display: none;
+}
+#sidebar #default-menu-group {
+    display: block;
 }
 #sidebar .menu-group-title
 {

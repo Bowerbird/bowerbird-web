@@ -13,7 +13,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'projects': 'showExplore',
+            'explore/projects': 'showExplore',
             'projects/create*': 'showCreateForm',
             'projects/:id/sightings*': 'showSightings',
             'projects/:id/members*': 'showMembers',
@@ -46,7 +46,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
             .done(function (model) {
                 var project = new Project(model.Project);
 
-                var options = { model: project, teams: model.Teams };
+                var options = { model: project };
 
                 if (app.isPrerenderingView('projects')) {
                     options['el'] = '.project-form';
@@ -172,7 +172,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
 
     // Show project explore
     ProjectController.showExplore = function (params) {
-        $.when(getModel('/projects?sort=' + (params && params.sort ? params.sort : 'newest')))
+        $.when(getModel('/projects/explore?sort=' + (params && params.sort ? params.sort : 'newest')))
         .done(function (model) {
             var projectCollection = new ProjectCollection(model.Projects.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Projects.TotalResultCount, sortBy: model.Query.Sort });
 

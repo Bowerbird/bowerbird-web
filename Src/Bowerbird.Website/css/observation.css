@@ -373,7 +373,8 @@
 }
 
 /**********************/
-.project > .summary
+.project > .summary,
+.organisation > .summary
 {
     background-attachment: scroll;
     background-clip: border-box;
@@ -389,12 +390,14 @@
     width: 100%;
     z-index: 2;  
 }
-.project > .details {
+.project > .details,
+.organisation > .details {
     background-color: rgb(227, 227, 227);
     float: left;
     width: 100%;
 }
-.project > .summary .image-media {
+.project > .summary .image-media,
+.organisation > .summary .image-media {
     border-radius: 2px;
     box-shadow: 0 2px 4px 0 rgba(1, 1, 1, 0.9);
     display: block;
@@ -402,11 +405,13 @@
     margin: 12px auto 0;
     width: 100px;
 }
-.project > .summary img
+.project > .summary img,
+.organisation > .summary img
 {
     border-radius: 4px;
 }
-.project > .summary h1
+.project > .summary h1,
+.organisation > .summary h1
 {
     color: rgb(255, 255, 255);
     display: block;
@@ -420,7 +425,8 @@
     text-shadow: 0 1px 0 rgb(0, 0, 0);
     white-space: nowrap;
 }
-.project > .summary p
+.project > .summary p,
+.organisation > .summary p
 {
     display: none;
     font-size: 0.875em;
@@ -429,13 +435,15 @@
     max-height: 96px;
     overflow: hidden;
 }
-.project > .summary .badges
+.project > .summary .badges,
+.organisation > .summary .badges
 {
     display: block;
     text-align: center;
     width: 100%;
 }
-.project > .summary .badges li
+.project > .summary .badges li,
+.organisation > .summary .badges li
 {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 2px;
@@ -447,22 +455,27 @@
     padding: 5px 7px;
     text-shadow: 0 1px 0 rgb(0, 0, 0);
 }
-.project .tab-bar {
+.project .tab-bar,
+.organisation .tab-bar 
+{
     padding-top: 2%;
     padding-bottom: 2%;
 }
 
 /******* Project about *******/
-.project-about {
+.project-about,
+.organisation-about {
     
 }
-.project-about h4 {
+.project-about h4,
+.organisation-about h4 {
     color: rgb(68, 68, 68);
     font-size: 0.875em;
     font-weight: 600;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.project-description {
+.project-description,
+.organisation-description {
     background-color: rgb(255, 255, 255);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
@@ -471,7 +484,8 @@
     margin-bottom: 2%;
     padding: 2%;
 }
-.project-info {
+.project-info,
+.organisation-info {
     background-color: rgb(255, 255, 255);
     border-radius: 4px 4px 4px 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
@@ -482,15 +496,20 @@
 }
 .project-info #created,
 .project-info #website,
-.project-info #activity-chart .visualize .visualize-title {
+.project-info #activity-chart .visualize .visualize-title,
+.organisation-info #created,
+.organisation-info #website,
+.organisation-info #activity-chart .visualize .visualize-title {
     color: rgb(34, 34, 34);
     font-size: 1em;
     font-weight: 600;
     line-height: 1.25em;
 }
-
 .project-info #created span,
-.project-info #website span {
+.project-info #website span,
+.organisation-info #created span,
+.organisation-info #website span 
+{
     display: block;
     font-weight: 500;
     margin-bottom: 13px;
@@ -498,20 +517,30 @@
 .project-info #website span a,
 .project-info #website span a:hover,
 .project-info #website span a:active,
-.project-info #website span a:visited {
+.project-info #website span a:visited,
+.organisation-info #website span a,
+.organisation-info #website span a:hover,
+.organisation-info #website span a:active,
+.organisation-info #website span a:visited 
+{
     color: rgb(34, 34, 34);
 }
 
-.project-info #activity-chart {
+.project-info #activity-chart,
+.organisation-info #activity-chart 
+{
     margin-bottom: 41px;
     margin-top: 27px;
     padding: 2%;
 }
-.project-info #activity-chart table 
+.project-info #activity-chart table,
+.organisation-info #activity-chart table 
 {
     display: none;
 }
-.project-info #activity-chart .visualize .visualize-info {
+.project-info #activity-chart .visualize .visualize-info,
+.organisation-info #activity-chart .visualize .visualize-info 
+{
     background: none repeat scroll 0 0 transparent;
     border: medium none;
     font-size: 1em;
@@ -523,7 +552,9 @@
     right: auto;
     top: -23px;
 }
-.project-info #activity-chart .visualize ul.visualize-key {
+.project-info #activity-chart .visualize ul.visualize-key,
+.organisation-info #activity-chart .visualize ul.visualize-key 
+{
     display: block;
     font-size: 0.95em;
     font-weight: 500;
@@ -531,16 +562,22 @@
     position: absolute;
     top: 237px;
 }
-.project-info #activity-chart .visualize-labels-x .label {
+.project-info #activity-chart .visualize-labels-x .label,
+.organisation-info #activity-chart .visualize-labels-x .label 
+{
     font-size: 0.8em;
     line-height: 1em;
     text-align: center;
 }
-.project-info #activity-chart .visualize-labels-y .label {
+.project-info #activity-chart .visualize-labels-y .label,
+.organisation-info #activity-chart .visualize-labels-y .label
+{
     font-size: 0.8em;
     line-height: 1em;
 }
-.project-info #activity-chart .visualize-labels-y li span.line {
+.project-info #activity-chart .visualize-labels-y li span.line,
+.organisation-info #activity-chart .visualize-labels-y li span.line 
+{
     border-style: dotted;
 }
 /****************************************/

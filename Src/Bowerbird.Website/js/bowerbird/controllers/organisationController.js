@@ -6,20 +6,22 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // OrganisationController & OrganisationRouter
-// ---------------------------------
+// -------------------------------------------
+
 define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation', 'collections/organisationcollection', 'collections/activitycollection', 'collections/sightingcollection',
         'collections/usercollection', 'views/organisationdetailsview', 'views/organisationformview', 'views/organisationexploreview'],
-function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCollection, SightingCollection, UserCollection, OrganisationDetailsView, OrganisationFormView, OrganisationExploreView) {
+function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCollection, SightingCollection, UserCollection, OrganisationDetailsView, 
+    OrganisationFormView, OrganisationExploreView) {
 
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            //'organisations': 'showExplore',
-            'organisations/create*': 'showCreateForm'
-            //'organisations/:id/posts*': 'showPosts',
-            //'organisations/:id/members*': 'showMembers',
-            //'organisations/:id/about': 'showAbout',
-            //'organisations/:id/update': 'showUpdateForm',
-            //'organisations/:id': 'showOrganisationDetails'
+            'explore/organisations': 'showExplore',
+            'organisations/create*': 'showCreateForm',
+            'organisations/:id/posts*': 'showPosts',
+            'organisations/:id/members*': 'showMembers',
+            'organisations/:id/about': 'showAbout',
+            'organisations/:id/update': 'showUpdateForm',
+            'organisations/:id': 'showOrganisationDetails'
         }
     });
 
@@ -46,7 +48,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
             .done(function (model) {
                 var organisation = new Organisation(model.Organisation);
 
-                var options = { model: organisation, teams: model.Teams };
+                var options = { model: organisation };
 
                 if (app.isPrerenderingView('organisations')) {
                     options['el'] = '.organisation-form';
@@ -173,7 +175,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
 
     // Show organisation explore
     OrganisationController.showExplore = function (params) {
-        $.when(getModel('/organisations?sort=' + (params && params.sort ? params.sort : 'newest')))
+        $.when(getModel('/organisations/explore?sort=' + (params && params.sort ? params.sort : 'newest')))
         .done(function (model) {
             var organisationCollection = new OrganisationCollection(model.Organisations.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Organisations.TotalResultCount, sortBy: model.Query.Sort });
 

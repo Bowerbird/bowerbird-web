@@ -37,6 +37,7 @@ namespace Bowerbird.Core.DomainModels
             string description,
             string website,
             MediaResource avatar,
+            MediaResource background,
             DateTime createdDateTime,
             Group parentGroup)
             : base(
@@ -48,7 +49,8 @@ namespace Bowerbird.Core.DomainModels
             SetOrganisationDetails(
                 description,
                 website,
-                avatar);
+                avatar,
+                background);
 
             ApplyEvent(new DomainModelCreatedEvent<Organisation>(this, createdByUser, this));
         }
@@ -74,14 +76,15 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetOrganisationDetails(string description, string website, MediaResource avatar)
+        private void SetOrganisationDetails(string description, string website, MediaResource avatar, MediaResource background)
         {
             Description = description;
             Website = website;
             Avatar = avatar;
+            Background = background;
         }
 
-        public Organisation UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar)
+        public Organisation UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, MediaResource background)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
@@ -91,7 +94,8 @@ namespace Bowerbird.Core.DomainModels
             SetOrganisationDetails(
                 description,
                 website,
-                avatar);
+                avatar,
+                background);
 
             ApplyEvent(new DomainModelUpdatedEvent<Organisation>(this, updatedByUser, this));
 

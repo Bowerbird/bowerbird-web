@@ -20,6 +20,9 @@ using Bowerbird.Core.Config;
 
 namespace Bowerbird.Core.Utilities
 {
+    /// <summary>
+    /// Information about the supported media types
+    /// </summary>
     public class MediaTypeUtility
     {
         #region Members

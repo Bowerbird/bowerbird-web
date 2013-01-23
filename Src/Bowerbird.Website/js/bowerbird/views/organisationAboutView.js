@@ -27,7 +27,6 @@ define(['jquery', 'underscore', 'backbone', 'app', 'visualize'], function ($, _,
                     Organisation: this.model.toJSON(),
                     IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
                     MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
-                    SightingCountDescription: this.model.get('SightingCount') === 1 ? 'Sighting' : 'Sightings',
                     PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts',
                     OrganisationAdministrators: this.organisationAdministrators,
                     ActivityTimeseries: this.activityTimeseries

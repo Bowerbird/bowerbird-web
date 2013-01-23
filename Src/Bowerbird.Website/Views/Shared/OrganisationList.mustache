@@ -1,6 +1,37 @@
-﻿{{#Organisations}}
-    {{OrganisationItem}}
-{{/Organisations}}
-{{^Organisations}}
-    No orgnanisations in system yet
-{{/Organisations}}
+﻿<div class="organisation-list">
+  {{#Model.Query}}
+  <div class="tab-bar tab-bar-right small">
+    <ul class="tabs">
+      <li>
+        <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+          <span class="tab-list-selection">Newest</span>
+          <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+          <ul>
+            <li>
+              <a href="{{Id}}/organisations?sort=newest">Newest</a>
+            </li>
+            <li>
+              <a href="{{Id}}/organisations?sort=oldest">Oldest</a>
+            </li>
+            <li class="divider"></li>
+            <li>
+              <a href="{{Id}}/organisations?sort=a-z">Alphabetical (A-Z)</a>
+            </li>
+            <li>
+              <a href="{{Id}}/organisations?sort=z-a">Alphabetical (Z-A)</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  {{/Model.Query}}
+  <ul class="organisation-items">
+    {{#Model.Organisations.PagedListItems}}
+    <li class="organisation-item tile-organisation-details">
+      {{>OrganisationTileDetails}}
+    </li>
+    {{/Model.Organisations.PagedListItems}}
+  </ul>
+</div>
+

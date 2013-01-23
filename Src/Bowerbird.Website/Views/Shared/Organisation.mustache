@@ -1,42 +1,54 @@
 ﻿<h2>
   <span class="small-icon organisation-icon"></span>Organisation
 </h2>
-<div class="summary">
-    {{#Model.Organisation.Avatar}}
-    {{>MediaSquare100}}
-    {{/Model.Organisation.Avatar}}
-  <h1>{{Model.Organisation.Name}}</h1>
-  <p>{{Model.Organisation.Description}}</p>
+
+<div class="summary" style="background-image: url({{Model.Organisation.Background.Image.Large.Uri}});">
+  {{#Model.Organisation.Avatar}}
+  {{>Avatar200}}
+  {{/Model.Organisation.Avatar}}
+  <div>
+    <h1>{{Model.Organisation.Name}}</h1>
+    <ul class="badges">
+      <li>{{Model.Organisation.MemberCount}} {{Model.MemberCountDescription}}</li>
+      <li>{{Model.Organisation.PostCount}} {{Model.PostCountDescription}}</li>
+    </ul>
+    <p>{{Model.Organisation.Description}}</p>
+  </div>
 </div>
-<div class="tab-bar">
-  <ul class="tabs">
-    <li>
-      <a href="/{{Model.Organisation.Id}}" class="selected">Activity</a>
-    </li>
-    <li>
-      <a href="/{{Model.Organisation.Id}}/posts">Posts</a>
-    </li>
-    <li>
-      <a href="/{{Model.Organisation.Id}}/members">Members</a>
-    </li>
-    <li>
-      <a href="/{{Model.Organisation.Id}}/about">About</a>
-    </li>
-  </ul>
+
+
+
+<div class="list-details">
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/{{Model.Organisation.Id}}">Timeline</a>
+      </li>
+      <li>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Organisation.Id}}/posts">Posts</a>
+      </li>
+      <li>
+        <a class="tab-button members-tab-button {{#Model.ShowMembers}}selected{{/Model.ShowMembers}}" href="/{{Model.Organisation.Id}}/members">Members</a>
+      </li>
+      <li>
+        <a class="tab-button about-tab-button {{#Model.ShowAbout}}selected{{/Model.ShowAbout}}" href="/{{Model.Organisation.Id}}/about">About</a>
+      </li>
+    </ul>
+  </div>
+  <div class="list">
+    <div>
+      {{#Model.ShowActivities}}
+      {{>ActivityList}}
+      {{/Model.ShowActivities}}
+      {{#Model.ShowPosts}}
+      {{>PostsList}}
+      {{/Model.ShowPosts}}
+      {{#Model.ShowMembers}}
+      {{>UserList}}
+      {{/Model.ShowMembers}}
+      {{#Model.ShowAbout}}
+      {{>OrganisationAbout}}
+      {{/Model.ShowAbout}}
+    </div>
+  </div>
 </div>
-<div class="details">
-  <div id="stream">
-    {{#Model.StreamItems}}
-      {{>StreamList}}
-    {{/Model.StreamItems}}
-    <!--<h2>Latest Activity</h2>
-    <ul class="stream-list">
-    </ul>-->
-  </div>
-  <div id="about">
-    <!--<h2>About</h2>-->
-  </div>
-  <div id="members">
-    <!--<h2>Members</h2>-->
-  </div>
-</div> 

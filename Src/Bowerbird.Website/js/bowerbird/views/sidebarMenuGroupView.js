@@ -16,8 +16,19 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
         template: 'SidebarMenuGroup',
 
         initialize: function (options) {
+            _.bindAll(this, 'onItemAdd', 'onItemRemove');
+
             this.type = options.type;
             this.label = options.label;
+
+            this.collection.on('add', this.onItemAdd);
+            this.collection.on('remove', this.onItemRemove);
+        },
+
+        onRender: function () {
+            if (this.collection.length > 0) {
+                this.$el.show();
+            }
         },
 
         appendHtml: function (collectionView, itemView) {
@@ -36,7 +47,18 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
                     Label: this.label
                 }
             };
+        },
+
+        onItemAdd: function (item) {
+            this.$el.show();
+        },
+
+        onItemRemove: function (item) {
+            if (this.collection.length === 0) {
+                this.$el.hide();
+            }
         }
+
     });
 
     return SidebarMenuGroupView;

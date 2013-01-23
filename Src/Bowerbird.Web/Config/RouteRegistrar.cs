@@ -180,6 +180,18 @@ namespace Bowerbird.Web.Config
                 new { controller = "account", action = "updatefavourite" },
                 new { httpMethod = new HttpMethodConstraint("PUT") });
 
+            routes.MapRoute(
+                "projects-explore",
+                "projects/explore",
+                new { controller = "projects", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "organisations-explore",
+                "organisations/explore",
+                new { controller = "organisations", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);
 

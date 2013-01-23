@@ -21,7 +21,7 @@ function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundIm
         template: 'ProjectForm',
 
         regions: {
-            avatar: '#avatar-fieldset',
+            //avatar: '#avatar-fieldset',
             backgroundRegion: '#background-fieldset'
         },
 

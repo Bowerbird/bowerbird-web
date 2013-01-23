@@ -170,7 +170,7 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
 
     app.vent.on('update-sighting-vote', function (sighting, score) {
         $.when(updateVote('/' + sighting.id + '/vote', score));
-    });
+    }); 
 
     app.vent.on('update-sighting-note-vote', function (sightingNote, score) {
         $.when(updateVote('/' + sightingNote.get('SightingId') + '/' + sightingNote.id + '/vote', score));
