@@ -35,11 +35,9 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         },
 
         url: function () {
-            var url = '/' + this.get('SightingId');
+            var url = '/' + this.get('SightingId') + '/identifications';
             if (this.id) {
-                url += '/updateidentification/' + this.id;
-            } else {
-                url += '/createidentification';
+                url += '/' + this.id;
             }
             return url;
         },

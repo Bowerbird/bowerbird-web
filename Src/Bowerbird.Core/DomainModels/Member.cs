@@ -41,7 +41,7 @@ namespace Bowerbird.Core.DomainModels
             : base()
         {
             Check.RequireNotNull(group, "group");
-            Check.Require(roles != null && roles.ToList().Count > 0, "role collection must be not null and contain role items");
+            Check.Require(roles != null && roles.ToList().Count > 0, "role collection must be not null and must contain at least one role items");
 
             InitMembers();
 
@@ -69,50 +69,16 @@ namespace Bowerbird.Core.DomainModels
             Roles = new List<Role>();
         }
 
-        public Member AddRole(Role role)
-        {
-            Check.RequireNotNull(role, "role");
-
-            SetRole(role);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Used by private User member to insert already denormalised roles
-        /// </summary>
-        internal Member AddRoles(IEnumerable<Role> roles)
+        public Member UpdateRoles(IEnumerable<Role> roles)
         {
             Check.RequireNotNull(roles, "roles");
 
-            foreach (var role in roles)
-            {
-                SetRole(role);
-            }
+            var existingRoles = ((List<Role>) Roles);
+
+            existingRoles.Clear();
+            existingRoles.AddRange(roles);
 
             return this;
-        }
-
-        public Member RemoveRole(string roleId)
-        {
-            ((List<Role>)Roles).RemoveAll(x => x.Id == roleId);
-
-            return this;
-        }
-
-        public Member RemoveRoles(IEnumerable<string> roleIds)
-        {
-            ((List<Role>)Roles).RemoveAll(x => roleIds.Any(y => y == x.Id));
-
-            return this;
-        }
-
-        private void SetRole(Role role)
-        {
-            if (((List<Role>)Roles).All(x => x.Id != role.Id))
-            {
-                ((List<Role>)Roles).Add(role);
-            }
         }
 
         #endregion

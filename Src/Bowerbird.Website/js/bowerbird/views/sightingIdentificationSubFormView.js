@@ -8,8 +8,8 @@
 // SightingIdentificationSubFormView
 // ---------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/identification', 'views/sightingdetailsview', 'views/identificationformview', 'sightingnotedescriptions', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy'],
-function ($, _, Backbone, app, ich, Identification, SightingDetailsView, IdentificationFormView, sightingNoteDescriptions, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/identification', 'views/sightingdetailsview', 'views/identificationformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy'],
+function ($, _, Backbone, app, ich, Identification, SightingDetailsView, IdentificationFormView, moment) {
 
     var SightingIdentificationSubFormView = Backbone.Marionette.ItemView.extend({
 
@@ -34,9 +34,6 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             return {
                 Model: {
                     SightingIdentification: this.model.toJSON()
-                    //Sighting: this.sighting
-                    //                    CategorySelectList: this.categorySelectList,
-                    //                    ProjectsSelectList: this.projectsSelectList
                 }
             };
         },
@@ -45,11 +42,6 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             this._showDetails();
             return this;
         },
-
-        //        onRender: function () {
-        //            this._showDetails();
-        //            return this;
-        //        },
 
         showBootstrappedDetails: function () {
             this._showDetails();

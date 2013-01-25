@@ -9,8 +9,8 @@
 // ---------------
 
 // The home page view when logged in
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview'], 
-function ($, _, Backbone, app, ActivityListView, SightingListView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView) {
 
     var HomePrivateView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -128,6 +128,28 @@ function ($, _, Backbone, app, ActivityListView, SightingListView) {
                 sightingListView.showBootstrappedDetails();
             } else {
                 this.list.show(sightingListView);
+            }
+        },
+
+        showPosts: function (postCollection) {
+            this.switchTabHighlight('posts');
+
+            var options = {
+                model: this.model,
+                collection: postCollection
+            };
+
+            if (app.isPrerenderingView('home')) {
+                options['el'] = '.list > div';
+            }
+
+            var postListView = new PostListView(options);
+
+            if (app.isPrerenderingView('home')) {
+                this.list.attachView(postListView);
+                postListView.showBootstrappedDetails();
+            } else {
+                this.list.show(postListView);
             }
         },
 

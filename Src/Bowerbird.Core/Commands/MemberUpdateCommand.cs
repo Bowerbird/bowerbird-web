@@ -35,11 +35,9 @@ namespace Bowerbird.Core.Commands
 
         public string GroupId { get; set; }
 
-        public IEnumerable<string> AddRoleIds { get; set; }
-
-        public IEnumerable<string> RemoveRoleIds { get; set; }
-
         public string ModifiedByUserId { get; set; }
+
+        public IEnumerable<string> Roles { get; set; }
 
         #endregion
 

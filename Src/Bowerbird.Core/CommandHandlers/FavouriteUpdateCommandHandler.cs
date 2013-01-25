@@ -60,7 +60,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var sighting = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
-                .Where(x => x.ContributionId == command.SightingId && (x.ContributionType == "observation" || x.ContributionType == "record"))
+                .Where(x => x.ParentContributionId == command.SightingId && (x.ParentContributionType == "observation" || x.ParentContributionType == "record"))
                 .First()
                 .Contribution as Sighting;
 

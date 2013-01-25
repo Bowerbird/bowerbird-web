@@ -24,7 +24,15 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
             Media: []
         },
 
-        urlRoot: '/observations',
+        url: function () {
+            url = '/';
+            if (this.id) {
+                url += this.id;
+            } else {
+                url += 'observations';
+            }
+            return url;
+        },
 
         idAttribute: 'Id',
 
@@ -102,7 +110,7 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
         setIdentification: function (identification) {
             this.set('Identification', identification.toJSON());
         },
-        
+
         setSightingNote: function (sightingNote) {
             this.set('Note', sightingNote.toJSON());
         }

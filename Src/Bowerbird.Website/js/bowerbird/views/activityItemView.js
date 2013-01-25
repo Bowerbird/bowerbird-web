@@ -10,8 +10,8 @@
 // ----------------
 
 // Shows an individual stream item
-define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'models/sighting', 'models/sightingnote', 'models/identification', 'views/sightingdetailsview', 'views/sightingnotedetailsview', 'views/identificationdetailsview', 'moment', 'timeago', 'tipsy'],
-function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, SightingDetailsView, SightingNoteDetailsView, IdentificationDetailsView, moment) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'models/sighting', 'models/sightingnote', 'models/identification', 'models/post', 'views/sightingdetailsview', 'views/sightingnotedetailsview', 'views/identificationdetailsview', 'views/postdetailsview', 'moment', 'timeago', 'tipsy'],
+function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Post, SightingDetailsView, SightingNoteDetailsView, IdentificationDetailsView, PostDetailsView, moment) {
 
     var ActivityItemView = Backbone.Marionette.Layout.extend({
         tagName: 'li',
@@ -52,6 +52,11 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Sigh
                 detailsView = new IdentificationDetailsView({ model: new Identification(this.model.get('IdentificationAdded').Identification), sighting: new Sighting(this.model.get('IdentificationAdded').Sighting) });
             }
 
+            if (this.model.get('Type') === "postadded") {
+                //sightingSummaryView = new SightingDetailsView({ template: 'SightingSummaryDetails', model: new Sighting(this.model.get('IdentificationAdded').Sighting) });
+                detailsView = new PostDetailsView({ model: new Post(this.model.get('PostAdded').Post), template: 'PostFullDetails' });
+            }
+
             this.details.show(detailsView);
 
             if (sightingSummaryView) {
@@ -77,6 +82,9 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Sigh
             if (this.model.get('Type') === "identificationadded") {
                 sightingSummaryView = new SightingDetailsView({ el: this.$el.find('.sighting-summary-details'), template: 'SightingSummaryDetails', model: new Sighting(this.model.get('IdentificationAdded').Sighting) });
                 detailsView = new IdentificationDetailsView({ el: this.$el.find('.identification-details'), model: new Identification(this.model.get('IdentificationAdded').Identification), sighting: new Sighting(this.model.get('IdentificationAdded').Sighting) });
+            }
+            if (this.model.get('Type') === "postadded") {
+                detailsView = new PostDetailsView({ el: this.$el.find('.post-details'), model: new Post(this.model.get('PostAdded').Post) });
             }
 
             this.details.attachView(detailsView);

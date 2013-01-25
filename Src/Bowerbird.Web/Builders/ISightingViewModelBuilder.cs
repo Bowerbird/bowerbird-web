@@ -29,6 +29,6 @@ namespace Bowerbird.Web.Builders
 
         object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput);
 
-        object BuildAllUserProjectsSightingList(string userId, SightingsQueryInput queryInput);
+        object BuildHomeSightingList(string userId, SightingsQueryInput sightingsQueryInput);
     }
 }

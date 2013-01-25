@@ -37,6 +37,7 @@ namespace Bowerbird.Web.Controllers
         private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IDocumentSession _documentSession;
+        private readonly IPostViewModelBuilder _postViewModelBuilder;
 
         #endregion
 
@@ -48,7 +49,8 @@ namespace Bowerbird.Web.Controllers
             IActivityViewModelBuilder activityViewModelBuilder,
             ISightingViewModelBuilder sightingViewModelBuilder,
             IUserViewModelBuilder userViewModelBuilder,
-            IDocumentSession documentSession
+            IDocumentSession documentSession,
+            IPostViewModelBuilder postViewModelBuilder
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -57,6 +59,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
 
             _messageBus = messageBus;
             _userContext = userContext;
@@ -64,6 +67,7 @@ namespace Bowerbird.Web.Controllers
             _sightingViewModelBuilder = sightingViewModelBuilder;
             _userViewModelBuilder = userViewModelBuilder;
             _documentSession = documentSession;
+            _postViewModelBuilder = postViewModelBuilder;
         }
 
         #endregion
@@ -111,7 +115,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         /// <summary>
-        /// Get a paged list of all the sightings in all projects a user is a member of
+        /// Get a paged list of all the sightings in all groups a user is a member of
         /// </summary>
         [HttpGet]
         [Authorize]
@@ -133,18 +137,18 @@ namespace Bowerbird.Web.Controllers
                 queryInput.PageSize = 10;
             }
 
-            if (string.IsNullOrWhiteSpace(queryInput.Sort) || 
-                (queryInput.Sort.ToLower() != "latestadded" &&  
-                queryInput.Sort.ToLower() != "oldestadded" &&
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
                 queryInput.Sort.ToLower() != "a-z" && 
                 queryInput.Sort.ToLower() != "z-a"))
             {
-                queryInput.Sort = "latestadded";
+                queryInput.Sort = "newest";
             }
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Sightings = _sightingViewModelBuilder.BuildAllUserProjectsSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.Sightings = _sightingViewModelBuilder.BuildHomeSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
             viewModel.Query = new
                 {
                     queryInput.Page,
@@ -164,29 +168,40 @@ namespace Bowerbird.Web.Controllers
                 "sightings");
         }
 
-        ///// <summary>
-        ///// Get a paged list of all the sightings in all a user's projects
-        ///// </summary>
-        //[HttpGet]
-        //[Authorize]
-        //public ActionResult Posts(PagingInput pagingInput)
-        //{
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        var viewModel = new
-        //        {
-        //            Sightings = _postViewModelBuilder.BuildAllUserGroupsPostList(_userContext.GetAuthenticatedUserId(), pagingInput)
-        //        };
+        /// <summary>
+        /// Get a paged list of all the posts in all groups a user is a member of
+        /// </summary>
+        [HttpGet]
+        [Authorize]
+        public ActionResult Posts(PostsQueryInput queryInput)
+        {
+            queryInput.PageSize = 10;
 
-        //        return RestfulResult(
-        //            viewModel,
-        //            string.Empty,
-        //            string.Empty
-        //            );
-        //    }
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
+                queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "z-a"))
+            {
+                queryInput.Sort = "newest";
+            }
 
-        //    return HttpNotFound();
-        //}  
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Posts = _postViewModelBuilder.BuildHomePostList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.Query = new
+            {
+                queryInput.Page,
+                queryInput.PageSize,
+                queryInput.Sort
+            };
+            viewModel.ShowPosts = true;
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "posts");
+        }
 
         #endregion
     }

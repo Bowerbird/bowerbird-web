@@ -67,6 +67,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.RemoveMembership(modifiedByUser, group);
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion

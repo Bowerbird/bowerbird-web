@@ -7,13 +7,14 @@
 
 // HomeController & HomeRouter
 // ---------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview'],
-function ($, _, Backbone, app, SightingCollection, ActivityCollection, HomePublicView, HomePrivateView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/postcollection', 'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview'],
+function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityCollection, HomePublicView, HomePrivateView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHome',
-            'sightings*': 'showSightings',
-            'all': 'showAllBowerbirdActivity',
+            'home/sightings*': 'showSightings',
+            'home/posts*': 'showPosts',
+            'timeline': 'showAllBowerbirdActivity',
             'favourites': 'showFavourites'
         }
     });
@@ -73,7 +74,7 @@ function ($, _, Backbone, app, SightingCollection, ActivityCollection, HomePubli
     };
 
     HomeController.showSightings = function (params) {
-        $.when(getModel('/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'latestadded')))
+        $.when(getModel('/home/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
 
@@ -95,6 +96,35 @@ function ($, _, Backbone, app, SightingCollection, ActivityCollection, HomePubli
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
                             homeView.showSightings(sightingCollection);
+                        }
+                    });
+                }
+            });
+    };
+
+    HomeController.showPosts = function (id, params) {
+        $.when(getModel('/home/posts?sort=' + (params && params.sort ? params.sort : 'newest')))
+            .done(function (model) {
+                var postCollection = new PostCollection(model.Posts.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Posts.TotalResultCount, sortBy: model.Query.Sort });
+
+                if (app.content.currentView instanceof HomePrivateView) {
+                    app.content.currentView.showPosts(postCollection);
+                } else {
+                    var homeView;
+
+                    if (app.authenticatedUser) {
+                        var options = { model: app.authenticatedUser.user };
+                        if (app.isPrerenderingView('home')) {
+                            options['el'] = '.home-private';
+                        }
+                        homeView = new HomePrivateView(options);
+                    } else {
+                        homeView = new HomePublicView();
+                    }
+
+                    app.showContentView('', homeView, 'home', function () {
+                        if (app.authenticatedUser) {
+                            homeView.showPosts(postCollection);
                         }
                     });
                 }

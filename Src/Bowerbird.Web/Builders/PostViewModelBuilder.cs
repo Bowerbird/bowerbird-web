@@ -11,8 +11,10 @@
 */
 
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Web.ViewModels;
 using Raven.Client;
@@ -27,6 +29,8 @@ namespace Bowerbird.Web.Builders
 
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
+        private readonly IPostViewFactory _postViewFactory;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -34,14 +38,20 @@ namespace Bowerbird.Web.Builders
 
         public PostViewModelBuilder(
             IDocumentSession documentSession,
-            IUserViewFactory userViewFactory
+            IUserViewFactory userViewFactory,
+            IPostViewFactory postViewFactory,
+            IUserContext userContext
         )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
+            Check.RequireNotNull(postViewFactory, "postViewFactory");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
+            _postViewFactory = postViewFactory;
+            _userContext = userContext;
         }
 
         #endregion
@@ -50,110 +60,97 @@ namespace Bowerbird.Web.Builders
 
         public object BuildNewPost(string groupId)
         {
+            return _postViewFactory.MakeNewPost(groupId);
+        }
+
+        public dynamic BuildPost(string id)
+        {
+            var authenticatedUser = _userContext.IsUserAuthenticated() ? _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()) : null;
+
+            var result = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.ParentContributionId == id && x.ParentContributionType == "post")
+                .First();
+
+            var post = result.Contribution as Post;
+            var group = result.Groups.First();
+            var user = result.User;
+
+            dynamic viewModel = _postViewFactory.Make(post, user, group, authenticatedUser);
+
+            return viewModel;
+        }
+
+        public object BuildGroupPostList(string groupId, PostsQueryInput postsQueryInput)
+        {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
+            Check.RequireNotNull(postsQueryInput, "postsQueryInput");
 
-            return new
-            {
-                Subject = "Add a Subject",
-                Message = "Add a Message",
-                GroupId = groupId
-            };
+            var query = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.GroupIds.Any(y => y == groupId) && x.ParentContributionType == "post");
+
+            return ExecuteQuery(postsQueryInput, query);
         }
 
-        public object BuildPost(string postId)
-        {
-            Check.RequireNotNullOrWhitespace(postId, "postId");
-
-            return  MakePost(_documentSession.Load<Post>(postId));
-        }
-
-        public object BuildUserPostList(string userId, PagingInput pagingInput)
+        public object BuildUserPostList(string userId, PostsQueryInput postsQueryInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            Check.RequireNotNull(postsQueryInput, "postsQueryInput");
 
-            RavenQueryStatistics stats;
+            var query = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.UserId == userId && x.ParentContributionType == "post");
 
-            return _documentSession
-                .Query<Post>()
-                .Where(x => x.User.Id == userId)
-                .OrderByDescending(x => x.CreatedOn)
-                .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(MakePost)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
+            return ExecuteQuery(postsQueryInput, query);
         }
 
-
-        public object BuildAllUserGroupsPostList(string userId, PagingInput pagingInput)
+        public object BuildHomePostList(string userId, PostsQueryInput postsQueryInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            RavenQueryStatistics stats;
+            Check.RequireNotNull(postsQueryInput, "postsQueryInput");
 
             var groupIds = _documentSession
                 .Load<User>(userId)
                 .Memberships.Select(x => x.Group.Id);
 
-            return _documentSession
-                .Query<Post>()
-                .Where(x => x.Group.Id.In(groupIds))
-                .Include(x => x.Group.Id)
-                .OrderByDescending(x => x.CreatedOn)
-                .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(MakePost)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
+            var query = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .AsProjection<All_Contributions.Result>()
+                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && x.ParentContributionType == "post");
+
+            return ExecuteQuery(postsQueryInput, query);
         }
 
-        public object BuildGroupPostList(string groupId, PagingInput pagingInput)
+        private object ExecuteQuery(PostsQueryInput postsQueryInput, IRavenQueryable<All_Contributions.Result> query)
         {
-            Check.RequireNotNullOrWhitespace(groupId, "groupId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
+            switch (postsQueryInput.Sort.ToLower())
+            {
+                default:
+                case "newest":
+                    query = query.OrderByDescending(x => x.CreatedDateTime);
+                    break;
+                case "oldest":
+                    query = query.OrderBy(x => x.CreatedDateTime);
+                    break;
+            }
 
             RavenQueryStatistics stats;
 
-            return _documentSession
-                .Query<Post>()
-                .Where(x => x.Group.Id == groupId)
-                .Include(x => x.Group.Id)
-                .OrderByDescending(x => x.CreatedOn)
-                .Statistics(out stats)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.PageSize)
-                .ToList()
-                .Select(MakePost)
-                .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults,
-                    null);
-        }
+            var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
 
-        private object MakePost(Post post)
-        {
-            return new
-            {
-                post.Id,
-                post.Subject,
-                post.Message,
-                //Creator = _userViewFactory.Make(_documentSession.Load<User>(post.User.Id)), // TODO: Fix this n+1 prob
-                //Comments = post.Discussion.Comments.Select(MakeComment), // TODO: Fix this n+1 prob
-                Resources = post.MediaResources,
-                post.Discussion.Comments
-            };
+            return query.Skip(postsQueryInput.GetSkipIndex())
+                .Statistics(out stats)
+                .Take(postsQueryInput.GetPageSize())
+                .ToList()
+                .Select(x => _postViewFactory.Make(x.Contribution as Post, x.User, x.Groups.First(), authenticatedUser))
+                .ToPagedList(
+                    postsQueryInput.Page,
+                    postsQueryInput.PageSize,
+                    stats.TotalResults);
         }
 
         #endregion

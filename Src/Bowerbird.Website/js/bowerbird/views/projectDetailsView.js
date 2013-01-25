@@ -8,8 +8,8 @@
 // ProjectDetailsView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/userlistview', 'views/projectaboutview'],
-function ($, _, Backbone, app, ActivityListView, SightingListView, UserListView, ProjectAboutView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/userlistview', 'views/projectaboutview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, UserListView, ProjectAboutView) {
 
     var ProjectDetailsView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -119,6 +119,28 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, UserListView,
                 sightingListView.showBootstrappedDetails();
             } else {
                 this.list.show(sightingListView);
+            }
+        },
+
+        showPosts: function (postCollection) {
+            this.switchTabHighlight('posts');
+
+            var options = {
+                model: this.model,
+                collection: postCollection
+            };
+
+            if (app.isPrerenderingView('projects')) {
+                options['el'] = '.list > div';
+            }
+
+            var postListView = new PostListView(options);
+
+            if (app.isPrerenderingView('projects')) {
+                this.list.attachView(postListView);
+                postListView.showBootstrappedDetails();
+            } else {
+                this.list.show(postListView);
             }
         },
 

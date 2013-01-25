@@ -111,6 +111,7 @@
     <Compile Include="Commands\IdentificationCreateCommand.cs" />
     <Compile Include="Commands\IdentificationDeleteCommand.cs" />
     <Compile Include="Commands\IdentificationUpdateCommand.cs" />
+    <Compile Include="Commands\MemberDeleteCommand.cs" />
     <Compile Include="Commands\UserUpdateCallToActionCommand.cs" />
     <Compile Include="Commands\ObservationMediaUpdateCommand.cs" />
     <Compile Include="Commands\RecordCreateCommand.cs" />
@@ -165,7 +166,6 @@
     <Compile Include="CommandHandlers\PostCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\PostDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ProjectUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\MemberCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\MemberDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserUpdateLastLoginCommandHandler.cs" />
     <Compile Include="Config\SetupSystem.cs" />
@@ -176,7 +176,6 @@
     <Compile Include="Commands\CommentDeleteCommand.cs" />
     <Compile Include="Commands\CommentUpdateCommand.cs" />
     <Compile Include="Commands\MediaResourceDeleteCommand.cs" />
-    <Compile Include="Commands\MemberDeleteCommand.cs" />
     <Compile Include="Commands\ObservationDeleteCommand.cs" />
     <Compile Include="Commands\SightingNoteDeleteCommand.cs" />
     <Compile Include="Commands\OrganisationDeleteCommand.cs" />
@@ -204,7 +203,6 @@
     <Compile Include="Commands\ProjectCreateCommand.cs" />
     <Compile Include="Commands\PostCreateCommand.cs" />
     <Compile Include="Commands\ProjectUpdateCommand.cs" />
-    <Compile Include="Commands\MemberCreateCommand.cs" />
     <Compile Include="Commands\UserUpdateLastLoginCommand.cs" />
     <Compile Include="Commands\UserUpdatePasswordCommand.cs" />
     <Compile Include="Commands\WatchlistCreateCommand.cs" />

@@ -8,29 +8,29 @@
           <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
           <ul>
             <li>
-              <a href="{{Id}}/sightings?view={{View}}&sort=latestadded">Latest Added</a>
+              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=newest">Latest Added</a>
             </li>
             <li>
-              <a href="{{Id}}/sightings?view={{View}}&sort=oldestadded">Oldest Added</a>
+              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=oldest">Oldest Added</a>
             </li>
             <li class="divider"></li>
             <li>
-              <a href="{{Id}}/sightings?view={{View}}&sort=a-z">Alphabetical (A-Z)</a>
+              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=a-z">Alphabetical (A-Z)</a>
             </li>
             <li>
-              <a href="{{Id}}/sightings?view={{View}}&sort=z-a">Alphabetical (Z-A)</a>
+              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=z-a">Alphabetical (Z-A)</a>
             </li>
           </ul>
         </div>
       </li>
       <li>
-        <a class="tab-image-button thumbnails-view-button" href="{{Id}}/sightings?view=thumbnails&sort={{Sort}}" title="View as thumbnail list">Thumbnails</a>
+        <a class="tab-image-button thumbnails-view-button" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view=thumbnails&sort={{Sort}}" title="View as thumbnail list">Thumbnails</a>
       </li>
       <li>
-        <a class="tab-image-button details-view-button" href="{{Id}}/sightings?view=details&sort={{Sort}}" title="View as detailed list">Details</a>
+        <a class="tab-image-button details-view-button" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view=details&sort={{Sort}}" title="View as detailed list">Details</a>
       </li>
       <li class="hidden">
-        <a class="tab-image-button map-view-button" href="{{Id}}/sightings?view=map" title="View on a map">Map</a>
+        <a class="tab-image-button map-view-button" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view=map" title="View on a map">Map</a>
       </li>
     </ul>
   </div>

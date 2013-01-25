@@ -27,23 +27,24 @@ function ($, _, Backbone, PaginatedCollection, Organisation) {
             this.page = options && options.page ? options.page : 1;
             this.pageSize = options && options.pageSize ? options.pageSize : 15;
             this.total = options && options.total ? options.total : 0;
-            this.sortByType = options && options.sortBy ? options.sortBy : 'newest';
+            this.sortByType = options && options.sortBy ? options.sortBy : 'popular';
         },
 
         comparator: function (organisation) {
             if (this.sortByType === 'z-a') {
-                var str = organisation.get('Name');
-                str = str.toLowerCase();
-                str = str.split('');
-                return _.map(str, function (letter) {
-                    return String.fromCharCode(-(letter.charCodeAt(0)));
-                });
+                return String.fromCharCode.apply(String,
+                    _.map(organisation.get('Name').toLowerCase().split(''), function (c) {
+                        return 0xffff - c.charCodeAt();
+                    })
+                );
             } else if (this.sortByType === 'a-z') {
                 return organisation.get('Name');
             } else if (this.sortByType === 'oldest') {
-                return organisation.get('CreatedDateTimeOrder');
-            } else {
+                return parseInt(organisation.get('CreatedDateTimeOrder'));
+            } else if (this.sortByType === 'newest') {
                 return -parseInt(organisation.get('CreatedDateTimeOrder'));
+            } else {
+                return parseInt(organisation.get('UserCount'));
             }
         },
 

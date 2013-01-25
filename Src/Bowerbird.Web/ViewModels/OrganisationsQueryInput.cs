@@ -46,7 +46,7 @@ namespace Bowerbird.Web.ViewModels
         {
             Query = string.Empty;
             Field = string.Empty;
-            Sort = "newest";
+            Sort = "popular";
         }
 
         #endregion

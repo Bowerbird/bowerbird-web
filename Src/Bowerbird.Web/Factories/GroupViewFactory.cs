@@ -48,7 +48,7 @@ namespace Bowerbird.Web.Factories
                     viewModel.Background = ((IPublicGroup)result.Group).Background;
                     viewModel.Website = ((IPublicGroup) result.Group).Website;
                     viewModel.Description = ((IPublicGroup) result.Group).Description;
-                    viewModel.MemberCount = result.UserIds.Count();
+                    viewModel.MemberCount = result.UserCount;
                     viewModel.PostCount = result.PostCount;
                 }
                 if (result.Group is Project)

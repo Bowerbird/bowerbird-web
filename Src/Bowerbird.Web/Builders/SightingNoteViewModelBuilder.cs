@@ -73,7 +73,7 @@ namespace Bowerbird.Web.Builders
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == sightingId && x.SubContributionId == identificationId.ToString())
+                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == identificationId.ToString())
                 .First();
 
             return _sightingNoteViewFactory.MakeUpdateIdentification(result.Observation, result.User, identificationId);
@@ -84,7 +84,7 @@ namespace Bowerbird.Web.Builders
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == sightingId && x.SubContributionId == sightingNoteId.ToString())
+                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == sightingNoteId.ToString())
                 .First();
 
             return _sightingNoteViewFactory.MakeUpdateSightingNote(result.Observation, result.User, sightingNoteId);
@@ -95,10 +95,10 @@ namespace Bowerbird.Web.Builders
             var results = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == sightingId && (x.ContributionType == "observation" || x.ContributionType == "record"))
+                .Where(x => x.ParentContributionId == sightingId && (x.ParentContributionType == "observation" || x.ParentContributionType == "record"))
                 .ToList();
 
-            var result = results.Single(x => x.ContributionType == "observation" || x.ContributionType == "record");
+            var result = results.Single(x => x.ParentContributionType == "observation" || x.ParentContributionType == "record");
 
             var sighting = result.ParentContribution as Sighting;
             var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());

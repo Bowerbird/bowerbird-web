@@ -48,7 +48,7 @@ namespace Bowerbird.Web.ViewModels
         {
             Query = string.Empty;
             Field = string.Empty;
-            Sort = "latestadded";
+            Sort = "newest";
             View = "thumbnails";
         }
 

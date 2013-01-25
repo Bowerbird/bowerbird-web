@@ -319,7 +319,7 @@ namespace Bowerbird.Core.Config
                 Constants.DefaultLicence, Constants.DefaultTimezone, DateTime.UtcNow);
             documentSession.Store(user);
 
-            user.AddMembership(user,
+            user.UpdateMembership(user,
                 TheAppRoot,
                 Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
             documentSession.Store(user);
@@ -327,7 +327,7 @@ namespace Bowerbird.Core.Config
             var userProject = new UserProject(user, name, string.Empty, string.Empty, defaultAvatarImage, defaultBackgroundImage, DateTime.UtcNow, TheAppRoot);
             documentSession.Store(userProject);
 
-            user.AddMembership(
+            user.UpdateMembership(
                 user,
                 userProject,
                 Roles.Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
@@ -336,7 +336,7 @@ namespace Bowerbird.Core.Config
             var favourites = new Favourites(user, DateTime.UtcNow, TheAppRoot);
             documentSession.Store(favourites);
 
-            user.AddMembership(
+            user.UpdateMembership(
                 user,
                 favourites,
                 Roles.Where(x => x.Id == "roles/favouritesadministrator" || x.Id == "roles/favouritesmember"));

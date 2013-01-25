@@ -46,11 +46,6 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
         
-        /// <summary>
-        /// Remove Project from any and all Team's & Organisation's Descendants.
-        /// Remove Project.
-        /// </summary>
-        /// <param name="command"></param>
         public void Handle(ProjectDeleteCommand command)
         {
             Check.RequireNotNull(command, "command");

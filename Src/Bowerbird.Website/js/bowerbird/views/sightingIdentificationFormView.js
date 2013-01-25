@@ -8,8 +8,8 @@
 // SightingIdentificationFormView
 // ------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview', 'views/identificationformview', 'views/sightingidentificationsubformview', 'sightingnotedescriptions', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy', 'tagging'],
-function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView, SightingIdentificationSubFormView, sightingNoteDescriptions, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview', 'views/identificationformview', 'views/sightingidentificationsubformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog', 'tipsy', 'tagging'],
+function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView, SightingIdentificationSubFormView, moment) {
 
     var SightingIdentificationFormView = Backbone.Marionette.Layout.extend({
 
@@ -39,7 +39,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             return {
                 Model: {
                     Sighting: this.sighting.toJSON(),
-                    SightingIdentification: this.model.toJSON()
+                    Identification: this.model.toJSON()
                 }
             };
         },
@@ -56,13 +56,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             this._showDetails();
         },
 
-        //        onRender: function () {
-        //            var sightingView = new SightingDetailsView({ model: new Observation(this.sighting) });
-        //            this.sightingSection.show(sightingView);
-
-        //            this._showDetails();
-        //        },
-
         showBootstrappedDetails: function () {
             this.initializeRegions();
 
@@ -72,7 +65,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             sightingView.showBootstrappedDetails();
 
             var sightingIdentificationSubFormView = new SightingIdentificationSubFormView({ el: this.$el.find('.sighting-identification-fieldset'), model: this.model, categorySelectList: this.categorySelectList, categories: this.categories });
-            this.sightingNoteSection.attachView(sightingIdentificationSubFormView);
+            this.sightingIdentificationSection.attachView(sightingIdentificationSubFormView);
             sightingIdentificationSubFormView.showBootstrappedDetails();
 
             this._showDetails();

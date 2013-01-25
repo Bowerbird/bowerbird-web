@@ -43,6 +43,7 @@ namespace Bowerbird.Core.DomainModels
             DateTime createdOn,
             string subject,
             string message,
+            string postType,
             IEnumerable<MediaResource> mediaResources,
             Group group)
             : base()
@@ -50,6 +51,7 @@ namespace Bowerbird.Core.DomainModels
             Check.RequireNotNull(createdByUser, "createdByUser");
             Check.RequireNotNullOrWhitespace(subject, "subject");
             Check.RequireNotNullOrWhitespace(message, "message");
+            Check.RequireNotNullOrWhitespace(postType, "postType");
             Check.RequireNotNull(mediaResources, "mediaResources");
             Check.RequireNotNull(group, "group");
 
@@ -62,8 +64,8 @@ namespace Bowerbird.Core.DomainModels
             SetPostDetails(
                 subject,
                 message,
-                mediaResources
-                );
+                postType,
+                mediaResources);
 
             ApplyEvent(new DomainModelCreatedEvent<Post>(this, createdByUser, this));
         }
@@ -79,6 +81,8 @@ namespace Bowerbird.Core.DomainModels
         public string Subject { get; private set; }
 
         public string Message { get; private set; }
+
+        public string PostType { get; private set; }
 
         public IEnumerable<MediaResource> MediaResources 
         { 
@@ -100,31 +104,33 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetPostDetails(string subject, string message, IEnumerable<MediaResource> mediaResources)
+        private void InitMembers()
+        {
+            Discussion = new Discussion();
+            _mediaResources = new List<MediaResource>();
+        }
+
+        private void SetPostDetails(string subject, string message, string postType, IEnumerable<MediaResource> mediaResources)
         {
             Subject = subject;
             Message = message;
+            PostType = postType;
             _mediaResources = mediaResources.ToList();
         }
 
-        public Post UpdateDetails(User updatedByUser, string subject, string message, IEnumerable<MediaResource> mediaResources)
+        public Post UpdateDetails(User updatedByUser, string subject, string message, string postType, IEnumerable<MediaResource> mediaResources)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
 
             SetPostDetails(
                 subject,
                 message,
+                postType,
                 mediaResources);
 
             ApplyEvent(new DomainModelUpdatedEvent<Post>(this, updatedByUser, this));
 
             return this;
-        }
-
-        private void InitMembers()
-        {
-            Discussion = new Discussion();
-            _mediaResources = new List<MediaResource>();
         }
 
         public ISubContribution GetSubContribution(string type, string id)

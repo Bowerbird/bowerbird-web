@@ -73,8 +73,9 @@ namespace Bowerbird.Web.EventHandlers
                 domainEvent, 
                 "postadded",
                 domainEvent.DomainModel.CreatedOn,
-                string.Format("{0} added a post to the {1} {2}", domainEvent.User.GetName(), ((Group)group).Name, ((Group)group).GroupType), 
-                new List<dynamic>(){group});
+                string.Format("{0} added a post", domainEvent.User.GetName(), ((Group)group).Name, ((Group)group).GroupType), 
+                new List<dynamic>(){group},
+                domainEvent.DomainModel.Id);
 
             activity.PostAdded = new
             {

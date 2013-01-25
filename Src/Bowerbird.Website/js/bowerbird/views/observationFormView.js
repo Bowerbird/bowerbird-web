@@ -202,14 +202,9 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             if ($checkbox.attr('checked') === 'checked') {
                 category = $checkbox.attr('value');
             }
-            this._setCategory(category);
-            this._setIdentification(null);
-        },
-
-        _setCategory: function (category) {
             this.model.set('Category', category);
         },
-        
+
         _locationOptionsClicked: function (e) {
             this.$el.find('#location-options').toggle();
         },
@@ -241,9 +236,9 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 return;
             }
 
-            if (this.viewEditMode == 'update') {
-                this.model.set('Id', this.model.id.replace('observations/', ''));
-            }
+//            if (this.viewEditMode == 'update') {
+//                this.model.set('Id', this.model.id.replace('observations/', ''));
+//            }
 
             if (this.identification) {
                 this.model.setIdentification(this.identification);

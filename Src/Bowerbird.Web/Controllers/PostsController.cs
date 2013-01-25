@@ -12,17 +12,23 @@
  
 */
 
-using System;
-using System.Dynamic;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
-using Bowerbird.Core.Commands;
-using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.Builders;
-using Bowerbird.Web.Config;
 using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Commands;
+using Bowerbird.Core.DesignByContract;
+using Bowerbird.Web.Config;
+using System;
 using Bowerbird.Core.Config;
+using Raven.Client;
+using System.Collections;
+using System.Dynamic;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -33,6 +39,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
 
         #endregion
@@ -43,17 +50,20 @@ namespace Bowerbird.Web.Controllers
             IMessageBus messageBus,
             IUserContext userContext,
             IPostViewModelBuilder postViewModelBuilder,
+            IDocumentSession documentSession,
             IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
             _postViewModelBuilder = postViewModelBuilder;
+            _documentSession = documentSession;
             _permissionManager = permissionManager;
         }
 
@@ -71,31 +81,30 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
-            {
-                Post = _postViewModelBuilder.BuildPost(postId)
-            };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Post = _postViewModelBuilder.BuildPost(postId);
 
             return RestfulResult(
                 viewModel,
                 "posts",
                 "index");
         }
-        
+
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm(string id)
+        public ActionResult CreateForm(string groupId, string groupType)
         {
-            //if(!_permissionManager.DoesExist<>())
+            var actualGroupId = groupType + "/" + groupId;
 
-            if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
+            if (!_userContext.HasGroupPermission(PermissionNames.CreatePost, actualGroupId))
             {
                 return HttpUnauthorized();
             }
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Post = _postViewModelBuilder.BuildNewPost(id);
+            viewModel.Post = _postViewModelBuilder.BuildNewPost(actualGroupId);
+            viewModel.PostTypeSelectList = GetPostTypeSelectList(string.Empty);
 
             return RestfulResult(
                 viewModel,
@@ -110,21 +119,22 @@ namespace Bowerbird.Web.Controllers
         {
             string postId = VerbosifyId<Post>(id);
 
-            if (!_permissionManager.DoesExist<Post>(postId))
-            {
-                return HttpNotFound();
-            }
+            //if (!_permissionManager.DoesExist<Post>(postId))
+            //{
+            //    return HttpNotFound();
+            //}
 
-            if (!_userContext.HasUserProjectPermission(PermissionNames.UpdatePost))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasUserProjectPermission(PermissionNames.UpdatePost))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
-            var post = _postViewModelBuilder.BuildPost(postId);
+            var post = _documentSession.Load<Post>(postId);
 
             dynamic viewModel = new ExpandoObject();
-            
-            viewModel.Post = post;
+
+            viewModel.Post = _postViewModelBuilder.BuildPost(postId);
+            viewModel.PostTypeSelectList = GetPostTypeSelectList(post.PostType);
 
             return RestfulResult(
                 viewModel,
@@ -149,66 +159,67 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var post = _postViewModelBuilder.BuildPost(postId);
-
             dynamic viewModel = new ExpandoObject();
-            
-            viewModel.Post = post;
+
+            viewModel.Post = _postViewModelBuilder.BuildPost(postId);
 
             return RestfulResult(
                 viewModel,
                 "posts",
-                "delete", 
+                "delete",
                 new Action<dynamic>(x => x.Model.Delete = true));
         }
 
         [Transaction]
-        [Authorize]
         [HttpPost]
+        [Authorize]
         public ActionResult Create(PostCreateInput createInput)
         {
-            Check.RequireNotNull(createInput, "createInput");
+            var actualGroupId = createInput.GroupType + "/" + createInput.GroupId;
 
-            if (!_userContext.HasGroupPermission(PermissionNames.CreatePost, createInput.GroupId))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasUserProjectPermission(PermissionNames.CreatePost))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
                 return JsonFailed();
             }
 
+            var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
+
             _messageBus.Send(
-                new PostCreateCommand()
+                new PostCreateCommand() 
                 {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = createInput.GroupId,
-                    MediaResources = createInput.MediaResources,
-                    Message = createInput.Message,
+                    Key = key,
                     Subject = createInput.Subject,
-                    Timestamp = createInput.Timestamp
+                    Message = createInput.Message,
+                    PostType = createInput.PostType,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    GroupId = actualGroupId,
+                    MediaResources = createInput.MediaResources
                 });
 
             return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpPut]
+        [Authorize]
         public ActionResult Update(PostUpdateInput updateInput)
         {
-            Check.RequireNotNull(updateInput, "updateInput");
+            string postId = VerbosifyId<Post>(updateInput.Id);
 
-            if (!_permissionManager.DoesExist<Post>(updateInput.Id))
-            {
-                return HttpNotFound();
-            }
+            //if (!_permissionManager.DoesExist<Post>(postId))
+            //{
+            //    return HttpNotFound();
+            //}
 
-            if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, updateInput.Id))
-            {
-                return HttpUnauthorized();
-            }
+            //if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, postId))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
             if (!ModelState.IsValid)
             {
@@ -216,32 +227,32 @@ namespace Bowerbird.Web.Controllers
             }
 
             _messageBus.Send(
-                new PostUpdateCommand()
+                new PostUpdateCommand
                 {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = updateInput.Id,
-                    MediaResources = updateInput.MediaResources,
-                    Message = updateInput.Message,
+                    Id = postId,
                     Subject = updateInput.Subject,
-                    Timestamp = updateInput.Timestamp
+                    Message = updateInput.Message,
+                    PostType = updateInput.PostType,
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    MediaResources = updateInput.MediaResources
                 });
 
             return JsonSuccess();
         }
 
         [Transaction]
-        [Authorize]
         [HttpDelete]
+        [Authorize]
         public ActionResult Delete(string id)
         {
-            var postId = VerbosifyId<Post>(id);
+            string postId = VerbosifyId<Post>(id);
 
-            if(!_permissionManager.DoesExist<Post>(postId))
+            if (!_permissionManager.DoesExist<Post>(postId))
             {
                 return HttpNotFound();
             }
 
-            if (!_userContext.HasGroupPermission<Post>(PermissionNames.DeletePost, postId))
+            if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, postId))
             {
                 return HttpUnauthorized();
             }
@@ -252,13 +263,38 @@ namespace Bowerbird.Web.Controllers
             }
 
             _messageBus.Send(
-                new PostDeleteCommand()
+                new PostDeleteCommand
                 {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = postId 
+                    Id = id,
+                    UserId = _userContext.GetAuthenticatedUserId()
                 });
 
             return JsonSuccess();
+        }
+
+        private object GetPostTypeSelectList(string selected)
+        {
+            return new[]
+                {
+                    new
+                        {
+                            Text = "General news",
+                            Value = "news",
+                            Selected = selected == "news"
+                        },
+                    new
+                        {
+                            Text = "Meeting",
+                            Value = "meeting",
+                            Selected = selected == "meeting"
+                        },
+                    new
+                        {
+                            Text = "Newsletter",
+                            Value = "newsletter",
+                            Selected = selected == "newsletter"
+                        }
+                };
         }
 
         #endregion

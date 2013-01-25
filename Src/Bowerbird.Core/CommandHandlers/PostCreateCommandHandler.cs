@@ -12,10 +12,15 @@
  
 */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Indexes;
 using Raven.Client;
+using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -45,20 +50,35 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(PostCreateCommand postCreateCommand)
+        public void Handle(PostCreateCommand command)
         {
-            Check.RequireNotNull(postCreateCommand, "postCreateCommand");
+            Check.RequireNotNull(command, "command");
 
-            var projectPost = new Post(
-                _documentSession.Load<User>(postCreateCommand.UserId),
-                postCreateCommand.Timestamp,
-                postCreateCommand.Subject,
-                postCreateCommand.Message,
-                _documentSession.Load<MediaResource>(postCreateCommand.MediaResources),
-                _documentSession.Load<Group>(postCreateCommand.GroupId)
-                );
+            var group = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .Where(x => x.GroupId == command.GroupId)
+                .First()
+                .Group;
 
-            _documentSession.Store(projectPost);
+            IEnumerable<MediaResource> mediaResources = new List<MediaResource>();
+
+            if (command.MediaResources.Any())
+            {
+                mediaResources = _documentSession.Load<MediaResource>(command.MediaResources);
+            }
+
+            var post = new Post(
+                _documentSession.Load<User>(command.UserId),
+                DateTime.UtcNow,
+                command.Subject,
+                command.Message,
+                command.PostType,
+                mediaResources,
+                group);
+
+            _documentSession.Store(post);
+            _documentSession.SaveChanges();
         }
 
         #endregion

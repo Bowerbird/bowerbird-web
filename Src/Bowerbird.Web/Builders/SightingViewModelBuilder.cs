@@ -77,10 +77,10 @@ namespace Bowerbird.Web.Builders
             var results = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ContributionId == id)
+                .Where(x => x.ParentContributionId == id)
                 .ToList();
 
-            var sightingResult = results.First(x => x.ContributionType == "observation" || x.ContributionType == "record");
+            var sightingResult = results.First(x => (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
 
             var sighting = sightingResult.Contribution as Sighting;
             var projects = sightingResult.Groups;
@@ -88,8 +88,8 @@ namespace Bowerbird.Web.Builders
 
             dynamic viewModel = _sightingViewFactory.Make(sighting, user, projects, authenticatedUser);
 
-            viewModel.Identifications = results.Where(x => x.ContributionType == "identification").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as IdentificationNew, x.User, authenticatedUser));
-            viewModel.Notes = results.Where(x => x.ContributionType == "note").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as SightingNote, x.User, authenticatedUser));
+            viewModel.Identifications = results.Where(x => x.SubContributionType == "identification").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as IdentificationNew, x.User, authenticatedUser));
+            viewModel.Notes = results.Where(x => x.SubContributionType == "note").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as SightingNote, x.User, authenticatedUser));
 
             return viewModel;
         }
@@ -102,7 +102,7 @@ namespace Bowerbird.Web.Builders
             var query = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ContributionType == "observation" || x.ContributionType == "record"));
+                .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
 
             return ExecuteQuery(sightingsQueryInput, query);
         }
@@ -115,15 +115,15 @@ namespace Bowerbird.Web.Builders
             var query = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.UserId == userId && (x.ContributionType == "observation" || x.ContributionType == "record"));
+                .Where(x => x.UserId == userId && (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
 
             return ExecuteQuery(sightingsQueryInput, query);
         }
 
-        public object BuildAllUserProjectsSightingList(string userId, SightingsQueryInput queryInput)
+        public object BuildHomeSightingList(string userId, SightingsQueryInput sightingsQueryInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(queryInput, "queryInput");
+            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
 
             var groupIds = _documentSession
                 .Load<User>(userId)
@@ -132,21 +132,25 @@ namespace Bowerbird.Web.Builders
             var query = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ContributionType == "observation" || x.ContributionType == "record"));
+                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
 
-            return ExecuteQuery(queryInput, query);
+            return ExecuteQuery(sightingsQueryInput, query);
         }
 
-        private object ExecuteQuery(SightingsQueryInput queryInput, IRavenQueryable<All_Contributions.Result> query)
+        private object ExecuteQuery(SightingsQueryInput sightingsQueryInput, IQueryable<All_Contributions.Result> query)
         {
-            switch (queryInput.Sort.ToLower())
+            RavenQueryStatistics stats;
+
+            query = ((IRavenQueryable<All_Contributions.Result>) query).Statistics(out stats);
+
+            switch (sightingsQueryInput.Sort.ToLower())
             {
                 default:
-                case "latestadded":
-                    query = query.OrderByDescending(x => x.CreatedDateTime);
+                case "newest":
+                    query = query.OrderByDescending(x => x.CreatedDateTime).ThenBy(x => x.SightingTitle);
                     break;
-                case "oldestadded":
-                    query = query.OrderBy(x => x.CreatedDateTime);
+                case "oldest":
+                    query = query.OrderBy(x => x.CreatedDateTime).ThenBy(x => x.SightingTitle);
                     break;
                 case "a-z":
                     query = query.OrderBy(x => x.SightingTitle);
@@ -154,20 +158,25 @@ namespace Bowerbird.Web.Builders
                 case "z-a":
                     query = query.OrderByDescending(x => x.SightingTitle);
                     break;
+                //case "popular": // Most popular
+                //    break;
+                //case "active": // Having most activity
+                //    break;
+                //case "needsid": // Needs an identification
+                //    break;
             }
 
-            RavenQueryStatistics stats;
+            
 
             var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
 
-            return query.Skip(queryInput.GetSkipIndex())
-                .Statistics(out stats)
-                .Take(queryInput.GetPageSize())
+            return query.Skip(sightingsQueryInput.GetSkipIndex())
+                .Take(sightingsQueryInput.GetPageSize())
                 .ToList()
                 .Select(x => _sightingViewFactory.Make(x.Contribution as Sighting, x.User, x.Groups, authenticatedUser))
                 .ToPagedList(
-                    queryInput.Page,
-                    queryInput.PageSize,
+                    sightingsQueryInput.Page,
+                    sightingsQueryInput.PageSize,
                     stats.TotalResults);
         }
 

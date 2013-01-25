@@ -14,10 +14,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'models
 function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNote, SightingNoteCollection, IdentificationCollection, ObservationDetailsView, ObservationFormView, SightingIdentificationFormView, SightingNoteFormView) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'observations/:id/createidentification': 'showSightingIdentificationCreateForm',
-            'observations/:id/createnote': 'showSightingNoteCreateForm',
-            'observations/:sightingId/updateidentification/:sightingNoteId': 'showSightingIdentificationUpdateForm',
-            'observations/:sightingId/updatenote/:sightingNoteId': 'showSightingNoteUpdateForm',
+            'observations/:id/identifications/create': 'showSightingIdentificationCreateForm',
+            'observations/:id/notes/create': 'showSightingNoteCreateForm',
+            'observations/:sightingId/identifications/:sightingNoteId/update': 'showSightingIdentificationUpdateForm',
+            'observations/:sightingId/notes/:sightingNoteId/update': 'showSightingNoteUpdateForm',
             'observations/create*': 'showObservationCreateForm',
             //'records/create*': 'showRecordCreateForm',
             'observations/:id/update': 'showObservationUpdateForm',
@@ -62,19 +62,19 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
 //    };
 
     var showSightingIdentificationForm = function (uri) {
-        $.when(getModel(uri, 'identification'))
-        .done(function (model) {
-            var identification = new Identification(model.Identification);
+        $.when(getModel(uri, 'identifications'))
+            .done(function (model) {
+                var identification = new Identification(model.Identification);
 
-            var options = { model: identification, sighting: new Sighting(model.Sighting), categories: model.Categories, categorySelectList: model.CategorySelectList };
+                var options = { model: identification, sighting: new Sighting(model.Sighting), categories: model.Categories, categorySelectList: model.CategorySelectList };
 
-            if (app.isPrerenderingView('identification')) {
-                options['el'] = '.sighting-identification-form';
-            }
+                if (app.isPrerenderingView('identifications')) {
+                    options['el'] = '.identification-form';
+                }
 
-            var sightingIdentificationFormView = new SightingIdentificationFormView(options);
-            app.showContentView('Edit Identification', sightingIdentificationFormView, 'identification');
-        });
+                var sightingIdentificationFormView = new SightingIdentificationFormView(options);
+                app.showContentView('Edit Identification', sightingIdentificationFormView, 'identifications');
+            });
     };
 
     var showSightingNoteForm = function (uri) {
@@ -165,19 +165,19 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
     };
 
     ObservationController.showSightingIdentificationCreateForm = function (id) {
-        showSightingIdentificationForm('/observations/' + id + '/createidentification');
+        showSightingIdentificationForm('/observations/' + id + '/identifications/create');
     };
 
     ObservationController.showSightingIdentificationUpdateForm = function (sightingId, identificationId) {
-        showSightingIdentificationForm('/observations/' + sightingId + '/updateidentification/' + identificationId);
+        showSightingIdentificationForm('/observations/' + sightingId + '/identifications/' + identificationId + '/update');
     };
 
     ObservationController.showSightingNoteCreateForm = function (id) {
-        showSightingNoteForm('/observations/' + id + '/createnote');
+        showSightingNoteForm('/observations/' + id + '/notes/create');
     };
 
     ObservationController.showSightingNoteUpdateForm = function (sightingId, sightingNoteId) {
-        showSightingNoteForm('/observations/' + sightingId + '/updatenote/' + sightingNoteId);
+        showSightingNoteForm('/observations/' + sightingId + '/notes/' + sightingNoteId + '/update');
     };
 
     // Event Handlers

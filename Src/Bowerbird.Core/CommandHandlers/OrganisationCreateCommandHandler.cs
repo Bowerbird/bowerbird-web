@@ -76,15 +76,15 @@ namespace Bowerbird.Core.CommandHandlers
 
             // Add administrator membership to creating user
             var user = _documentSession.Load<User>(command.UserId);
-            user.AddMembership(
+            user.UpdateMembership(
                 user,
                 organisation,
                 _documentSession
                     .Query<Role>()
                     .Where(x => x.Id.In("roles/organisationadministrator", "roles/organisationmember"))
                     .ToList());
-            _documentSession.Store(user);
 
+            _documentSession.Store(user);
             _documentSession.SaveChanges();
         }
 

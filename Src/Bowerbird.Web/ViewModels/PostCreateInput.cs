@@ -35,8 +35,12 @@ namespace Bowerbird.Web.ViewModels
 
         #region Properties
 
+        public string Key { get; set; }
+
         [Required]
         public string GroupId { get; set; }
+
+        public string GroupType { get; set; }
 
         [Required]
         public string Subject { get; set; }
@@ -44,10 +48,10 @@ namespace Bowerbird.Web.ViewModels
         [Required]
         public string Message { get; set; }
 
-        public IList<string> MediaResources { get; set; }
-
         [Required]
-        public DateTime Timestamp { get; set; }
+        public string PostType { get; set; }
+
+        public IList<string> MediaResources { get; set; }
 
         #endregion
 

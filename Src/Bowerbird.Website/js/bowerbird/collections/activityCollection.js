@@ -53,8 +53,8 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
             return activities.PagedListItems;
         },
 
-        comparator: function (streamItem) {
-            return -parseInt(streamItem.get('CreatedDateTimeOrder'));
+        comparator: function (activity) {
+            return -parseInt(activity.get('CreatedDateTimeOrder'));
         },
 
         fetchFirstPage: function () {

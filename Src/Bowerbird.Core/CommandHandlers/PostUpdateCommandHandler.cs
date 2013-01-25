@@ -13,6 +13,8 @@
 */
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
@@ -46,19 +48,28 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(PostUpdateCommand postUpdateCommand)
+        public void Handle(PostUpdateCommand command)
         {
-            Check.RequireNotNull(postUpdateCommand, "postUpdateCommand");
+            Check.RequireNotNull(command, "command");
 
-            var post = _documentSession.Load<Post>(postUpdateCommand.Id);
+            var post = _documentSession.Load<Post>(command.Id);
+
+            IEnumerable<MediaResource> mediaResources = new List<MediaResource>();
+
+            if (command.MediaResources.Any())
+            {
+                mediaResources = _documentSession.Load<MediaResource>(command.MediaResources);
+            }
 
             post.UpdateDetails(
-                _documentSession.Load<User>(postUpdateCommand.UserId),
-                postUpdateCommand.Subject,
-                postUpdateCommand.Message,
-                _documentSession.Load<MediaResource>(postUpdateCommand.MediaResources));
+                _documentSession.Load<User>(command.UserId),
+                command.Subject,
+                command.Message,
+                command.PostType,
+                mediaResources);
 
             _documentSession.Store(post);
+            _documentSession.SaveChanges();
         }
 
         #endregion

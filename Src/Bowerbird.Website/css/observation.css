@@ -604,9 +604,6 @@
 
 
 
-.sighting-note-form .observation-details {
-    margin-bottom: 2%;
-}
 .sighting-note-form {
     width: 95.6%;
 }
@@ -843,7 +840,8 @@ OBSERVATION FULL DETAILS
     font-weight: 500;
     padding: 5px 5px 0 0;
 }
-.sighting-summary
+.sighting-summary,
+.post-summary
 {
     background-color: rgb(249, 249, 249);
     border-bottom: 1px solid rgb(221, 221, 221);
@@ -853,14 +851,22 @@ OBSERVATION FULL DETAILS
     padding: 1em;
     width: 100%;
 }
-.sighting-summary .image-media.media-square-100
+.sighting-summary .image-media.media-square-100,
+.post-summary .image-media.media-square-100
 {
     display: inline-block;
     float: left;
+}
+.sighting-summary .image-media.media-square-100 {
     height: 46px;
     width: 46px;
 }
-.sighting-summary .description
+.post-summary .image-media.media-square-100 {
+    height: 75px;
+    width: 75px;
+}
+.sighting-summary .description,
+.post-summary .description
 {
     display: inline-block;
     font-size: 1em;
@@ -870,14 +876,17 @@ OBSERVATION FULL DETAILS
     padding-left: 0.5em;
     vertical-align: top;
 }
-.sighting-summary .description > span {
+.sighting-summary .description > span,
+.post-summary .description > span
+{
     display: inline-block;
     float: left;
     line-height: 1.6em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
     width: 100%;
 }
-.sighting-summary .description abbr
+.sighting-summary .description abbr,
+.post-summary .description abbr
 {
     color: rgb(128, 128, 128);
     display: inline-block;
@@ -886,8 +895,29 @@ OBSERVATION FULL DETAILS
     font-weight: 400;
     line-height: 1.2em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
 }
-.observation .sighting-projects {
+.post-summary .group-contribution-user {
+    display: inline-block;
+    margin-top: 0.5em;
+    vertical-align: top;
+}
+.post-summary .group-contribution-user .image-media.media-square-100 {
+    height: 20px;
+    width: 20px;
+}
+.post-summary .group-contribution-user-description {
+    color: rgb(102, 102, 102);
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5em;
+    margin-left: 0.5em;
+    vertical-align: top;
+}
+.observation .sighting-projects 
+{
     float: left;
     margin-top: 0.7em;
     width: 100%;
@@ -1142,6 +1172,13 @@ OBSERVATION FULL DETAILS
     font-size: 0.875em;
     margin-bottom: 5px;
 }
+
+
+.post .post-info {
+    width: 100%;
+}
+
+
 .vote-panel,
 .favourites-panel,
 .identify-panel,

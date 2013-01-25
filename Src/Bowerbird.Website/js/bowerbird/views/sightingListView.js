@@ -103,7 +103,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         changeSortLabel: function (value) {
             var label = '';
             switch (value) {
-                case 'oldestadded':
+                case 'oldest':
                     label = 'Oldest Added';
                     break;
                 case 'a-z':
@@ -112,7 +112,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
                 case 'z-a':
                     label = 'Alphabetical (Z-A)';
                     break;
-                case 'latestadded':
+                case 'newest':
                 default:
                     label = 'Latest Added';
                     break;

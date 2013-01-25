@@ -39,9 +39,6 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             return {
                 Model: {
                     SightingNote: this.model.toJSON()
-                    //Sighting: this.sighting
-                    //                    CategorySelectList: this.categorySelectList,
-                    //                    ProjectsSelectList: this.projectsSelectList
                 }
             };
         },
@@ -50,11 +47,6 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             this._showDetails();
             return this;
         },
-
-//        onRender: function () {
-//            this._showDetails();
-//            return this;
-//        },
 
         showBootstrappedDetails: function () {
             this._showDetails();

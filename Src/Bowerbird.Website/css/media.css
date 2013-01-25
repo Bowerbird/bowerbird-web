@@ -103,6 +103,8 @@
     }
     article section .single
     {
+        width: 95.6%;
+        float: left;
     }
     header.default-header h1 {
         width: 18.75%;

@@ -25,7 +25,7 @@
         <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/{{Model.Organisation.Id}}">Timeline</a>
       </li>
       <li>
-        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Organisation.Id}}/posts">Posts</a>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Organisation.Id}}/posts">News Items</a>
       </li>
       <li>
         <a class="tab-button members-tab-button {{#Model.ShowMembers}}selected{{/Model.ShowMembers}}" href="/{{Model.Organisation.Id}}/members">Members</a>
@@ -41,7 +41,7 @@
       {{>ActivityList}}
       {{/Model.ShowActivities}}
       {{#Model.ShowPosts}}
-      {{>PostsList}}
+      {{>PostList}}
       {{/Model.ShowPosts}}
       {{#Model.ShowMembers}}
       {{>UserList}}

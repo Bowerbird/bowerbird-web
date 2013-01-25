@@ -83,6 +83,7 @@ namespace Bowerbird.Web.Factories
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Id = sighting.Id;
+            viewModel.CreatedOn = sighting.CreatedOn;
             viewModel.ObservedOn = sighting.ObservedOn;
             viewModel.Latitude = sighting.Latitude;
             viewModel.Longitude = sighting.Longitude;

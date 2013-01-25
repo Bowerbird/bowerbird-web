@@ -86,14 +86,6 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
         }
-
-        //        addProject: function (project) {
-        //            log('project added', project, this);
-        //        },
-
-        //        removeProject: function (project) {
-        //            log('project removed', project, this);
-        //        }
     });
 
     // Initialize the sidebar layout

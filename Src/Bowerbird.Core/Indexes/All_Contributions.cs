@@ -25,9 +25,10 @@ namespace Bowerbird.Core.Indexes
     {
         public class Result
         {
-            public string ContributionType { get; set; }
-            public string ContributionId { get; set; }
+            public string ParentContributionId { get; set; }
             public string SubContributionId { get; set; }
+            public string ParentContributionType { get; set; }
+            public string SubContributionType { get; set; }
             public string UserId { get; set; }
             public DateTime CreatedDateTime { get; set; }
             public string[] GroupIds { get; set; }
@@ -49,19 +50,12 @@ namespace Bowerbird.Core.Indexes
             {
                 get
                 {
-                    var contribution = Observation as IContribution ?? Record as IContribution ?? Post as IContribution;
-
-                    if (ContributionType == "observation" || ContributionType == "record" || ContributionType == "post")
+                    if (SubContributionType == "identification" || SubContributionType == "note" || SubContributionType == "vote")
                     {
-                        return contribution;
+                        return ParentContribution.GetSubContribution(SubContributionType, SubContributionId);
                     }
 
-                    if (ContributionType == "identification" || ContributionType == "note" || ContributionType == "vote")
-                    {
-                        return contribution.GetSubContribution(ContributionType, SubContributionId);
-                    }
-
-                    return null;
+                    return ParentContribution;
                 }
             }
 
@@ -69,12 +63,9 @@ namespace Bowerbird.Core.Indexes
             {
                 get
                 {
-                    if (ContributionType == "identification" || ContributionType == "note" || ContributionType == "vote")
-                    {
-                        return Observation as IContribution ?? Record as IContribution ?? Post as IContribution;
-                    }
-
-                    return null;
+                    return Observation as IContribution ??
+                           Record as IContribution ??
+                           Post as IContribution;
                 }
             }
 
@@ -98,9 +89,10 @@ namespace Bowerbird.Core.Indexes
             AddMap<Observation>(observations => from observation in observations
                                                 select new
                                                 {
-                                                    ContributionId = observation.Id,
+                                                    ParentContributionId = observation.Id,
                                                     SubContributionId = (string)null,
-                                                    ContributionType = "observation",
+                                                    ParentContributionType = "observation",
+                                                    SubContributionType = (string)null,
                                                     UserId = observation.User.Id,
                                                     CreatedDateTime = observation.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
@@ -112,9 +104,10 @@ namespace Bowerbird.Core.Indexes
             AddMap<Record>(records => from record in records
                                                  select new
                                                  {
-                                                     ContributionId = record.Id,
+                                                     ParentContributionId = record.Id,
                                                      SubContributionId = (string)null,
-                                                     ContributionType = "record",
+                                                     ParentContributionType = "record",
+                                                     SubContributionType = (string)null,
                                                      UserId = record.User.Id,
                                                      CreatedDateTime = record.CreatedOn,
                                                      GroupIds = record.Groups.Select(x => x.Group.Id),
@@ -126,9 +119,10 @@ namespace Bowerbird.Core.Indexes
             AddMap<Post>(posts => from post in posts
                                   select new
                                   {
-                                      ContributionId = post.Id,
+                                      ParentContributionId = post.Id,
                                       SubContributionId = (string)null,
-                                      ContributionType = "post",
+                                      ParentContributionType = "post",
+                                      SubContributionType = (string)null,
                                       UserId = post.User.Id,
                                       CreatedDateTime = post.CreatedOn,
                                       GroupIds = new[] { post.Group.Id },
@@ -141,9 +135,10 @@ namespace Bowerbird.Core.Indexes
                                                 from note in observation.Notes
                                                 select new
                                                 {
-                                                    ContributionId = observation.Id,
+                                                    ParentContributionId = observation.Id,
                                                     SubContributionId = note.Id,
-                                                    ContributionType = "note",
+                                                    ParentContributionType = "observation",
+                                                    SubContributionType = "note",
                                                     UserId = note.User.Id,
                                                     CreatedDateTime = note.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
@@ -156,9 +151,10 @@ namespace Bowerbird.Core.Indexes
                                       from note in record.Notes
                                       select new
                                       {
-                                          ContributionId = record.Id,
+                                          ParentContributionId = record.Id,
                                           SubContributionId = note.Id,
-                                          ContributionType = "note",
+                                          ParentContributionType = "record",
+                                          SubContributionType = "note",
                                           UserId = note.User.Id,
                                           CreatedDateTime = note.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
@@ -171,9 +167,10 @@ namespace Bowerbird.Core.Indexes
                                                 from comment in observation.Discussion.Comments
                                                 select new
                                                 {
-                                                    ContributionId = observation.Id,
+                                                    ParentContributionId = observation.Id,
                                                     SubContributionId = comment.Id,
-                                                    ContributionType = "comment",
+                                                    ParentContributionType = "observation",
+                                                    SubContributionType = "comment",
                                                     UserId = comment.User.Id,
                                                     CreatedDateTime = comment.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
@@ -186,9 +183,10 @@ namespace Bowerbird.Core.Indexes
                                       from comment in record.Discussion.Comments
                                       select new
                                       {
-                                          ContributionId = record.Id,
+                                          ParentContributionId = record.Id,
                                           SubContributionId = comment.Id,
-                                          ContributionType = "comment",
+                                          ParentContributionType = "record",
+                                          SubContributionType = "comment",
                                           UserId = comment.User.Id,
                                           CreatedDateTime = comment.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
@@ -201,9 +199,10 @@ namespace Bowerbird.Core.Indexes
                                                 from identification in observation.Identifications
                                                 select new
                                                 {
-                                                    ContributionId = observation.Id,
+                                                    ParentContributionId = observation.Id,
                                                     SubContributionId = identification.Id,
-                                                    ContributionType = "identification",
+                                                    ParentContributionType = "observation",
+                                                    SubContributionType = "identification",
                                                     UserId = identification.User.Id,
                                                     CreatedDateTime = identification.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
@@ -216,9 +215,10 @@ namespace Bowerbird.Core.Indexes
                                       from identification in record.Identifications
                                       select new
                                       {
-                                          ContributionId = record.Id,
+                                          ParentContributionId = record.Id,
                                           SubContributionId = identification.Id,
-                                          ContributionType = "identification",
+                                          ParentContributionType = "record",
+                                          SubContributionType = "identification",
                                           UserId = identification.User.Id,
                                           CreatedDateTime = identification.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
@@ -231,9 +231,10 @@ namespace Bowerbird.Core.Indexes
                                                 from vote in observation.Votes
                                                 select new
                                                     {
-                                                        ContributionId = observation.Id,
+                                                        ParentContributionId = observation.Id,
                                                         SubContributionId = vote.Id,
-                                                        ContributionType = "vote",
+                                                        ParentContributionType = "observation",
+                                                        SubContributionType = "vote",
                                                         UserId = vote.User.Id,
                                                         CreatedDateTime = vote.CreatedOn,
                                                         GroupIds = new string[] {},
@@ -246,9 +247,10 @@ namespace Bowerbird.Core.Indexes
                                       from vote in record.Votes
                                       select new
                                           {
-                                              ContributionId = record.Id,
+                                              ParentContributionId = record.Id,
                                               SubContributionId = vote.Id,
-                                              ContributionType = "vote",
+                                              ParentContributionType = "record",
+                                              SubContributionType = "vote",
                                               UserId = vote.User.Id,
                                               CreatedDateTime = vote.CreatedOn,
                                               GroupIds = new string[] {},
@@ -257,13 +259,14 @@ namespace Bowerbird.Core.Indexes
                                           });
 
             Reduce = (results => from result in results
-                                 group result by new { result.ContributionId, result.SubContributionId, result.ContributionType }
+                                 group result by new { result.ParentContributionId, result.SubContributionId, result.ParentContributionType, result.SubContributionType }
                                  into g
                                  select new
                                      {
-                                        g.Key.ContributionId,
+                                        g.Key.ParentContributionId,
                                         g.Key.SubContributionId,
-                                        g.Key.ContributionType,
+                                        g.Key.ParentContributionType,
+                                        g.Key.SubContributionType,
                                         UserId = g.Select(x => x.UserId).Where(x => x != null).FirstOrDefault(),
                                         CreatedDateTime = g.Select(x => x.CreatedDateTime).Where(x => x != null).FirstOrDefault(),
                                         GroupIds = g.SelectMany(x => x.GroupIds),
@@ -275,15 +278,16 @@ namespace Bowerbird.Core.Indexes
                 from result in results
                 select new
                 {
-                    result.ContributionType,
-                    result.ContributionId,
+                    result.ParentContributionId,
                     result.SubContributionId,
+                    result.ParentContributionType,
+                    result.SubContributionType,
                     result.UserId,
                     result.CreatedDateTime,
                     GroupIds = result.GroupIds ?? new string[] {},
-                    Observation = database.Load<Observation>(result.ContributionId),
-                    Record = database.Load<Record>(result.ContributionId),
-                    Post = database.Load<Post>(result.ContributionId),
+                    Observation = result.ParentContributionType == "observation" ? database.Load<Observation>(result.ParentContributionId) : null,
+                    Record = result.ParentContributionType == "record" ? database.Load<Record>(result.ParentContributionId) : null,
+                    Post = result.ParentContributionType == "post" ? database.Load<Post>(result.ParentContributionId) : null,
                     User = database.Load<User>(result.UserId),
                     UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
                     Favourites = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "favourites"),
@@ -291,9 +295,10 @@ namespace Bowerbird.Core.Indexes
                     Organisations = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "organisation")
                 };
 
-            Store(x => x.ContributionId, FieldStorage.Yes);
+            Store(x => x.ParentContributionId, FieldStorage.Yes);
             Store(x => x.SubContributionId, FieldStorage.Yes);
-            Store(x => x.ContributionType, FieldStorage.Yes);
+            Store(x => x.ParentContributionType, FieldStorage.Yes);
+            Store(x => x.SubContributionType, FieldStorage.Yes);
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);
             Store(x => x.GroupIds, FieldStorage.Yes);

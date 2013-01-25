@@ -77,7 +77,6 @@ require([
         'controllers/teamcontroller',
         'controllers/accountcontroller',
         'controllers/chatcontroller',
-        //'controllers/sightingnotecontroller',
         'views/headerview',
         'views/footerview',
         'views/sidebarview',

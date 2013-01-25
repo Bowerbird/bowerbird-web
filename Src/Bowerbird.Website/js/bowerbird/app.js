@@ -11,21 +11,19 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/teamcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/exploreprojectcollection', 'collections/chatcollection', 'marionette', 'signalr'],
-function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, TeamCollection, OrganisationCollection, ActivityCollection, ExploreProjectCollection, ChatCollection) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/chatcollection', 'marionette', 'signalr'],
+function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, OrganisationCollection, ActivityCollection, ChatCollection) {
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
     // Let's pollute the global namespace, just a little, for debug purposes :)
-    window.Bowerbird = window.Bowerbird || {};
-    window.Bowerbird.app = app;
+    window.Bowerbird = window.Bowerbird || { app: app };
 
     var AuthenticatedUser = function (data) {
         this.user = new User(data.User);
         this.memberships = data.Memberships;
-        this.projects = new ProjectCollection(data.Projects);
-        this.teams = new TeamCollection(data.Teams);
-        this.organisations = new OrganisationCollection(data.Organisations);
+        this.projects = new ProjectCollection(data.Projects, { sortBy: 'a-z' });
+        this.organisations = new OrganisationCollection(data.Organisations, { sortBy: 'a-z' });
         this.appRoot = data.AppRoot;
 
         this.hasGroupPermission = function (groupId, permissionId) {
@@ -50,12 +48,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             app.vent.trigger('projectAdded:', group);
             if (group.User.Id == app.authenticatedUser.user.id) {
                 app.authenticatedUser.projects.add(group);
-            }
-        }
-        if (group.GroupType === 'team') {
-            app.vent.trigger('teamAdded:', group);
-            if (group.User.Id == app.authenticatedUser.user.id) {
-                app.authenticatedUser.teams.add(group);
             }
         }
         if (group.GroupType === 'organisation') {

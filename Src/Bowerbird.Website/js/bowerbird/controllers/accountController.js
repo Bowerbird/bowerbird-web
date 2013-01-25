@@ -41,7 +41,7 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
         var deferred = new $.Deferred();
         $.ajax({
             url: uri,
-            type: 'PUT',
+            type: 'POST',
             data: { score: score }
         }).done(function (data) {
             deferred.resolve(data.Model);
@@ -53,7 +53,7 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
         var deferred = new $.Deferred();
         $.ajax({
             url: '/favourites',
-            type: 'PUT',
+            type: 'POST',
             data: { id: sighting.id }
         }).done(function (data) {
             deferred.resolve(data.Model);

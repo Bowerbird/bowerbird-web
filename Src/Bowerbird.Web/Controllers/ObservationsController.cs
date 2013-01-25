@@ -365,7 +365,7 @@ namespace Bowerbird.Web.Controllers
 
             return RestfulResult(
                 viewModel,
-                "identification",
+                "identifications",
                 "createidentification",
                 new Action<dynamic>(x => x.Model.Create = true));
         }
@@ -419,7 +419,7 @@ namespace Bowerbird.Web.Controllers
 
             return RestfulResult(
                 viewModel,
-                "identification",
+                "identifications",
                 "updateidentification",
                 new Action<dynamic>(x => x.Model.Update = true));
         }
@@ -590,48 +590,6 @@ namespace Bowerbird.Web.Controllers
 
             return JsonSuccess();
         }
-
-        //[HttpPost]
-        //[Authorize]
-        //[Transaction]
-        //public ActionResult CreateVote(string id, string subId)
-        //{
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        _messageBus.Send(
-        //            new VoteCreateCommand()
-        //            {
-        //                UserId = _userContext.GetAuthenticatedUserId(),
-        //                ContributionId = id,
-        //                SubContributionId = subId
-        //            });
-
-        //        return JsonSuccess();
-        //    }
-
-        //    return HttpNotFound();
-        //}
-
-        //[HttpDelete]
-        //[Authorize]
-        //[Transaction]
-        //public ActionResult DeleteVote(string id, string subId)
-        //{
-        //    if (Request.IsAjaxRequest())
-        //    {
-        //        _messageBus.Send(
-        //            new VoteDeleteCommand()
-        //            {
-        //                UserId = _userContext.GetAuthenticatedUserId(),
-        //                ContributionId = id,
-        //                SubContributionId = subId
-        //            });
-
-        //        return JsonSuccess();
-        //    }
-
-        //    return HttpNotFound();
-        //}
 
         public ActionResult Categories()
         {

@@ -18,12 +18,12 @@ namespace Bowerbird.Web.Builders
     {
         object BuildNewPost(string groupId);
 
-        object BuildPost(string postId);
+        dynamic BuildPost(string id);
 
-        object BuildUserPostList(string userId, PagingInput pagingInput);
+        object BuildGroupPostList(string groupId, PostsQueryInput postsQueryInput);
 
-        object BuildGroupPostList(string groupId, PagingInput pagingInput);
+        object BuildUserPostList(string userId, PostsQueryInput postsQueryInput);
 
-        object BuildAllUserGroupsPostList(string userId, PagingInput pagingInput);
+        object BuildHomePostList(string userId, PostsQueryInput postsQueryInput);
     }
 }

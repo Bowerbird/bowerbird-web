@@ -7,19 +7,20 @@
 
 // ProjectController & ProjectRouter
 // ---------------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'collections/activitycollection', 'collections/sightingcollection',
+define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'collections/projectcollection', 'collections/activitycollection', 'collections/sightingcollection', 'collections/postcollection',
         'collections/usercollection', 'views/projectdetailsview', 'views/projectformview', 'views/projectexploreview'],
-function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, SightingCollection, UserCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
+function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, SightingCollection, PostCollection, UserCollection, ProjectDetailsView, ProjectFormView, ProjectExploreView) {
 
     var ProjectRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'explore/projects': 'showExplore',
             'projects/create*': 'showCreateForm',
             'projects/:id/sightings*': 'showSightings',
+            'projects/:id/posts*': 'showPosts',
             'projects/:id/members*': 'showMembers',
             'projects/:id/about': 'showAbout',
             'projects/:id/update': 'showUpdateForm',
-            'projects/:id': 'showProjectDetails'
+            'projects/:id': 'showProjectDetails',
+            'projects*': 'showExplore'
         }
     });
 
@@ -91,7 +92,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
     };
 
     ProjectController.showSightings = function (id, params) {
-        $.when(getModel('/projects/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'latestadded')))
+        $.when(getModel('/projects/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
                 var project = new Project(model.Project);
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount,
@@ -111,6 +112,30 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
                     });
                 }
             });
+    };
+
+    ProjectController.showPosts = function (id, params) {
+        $.when(getModel('/projects/' + id + '/posts?view=' + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+        .done(function (model) {
+            var project = new Project(model.Project);
+            var postCollection = new PostCollection(model.Posts.PagedListItems, { groupId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Posts.TotalResultCount,
+                sortBy: model.Query.Sort
+            });
+
+            if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
+                app.content.currentView.showPosts(postCollection);
+            } else {
+                var options = { model: project };
+                if (app.isPrerenderingView('projects')) {
+                    options['el'] = '.project';
+                }
+                var projectDetailsView = new ProjectDetailsView(options);
+
+                app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
+                    projectDetailsView.showPosts(postCollection);
+                });
+            }
+        });
     };
 
     ProjectController.showMembers = function (id, params) {
@@ -172,7 +197,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
 
     // Show project explore
     ProjectController.showExplore = function (params) {
-        $.when(getModel('/projects/explore?sort=' + (params && params.sort ? params.sort : 'newest')))
+        $.when(getModel('/projects?sort=' + (params && params.sort ? params.sort : 'popular')))
         .done(function (model) {
             var projectCollection = new ProjectCollection(model.Projects.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Projects.TotalResultCount, sortBy: model.Query.Sort });
 
@@ -196,11 +221,11 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
     // --------------
 
     app.vent.on('joinProject', function (project) {
-        $.when(getModel('/' + project.id + '/join', 'POST'));
+        $.when(getModel('/' + project.id + '/members', 'POST'));
     });
 
     app.vent.on('leaveProject', function (project) {
-        $.when(getModel('/' + project.id + '/leave', 'POST'))
+        $.when(getModel('/' + project.id + '/members', 'DELETE'))
             .done(function (model) {
                 app.authenticatedUser.projects.remove(project.id);
             });

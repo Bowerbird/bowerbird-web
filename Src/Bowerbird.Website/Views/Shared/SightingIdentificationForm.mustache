@@ -24,9 +24,9 @@
   <form action="/identifications" method="post"  enctype="multipart/form-data">
     <fieldset class="sighting-identification-fieldset">
       <legend class="hidden">Identification Details</legend>
-      {{#Model.SightingIdentification}}
+      {{#Model.Identification}}
       {{>SightingIdentificationSubForm}}
-      {{/Model.SightingIdentification}}
+      {{/Model.Identification}}
     </fieldset>
     <fieldset>
       <input type="button" value="Save" id="save" />

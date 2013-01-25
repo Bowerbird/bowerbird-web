@@ -111,12 +111,12 @@ namespace Bowerbird.Web.Controllers
             }
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "latestadded" &&
-                queryInput.Sort.ToLower() != "oldestadded" &&
+                (queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
                 queryInput.Sort.ToLower() != "a-z" &&
                 queryInput.Sort.ToLower() != "z-a"))
             {
-                queryInput.Sort = "latestadded";
+                queryInput.Sort = "newest";
             }
 
             dynamic project = _projectViewModelBuilder.BuildProject(projectId);
@@ -147,7 +147,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Posts(string id, PagingInput pagingInput)
+        public ActionResult Posts(string id, PostsQueryInput queryInput)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -156,11 +156,33 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var viewModel = new
+            queryInput.PageSize = 10;
+
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
+                queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "z-a"))
             {
-                Project = _projectViewModelBuilder.BuildProject(projectId),
-                Posts = _postViewModelBuilder.BuildGroupPostList(projectId, pagingInput)
+                queryInput.Sort = "newest";
+            }
+
+            dynamic project = _projectViewModelBuilder.BuildProject(projectId);
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
+            viewModel.Posts = _postViewModelBuilder.BuildGroupPostList(projectId, queryInput);
+            viewModel.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
+            viewModel.SightingCountDescription = "Sighting" + (project.SightingCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
+            viewModel.Query = new
+            {
+                Id = projectId,
+                queryInput.Page,
+                queryInput.PageSize,
+                queryInput.Sort
             };
+            viewModel.ShowPosts = true;
 
             return RestfulResult(
                 viewModel,
@@ -272,12 +294,13 @@ namespace Bowerbird.Web.Controllers
             queryInput.PageSize = 15;
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "newest" &&
+                (queryInput.Sort.ToLower() != "popular" &&
+                queryInput.Sort.ToLower() != "newest" &&
                 queryInput.Sort.ToLower() != "oldest" &&
                 queryInput.Sort.ToLower() != "a-z" &&
                 queryInput.Sort.ToLower() != "z-a"))
             {
-                queryInput.Sort = "newest";
+                queryInput.Sort = "popular";
             }
 
             dynamic viewModel = new ExpandoObject();
@@ -376,7 +399,7 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Join(string id)
+        public ActionResult UpdateMember(string id)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -391,11 +414,11 @@ namespace Bowerbird.Web.Controllers
             }
 
             _messageBus.Send(
-                new MemberCreateCommand()
+                new MemberUpdateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
                     GroupId = projectId,
-                    CreatedByUserId = _userContext.GetAuthenticatedUserId(),
+                    ModifiedByUserId = _userContext.GetAuthenticatedUserId(),
                     Roles = new[] { "roles/projectmember" }
                 });
 
@@ -404,8 +427,8 @@ namespace Bowerbird.Web.Controllers
 
         [Transaction]
         [Authorize]
-        [HttpPost]
-        public ActionResult Leave(string id)
+        [HttpDelete]
+        public ActionResult DeleteMember(string id)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -538,22 +561,27 @@ namespace Bowerbird.Web.Controllers
             var result = _documentSession
                 .Advanced
                 .LuceneQuery<All_Contributions.Result, All_Contributions>()
-                .SelectFields<All_Contributions.Result>("ContributionId", "SubContributionId", "ContributionType", "CreatedDateTime")
+                .SelectFields<All_Contributions.Result>("ParentContributionId", "SubContributionId", "ParentContributionType", "SubContributionType", "CreatedDateTime")
                 .WhereGreaterThan(x => x.CreatedDateTime, fromDate)
                 .AndAlso()
                 .WhereIn("GroupIds", new [] { projectId })
                 .AndAlso()
-                .WhereIn("ContributionType", new[] {"observation", "record", "note", "post", "comment"})
+                .OpenSubclause()
+                .WhereIn("ParentContributionType", new[] { "observation", "record", "post" })
+                .OrElse()
+                .WhereIn("SubContributionType", new[] { "note", "comment" })
+                .CloseSubclause()
                 .ToList();
 
             var contributions = result.Select(x => new
             {
-                x.ContributionId,
+                x.ParentContributionId,
                 x.SubContributionId,
-                x.ContributionType,
+                x.ParentContributionType,
+                x.SubContributionType,
                 x.CreatedDateTime
             })
-                .GroupBy(x => x.CreatedDateTime.Date);
+            .GroupBy(x => x.CreatedDateTime.Date);
 
             var timeseries = new List<dynamic>();
 
@@ -578,10 +606,10 @@ namespace Bowerbird.Web.Controllers
                         .Select(x => new
                         {
                             CreatedDate = dateItem.ToString(createdDateFormat),
-                            SightingCount = x.Count(y => y.ContributionType == "observation" || y.ContributionType == "record"),
-                            NoteCount = x.Count(y => y.ContributionType == "note"),
-                            PostCount = x.Count(y => y.ContributionType == "post"),
-                            CommentCount = x.Count(y => y.ContributionType == "comment")
+                            SightingCount = x.Count(y => y.ParentContributionType == "observation" || y.ParentContributionType == "record"),
+                            NoteCount = x.Count(y => y.SubContributionType == "note"),
+                            PostCount = x.Count(y => y.ParentContributionType == "post"),
+                            CommentCount = x.Count(y => y.SubContributionType == "comment")
                         }
                         ).First());
                 }

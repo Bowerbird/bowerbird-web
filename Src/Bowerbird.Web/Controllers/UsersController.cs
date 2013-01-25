@@ -123,30 +123,6 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Posts(string id, PagingInput pagingInput)
-        {
-            var userId = VerbosifyId<User>(id);
-
-            if (!_permissionManager.DoesExist<User>(userId))
-            {
-                return HttpNotFound();
-            }
-
-            var viewModel = new
-            {
-                Model = new
-                {
-                    Posts = _postViewModelBuilder.BuildUserPostList(userId, pagingInput)
-                }
-            };
-
-            return RestfulResult(
-                viewModel,
-                "users",
-                "posts");
-        }
-
-        [HttpGet]
         public ActionResult About(string id)
         {
             var userId = VerbosifyId<User>(id);

@@ -182,11 +182,11 @@
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
+    <Content Include="js\bowerbird\collections\postCollection.js" />
     <Content Include="js\bowerbird\collections\identificationCollection.js" />
     <Content Include="js\bowerbird\collections\sightingNoteCollection.js" />
     <Content Include="js\bowerbird\collections\sightingCollection.js" />
     <Content Include="js\bowerbird\collections\observationMediaCollection.js" />
-    <Content Include="js\bowerbird\collections\exploreProjectCollection.js" />
     <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
@@ -194,6 +194,7 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\views\postListView.js" />
     <Content Include="js\bowerbird\views\organisationAboutView.js" />
     <Content Include="js\bowerbird\views\organisationDetailsView.js" />
     <Content Include="js\bowerbird\views\organisationExploreView.js" />
@@ -284,7 +285,7 @@
     <Content Include="js\bowerbird\views\userItemView.js" />
     <Content Include="js\bowerbird\views\onlineUsersView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
-    <Content Include="js\bowerbird\views\postFormLayoutView.js" />
+    <Content Include="js\bowerbird\views\postFormView.js" />
     <Content Include="js\bowerbird\views\homePrivateView.js" />
     <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
@@ -352,8 +353,6 @@
     <Content Include="js\libs\youtube\player.js" />
     <Content Include="js\main.js" />
     <Content Include="Views\Posts\Create.mustache" />
-    <Content Include="Views\Posts\Delete.mustache" />
-    <Content Include="Views\Posts\List.mustache" />
     <Content Include="Views\Posts\Update.mustache" />
     <Content Include="Views\Home\About.mustache" />
     <Content Include="Views\Account\LogoutSuccess.mustache" />
@@ -365,24 +364,18 @@
     <Content Include="Views\Home\PublicIndex.mustache" />
     <Content Include="Views\Home\PrivateIndex.mustache" />
     <Content Include="Views\Observations\Update.mustache" />
-    <Content Include="Views\Observations\Delete.mustache" />
     <Content Include="Views\Observations\Index.mustache" />
     <Content Include="Views\Observations\Create.mustache" />
     <Content Include="Views\Organisations\Create.mustache" />
-    <Content Include="Views\Organisations\Delete.mustache" />
     <Content Include="Views\Organisations\List.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Projects\Update.mustache" />
     <Content Include="Views\Projects\Create.mustache" />
-    <Content Include="Views\Projects\Delete.mustache" />
     <Content Include="Views\Projects\List.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\ReferenceSpecies\Create.mustache" />
-    <Content Include="Views\ReferenceSpecies\Delete.mustache" />
-    <Content Include="Views\ReferenceSpecies\Index.mustache" />
-    <Content Include="Views\ReferenceSpecies\List.mustache" />
     <Content Include="Views\Shared\HomePrivateIndex.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -436,8 +429,6 @@
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Species\Create.mustache" />
-    <Content Include="Views\Species\Delete.mustache" />
     <Content Include="Views\Species\Index.mustache" />
     <Content Include="Views\Species\List.mustache" />
     <Content Include="Views\Organisations\Index.mustache" />
@@ -453,9 +444,6 @@
     <Content Include="Views\Shared\NotificationItem.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\PostStreamItem.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\CommentItem.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -464,10 +452,7 @@
     </Content>
     <Content Include="Views\Shared\Discussion.mustache" />
     <Content Include="Views\Posts\Index.mustache" />
-    <Content Include="Views\Shared\Post.mustache">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Views\Shared\PostDetails.mustache">
+    <Content Include="Views\Shared\PostIndex.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\ReplyForm.mustache">
@@ -478,7 +463,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Records\Create.mustache" />
-    <Content Include="Views\Records\Delete.mustache" />
     <Content Include="Views\Records\Index.mustache" />
     <Content Include="Views\Records\Update.mustache" />
     <Content Include="Views\Shared\MediaForm.mustache" />
@@ -647,6 +631,24 @@
     <Content Include="Views\Shared\OrganisationTileDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Observations\CreateIdentification.mustache" />
+    <Content Include="Views\Shared\ActivityItemPostAdded.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\PostFullDetails.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\PostList.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\PostListItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Home\Posts.mustache" />
+    <Content Include="Views\Home\Sightings.mustache" />
+    <Content Include="Views\Home\Timeline.mustache" />
+    <Content Include="Views\Projects\Posts.mustache" />
+    <None Include="Views\ReferenceSpecies\Update.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

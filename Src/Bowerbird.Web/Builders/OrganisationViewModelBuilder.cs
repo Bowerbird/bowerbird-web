@@ -131,13 +131,22 @@ namespace Bowerbird.Web.Builders
             return ExecuteQuery("a-z", pagingInput, query);
         }
 
-        private object ExecuteQuery(string sort, PagingInput pagingInput, IRavenQueryable<All_Groups.Result> query)
+        private object ExecuteQuery(string sort, PagingInput pagingInput, IQueryable<All_Groups.Result> query)
         {
+            RavenQueryStatistics stats;
+            query = ((IRavenQueryable<All_Groups.Result>) query).Statistics(out stats);
+
             switch (sort.ToLower())
             {
                 default:
+                case "popular":
+                    query = query.OrderByDescending(x => x.UserCount).ThenBy(x => x.Name);
+                    break;
                 case "newest":
-                    query = query.OrderByDescending(x => x.CreatedDateTime);
+                    query = query.OrderByDescending(x => x.CreatedDateTime).ThenBy(x => x.Name);
+                    break;
+                case "oldest":
+                    query = query.OrderBy(x => x.CreatedDateTime).ThenBy(x => x.Name);
                     break;
                 case "a-z":
                     query = query.OrderBy(x => x.Name);
@@ -145,15 +154,9 @@ namespace Bowerbird.Web.Builders
                 case "z-a":
                     query = query.OrderByDescending(x => x.Name);
                     break;
-                case "oldest":
-                    query = query.OrderBy(x => x.CreatedDateTime);
-                    break;
             }
 
-            RavenQueryStatistics stats;
-
             return query.Skip(pagingInput.GetSkipIndex())
-                .Statistics(out stats)
                 .Take(pagingInput.GetPageSize())
                 .ToList()
                 .Select(x => _groupViewFactory.Make(x, true))

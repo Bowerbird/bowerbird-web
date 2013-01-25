@@ -12,23 +12,45 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Post = Backbone.Model.extend({
         defaults: {
+            Id: null,
             Subject: '',
             Message: '',
+            PostType: '',
             GroupId: null
+        },
+
+        url: function () {
+            var url = '/' + this.get('GroupId');
+            if (this.id) {
+                url += '/' + this.id;
+            } else {
+                url += '/posts';
+            }
+            return url;
         },
 
         idAttribute: 'Id',
 
-        urlRoot: '/posts',
-
         toJSON: function () {
             return {
+                Id: this.id,
                 Subject: this.get('Subject'),
                 Message: this.get('Message'),
-                GroupId: this.get('GroupId')
+                PostType: this.get('PostType')
+            };
+        },
+        
+        toViewJSON: function() {
+            return {
+                Id: this.id,
+                Subject: this.get('Subject'),
+                Message: this.get('Message'),
+                PostType: this.get('PostType'),
+                Group: this.get('Group'),
+                User: this.get('User'),
+                CreatedOnDescription: this.get('CreatedOnDescription')
             };
         }
-
     });
 
     return Post;

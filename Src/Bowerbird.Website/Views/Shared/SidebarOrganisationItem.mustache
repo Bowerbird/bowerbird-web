@@ -15,7 +15,7 @@
       <a href="/{{Id}}" title="View everything that is happening in this organisation">Timeline</a>
     </li>
     <li>
-      <a href="/{{Id}}/posts" title="View posts in this organisation">Posts</a>
+      <a href="/{{Id}}/posts" title="View news items in this organisation">News Items</a>
     </li>
     <li>
       <a href="/{{Id}}/members" title="View members in this organisation">Members</a>
@@ -23,17 +23,15 @@
     <li>
       <a href="/{{Id}}/about" title="View details about this organisation">About {{Name}}</a>
     </li>
-    <li class="divider"></li>
-    <li id="createnewpost">
-      <a href="/posts/create?id={{Id}}" title="Add a new post to this organisation">New Post</a>
+    <li class="new-section">
+      <a href="/{{Id}}/posts/create" title="Post a news item to this organisation">Add News Item</a>
     </li>
     {{#Permissions.UpdateOrganisation}}
     <li>
-      <a href="/{{Id}}/update" title="Edit the details of this organisation">Edit Details</a>
+      <a href="/{{Id}}/update" title="Edit the details of this organisation">Edit Organisation Details</a>
     </li>
     {{/Permissions.UpdateOrganisation}}
-    <li class="divider"></li>
-    <li>
+    <li class="new-section">
       <span class="chat-menu-item" id="chat-{{Id}}" title="Chat with other organisation members">Chat</span>
     </li>
   </ul>

@@ -21,7 +21,6 @@ function ($, _, Backbone, app, Organisation) {
         events: {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu': 'showMenu',
-            'click li#createnewpost': 'createPost',
             'click .sub-menu a': 'selectMenuItem'
         },
 
@@ -73,13 +72,6 @@ function ($, _, Backbone, app, Organisation) {
             e.preventDefault();
             this.clearListAnPrepareShowLoading();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-        },
-
-        createPost: function (e) {
-            e.preventDefault();
-            var location = e.target.attributes["href"];
-            app.postRouter.navigate(location.nodeValue, { trigger: true });
-            return false;
         },
 
         startChat: function (e) {

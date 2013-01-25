@@ -18,7 +18,7 @@
         <a href="/{{Id}}/sightings" title="View sightings in this project">Sightings</a>
       </li>
       <li>
-        <a href="/{{Id}}/posts" title="View posts in this project">Posts</a>
+        <a href="/{{Id}}/posts" title="View news items in this project">News Items</a>
       </li>
       <li>
         <a href="/{{Id}}/members" title="View members in this project">Members</a>
@@ -26,20 +26,21 @@
       <li>
         <a href="/{{Id}}/about" title="View details about this project">About {{Name}}</a>
       </li>
-      <li class="divider"></li>
-      <li id="createnewobservation">
-        <a href="/observations/create?projectid={{Id}}" title="Add a new observation to this project">New Observation</a>
+      <li class="new-section">
+        <a href="/observations/create?projectid={{Id}}" title="Add a sighting that contains images, videos and/or audio to this project">Add Full Sighting</a>
       </li>
-      <li id="createnewpost">
-        <a href="/posts/create?id={{Id}}" title="Add a new post to this project">New Post</a>
+      <li>
+        <a href="/records/create?projectid={{Id}}" title="Add a sighting that consists of a location alone to this project">Add Simple Sighting</a>
+      </li>
+      <li>
+        <a href="/{{Id}}/posts/create" title="Post a news item to this project">Add News Item</a>
       </li>
       {{#Permissions.UpdateProject}}
       <li>
-        <a href="/{{Id}}/update" title="Edit the details of this project">Edit Details</a>
+        <a href="/{{Id}}/update" title="Edit the details of this project">Edit Project Details</a>
       </li>
       {{/Permissions.UpdateProject}}
-      <li class="divider"></li>
-      <li>
+      <li class="new-section">
         <span class="chat-menu-item" id="chat-{{Id}}" title="Chat with other project members">Chat</span>
       </li>
     </ul>

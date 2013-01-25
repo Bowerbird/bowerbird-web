@@ -24,10 +24,10 @@
         <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/">Timeline</a>
       </li>
       <li>
-        <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/sightings">Sightings</a>
+        <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/home/sightings">Sightings</a>
       </li>
       <li>
-        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/posts">Posts</a>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/home/posts">News Items</a>
       </li>
     </ul>
   </div>
@@ -40,7 +40,7 @@
       {{>SightingList}}
       {{/Model.ShowSightings}}
       {{#Model.ShowPosts}}
-      {{>PostsList}}
+      {{>PostList}}
       {{/Model.ShowPosts}}
     </div>
   </div>

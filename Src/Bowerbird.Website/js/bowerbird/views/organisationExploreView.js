@@ -105,8 +105,10 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
                     label = 'Alphabetical (Z-A)';
                     break;
                 case 'newest':
-                default:
                     label = 'Newest';
+                    break;
+                default:
+                    label = "Most Popular";
                     break;
             }
 

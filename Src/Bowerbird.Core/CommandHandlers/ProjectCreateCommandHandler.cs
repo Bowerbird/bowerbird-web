@@ -76,7 +76,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             // Add administrator membership to creating user
             var user = _documentSession.Load<User>(command.UserId);
-            user.AddMembership(
+            user.UpdateMembership(
                 user,
                 project,
                 _documentSession

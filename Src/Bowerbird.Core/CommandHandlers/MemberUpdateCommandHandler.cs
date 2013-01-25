@@ -58,8 +58,6 @@ namespace Bowerbird.Core.CommandHandlers
             
             var user = _documentSession.Load<User>(command.UserId);
 
-            var modifiedByUser = _documentSession.Load<User>(command.ModifiedByUserId);
-
             var group = _documentSession
                     .Query<All_Groups.Result, All_Groups>()
                     .AsProjection<All_Groups.Result>()
@@ -67,17 +65,13 @@ namespace Bowerbird.Core.CommandHandlers
                     .First()
                     .Group;
 
-            user.AddMembership(
-                modifiedByUser,
+            user.UpdateMembership(
+                _documentSession.Load<User>(command.ModifiedByUserId),
                 group,
-                _documentSession.Load<Role>(command.AddRoleIds));
-
-            user.RemoveMembership(
-                modifiedByUser,
-                group,
-                _documentSession.Load<Role>(command.RemoveRoleIds));
+                _documentSession.Load<Role>(command.Roles));
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion

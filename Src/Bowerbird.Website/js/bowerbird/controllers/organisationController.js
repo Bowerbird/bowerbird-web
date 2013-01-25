@@ -8,20 +8,20 @@
 // OrganisationController & OrganisationRouter
 // -------------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation', 'collections/organisationcollection', 'collections/activitycollection', 'collections/sightingcollection',
+define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation', 'collections/organisationcollection', 'collections/activitycollection', 'collections/sightingcollection', 'collections/postcollection',
         'collections/usercollection', 'views/organisationdetailsview', 'views/organisationformview', 'views/organisationexploreview'],
-function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCollection, SightingCollection, UserCollection, OrganisationDetailsView, 
+function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCollection, SightingCollection, PostCollection, UserCollection, OrganisationDetailsView, 
     OrganisationFormView, OrganisationExploreView) {
 
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'explore/organisations': 'showExplore',
             'organisations/create*': 'showCreateForm',
             'organisations/:id/posts*': 'showPosts',
             'organisations/:id/members*': 'showMembers',
             'organisations/:id/about': 'showAbout',
             'organisations/:id/update': 'showUpdateForm',
-            'organisations/:id': 'showOrganisationDetails'
+            'organisations/:id': 'showOrganisationDetails',
+            'organisations*': 'showExplore'
         }
     });
 
@@ -93,15 +93,15 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
     };
 
     OrganisationController.showPosts = function (id, params) {
-        $.when(getModel('/organisations/' + id + '/posts?sort=' + (params && params.sort ? params.sort : 'latestadded')))
+        $.when(getModel('/organisations/' + id + '/posts?sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
                 var organisation = new Organisation(model.Organisation);
-                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { organisationId: organisation.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount,
-                    viewType: model.Query.View, sortBy: model.Query.Sort
+                var postCollection = new PostCollection(model.Posts.PagedListItems, { groupId: organisation.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Posts.TotalResultCount,
+                    sortBy: model.Query.Sort
                 });
 
                 if (app.content.currentView instanceof OrganisationDetailsView && app.content.currentView.model.id === organisation.id) {
-                    app.content.currentView.showSightings(sightingCollection);
+                    app.content.currentView.showPosts(postCollection);
                 } else {
                     var options = { model: organisation };
                     if (app.isPrerenderingView('organisations')) {
@@ -110,7 +110,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
                     var organisationDetailsView = new OrganisationDetailsView(options);
 
                     app.showContentView(organisation.get('Name'), organisationDetailsView, 'organisations', function () {
-                        organisationDetailsView.showSightings(sightingCollection);
+                        organisationDetailsView.showPosts(postCollection);
                     });
                 }
             });
@@ -175,7 +175,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
 
     // Show organisation explore
     OrganisationController.showExplore = function (params) {
-        $.when(getModel('/organisations/explore?sort=' + (params && params.sort ? params.sort : 'newest')))
+        $.when(getModel('/organisations?sort=' + (params && params.sort ? params.sort : 'popular')))
         .done(function (model) {
             var organisationCollection = new OrganisationCollection(model.Organisations.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Organisations.TotalResultCount, sortBy: model.Query.Sort });
 
@@ -199,11 +199,11 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
     // --------------
 
     app.vent.on('joinOrganisation', function (organisation) {
-        $.when(getModel('/' + organisation.id + '/join', 'POST'));
+        $.when(getModel('/' + organisation.id + '/members', 'POST'));
     });
 
     app.vent.on('leaveOrganisation', function (organisation) {
-        $.when(getModel('/' + organisation.id + '/leave', 'POST'))
+        $.when(getModel('/' + organisation.id + '/members', 'DELETE'))
             .done(function (model) {
                 app.authenticatedUser.organisations.remove(organisation.id);
             });

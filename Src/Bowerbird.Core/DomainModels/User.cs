@@ -245,42 +245,26 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User AddMembership(User createdByUser, Group group, IEnumerable<Role> roles)
+        public User UpdateMembership(User modifiedByUser, Group group, IEnumerable<Role> roles)
         {
             Check.RequireNotNull(group, "group");
             Check.RequireNotNull(roles, "roles");
 
-            var membership = _memberships.SingleOrDefault(x => x.Group.Id == group.Id);
+            // FInd if user is a member yet
+            var member = _memberships.FirstOrDefault(x => x.Group.Id == group.Id);
 
-            if (membership == null)
+            if (member != null)
             {
-                membership = new Member(createdByUser, DateTime.UtcNow, group, roles);
-                _memberships.Add(membership);
+                member.UpdateRoles(roles);
 
-                ApplyEvent(new MemberCreatedEvent(membership, createdByUser, this, group));
+                ApplyEvent(new MemberUpdatedEvent(member, modifiedByUser, this, group));
             }
             else
             {
-                membership.AddRoles(roles);
+                member = new Member(modifiedByUser, DateTime.UtcNow, group, roles);
+                _memberships.Add(member);
 
-                ApplyEvent(new MemberUpdatedEvent(membership, createdByUser, this, group));
-            }
-
-            return this;
-        }
-
-        public User RemoveMembership(User modifiedByUser, Group group, IEnumerable<Role> roles)
-        {
-            var membership = _memberships.SingleOrDefault(x => x.Group.Id == group.Id);
-
-            if (membership != null)
-            {
-                membership.RemoveRoles(roles.Select(x => x.Id));
-            }
-
-            if (membership.Roles.Count() == 0)
-            {
-                _memberships.Remove(membership);
+                ApplyEvent(new MemberCreatedEvent(member, modifiedByUser, this, group));
             }
 
             return this;

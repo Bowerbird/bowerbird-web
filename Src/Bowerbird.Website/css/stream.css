@@ -4,7 +4,8 @@
 *
 */
 .activity-list .activity-item,
-.sighting-item /*.observation-details*/
+.sighting-item,
+.post-item
 {
     background-color: rgb(255, 255, 255);
     border-radius: 2px 2px 2px 2px;
@@ -15,7 +16,8 @@
     margin: 0 0 2%;
     width: 100%;
 }
-.activity-list .activity-item .summary
+.activity-list .activity-item .summary,
+.post-items .post-item .summary
 {
     background-color: rgb(249, 249, 249);
     border-bottom: 1px solid rgb(221, 221, 221);
@@ -25,14 +27,26 @@
     padding: 1em;
     width: 100%;
 }
-.activity-list .activity-item .summary .image-media.media-square-100
+.activity-list .activity-item .summary .image-media.media-square-100,
+.post-items .post-item .summary .image-media.media-square-100
 {
     display: inline-block;
     float: left;
+}
+.activity-list .activity-item .summary.user-contribution .image-media.media-square-100,
+.post-items .post-item .summary.user-contribution .image-media.media-square-100 
+{
     height: 46px;
     width: 46px;
 }
-.activity-list .activity-item .summary .description
+.activity-list .activity-item .summary.group-contribution .image-media.media-square-100,
+.post-items .post-item .summary.group-contribution .image-media.media-square-100
+{
+    height: 75px;
+    width: 75px;
+}
+.activity-list .activity-item .summary .description,
+.post-items .post-item .summary .description
 {
     display: inline-block;
     font-size: 1em;
@@ -42,14 +56,17 @@
     padding-left: 0.5em;
     vertical-align: top;
 }
-.activity-list .activity-item .description > span {
+.activity-list .activity-item .description > span,
+.post-items .post-item .description > span 
+{
     display: inline-block;
     float: left;
     line-height: 1.6em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
     width: 100%;
 }
-.activity-list .activity-item .summary .description abbr
+.activity-list .activity-item .summary .description abbr,
+.post-items .post-item .summary .description abbr
 {
     border-bottom: 1px dotted rgb(187, 187, 187);
     color: rgb(128, 128, 128);
@@ -59,6 +76,30 @@
     font-weight: 400;
     line-height: 1.2em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.activity-list .activity-item .summary .group-contribution-user,
+.post-items .post-item .summary .group-contribution-user 
+{
+    display: block;
+    vertical-align: top;
+}
+.activity-list .activity-item .summary .group-contribution-user .image-media.media-square-100,
+.post-items .post-item .summary .group-contribution-user .image-media.media-square-100 
+{
+    height: 20px;
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+    width: 20px;
+}
+.activity-list .activity-item .summary .group-contribution-user-description,
+.post-items .post-item .summary .group-contribution-user-description 
+{
+    color: rgb(102, 102, 102);
+    display: inline-block;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    margin-left: 0.3em;
+    margin-top: 0.6em;
 }
 .activity-list .activity-item .actions {
     border-radius: 0 0 2px 2px;
@@ -438,6 +479,8 @@ ul.explore-menu
 {
     background-position: -167px -400px;
 }
+
+
 
 
 .sighting-note-details {
@@ -1052,6 +1095,35 @@ ul.explore-menu
     padding: 0.3em 0;
     margin-left: 110px;
 }
-
-
+.post-info {
+    float: left;
+    padding: 1em;
+    width: 70%;
+}
+.post-info h3 {
+    font-size: 1.3em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+}
+.post-info h3 a {
+    color: rgb(34, 34, 34);
+    text-decoration: none;
+}
+.post-info .post-message p 
+{
+    font-size: 0.84em;
+    line-height: 1.3em;
+    margin-top: 0.5em;
+}
+.post-message b {
+    font-weight: 700;
+}
+.post-message i {
+    font-style: italic;
+}
+.post-message > h4 {
+    color: rgb(34, 34, 34);
+    font-weight: 600;
+    margin-top: 0.5em;
+}
 

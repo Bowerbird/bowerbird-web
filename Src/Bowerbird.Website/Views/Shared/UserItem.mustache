@@ -10,16 +10,13 @@
     <span class="arrow-icon right-arrow-icon"></span>
     <ul>
       <li>
-        <a href="/{{Model.User.Id}}" title="View the user's timeline">Timeline</a>
+        <a href="/{{Model.User.Id}}" title="View this person's timeline">Timeline</a>
       </li>
       <li>
-        <a href="/{{Model.User.Id}}/sightings" title="View user's sightings">Sightings</a>
+        <a href="/{{Model.User.Id}}/sightings" title="View this person's sightings">Sightings</a>
       </li>
       <li>
-        <a href="/{{Model.User.Id}}/posts" title="View user's posts">Posts</a>
-      </li>
-      <li>
-        <a href="/{{Model.User.Id}}/about" title="View details about the user">About {{Model.User.Name}}</a>
+        <a href="/{{Model.User.Id}}/about" title="View details about this person">About {{Model.User.Name}}</a>
       </li>
       {{#Model.ShowChat}}
       <li class="divider chat-menu"></li>

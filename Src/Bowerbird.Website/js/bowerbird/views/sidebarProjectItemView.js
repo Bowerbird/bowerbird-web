@@ -21,8 +21,8 @@ function ($, _, Backbone, app, Project) {
         events: {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu': 'showMenu',
-            'click li#createnewpost': 'createPost',
-            'click li#createnewobservation a': 'createObservation',
+            //'click li#createnewpost': 'createPost',
+            //'click li#createnewobservation a': 'createObservation',
             'click .sub-menu a': 'selectMenuItem'
         },
 
@@ -76,18 +76,17 @@ function ($, _, Backbone, app, Project) {
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
-        createPost: function (e) {
-            e.preventDefault();
-            var location = e.target.attributes["href"];
-            app.postRouter.navigate(location.nodeValue, { trigger: true });
-            return false;
-        },
+//        createPost: function (e) {
+//            e.preventDefault();
+//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+//            return false;
+//        },
 
-        createObservation: function (e) {
-            e.preventDefault();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-            return false;
-        },
+//        createObservation: function (e) {
+//            e.preventDefault();
+//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+//            return false;
+//        },
 
         startChat: function (e) {
             e.preventDefault();

@@ -8,8 +8,8 @@
 // OrganisationDetailsView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/userlistview', 'views/organisationaboutview'],
-function ($, _, Backbone, app, ActivityListView, SightingListView, UserListView, OrganisationAboutView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/userlistview', 'views/organisationaboutview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, UserListView, OrganisationAboutView) {
 
     var OrganisationDetailsView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -91,6 +91,28 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, UserListView,
                 activityListView.showBootstrappedDetails();
             } else {
                 this.list.show(activityListView);
+            }
+        },
+
+        showPosts: function (postCollection) {
+            this.switchTabHighlight('posts');
+
+            var options = {
+                model: this.model,
+                collection: postCollection
+            };
+
+            if (app.isPrerenderingView('organisations')) {
+                options['el'] = '.list > div';
+            }
+
+            var postListView = new PostListView(options);
+
+            if (app.isPrerenderingView('organisations')) {
+                this.list.attachView(postListView);
+                postListView.showBootstrappedDetails();
+            } else {
+                this.list.show(postListView);
             }
         },
 

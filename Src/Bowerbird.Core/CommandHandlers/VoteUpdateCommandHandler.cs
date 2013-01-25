@@ -60,7 +60,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             votable = _documentSession
                          .Query<All_Contributions.Result, All_Contributions>()
-                         .Where(x => x.ContributionId == command.ContributionId)
+                         .Where(x => x.ParentContributionId == command.ContributionId)
                          .ToList()
                          .First()
                          .Contribution as IVotable;

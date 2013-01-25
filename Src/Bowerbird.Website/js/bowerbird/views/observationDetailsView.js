@@ -16,8 +16,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
 
         className: 'observation single',
 
-        template: 'ObservationIndex',
-
         regions: {
             sightingSection: '.sighting',
             identificationsSection: '.identifications',
@@ -25,6 +23,11 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
         },
 
         initialize: function (options) {
+            if (!options.template) {
+                this.template = 'ObservationIndex';
+            } else {
+                this.template = options.template;
+            }
             this.identifications = options.identifications;
             this.sightingNotes = options.sightingNotes;
         },
@@ -33,7 +36,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
             return {
                 Model: {
                     Observation: this.model.toJSON()
-                    //                    SightingNote: this.model.toJSON()
                 }
             };
         },
@@ -42,10 +44,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
             var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), className: 'observation-details', model: this.model, template: 'SightingFullFullDetails' });
             this.sightingView = sightingView;
             this.sightingSection.show(sightingView);
-
-            //            var sightingNoteSubFormView = new SightingNoteSubFormView({ el: this.$el.find('.sighting-note-fieldset'), model: this.model, categorySelectList: this.categorySelectList, categories: this.categories });
-            //            this.sightingNoteSection.attachView(sightingNoteSubFormView);
-            //            sightingNoteSubFormView.showBootstrappedDetails();
 
             var sightingNoteEls = this.$el.find('.sighting-note');
             this.sightingNotes.each(function (item, index) {

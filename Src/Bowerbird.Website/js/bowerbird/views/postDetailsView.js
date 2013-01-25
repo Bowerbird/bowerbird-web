@@ -9,17 +9,43 @@
 // ----------------------
 
 define(['jquery', 'underscore', 'backbone', 'app'],
-function ($, _, Backbone, app) 
-{
+function ($, _, Backbone, app) {
     var PostDetailsView = Backbone.Marionette.ItemView.extend({
-        className: 'post-details',
+        viewType: 'form',
 
-        template: 'PostDetails',
+        //className: 'post single',
+
+        //template: 'PostIndex',
+
+        events: {
+            'click h3 a': 'showItem'
+        },
+
+        initialize: function (options) {
+            if (!options.template) {
+                this.template = 'PostIndex';
+                this.className = 'post single';
+            } else {
+                this.template = options.template;
+                this.className = 'post-details';
+            }
+        },
 
         serializeData: function () {
-            var json = { Model: { Post: this.model.toJSON() } };
+            var viewModel = null;
+
+            if (this.template === 'PostIndex') {
+                viewModel = {
+                    Model:
+                    {
+                        Post: this.model.toViewJSON()
+                    }
+                };
+            } else {
+                viewModel = this.model.toViewJSON();
+            }
             //json.Model.ShowThumbnails = this.model.get('Media').length > 1 ? true : false;
-            return json;
+            return viewModel;
         },
 
         onShow: function () {
@@ -31,7 +57,14 @@ function ($, _, Backbone, app)
         },
 
         _showDetails: function () {
-            
+        },
+
+        refresh: function () {
+        },
+
+        showItem: function (e) {
+            e.preventDefault();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         }
     });
 

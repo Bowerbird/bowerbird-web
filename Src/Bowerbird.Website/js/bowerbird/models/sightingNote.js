@@ -22,11 +22,9 @@ function ($, _, Backbone, Identification) {
         },
 
         url: function () {
-            var url = '/' + this.get('SightingId');
+            var url = '/' + this.get('SightingId') + '/notes';
             if (this.id) {
-                url += '/updatenote/' + this.id;
-            } else {
-                url += '/createnote';
+                url += '/' + this.id;
             }
             return url;
         },
@@ -36,9 +34,6 @@ function ($, _, Backbone, Identification) {
         initialize: function (attributes) {
             if (attributes && attributes.Identification) {
                 this.identification = new Identification(attributes.Identification);
-            }
-            if (attributes && attributes.Descriptions) {
-
             }
         },
 

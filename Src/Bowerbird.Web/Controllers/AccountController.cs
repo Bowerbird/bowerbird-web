@@ -600,7 +600,7 @@ namespace Bowerbird.Web.Controllers
             return user != null && user.ValidatePassword(password);
         }
 
-        [HttpPut]
+        [HttpPost]
         [Authorize]
         [Transaction]
         public ActionResult UpdateVote(string id, string subId, string contributionType, string subContributionType, int score)
@@ -630,7 +630,7 @@ namespace Bowerbird.Web.Controllers
 
         [Transaction]
         [Authorize]
-        [HttpPut]
+        [HttpPost]
         public ActionResult UpdateFavourite(string id)
         {
             string observationId = VerbosifyId<Observation>(id);

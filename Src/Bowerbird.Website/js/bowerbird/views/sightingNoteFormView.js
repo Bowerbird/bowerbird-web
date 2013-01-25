@@ -76,7 +76,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             app.vent.on('view:render:complete', function () {
                 this.sightingView.refresh();
             }, this);
-            // TODO: FIlter out already added description fields from list button
         },
 
         _cancel: function () {

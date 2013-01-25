@@ -1,24 +1,18 @@
-﻿<h2><span class="small-icon observation-icon"></span>Observation</h2>
+﻿<h2>
+  <span class="small-icon observation-icon"></span>Observation
+</h2>
 <div class="form-details">
-<!--<div id="jplayer_inspector"></div>-->
-<div class="main">
-  {{#Model.Create}}
-    <div class="form single-medium observation-form">
-      {{>ObservationForm}}
-    </div>
-  {{/Model.Create}}
-  {{#Model.Update}}
-    <div class="form single-medium observation-form">
-      {{>ObservationForm}}
-    </div>
-  {{/Model.Update}}
-</div>
-  <!--<h2>Notes</h2>
-<div class="notes">
-  <div class="notes-details"></div>
-</div>
-<h2>Comments</h2>
-<div class="comments">
-  <div class="comments-details"></div>
-</div>-->
+  <!--<div id="jplayer_inspector"></div>-->
+  <div class="main">
+    {{#Model.Create}}
+      <div class="form single-medium observation-form">
+        {{>ObservationForm}}
+      </div>
+    {{/Model.Create}}
+    {{#Model.Update}}
+      <div class="form single-medium observation-form">
+        {{>ObservationForm}}
+      </div>
+    {{/Model.Update}}
+  </div>
 </div>

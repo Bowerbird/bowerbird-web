@@ -35,6 +35,7 @@ namespace Bowerbird.Core.Indexes
             public string[] GroupRoleIds { get; set; }
             public string Name { get; set; }
             public DateTime CreatedDateTime { get; set; }
+            public int UserCount { get; set; }
             public int SightingCount { get; set; }
             public int PostCount { get; set; }
             public int VoteCount { get; set; }
@@ -44,27 +45,16 @@ namespace Bowerbird.Core.Indexes
             public Project Project { get; set; }
             public UserProject UserProject { get; set; }
             public Favourites Favourites { get; set; }
-            public IEnumerable<User> Users { get; set; }
 
             public Group Group
             {
                 get
                 {
-                    switch (GroupType)
-                    {
-                        case "userproject":
-                            return UserProject;
-                        case "favourites":
-                            return Favourites;
-                        case "project":
-                            return Project;
-                        case "organisation":
-                            return Organisation;
-                        case "approot":
-                            return AppRoot;
-                        default:
-                            return null;
-                    }
+                    return AppRoot as Group ??
+                           UserProject as Group ??
+                           Favourites as Group ??
+                           Project as Group ??
+                           Organisation as Group;
                 }
             }
         }
@@ -86,6 +76,7 @@ namespace Bowerbird.Core.Indexes
                                 GroupRoleIds = new string[] { },
                                 appRoot.Name,
                                 appRoot.CreatedDateTime,
+                                UserCount = 0,
                                 SightingCount = 0,
                                 PostCount = 0,
                                 VoteCount = 0
@@ -110,6 +101,7 @@ namespace Bowerbird.Core.Indexes
                         GroupRoleIds = new string[] { },
                         organisation.Name,
                         organisation.CreatedDateTime,
+                        UserCount = 0,
                         SightingCount = 0,
                         PostCount = 0,
                         VoteCount = 0
@@ -131,6 +123,7 @@ namespace Bowerbird.Core.Indexes
                                 GroupRoleIds = new string[] { },
                                 project.Name,
                                 project.CreatedDateTime,
+                                UserCount = 0,
                                 SightingCount = 0,
                                 PostCount = 0,
                                 VoteCount = 0
@@ -152,6 +145,7 @@ namespace Bowerbird.Core.Indexes
                                     GroupRoleIds = new string[] { },
                                     userProject.Name,
                                     userProject.CreatedDateTime,
+                                    UserCount = 0,
                                     SightingCount = 0,
                                     PostCount = 0,
                                     VoteCount = 0
@@ -173,6 +167,7 @@ namespace Bowerbird.Core.Indexes
                                             GroupRoleIds = new string[] {},
                                             favourites.Name,
                                             favourites.CreatedDateTime,
+                                            UserCount = 0,
                                             SightingCount = 0,
                                             PostCount = 0,
                                             VoteCount = 0
@@ -194,6 +189,7 @@ namespace Bowerbird.Core.Indexes
                              GroupRoleIds = member.Roles.Select(x => x.Id),
                              Name = (string)null,
                              CreatedDateTime = (object)null,
+                             UserCount = 1,
                              SightingCount = 0,
                              PostCount = 0,
                              VoteCount = 0
@@ -215,6 +211,7 @@ namespace Bowerbird.Core.Indexes
                                         GroupRoleIds = new string[] {},
                                         Name = (string) null,
                                         CreatedDateTime = (object) null,
+                                        UserCount = 0,
                                         SightingCount = 1,
                                         PostCount = 0,
                                         VoteCount = 0
@@ -236,6 +233,7 @@ namespace Bowerbird.Core.Indexes
                                    GroupRoleIds = new string[] {},
                                    Name = (string) null,
                                    CreatedDateTime = (object) null,
+                                   UserCount = 0,
                                    SightingCount = 1,
                                    PostCount = 0,
                                    VoteCount = 0
@@ -256,6 +254,7 @@ namespace Bowerbird.Core.Indexes
                              GroupRoleIds = new string[] { },
                              Name = (string)null,
                              CreatedDateTime = (object)null,
+                             UserCount = 0,
                              SightingCount = 0,
                              PostCount = 1,
                              VoteCount = 0
@@ -276,6 +275,7 @@ namespace Bowerbird.Core.Indexes
                                         GroupRoleIds = g.SelectMany(x => x.GroupRoleIds),
                                         Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
                                         CreatedDateTime = g.Select(x => x.CreatedDateTime).Where(x => x != null).FirstOrDefault(),
+                                        UserCount = g.Sum(x => x.UserCount),
                                         SightingCount = g.Sum(x => x.SightingCount),
                                         PostCount = g.Sum(x => x.PostCount),
                                         VoteCount = g.Sum(x => x.VoteCount)
@@ -283,13 +283,6 @@ namespace Bowerbird.Core.Indexes
 
             TransformResults = (database, results) =>
                 from result in results
-                let appRoot = database.Load<AppRoot>(result.GroupId)
-                let organisation = database.Load<Organisation>(result.GroupId)
-                let team = database.Load<Team>(result.GroupId)
-                let project = database.Load<Project>(result.GroupId)
-                let userProject = database.Load<UserProject>(result.GroupId)
-                let favourites = database.Load<Favourites>(result.GroupId)
-                let users = database.Load<User>(result.UserIds)
                 select new
                 {
                     result.GroupType,
@@ -300,15 +293,15 @@ namespace Bowerbird.Core.Indexes
                     AncestorGroupIds = result.AncestorGroupIds ?? new string[]{},
                     DescendantGroupIds = result.DescendantGroupIds ?? new string[]{},
                     GroupRoleIds = result.GroupRoleIds ?? new string[] { },
+                    result.UserCount,
                     result.SightingCount,
                     result.PostCount,
                     result.VoteCount,
-                    AppRoot = result.GroupType == "approot" ? appRoot : null,
-                    Organisation = result.GroupType == "organisation" ? organisation : null,
-                    Project = result.GroupType == "project" ? project : null,
-                    UserProject = result.GroupType == "userproject" ? userProject : null,
-                    Favourites = result.GroupType == "favourites" ? favourites : null,
-                    Users = users
+                    AppRoot = result.GroupType == "approot" ? database.Load<AppRoot>(result.GroupId) : null,
+                    Organisation = result.GroupType == "organisation" ? database.Load<Organisation>(result.GroupId) : null,
+                    Project = result.GroupType == "project" ? database.Load<Project>(result.GroupId) : null,
+                    UserProject = result.GroupType == "userproject" ? database.Load<UserProject>(result.GroupId) : null,
+                    Favourites = result.GroupType == "favourites" ? database.Load<Favourites>(result.GroupId) : null,
                 };
 
             Store(x => x.GroupType, FieldStorage.Yes);
@@ -321,6 +314,7 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.GroupRoleIds, FieldStorage.Yes);
             Store(x => x.Name, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);
+            Store(x => x.UserCount, FieldStorage.Yes);
             Store(x => x.SightingCount, FieldStorage.Yes);
             Store(x => x.PostCount, FieldStorage.Yes);
             Store(x => x.VoteCount, FieldStorage.Yes);

@@ -79,9 +79,32 @@ namespace Bowerbird.Web.Config
             //    new { controller = "account", action = "register" });
 
             routes.MapRoute(
+                "species-list",
+                "species",
+                new { controller = "species", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "projects-list",
+                "projects",
+                new { controller = "projects", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "organisations-list",
+                "organisations",
+                new { controller = "organisations", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
                 "home-sightings",
-                "sightings",
+                "home/sightings",
                 new { controller = "home", action = "sightings" });
+
+            routes.MapRoute(
+                "home-posts",
+                "home/posts",
+                new { controller = "home", action = "posts" });
 
             routes.MapRoute(
                 "templates",
@@ -89,70 +112,74 @@ namespace Bowerbird.Web.Config
                 new { controller = "templates", action = "index" });
 
             routes.MapRoute(
-                "join-project",
-                "projects/{id}/join",
-                new { controller = "projects", action = "join" });
+                "project-join",
+                "projects/{id}/members",
+                new { controller = "projects", action = "updatemember" },
+                new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
-                "leave-project",
-                "projects/{id}/leave",
-                new { controller = "organisation", action = "leave" });
+                "project-leave",
+                "projects/{id}/members",
+                new { controller = "projects", action = "deletemember" },
+                new { httpMethod = new HttpMethodConstraint("DELETE") });
 
             routes.MapRoute(
-                "join-organisation",
-                "organisations/{id}/join",
-                new { controller = "organisations", action = "join" });
+                "organisation-join",
+                "organisations/{id}/members",
+                new { controller = "organisations", action = "updatemember" },
+                new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
-                "leave-organisation",
-                "organisations/{id}/leave",
-                new { controller = "organisations", action = "leave" });
+                "organisation-leave",
+                "organisations/{id}/members",
+                new { controller = "organisations", action = "deletemember" },
+                new { httpMethod = new HttpMethodConstraint("DELETE") });
 
             routes.MapRoute(
                 "sighting-note-create-form",
-                "observations/{id}/createnote",
+                "observations/{id}/notes/create",
                 new { controller = "observations", action = "createnoteform" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "sighting-note-update-form",
-                "observations/{id}/updatenote/{sightingNoteId}",
+                "observations/{id}/notes/{sightingNoteId}/update",
                 new { controller = "observations", action = "updatenoteform" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "sighting-note-create",
-                "observations/{id}/createnote",
+                "observations/{id}/notes",
                 new { controller = "observations", action = "createnote" },
                 new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
                 "sighting-note-update",
-                "observations/{sightingId}/updatenote/{id}",
+                "observations/{sightingId}/notes/{id}",
                 new { controller = "observations", action = "updatenote" },
                 new { httpMethod = new HttpMethodConstraint("PUT") });
 
             routes.MapRoute(
                 "sighting-identification-create-form",
-                "observations/{id}/createidentification",
+                "observations/{id}/identifications/create",
                 new { controller = "observations", action = "createidentificationform" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "sighting-identification-update-form",
-                "observations/{id}/updateidentification/{sightingNoteId}",
+                "observations/{id}/identifications/{sightingNoteId}/update",
                 new { controller = "observations", action = "updateidentificationform" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "identification-create",
-                "observations/{id}/createidentification",
+                "observations/{id}/identifications",
                 new { controller = "observations", action = "createidentification" },
                 new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
                 "identification-update",
-                "observations/{sightingId}/updateidentification/{id}",
+                "observations/{sightingId}/identifications/{id}",
                 new { controller = "observations", action = "updateidentification" },
                 new { httpMethod = new HttpMethodConstraint("PUT") });
 
@@ -160,25 +187,25 @@ namespace Bowerbird.Web.Config
                 "account-sighting-vote-update",
                 "observations/{id}/vote",
                 new { controller = "account", action = "updatevote", contributionType = "observations", subContributionType = "" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
+                new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
                 "account-sighting-note-vote-update",
                 "observations/{id}/notes/{subid}/vote",
                 new { controller = "account", action = "updatevote", contributionType = "observations", subContributionType = "notes" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
+                new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
                 "account-identification-vote-update",
                 "observations/{id}/identifications/{subid}/vote",
                 new { controller = "account", action = "updatevote", contributionType = "observations", subContributionType = "identifications" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
+                new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
                 "account-favourites-update",
                 "favourites",
                 new { controller = "account", action = "updatefavourite" },
-                new { httpMethod = new HttpMethodConstraint("PUT") });
+                new { httpMethod = new HttpMethodConstraint("POST") });
 
             routes.MapRoute(
                 "projects-explore",
@@ -191,6 +218,48 @@ namespace Bowerbird.Web.Config
                 "organisations/explore",
                 new { controller = "organisations", action = "list" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "group-post-create-form",
+                "{groupType}/{groupId}/posts/create",
+                new { controller = "posts", action = "createform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "group-post-index",
+                "{groupType}/{groupId}/posts/{id}",
+                new { controller = "posts", action = "index" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "project-post-update-form",
+                "projects/{groupId}/posts/{id}/update",
+                new { controller = "posts", action = "updateform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "organisation-post-update-form",
+                "organisations/{groupId}/posts/{id}/update",
+                new { controller = "posts", action = "updateform" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "group-post-create",
+                "{groupType}/{groupId}/posts",
+                new { controller = "posts", action = "create" },
+                new { httpMethod = new HttpMethodConstraint("POST") });
+
+            routes.MapRoute(
+                "project-post-update",
+                "projects/{groupId}/posts/{id}",
+                new { controller = "posts", action = "update" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
+
+            routes.MapRoute(
+                "organisation-post-update",
+                "organisations/{groupId}/posts/{id}",
+                new { controller = "posts", action = "update" },
+                new { httpMethod = new HttpMethodConstraint("PUT") });
 
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);
@@ -213,18 +282,18 @@ namespace Bowerbird.Web.Config
 
         private static void CreateRestfulControllerRoutes(RouteCollection routes, string controllerName, IEnumerable<string> controllerMethods)
         {
-            if (controllerMethods.Contains("list"))
-            {
-                /* 
-                 * Eg: "/users" HTML/JSON GET
-                 * Used to get many users based one some filter criteria as HTML or JSON output
-                 */
-                routes.MapRoute(
-                    controllerName + "-list",
-                    controllerName,
-                    new { controller = controllerName, action = "list" },
-                    new { httpMethod = new HttpMethodConstraint("GET") });
-            }
+            //if (controllerMethods.Contains("list"))
+            //{
+            //    /* 
+            //     * Eg: "/users" HTML/JSON GET
+            //     * Used to get many users based one some filter criteria as HTML or JSON output
+            //     */
+            //    routes.MapRoute(
+            //        controllerName + "-list",
+            //        controllerName,
+            //        new { controller = controllerName, action = "list" },
+            //        new { httpMethod = new HttpMethodConstraint("GET") });
+            //}
 
             if (controllerMethods.Contains("update"))
             {

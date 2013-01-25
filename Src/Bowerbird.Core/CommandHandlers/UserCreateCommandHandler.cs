@@ -96,19 +96,19 @@ namespace Bowerbird.Core.CommandHandlers
             _documentSession.Store(favourites);
 
             // Add app root membership
-            user.AddMembership(
+            user.UpdateMembership(
                 user,
                 appRoot,
                 _documentSession.Query<Role>().Where(x => x.Id.In(userCreateCommand.Roles)).ToList());
 
             // Add administrator membership to user project
-            user.AddMembership(
+            user.UpdateMembership(
                 user, 
                 userProject, 
                 _documentSession.Query<Role>().Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
 
             // Add administrator membership to favourites
-            user.AddMembership(
+            user.UpdateMembership(
                 user,
                 favourites,
                 _documentSession.Query<Role>().Where(x => x.Id == "roles/favouritesadministrator" || x.Id == "roles/favouritesmember"));
