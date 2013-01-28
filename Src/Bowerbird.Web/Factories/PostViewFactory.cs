@@ -66,7 +66,7 @@ namespace Bowerbird.Web.Factories
             viewModel.Message = post.Message;
             viewModel.PostType = post.PostType;
             viewModel.GroupId = post.Group.Id;
-            viewModel.Group = _groupViewFactory.Make(group);
+            viewModel.Group = _groupViewFactory.Make(group, authenticatedUser);
             viewModel.User = _userViewFactory.Make(user);
             viewModel.CreatedOnDescription = post.CreatedOn.ToString("d MMM yyyy");
 

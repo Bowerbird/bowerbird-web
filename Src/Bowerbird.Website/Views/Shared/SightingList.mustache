@@ -3,22 +3,24 @@
   <div class="tab-bar tab-bar-right small">
     <ul class="tabs">
       <li>
+        <span class="tab-button search-button" title="Show or hide search options">Search</span>
+      </li>
+      <li>
         <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
           <span class="tab-list-selection">Latest Added</span>
           <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
           <ul>
             <li>
-              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=newest">Latest Added</a>
+              <a data-sort="newest" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=newest">Latest Added</a>
             </li>
             <li>
-              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=oldest">Oldest Added</a>
+              <a data-sort="oldest" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=oldest">Oldest Added</a>
             </li>
-            <li class="divider"></li>
-            <li>
-              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=a-z">Alphabetical (A-Z)</a>
+            <li class="new-section">
+              <a data-sort="a-z" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=a-z">Alphabetical (A-Z)</a>
             </li>
             <li>
-              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=z-a">Alphabetical (Z-A)</a>
+              <a data-sort="z-a" href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/sightings?view={{View}}&sort=z-a">Alphabetical (Z-A)</a>
             </li>
           </ul>
         </div>
@@ -45,7 +47,6 @@
 
   {{#Model.Query.IsDetailsView}}
   <li class="sighting-item">
-
     {{>SightingListItem}}
   </li>
   {{/Model.Query.IsDetailsView}}

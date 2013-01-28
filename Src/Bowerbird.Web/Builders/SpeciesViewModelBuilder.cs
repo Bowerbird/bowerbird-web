@@ -50,13 +50,6 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        //public object BuildSpecies(string speciesId)
-        //{
-        //    Check.RequireNotNull(speciesId, "speciesId");
-
-        //    return MakeSpecies(_documentSession.Load<Species>(speciesId));
-        //}
-
         public object BuildSpeciesList(SpeciesQueryInput speciesQueryInput, PagingInput pagingInput)
         {
             Check.RequireNotNull(pagingInput, "pagingInput");
@@ -77,7 +70,7 @@ namespace Bowerbird.Web.Builders
                     _documentSession
                     .Advanced
                     .LuceneQuery<All_Species.Result, All_Species>()
-                    .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms")
+                    .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms", "SightingCount")
                     .Statistics(out stats)
                     .WhereEquals("RankPosition", 1)
                     .OrderBy(x => x.Name)
@@ -99,7 +92,7 @@ namespace Bowerbird.Web.Builders
                         _documentSession
                         .Advanced
                         .LuceneQuery<All_Species.Result, All_Species>()
-                        .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms")
+                        .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms", "SightingCount")
                         .Statistics(out stats)
                         .WhereEquals("ParentRankName", ranks.ElementAt(rankIndex - 1))
                         .AndAlso()
@@ -123,7 +116,7 @@ namespace Bowerbird.Web.Builders
             var query = _documentSession
                 .Advanced
                 .LuceneQuery<All_Species.Result, All_Species>()
-                .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms")
+                .SelectFields<All_Species.Result>("Taxonomy", "Name", "RankPosition", "RankName", "RankType", "ParentRankName", "Ranks", "Category", "SpeciesCount", "CommonGroupNames", "CommonNames", "Synonyms", "SightingCount")
                 .Statistics(out stats);
 
             if (field.ToLower() == "taxonomy")
@@ -218,6 +211,7 @@ namespace Bowerbird.Web.Builders
                 result.Ranks,
                 result.Category,
                 result.SpeciesCount,
+                result.SightingCount,
                 CommonGroupNames = commonGroupNames,
                 CommonNames = commonNames,
                 Synonyms = synonyms,

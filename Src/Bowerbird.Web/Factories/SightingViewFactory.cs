@@ -89,7 +89,7 @@ namespace Bowerbird.Web.Factories
             viewModel.Longitude = sighting.Longitude;
             viewModel.Category = sighting.Category;
             viewModel.AnonymiseLocation = sighting.AnonymiseLocation;
-            viewModel.Projects = projects.Where(x => x.GroupType =="project").Select(_groupViewFactory.Make);
+            viewModel.Projects = projects.Where(x => x.GroupType =="project").Select(y => _groupViewFactory.Make(y, authenticatedUser));
             viewModel.User = _userViewFactory.Make(user);
             viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMM yyyy");
             viewModel.CreatedOnDescription = sighting.CreatedOn.ToString("d MMM yyyy");

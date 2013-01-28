@@ -30,5 +30,7 @@ namespace Bowerbird.Web.Builders
         object BuildGroupUserList(string groupId, string role);
 
         object BuildOnlineUserList();
+
+        object BuildUserList(UsersQueryInput usersQueryInput);
     }
 }

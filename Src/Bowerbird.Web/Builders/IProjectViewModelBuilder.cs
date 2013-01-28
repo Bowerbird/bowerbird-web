@@ -20,10 +20,8 @@ namespace Bowerbird.Web.Builders
 
         object BuildUpdateProject(string projectId);
 
-        dynamic BuildProject(string projectId);
+        object BuildProject(string projectId);
 
         object BuildProjectList(ProjectsQueryInput projectsQueryInput);
-
-        object BuildUserProjectList(string userId, PagingInput pagingInput);
     }
 }

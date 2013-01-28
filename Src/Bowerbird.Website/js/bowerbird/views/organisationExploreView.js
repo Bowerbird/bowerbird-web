@@ -8,200 +8,141 @@
 // OrganisationExploreView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/organisationitemview', 'date'],
-function ($, _, Backbone, app, ich, OrganisationItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/organisationlistview', 'views/organisationsearchpanelview'],
+function ($, _, Backbone, app, OrganisationListView, OrganisationSearchPanelView) {
 
-    var OrganisationExploreView = Backbone.Marionette.CompositeView.extend({
-        template: 'OrganisationsExplore',
+    var OrganisationExploreView = Backbone.Marionette.Layout.extend({
+        viewType: 'details',
 
         className: 'organisations double',
 
-        itemView: OrganisationItemView,
+        template: 'OrganisationExplore',
 
-        events: {
-            'click #stream-load-more-button': 'onLoadMoreClicked',
-            'click .sort-button': 'showSortMenu',
-            'click .sort-button a': 'changeSort'
+        regions: {
+            search: '.search',
+            list: '.list'
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'appendHtml');
+            _.bindAll(this, 'toggleSearchPanel');
 
-            this.collection.on('fetching', this.onLoadingStart, this);
-            this.collection.on('fetched', this.onLoadingComplete, this);
-            this.collection.on('reset', this.onLoadingComplete, this);
+            this.organisationCollection = options.organisationCollection;
+            this.categorySelectList = options.categorySelectList;
+            this.fieldSelectList = options.fieldSelectList;
         },
 
         serializeData: function () {
             return {
                 Model: {
-                    Query: {
-                        Id: this.collection.organisationId,
-                        Page: this.collection.pageSize,
-                        PageSize: this.collection.page,
-                        View: this.collection.viewType,
-                        Sort: this.collection.sortByType
-                    },
-                    ShowOrganisationExploreWelcome: _.contains(app.authenticatedUser.callsToAction, 'organisation-explore-welcome')
+                    ShowOrganisationExploreWelcome: app.authenticatedUser ? _.contains(app.authenticatedUser.callsToAction, 'organisation-explore-welcome') : false
                 }
             };
         },
 
         onShow: function () {
-            this.refresh();
-        },
+            var options = {
+                collection: this.organisationCollection
+            };
 
-        onRender: function () {
+            var searchOptions = {
+                organisationCollection: this.organisationCollection,
+                categorySelectList: this.categorySelectList,
+                fieldSelectList: this.fieldSelectList
+            };
+
+            if (app.isPrerenderingView('organisations')) {
+                options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
+            }
+
+            var organisationListView = new OrganisationListView(options);
+            var organisationSearchPanelView = new OrganisationSearchPanelView(searchOptions);
+
+            if (app.isPrerenderingView('organisations')) {
+                this.list.attachView(organisationListView);
+                organisationListView.showBootstrappedDetails();
+
+                this.search.attachView(organisationSearchPanelView);
+                organisationSearchPanelView.showBootstrappedDetails();
+            } else {
+                this.list.show(organisationListView);
+
+                this.search.show(organisationSearchPanelView);
+            }
+
             this._showDetails();
-            this.refresh();
         },
 
         showBootstrappedDetails: function () {
-            var els = this.$el.find('.organisation-item');
-            _.each(this.collection.models, function (item, index) {
-                var childView = new OrganisationItemView({ model: item, tagName: 'li' });
-                childView.$el = $(els[index]);
-                childView.showBootstrappedDetails();
-                childView.delegateEvents();
-                this.storeChild(childView);
-            }, this);
+            this.initializeRegions();
+
+            var options = {
+                collection: this.organisationCollection
+            };
+
+            var searchOptions = {
+                organisationCollection: this.organisationCollection,
+                categorySelectList: this.categorySelectList,
+                fieldSelectList: this.fieldSelectList
+            };
+
+            if (app.isPrerenderingView('organisations')) {
+                options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
+            }
+
+            var organisationListView = new OrganisationListView(options);
+            var organisationSearchPanelView = new OrganisationSearchPanelView(searchOptions);
+
+            if (app.isPrerenderingView('organisations')) {
+                this.list.attachView(organisationListView);
+                organisationListView.showBootstrappedDetails();
+
+                this.search.attachView(organisationSearchPanelView);
+                organisationSearchPanelView.showBootstrappedDetails();
+            } else {
+                this.list.show(organisationListView);
+
+                this.search.show(organisationSearchPanelView);
+            }
+
             this._showDetails();
-            this.refresh();
         },
 
         _showDetails: function () {
-            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy({ gravity: 's' });
-
-            this.$el.find('h3 a').on('click', function (e) {
-                e.preventDefault();
-                Backbone.history.navigate($(this).attr('href'), { trigger: true });
-                return false;
-            });
-
-            this.onLoadingComplete(this.collection);
-            this.changeSortLabel(this.collection.sortByType);
-
             var that = this;
+
+            this.list.currentView.on('toggle-search', this.toggleSearchPanel);
+
+            if (this.organisationCollection.hasSearchCriteria()) {
+                this.$el.find('.search-bar').slideDown();
+            }
+
             this.$el.find('.close-call-to-action').on('click', function (e) {
                 e.preventDefault();
                 that.$el.find('.call-to-action').slideUp('fast', function () {
                     that.$el.find('.call-to-action').remove();
                 });
-                app.vent.trigger('close-call-to-action', 'organisation-explore-welcome');
+                app.vent.trigger('close-call-to-action', 'user-welcome');
                 return false;
             });
         },
 
-        changeSortLabel: function (value) {
-            var label = '';
-            switch (value) {
-                case 'oldest':
-                    label = 'Oldest';
-                    break;
-                case 'a-z':
-                    label = 'Alphabetical (A-Z)';
-                    break;
-                case 'z-a':
-                    label = 'Alphabetical (Z-A)';
-                    break;
-                case 'newest':
-                    label = 'Newest';
-                    break;
-                default:
-                    label = "Most Popular";
-                    break;
-            }
-
-            this.$el.find('.sort-button .tab-list-selection').empty().text(label);
-        },
-
-        refresh: function () {
-            _.each(this.children, function (childView) {
-                childView.refresh();
-            });
-        },
-
-        buildItemView: function (item, ItemView) {
-            var view = new ItemView({
-                model: item,
-                tagName: 'li',
-                className: 'organisation-item tile-organisation-details'
-            });
-            return view;
-        },
-
-        appendHtml: function (collectionView, itemView) {
-            var items = this.collection.pluck('Id');
-            var index = _.indexOf(items, itemView.model.id);
-
-            var $li = collectionView.$el.find('.organisation-items > li:eq(' + (index) + ')');
-
-            if ($li.length === 0) {
-                collectionView.$el.find('.organisation-items').append(itemView.el);
+        toggleSearchPanel: function () {
+            log('search bar', this.$el.find('.search-bar'));
+            if (this.$el.find('.search-bar').is(':visible')) {
+                log('search is visible');
+                this.$el.find('.search-bar').slideToggle();
             } else {
-                $li.before(itemView.el);
+                log('search is not visible');
+                var that = this;
+                this.$el.find('.search-bar').slideToggle(function () {
+                    that.$el.find('.search-bar #query').focus();
+                });
             }
-
-            itemView.refresh();
-        },
-
-        onLoadMoreClicked: function () {
-            this.$el.find('.stream-message, .stream-load-more').remove();
-            this.collection.fetchNextPage();
-        },
-
-        onLoadNewClicked: function () {
-            this.$el.find('.stream-message, .stream-load-new').remove();
-            this.collection.add(this.newStreamItemsCache);
-            this.newStreamItemsCache = [];
-            this.newItemsCount = 0;
-        },
-
-        onLoadingStart: function (collection) {
-            this.$el.find('.organisation-list').append(ich.StreamLoading());
-        },
-
-        onLoadingComplete: function (collection) {
-            log(collection);
-            this.$el.find('.stream-message, .stream-loading').remove();
-            if (collection.length === 0) {
-                this.$el.find('.organisation-list').append(ich.StreamMessage());
-            }
-            if (collection.pageInfo().next) {
-                this.$el.find('.organisation-list').append(ich.StreamLoadMore());
-            }
-        },
-
-        showSortMenu: function (e) {
-            app.vent.trigger('close-sub-menus');
-            $(e.currentTarget).addClass('active');
-            e.stopPropagation();
-        },
-
-        changeSort: function (e) {
-            e.preventDefault();
-            this.$el.find('.sort-button .tab-list-selection').empty().text($(e.currentTarget).text());
-            app.vent.trigger('close-sub-menus');
-            this.clearListAnPrepareShowLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-            return false;
-        },
-
-        clearListAnPrepareShowLoading: function () {
-            this.$el.find('.stream-message, .stream-load-more, .stream-load-new').remove();
-            this.$el.find('.organisation-items').empty();
-            this.onLoadingStart();
-        },
-
-        showLoading: function () {
-            var that = this;
-            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').fadeOut(100);
-            this.$el.find('.organisation-items').fadeOut(100, function () {
-                that.onLoadingStart();
-            });
         }
     });
 
     return OrganisationExploreView;
 
-});
+}); 

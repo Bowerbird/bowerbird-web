@@ -86,7 +86,7 @@ namespace Bowerbird.Web.Hubs
                     .ToList()
                     .First();
 
-                chatDetails.Group = _groupViewFactory.Make(group);
+                chatDetails.Group = _groupViewFactory.Make(group.Group, GetUserByConnectionId(Context.ConnectionId));
 
                 var chatMessageUsers = _documentSession.Load<User>(chat.Messages.Select(x => x.User.Id).Distinct());
 
@@ -233,16 +233,17 @@ namespace Bowerbird.Web.Hubs
         //        .Select(x => x.User);
         //}
 
-        //private User GetUserByConnectionId(string connectionId)
-        //{
-        //    return _documentSession
-        //        .Query<All_Users.Result, All_Users>()
-        //        .AsProjection<All_Users.Result>()
-        //        .Where(x => x.ConnectionIds.Any(y => y == connectionId))
-        //        .ToList()
-        //        .Select(x => x.User)
-        //        .First();
-        //}
+        private User GetUserByConnectionId(string connectionId)
+        {
+            var result = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.ConnectionIds.Any(y => y == connectionId))
+                .ToList()
+                .FirstOrDefault();
+
+            return result != null ? result.User : null;
+        }
 
         #endregion
     }

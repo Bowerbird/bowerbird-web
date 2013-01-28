@@ -22,17 +22,19 @@ function ($, _, Backbone, app, ich, PostDetailsView) {
         events: {
             'click #stream-load-more-button': 'onLoadMoreClicked',
             'click .sort-button': 'showSortMenu',
-            'click .sort-button a': 'changeSort'
+            'click .sort-button a': 'changeSort',
+            'click .search-button': 'showHideSearch'
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'appendHtml');
+            _.bindAll(this, 'appendHtml', 'clearListAnPrepareShowLoading');
 
             this.newItemsCount = 0;
 
             this.collection.on('fetching', this.onLoadingStart, this);
             this.collection.on('fetched', this.onLoadingComplete, this);
             this.collection.on('reset', this.onLoadingComplete, this);
+            this.collection.on('search-reset', this.clearListAnPrepareShowLoading, this);
         },
 
         serializeData: function () {
@@ -72,7 +74,7 @@ function ($, _, Backbone, app, ich, PostDetailsView) {
         },
 
         _showDetails: function () {
-            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy({ gravity: 's' });
+            this.$el.find('.tabs li a, .tabs .tab-list-button, .search-button').tipsy({ gravity: 's' });
 
             this.$el.find('h3 a').on('click', function (e) {
                 e.preventDefault();
@@ -82,6 +84,8 @@ function ($, _, Backbone, app, ich, PostDetailsView) {
 
             this.onLoadingComplete(this.collection);
             this.changeSortLabel(this.collection.sortByType);
+
+            this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
         },
 
         changeSortLabel: function (value) {
@@ -147,7 +151,6 @@ function ($, _, Backbone, app, ich, PostDetailsView) {
         },
 
         onLoadingComplete: function (collection) {
-            log(collection);
             this.$el.find('.stream-message, .stream-loading').remove();
             if (collection.length === 0) {
                 this.$el.find('.post-list').append(ich.StreamMessage());
@@ -168,22 +171,24 @@ function ($, _, Backbone, app, ich, PostDetailsView) {
             this.$el.find('.sort-button .tab-list-selection').empty().text($(e.currentTarget).text());
             app.vent.trigger('close-sub-menus');
             this.clearListAnPrepareShowLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.collection.changeSort($(e.currentTarget).data('sort'));
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: false });
             return false;
         },
 
         clearListAnPrepareShowLoading: function () {
-            this.$el.find('.stream-message, .stream-load-more, .stream-load-new').remove();
+            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading').remove();
             this.$el.find('.post-items').empty();
-            this.onLoadingStart();
         },
 
         showLoading: function () {
-            var that = this;
-            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').fadeOut(100);
-            this.$el.find('.post-items').fadeOut(100, function () {
-                that.onLoadingStart();
-            });
+            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
+            this.$el.find('.post-items').hide();
+            this.onLoadingStart();
+        },
+
+        showHideSearch: function () {
+            this.trigger('toggle-search');
         }
     });
 

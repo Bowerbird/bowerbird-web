@@ -47,7 +47,10 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
             .done(function (model) {
                 var project = new Project(model.Project);
 
-                var options = { model: project };
+                var options = {
+                    model: project,
+                    categoriesSelectList: model.CategoriesSelectList
+                };
 
                 if (app.isPrerenderingView('projects')) {
                     options['el'] = '.project-form';
@@ -95,11 +98,23 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         $.when(getModel('/projects/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
                 var project = new Project(model.Project);
-                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount,
-                    viewType: model.Query.View, sortBy: model.Query.Sort });
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
+                    { 
+                        projectId: project.id,
+                        page: model.Query.page,
+                        pageSize: model.Query.PageSize,
+                        total: model.Sightings.TotalResultCount,
+                        viewType: model.Query.View,
+                        sortBy: model.Query.Sort,
+                        category: model.Query.Category,
+                        needsId: model.Query.NeedsId,
+                        query: model.Query.Query,
+                        field: model.Query.Field,
+                        taxonomy: model.Query.Taxonomy
+                    });
 
                 if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
-                    app.content.currentView.showSightings(sightingCollection);
+                    app.content.currentView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
                 } else {
                     var options = { model: project };
                     if (app.isPrerenderingView('projects')) {
@@ -108,7 +123,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
                     var projectDetailsView = new ProjectDetailsView(options);
 
                     app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
-                        projectDetailsView.showSightings(sightingCollection);
+                        projectDetailsView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
                     });
                 }
             });
@@ -118,12 +133,19 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         $.when(getModel('/projects/' + id + '/posts?view=' + '&sort=' + (params && params.sort ? params.sort : 'newest')))
         .done(function (model) {
             var project = new Project(model.Project);
-            var postCollection = new PostCollection(model.Posts.PagedListItems, { groupId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Posts.TotalResultCount,
-                sortBy: model.Query.Sort
-            });
+            var postCollection = new PostCollection(model.Posts.PagedListItems,
+                { 
+                    groupId: project.id,
+                    page: model.Query.page,
+                    pageSize: model.Query.PageSize,
+                    total: model.Posts.TotalResultCount,
+                    sortBy: model.Query.Sort,
+                    query: model.Query.Query,
+                    field: model.Query.Field
+                });
 
             if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
-                app.content.currentView.showPosts(postCollection);
+                app.content.currentView.showPosts(postCollection, model.FieldSelectList);
             } else {
                 var options = { model: project };
                 if (app.isPrerenderingView('projects')) {
@@ -132,7 +154,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
                 var projectDetailsView = new ProjectDetailsView(options);
 
                 app.showContentView(project.get('Name'), projectDetailsView, 'projects', function () {
-                    projectDetailsView.showPosts(postCollection);
+                    projectDetailsView.showPosts(postCollection, model.FieldSelectList);
                 });
             }
         });
@@ -199,9 +221,23 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
     ProjectController.showExplore = function (params) {
         $.when(getModel('/projects?sort=' + (params && params.sort ? params.sort : 'popular')))
         .done(function (model) {
-            var projectCollection = new ProjectCollection(model.Projects.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Projects.TotalResultCount, sortBy: model.Query.Sort });
+            var projectCollection = new ProjectCollection(model.Projects.PagedListItems,
+                {
+                    page: model.Query.page,
+                    pageSize: model.Query.PageSize,
+                    total: model.Projects.TotalResultCount,
+                    viewType: model.Query.View,
+                    sortBy: model.Query.Sort,
+                    category: model.Query.Category,
+                    query: model.Query.Query,
+                    field: model.Query.Field
+                });
 
-            var options = { collection: projectCollection };
+            var options = {
+                projectCollection: projectCollection,
+                categorySelectList: model.CategorySelectList,
+                fieldSelectList: model.FieldSelectList
+            };
             
             if (app.authenticatedUser) {
                 options.model = app.authenticatedUser.user;

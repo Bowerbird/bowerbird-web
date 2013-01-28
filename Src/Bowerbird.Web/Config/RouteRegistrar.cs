@@ -79,9 +79,27 @@ namespace Bowerbird.Web.Config
             //    new { controller = "account", action = "register" });
 
             routes.MapRoute(
+                "favourites-list",
+                "favourites",
+                new { controller = "home", action = "favourites" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "category-list",
+                "categories",
+                new { controller = "observations", action = "categorylist" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
                 "species-list",
                 "species",
                 new { controller = "species", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "sightings-list",
+                "sightings",
+                new { controller = "sightings", action = "list" },
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
@@ -99,12 +117,14 @@ namespace Bowerbird.Web.Config
             routes.MapRoute(
                 "home-sightings",
                 "home/sightings",
-                new { controller = "home", action = "sightings" });
+                new { controller = "home", action = "sightings" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "home-posts",
                 "home/posts",
-                new { controller = "home", action = "posts" });
+                new { controller = "home", action = "posts" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
                 "templates",

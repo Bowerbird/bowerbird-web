@@ -204,7 +204,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 //                drag: function (event, ui) {
                 //                        var locationPinLeft = ui.helper.offset().left + ui.helper.width() / 2;
                 //                        var locationPinTop = ui.helper.offset().top + ui.helper.height() / 2;
-                //                        $('#debug-info').text('left: ' + locationPinLeft + ', top: ' + locationPinTop);
+                //                        log('left: ' + locationPinLeft + ', top: ' + locationPinTop);
                 //                },
                 stop: function (event, ui) {
                     var $mapDiv = $(self.map.getDiv());

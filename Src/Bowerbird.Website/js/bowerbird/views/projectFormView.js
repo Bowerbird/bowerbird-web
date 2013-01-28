@@ -30,7 +30,8 @@ function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundIm
             'click #save': '_save',
             'change input#Name': '_contentChanged',
             'change textarea#Description': '_contentChanged',
-            'change input#Website': '_contentChanged'
+            'change input#Website': '_contentChanged',
+            'change #categories-field input:checkbox': '_categoriesChanged'
         },
 
         initialize: function (options) {
@@ -38,13 +39,15 @@ function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundIm
                 this.viewEditMode = 'update';
             } else {
                 this.viewEditMode = 'create';
-            }            
+            }
+            this.categoriesSelectList = options.categoriesSelectList;
         },
 
         serializeData: function () {
             return {
                 Model: {
-                    Project: this.model.toJSON()
+                    Project: this.model.toJSON(),
+                    CategoriesSelectList: this.categoriesSelectList
                 }
             };
         },
@@ -64,6 +67,23 @@ function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundIm
 
             var backgroundImageFormView = new BackgroundImageFormView({ el: '.background-field', model: this.model });
             backgroundImageFormView.render();
+
+            this.categoriesListSelectView = this.$el.find('#Categories').multiSelect({
+                selectAll: false,
+                listHeight: 260,
+                messageText: 'Select more than one category if required',
+                noOptionsText: 'No Categories',
+                noneSelected: '<span class="default-option">Select Categories</span>',
+                oneOrMoreSelected: function (selectedOptions) {
+                    var $selectedHtml = $('<span />');
+                    var cats = [];
+                    _.each(selectedOptions, function (option) {
+                        cats.push(option.text);
+                    });
+                    $selectedHtml.append(cats.join(', '));
+                    return $selectedHtml;
+                }
+            });
         },
 
         _contentChanged: function (e) {
@@ -71,6 +91,16 @@ function ($, _, Backbone, app, ich, loadImage, AvatarImageFormView, BackgroundIm
             var data = {};
             data[target.attr('id')] = target.attr('value');
             this.model.set(data);
+        },
+
+        _categoriesChanged: function (e) {
+            var $checkbox = $(e.currentTarget);
+            if ($checkbox.attr('checked') === 'checked') {
+                var category = $checkbox.attr('value');
+                this.model.addCategory(category);
+            } else {
+                this.model.removeCategory($checkbox.attr('value'));
+            }
         },
 
         _cancel: function () {

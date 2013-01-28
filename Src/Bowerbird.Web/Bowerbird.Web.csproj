@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\SightingsController.cs" />
     <Compile Include="Controllers\ObservationsController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -305,7 +306,7 @@
     <Compile Include="ViewModels\PostCreateInput.cs" />
     <Compile Include="ViewModels\PostUpdateInput.cs" />
     <Compile Include="ViewModels\ProjectUpdateInput.cs" />
-    <Compile Include="ViewModels\UserUpdateInput.cs" />
+    <Compile Include="ViewModels\AccountUpdateInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

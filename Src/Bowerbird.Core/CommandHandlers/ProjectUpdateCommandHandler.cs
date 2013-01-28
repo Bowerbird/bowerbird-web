@@ -60,10 +60,10 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Description,
                 command.Website,
                 command.AvatarId != null ? _documentSession.Load<MediaResource>(command.AvatarId) : null,
-                command.BackgroundId != null ? _documentSession.Load<MediaResource>(command.BackgroundId) : null);
+                command.BackgroundId != null ? _documentSession.Load<MediaResource>(command.BackgroundId) : null,
+                command.Categories);
 
             _documentSession.Store(project);
-
             _documentSession.SaveChanges();
         }
 

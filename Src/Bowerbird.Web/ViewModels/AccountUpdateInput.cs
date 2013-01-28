@@ -18,7 +18,7 @@ using DataAnnotationsExtensions;
 
 namespace Bowerbird.Web.ViewModels
 {
-    public class UserUpdateInput
+    public class AccountUpdateInput
     {
         #region Members
 
@@ -41,6 +41,8 @@ namespace Bowerbird.Web.ViewModels
         public string Description { get; set; }
 
         public string AvatarId { get; set; }
+
+        public string BackgroundId { get; set; }
 
         [Required(ErrorMessage = "Please enter your preferred timezone")]
         public string Timezone { get; set; }

@@ -70,6 +70,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Website,
                 string.IsNullOrWhiteSpace(command.AvatarId) ? _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project) : _documentSession.Load<MediaResource>(command.AvatarId),
                 string.IsNullOrWhiteSpace(command.BackgroundId) ? _mediaResourceFactory.MakeDefaultBackgroundImage("project") : _documentSession.Load<MediaResource>(command.BackgroundId),
+                command.Categories,
                 DateTime.UtcNow,
                 parentGroup);
             _documentSession.Store(project);

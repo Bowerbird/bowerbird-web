@@ -137,7 +137,6 @@
 {
     float: left;
     width: 100%;
-    padding-bottom: 2%;
 }
 .stream-load-more .button
 {
@@ -372,7 +371,7 @@ ul.explore-menu
     display: block;
     width: 126px;
 }
-.form #website-field {
+.form #categories-field {
     float: none;
     margin-bottom: 10px;
     margin-left: 145px;
@@ -634,6 +633,9 @@ ul.explore-menu
     padding: 0.5em;
     width: 100%;
 }
+.tile-sighting-details .preview {
+    width: 100%;
+}
 .tile-sighting-details .info 
 {
     display: block;
@@ -821,52 +823,151 @@ ul.explore-menu
 
 
 
-/*** Project tile ****/
-.tile-project-details {
-    background-color: rgb(249, 249, 249);
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+/*** Project & Organisation tile ****/
+.tile-project-details,
+.tile-organisation-details 
+{
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
     display: block;
     float: left;
-    margin-bottom: 2%;
-    margin-right: 2%;
-    max-height: 416px;
-    padding: 1.5%;
-    width: 32%;
+    margin-bottom: 1.5%;
+    margin-right: 1.5%;
+    width: 32.3333%;
 }
-.tile-project-details:nth-child(3n) {
+.tile-project-details:nth-child(3n),
+.tile-organisation-details:nth-child(3n) 
+{
     margin-right: 0;
 }
-.tile-project-details h3 
+.tile-project-details h3,
+.tile-organisation-details h3 
 {
-    font-size: 1.2em;
-    font-weight: 600;
-    letter-spacing: -1px;
-    line-height: 1.3em;
-    margin: 0;
-    padding: 0 2% 5px 0;
+    background-color: rgb(249, 249, 249);
+    border-bottom: 1px solid rgb(221, 221, 221);
+    display: block;
+    float: left;
+    padding: 0.5em;
     width: 100%;
 }
 .tile-project-details h3 a, 
 .tile-project-details h3 a:hover, 
 .tile-project-details h3 a:active, 
-.tile-project-details h3 a:visited {
-    color: rgb(34, 34, 34);
-    text-decoration: none;
-    
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;    
-}
-.tile-project-details .info 
+.tile-project-details h3 a:visited,
+.tile-organisation-details h3 a, 
+.tile-organisation-details h3 a:hover, 
+.tile-organisation-details h3 a:active, 
+.tile-organisation-details h3 a:visited 
 {
-    height: 74px;
-    margin-top: 7px;
-    position: relative;
+    color: rgb(34, 34, 34);
+    display: block;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1em;
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;  
+}
+.tile-project-details .avatar,
+.tile-organisation-details .avatar 
+{
+    display: block;
+    float: left;
+    margin-bottom: 0.5em;
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    width: 48.5%;
+}
+.tile-project-details .description,
+.tile-organisation-details .description 
+{
+    display: block;
+    float: left;
+    font-size: 0.8em;
+    height: 33px;
+    line-height: 1.3em;
+    margin-bottom: 0.5em;
+    overflow: hidden;
+    padding: 0 0.5em;
+    text-overflow: ellipsis;
     width: 100%;
 }
-.tile-project-details .created,
+
+.tile-organisation-details .description 
+{
+    height: 86px;
+    margin-top: 0.5em;
+    width: 51%;
+}
+.tile-project-details .categories,
+.tile-organisation-details .categories 
+{
+    display: block;
+    float: left;
+    height: 32px;
+    list-style: none outside none;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    width: 100%;
+}
+.tile-project-details .categories img,
+.tile-organisation-details .categories img 
+{
+    width: 100%;
+}
+.tile-project-details .categories > li,
+.tile-organisation-details .categories > li 
+{
+    display: block;
+    float: left;
+    margin-right: 1.5%;
+    width: 9.7777%;
+}
+.tile-project-details .categories > li:nth-child(9n),
+.tile-organisation-details .categories > li:nth-child(9n)
+{
+    margin-right: 0;
+}
+.tile-project-details .sightings {
+    display: block;
+    float: left;
+    padding: 0.5em 0.5em 0;
+    width: 51.5%;
+}
+.tile-project-details .sightings > li {
+    display: block;
+    float: left;
+    margin-bottom: 2%;
+    margin-right: 2%;
+    width: 49%;
+}
+.tile-project-details .sightings > li.no-sightings {
+    color: rgb(102, 102, 102);
+    font-size: 0.8em;
+    margin-top: 36%;
+    text-align: center;
+    width: 100%;
+    line-height: 1.3em;
+}
+.tile-project-details .sightings > li:nth-child(2n) {
+    margin-right: 0;
+}
+.tile-project-details .info,
+.tile-organisation-details .info 
+{
+    float: left;
+    padding: 0 0.5em 0.5em;
+    width: 100%;
+}
+
+
+
+
+
+/*.tile-project-details .created,
 .tile-project-details .members,
 .tile-project-details .sightings {
     display: block;
@@ -874,7 +975,7 @@ ul.explore-menu
     font-weight: 500;
     line-height: 1.1em;
     width: 100%;
-}
+}*/
 .tile-project-details .actions {
     background-color: rgb(249, 249, 249);
     border-radius: 0 0 4px 4px;
@@ -899,7 +1000,138 @@ ul.explore-menu
     float: right;
     margin: 0;
 }
-
+/*
+*
+* Search bar
+*
+*/
+.search-bar {
+    display: none;
+    float: left;
+    margin-bottom: 2%;
+    width: 100%;
+}
+#content .search-bar.form form {
+    background-color: rgb(238, 238, 238);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 0 rgba(51, 51, 51, 0.3) inset;
+    width: 100%;
+}
+.search-bar.form input[type=text] 
+{
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    font-size: 0.85em;
+    padding: 6px 9px;
+}
+.search-bar.form select
+{
+    display: block;
+    font-size: 0.85em;
+    padding: 5px 9px;
+}
+.search-bar.form select#field
+{
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+.search-bar.form option
+{
+    border-radius: 2px 2px 2px 2px;
+    display: block;
+    margin: 6px 9px;
+}
+.search-bar #search-query-field 
+{
+    width: 34%;
+}
+.search-bar #search-field-field 
+{
+    width: 20%;
+}
+.search-bar #search-go-field 
+{
+    width: 7%;    
+}
+.search-bar #search-category-field {
+    padding-left: 1em;
+    width: 23%;
+}
+.search-bar #search-needs-id-field {
+    padding-left: 1em;
+    padding-top: 1.75em;
+    width: 16%;
+}
+.search-bar #search-go-button {
+    float: none;
+    font-size: 1em;
+    margin-left: 0;
+    margin-top: 1.6em;
+    padding: 2px 10px;
+    width: 100%;
+}
+.search-bar #new-search-button {
+    float: left;
+    font-size: 0.8em;
+    margin: 0;
+    padding: 1px 8px;
+}
+/*.search-bar .category-items {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(170, 170, 170);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset;
+    display: block;
+    float: left;
+    height: 33px;
+    padding-right: 4px;
+}
+.search-bar .category-items .category-item {
+    background-image: url("/img/icons.png");
+    background-repeat: no-repeat;
+    background-size: 1000% auto;
+    border-radius: 2px 2px 2px 2px;
+    display: block;
+    float: left;
+    height: 23px;
+    margin-left: 4px;
+    margin-top: 4px;
+    text-indent: -99999px;
+    width: 33px;
+}
+.search-bar .category-item.category-Amphibians {
+    background-position: -142px -295px;
+}
+.search-bar .category-item.category-Birds {
+    background-position: -36px -295px;
+}
+.search-bar .category-item.category-Fishes {
+    background-position: -212px -295px;
+}
+.search-bar .category-item.category-FungiLichens {
+    background-position: -177px -295px;
+}
+.search-bar .category-item.category-Invertebrates {
+    background-position: -282px -295px;
+}
+.search-bar .category-item.category-Mammals {
+    background-position: -72px -295px;
+}
+.search-bar .category-item.category-Others {
+    background-position: -106px -295px;
+}
+.search-bar .category-item.category-Plants {
+    background-position: -247px -295px;
+}
+.search-bar .category-item.category-Reptiles {
+    background-position: -1px -295px;
+}
+.search-bar .category-items .category-item:hover {
+    background-color: rgb(27, 131, 235);
+}
+.search-bar .category-items .category-item.selected {
+    
+}*/
 
 
 

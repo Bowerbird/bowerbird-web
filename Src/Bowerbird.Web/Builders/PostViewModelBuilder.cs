@@ -10,6 +10,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
@@ -87,25 +88,7 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
             Check.RequireNotNull(postsQueryInput, "postsQueryInput");
 
-            var query = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId) && x.ParentContributionType == "post");
-
-            return ExecuteQuery(postsQueryInput, query);
-        }
-
-        public object BuildUserPostList(string userId, PostsQueryInput postsQueryInput)
-        {
-            Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(postsQueryInput, "postsQueryInput");
-
-            var query = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.UserId == userId && x.ParentContributionType == "post");
-
-            return ExecuteQuery(postsQueryInput, query);
+            return ExecuteQuery(postsQueryInput, new[] { groupId });
         }
 
         public object BuildHomePostList(string userId, PostsQueryInput postsQueryInput)
@@ -117,40 +100,71 @@ namespace Bowerbird.Web.Builders
                 .Load<User>(userId)
                 .Memberships.Select(x => x.Group.Id);
 
-            var query = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && x.ParentContributionType == "post");
-
-            return ExecuteQuery(postsQueryInput, query);
+            return ExecuteQuery(postsQueryInput, groupIds);
         }
 
-        private object ExecuteQuery(PostsQueryInput postsQueryInput, IRavenQueryable<All_Contributions.Result> query)
+        private object ExecuteQuery(PostsQueryInput postsQueryInput, IEnumerable<string> groupIds)
         {
+            RavenQueryStatistics stats;
+            User authenticatedUser = null;
+
+            if (_userContext.IsUserAuthenticated())
+            {
+                authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            }
+
+            var query = _documentSession
+                .Advanced
+                .LuceneQuery<All_Contributions.Result, All_Contributions>()
+                .Statistics(out stats)
+                .SelectFields<All_Contributions.Result>("GroupIds", "CreatedDateTime", "ParentContributionId", "SubContributionId", "ParentContributionType", "SubContributionType", "UserId", "Observation", "Record", "Post", "User")
+                .WhereIn("GroupIds", groupIds)
+                .AndAlso()
+                .WhereIn("ParentContributionType", new[] { "post" })
+                .AndAlso()
+                .WhereEquals("SubContributionType", null);
+
+            if (!string.IsNullOrWhiteSpace(postsQueryInput.Query))
+            {
+                var field = "PostAllFields";
+
+                if (postsQueryInput.Field.ToLower() == "title")
+                {
+                    field = "PostTitle";
+                }
+                if (postsQueryInput.Field.ToLower() == "body")
+                {
+                    field = "PostMessage";
+                }
+
+                query = query
+                    .AndAlso()
+                    .Search(field, postsQueryInput.Query);
+            }
+
             switch (postsQueryInput.Sort.ToLower())
             {
                 default:
                 case "newest":
-                    query = query.OrderByDescending(x => x.CreatedDateTime);
+                    query = query.AddOrder(x => x.CreatedDateTime, true).AddOrder(x => x.PostTitle, false);
+                    //query = query.OrderByDescending(x => x.CreatedDateTime);
                     break;
                 case "oldest":
-                    query = query.OrderBy(x => x.CreatedDateTime);
+                    query = query.AddOrder(x => x.CreatedDateTime, false).AddOrder(x => x.PostTitle, false);
+                    //query = query.OrderBy(x => x.CreatedDateTime);
                     break;
             }
 
-            RavenQueryStatistics stats;
-
-            var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-
-            return query.Skip(postsQueryInput.GetSkipIndex())
-                .Statistics(out stats)
+            return query
+                .Skip(postsQueryInput.GetSkipIndex())
                 .Take(postsQueryInput.GetPageSize())
-                .ToList()
                 .Select(x => _postViewFactory.Make(x.Contribution as Post, x.User, x.Groups.First(), authenticatedUser))
+                .ToList()
                 .ToPagedList(
-                    postsQueryInput.Page,
-                    postsQueryInput.PageSize,
-                    stats.TotalResults);
+                    postsQueryInput.GetPage(),
+                    postsQueryInput.GetPageSize(),
+                    stats.TotalResults
+                );
         }
 
         #endregion

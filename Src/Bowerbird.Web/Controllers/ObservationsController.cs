@@ -96,7 +96,7 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult CreateForm(string category = "", string projectId = "")
+        public ActionResult CreateForm(string projectId = "")
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
@@ -115,10 +115,10 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation(category, projectId);
-            viewModel.CategorySelectList = GetCategorySelectList(null, category);
+            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation(string.Empty, projectId);
+            viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.ProjectsSelectList = GetProjectsSelectList(projectId);
-            viewModel.Categories = GetCategories();
+            viewModel.Categories = Categories.GetAll();
 
             return RestfulResult(
                 viewModel, 
@@ -150,7 +150,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList(observationId);
             viewModel.ProjectsSelectList = GetProjectsSelectList(observation.Groups.Where(x => x.Group.GroupType == "project").Select(x => x.Group.Id).ToArray());
-            viewModel.Categories = GetCategories();
+            viewModel.Categories = Categories.GetAll();
 
             return RestfulResult(
                 viewModel,
@@ -361,7 +361,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.Identification = _sightingNoteViewModelBuilder.BuildCreateIdentification(observationId);
             viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList();
-            viewModel.Categories = GetCategories();
+            viewModel.Categories = Categories.GetAll();
 
             return RestfulResult(
                 viewModel,
@@ -389,7 +389,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
             viewModel.DescriptionTypes = GetDescriptionTypes();
             viewModel.CategorySelectList = GetCategorySelectList();
-            viewModel.Categories = GetCategories();
+            viewModel.Categories = Categories.GetAll();
 
             return RestfulResult(
                 viewModel,
@@ -415,7 +415,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.Identification = _sightingNoteViewModelBuilder.BuildUpdateIdentification(observationId, identificationId);
             viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList();
-            viewModel.Categories = GetCategories();
+            viewModel.Categories = Categories.GetAll();
 
             return RestfulResult(
                 viewModel,
@@ -443,7 +443,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
             viewModel.DescriptionTypes = GetDescriptionTypes();
             viewModel.CategorySelectList = GetCategorySelectList();
-            viewModel.Categories = GetCategories();
+            viewModel.Categories = Categories.GetAll();
 
             return RestfulResult(
                 viewModel,
@@ -591,11 +591,11 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        public ActionResult Categories()
+        public ActionResult CategoryList()
         {
             if (Request.IsAjaxRequest())
             {
-                return RestfulResult(GetCategories(), "", "");
+                return RestfulResult(Categories.GetAll(), "", "");
             }
 
             return HttpNotFound();
@@ -625,22 +625,14 @@ namespace Bowerbird.Web.Controllers
                 (sightingNoteCreateInput.Tags != null && sightingNoteCreateInput.Tags.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0); // At least one tag
         }
 
-        private IEnumerable GetCategorySelectList(string observationId = "", string category = "")
+        private object GetCategorySelectList(string observationId = "", string category = "")
         {
             if (!string.IsNullOrWhiteSpace(observationId))
             {
                 category = _documentSession.Load<Observation>(observationId).Category;
             }
 
-            return _documentSession
-                .Load<AppRoot>(Constants.AppRootId)
-                .Categories
-                .Select(x => new
-                   {
-                       Text = x.Name,
-                       Value = x.Name,
-                       Selected = x.Name == category
-                   });
+            return Categories.GetSelectList(category);
         }
 
         private IEnumerable GetProjectsSelectList(params string[] projectIds)
@@ -657,14 +649,6 @@ namespace Bowerbird.Web.Controllers
                     Value = x.Id,
                     Selected = projectIds.Any(y => y == x.Id)
                 });
-        }
-
-        private IEnumerable GetCategories()
-        {
-            return _documentSession
-                .Load<AppRoot>(Constants.AppRootId)
-                .Categories
-                .ToList();
         }
 
         private IEnumerable GetDescriptionTypesSelectList()

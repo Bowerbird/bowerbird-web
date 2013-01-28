@@ -12,6 +12,7 @@
  
 */
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Config;
@@ -70,7 +71,7 @@ namespace Bowerbird.Web.Builders
             return _sightingViewFactory.MakeNewRecord(projectId);
         }
 
-        public dynamic BuildSighting(string id)
+        public object BuildSighting(string id)
         {
             var authenticatedUser = _userContext.IsUserAuthenticated() ? _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()) : null;
 
@@ -94,17 +95,33 @@ namespace Bowerbird.Web.Builders
             return viewModel;
         }
 
+        public object BuildSightingList(SightingsQueryInput sightingsQueryInput)
+        {
+            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
+
+            return ExecuteQuery(sightingsQueryInput, new string[] { });
+        }
+
         public object BuildGroupSightingList(string groupId, SightingsQueryInput sightingsQueryInput)
         {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
             Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
 
-            var query = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId) && (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
+            return ExecuteQuery(sightingsQueryInput, new[] { groupId });
+        }
 
-            return ExecuteQuery(sightingsQueryInput, query);
+        public object BuildFavouritesSightingList(string userId, SightingsQueryInput sightingsQueryInput)
+        {
+            Check.RequireNotNullOrWhitespace(userId, "userId");
+            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
+
+            var groupIds = _documentSession
+                .Load<User>(userId)
+                .Memberships
+                .Where(x => x.Group.GroupType == "favourites")
+                .Select(x => x.Group.Id);
+
+            return ExecuteQuery(sightingsQueryInput, groupIds);
         }
 
         public object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput)
@@ -112,12 +129,13 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNullOrWhitespace(userId, "userId");
             Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
 
-            var query = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.UserId == userId && (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
+            var groupIds = _documentSession
+                .Load<User>(userId)
+                .Memberships
+                .Where(x => x.Group.GroupType == "userproject")
+                .Select(x => x.Group.Id);
 
-            return ExecuteQuery(sightingsQueryInput, query);
+            return ExecuteQuery(sightingsQueryInput, groupIds);
         }
 
         public object BuildHomeSightingList(string userId, SightingsQueryInput sightingsQueryInput)
@@ -129,55 +147,116 @@ namespace Bowerbird.Web.Builders
                 .Load<User>(userId)
                 .Memberships.Select(x => x.Group.Id);
 
-            var query = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .AsProjection<All_Contributions.Result>()
-                .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && (x.ParentContributionType == "observation" || x.ParentContributionType == "record") && x.SubContributionType == null);
-
-            return ExecuteQuery(sightingsQueryInput, query);
+            return ExecuteQuery(sightingsQueryInput, groupIds);
         }
 
-        private object ExecuteQuery(SightingsQueryInput sightingsQueryInput, IQueryable<All_Contributions.Result> query)
+        private object ExecuteQuery(SightingsQueryInput sightingsQueryInput, IEnumerable<string> groupIds)
         {
             RavenQueryStatistics stats;
+            User authenticatedUser = null;
 
-            query = ((IRavenQueryable<All_Contributions.Result>) query).Statistics(out stats);
+            if (_userContext.IsUserAuthenticated())
+            {
+                authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            }
+
+            var query = _documentSession
+                .Advanced
+                .LuceneQuery<All_Contributions.Result, All_Contributions>()
+                .Statistics(out stats)
+                .SelectFields<All_Contributions.Result>("GroupIds", "CreatedDateTime", "ParentContributionId", "SubContributionId", "ParentContributionType", "SubContributionType", "UserId", "Observation", "Record", "Post", "User")
+                .WhereIn("ParentContributionType", new[] { "observation", "record" })
+                .AndAlso()
+                .WhereEquals("SubContributionType", null);
+
+            if (groupIds.Any())
+            {
+                query = query
+                    .AndAlso()
+                    .WhereIn("GroupIds", groupIds);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sightingsQueryInput.Category))
+            {
+                query = query
+                    .AndAlso()
+                    .WhereEquals("SightingCategory", sightingsQueryInput.Category);
+            }
+
+            if (sightingsQueryInput.NeedsId)
+            {
+                query = query
+                    .AndAlso()
+                    .WhereEquals("SightingIdentificationCount", 0);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sightingsQueryInput.Query))
+            {
+                var field = "SightingAllFields";
+
+                if (sightingsQueryInput.Field.ToLower() == "title")
+                {
+                    field = "SightingTitle";
+                }
+                if (sightingsQueryInput.Field.ToLower() == "descriptions")
+                {
+                    field = "SightingDescriptions";
+                }
+                if (sightingsQueryInput.Field.ToLower() == "tags")
+                {
+                    field = "SightingTags";
+                }
+
+                query = query
+                    .AndAlso()
+                    .Search(field, sightingsQueryInput.Query);
+            }
+
+            if (!string.IsNullOrWhiteSpace(sightingsQueryInput.Taxonomy))
+            {
+                var ranks = sightingsQueryInput.Taxonomy.Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var rank in ranks)
+                {
+                    query = query
+                        .AndAlso()
+                        .Search("SightingTaxonomicRanks", rank);
+                }
+            }
 
             switch (sightingsQueryInput.Sort.ToLower())
             {
                 default:
                 case "newest":
-                    query = query.OrderByDescending(x => x.CreatedDateTime).ThenBy(x => x.SightingTitle);
+                    query = query.AddOrder(x => x.CreatedDateTime, true).AddOrder(x => x.SightingTitle, false);
                     break;
                 case "oldest":
-                    query = query.OrderBy(x => x.CreatedDateTime).ThenBy(x => x.SightingTitle);
+                    query = query.AddOrder(x => x.CreatedDateTime, false).AddOrder(x => x.SightingTitle, false);
                     break;
                 case "a-z":
-                    query = query.OrderBy(x => x.SightingTitle);
+                    query = query.AddOrder(x => x.SightingTitle, false);
                     break;
                 case "z-a":
-                    query = query.OrderByDescending(x => x.SightingTitle);
+                    query = query.AddOrder(x => x.SightingTitle, true);
                     break;
                 //case "popular": // Most popular
-                //    break;
+                // break;
                 //case "active": // Having most activity
-                //    break;
+                // break;
                 //case "needsid": // Needs an identification
-                //    break;
+                // break;
             }
 
-            
-
-            var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
-
-            return query.Skip(sightingsQueryInput.GetSkipIndex())
+            return query
+                .Skip(sightingsQueryInput.GetSkipIndex())
                 .Take(sightingsQueryInput.GetPageSize())
                 .ToList()
                 .Select(x => _sightingViewFactory.Make(x.Contribution as Sighting, x.User, x.Groups, authenticatedUser))
                 .ToPagedList(
-                    sightingsQueryInput.Page,
-                    sightingsQueryInput.PageSize,
-                    stats.TotalResults);
+                    sightingsQueryInput.GetPage(),
+                    sightingsQueryInput.GetPageSize(),
+                    stats.TotalResults
+                );
         }
 
         #endregion

@@ -22,8 +22,6 @@ namespace Bowerbird.Web.Builders
 
         object BuildGroupPostList(string groupId, PostsQueryInput postsQueryInput);
 
-        object BuildUserPostList(string userId, PostsQueryInput postsQueryInput);
-
         object BuildHomePostList(string userId, PostsQueryInput postsQueryInput);
     }
 }

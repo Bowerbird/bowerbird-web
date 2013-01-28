@@ -119,6 +119,7 @@
     <Compile Include="Commands\RecordUpdateCommand.cs" />
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VoteUpdateCommand.cs" />
+    <Compile Include="Config\Categories.cs" />
     <Compile Include="DomainModels\Category.cs" />
     <Compile Include="DomainModels\IVotable.cs" />
     <Compile Include="DomainModels\ISubContribution.cs" />

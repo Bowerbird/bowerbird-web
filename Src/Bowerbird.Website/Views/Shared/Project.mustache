@@ -1,7 +1,6 @@
 ﻿<h2>
   <span class="small-icon project-icon"></span>Project
 </h2>
-
 <div class="summary" style="background-image: url({{Model.Project.Background.Image.Large.Uri}});">
   {{#Model.Project.Avatar}}
   {{>Avatar200}}
@@ -16,9 +15,6 @@
         <p>{{Model.Project.Description}}</p>
     </div>
 </div>
-
-
-
 <div class="list-details">
   <div class="tab-bar large">
     <ul class="tabs">
@@ -29,7 +25,7 @@
         <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/{{Model.Project.Id}}/sightings">Sightings</a>
       </li>
       <li>
-        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Project.Id}}/posts">News Items</a>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Project.Id}}/posts">News</a>
       </li>
       <li>
         <a class="tab-button members-tab-button {{#Model.ShowMembers}}selected{{/Model.ShowMembers}}" href="/{{Model.Project.Id}}/members">Members</a>
@@ -38,6 +34,16 @@
         <a class="tab-button about-tab-button {{#Model.ShowAbout}}selected{{/Model.ShowAbout}}" href="/{{Model.Project.Id}}/about">About</a>
       </li>
     </ul>
+  </div>
+  <div class="search">
+    <div>
+      {{#Model.ShowSightings}}
+      {{>SightingSearchPanel}}
+      {{/Model.ShowSightings}}
+      {{#Model.ShowPosts}}
+      {{>PostSearchPanel}}
+      {{/Model.ShowPosts}}
+    </div>
   </div>
   <div class="list">
     <div>

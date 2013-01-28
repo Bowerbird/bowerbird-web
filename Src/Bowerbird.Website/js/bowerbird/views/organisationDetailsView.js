@@ -8,8 +8,8 @@
 // OrganisationDetailsView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/userlistview', 'views/organisationaboutview'],
-function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, UserListView, OrganisationAboutView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/userlistview', 'views/organisationaboutview', 'views/sightingsearchpanelview', 'views/postsearchpanelview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, UserListView, OrganisationAboutView, SightingSearchPanelView, PostSearchPanelView) {
 
     var OrganisationDetailsView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -20,6 +20,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
 
         regions: {
             summary: '.summary',
+            search: '.search',
             list: '.list'
         },
 
@@ -32,44 +33,61 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
 
         activeTab: '',
 
+        initialize: function () {
+            _.bindAll(this, 'toggleSearchPanel');
+        },
+
         serializeData: function () {
             return {
                 Model: {
                     Organisation: this.model.toJSON(),
-                    IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
+                    //IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
                     MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
                     PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts'
                 }
             };
         },
 
+        onShow: function () {
+            this._showDetails();
+        },
+
         showBootstrappedDetails: function () {
             this.initializeRegions();
+            this._showDetails();
+        },
+
+        _showDetails: function () {
         },
 
         showActivityTabSelection: function (e) {
-            this.changeTab(e, 'activities');
+            e.preventDefault();
+            this.showTabSelection('activities', $(e.currentTarget).attr('href'));
         },
 
         showPostsTabSelection: function (e) {
-            this.changeTab(e, 'posts');
+            e.preventDefault();
+            this.showTabSelection('posts', $(e.currentTarget).attr('href'));
         },
 
         showMembersTabSelection: function (e) {
-            this.changeTab(e, 'members');
+            e.preventDefault();
+            this.showTabSelection('members', $(e.currentTarget).attr('href'));
         },
 
         showAboutTabSelection: function (e) {
-            this.changeTab(e, 'about');
+            e.preventDefault();
+            this.showTabSelection('about', $(e.currentTarget).attr('href'));
         },
 
-        changeTab: function (e, name) {
-            e.preventDefault();
-            this.switchTabHighlight(name);
-            if (this.list.currentView.showLoading) {
-                this.list.currentView.showLoading();
+        showTabSelection: function (tab, url) {
+            if (this.activeTab === tab) {
+                return;
             }
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+
+            this.switchTabHighlight(tab);
+            this.list.currentView.showLoading();
+            Backbone.history.navigate(url, { trigger: true });
         },
 
         showActivity: function (activityCollection) {
@@ -94,7 +112,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
             }
         },
 
-        showPosts: function (postCollection) {
+        showPosts: function (postCollection, fieldSelectList) {
             this.switchTabHighlight('posts');
 
             var options = {
@@ -102,17 +120,35 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
                 collection: postCollection
             };
 
+            var searchOptions = {
+                postCollection: postCollection,
+                fieldSelectList: fieldSelectList
+            };
+
             if (app.isPrerenderingView('organisations')) {
                 options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
             }
 
             var postListView = new PostListView(options);
+            var postSearchPanelView = new PostSearchPanelView(searchOptions);
 
             if (app.isPrerenderingView('organisations')) {
                 this.list.attachView(postListView);
                 postListView.showBootstrappedDetails();
+
+                this.search.attachView(postSearchPanelView);
+                postSearchPanelView.showBootstrappedDetails();
             } else {
                 this.list.show(postListView);
+
+                this.search.show(postSearchPanelView);
+            }
+
+            postListView.on('toggle-search', this.toggleSearchPanel);
+
+            if (postCollection.hasSearchCriteria()) {
+                this.$el.find('.search-bar').slideDown();
             }
         },
 
@@ -166,6 +202,24 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
             this.activeTab = tab;
             this.$el.find('.tab-button').removeClass('selected');
             this.$el.find('.' + tab + '-tab-button').addClass('selected');
+
+            if ((tab === 'activities' || tab === 'members' || tab === 'about') && this.search.currentView) {
+                this.search.currentView.$el.hide();
+            }
+        },
+
+        toggleSearchPanel: function () {
+            log('search bar', this.$el.find('.search-bar'));
+            if (this.$el.find('.search-bar').is(':visible')) {
+                log('search is visible');
+                this.$el.find('.search-bar').slideToggle();
+            } else {
+                log('search is not visible');
+                var that = this;
+                this.$el.find('.search-bar').slideToggle(function () {
+                    that.$el.find('.search-bar #query').focus();
+                });
+            }
         }
     });
 

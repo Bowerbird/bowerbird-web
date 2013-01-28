@@ -9,11 +9,13 @@
 // ObservationController & ObservationRouter
 // -----------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'models/sighting', 'models/identification', 'models/sightingnote', 'collections/sightingnotecollection', 'collections/identificationcollection',
-        'views/observationdetailsview', 'views/observationformview', 'views/sightingidentificationformview', 'views/sightingnoteformview'],
-function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNote, SightingNoteCollection, IdentificationCollection, ObservationDetailsView, ObservationFormView, SightingIdentificationFormView, SightingNoteFormView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/observation', 'models/sighting', 'models/identification', 'models/sightingnote', 'collections/sightingcollection', 'collections/sightingnotecollection', 'collections/identificationcollection',
+        'views/observationdetailsview', 'views/observationformview', 'views/sightingidentificationformview', 'views/sightingnoteformview', 'views/sightingexploreview'],
+function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNote, SightingCollection, SightingNoteCollection, IdentificationCollection, ObservationDetailsView, ObservationFormView, SightingIdentificationFormView,
+    SightingNoteFormView, SightingExploreView) {
     var ObservationRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
+            'sightings*': 'showSightingExplore',
             'observations/:id/identifications/create': 'showSightingIdentificationCreateForm',
             'observations/:id/notes/create': 'showSightingNoteCreateForm',
             'observations/:sightingId/identifications/:sightingNoteId/update': 'showSightingIdentificationUpdateForm',
@@ -178,6 +180,38 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
 
     ObservationController.showSightingNoteUpdateForm = function (sightingId, sightingNoteId) {
         showSightingNoteForm('/observations/' + sightingId + '/notes/' + sightingNoteId + '/update');
+    };
+
+    ObservationController.showSightingExplore = function (params) {
+        $.when(getModel('/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+            .done(function (model) {
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
+                    {
+                        page: model.Query.page,
+                        pageSize: model.Query.PageSize,
+                        total: model.Sightings.TotalResultCount,
+                        viewType: model.Query.View,
+                        sortBy: model.Query.Sort,
+                        category: model.Query.Category,
+                        needsId: model.Query.NeedsId,
+                        query: model.Query.Query,
+                        field: model.Query.Field,
+                        taxonomy: model.Query.Taxonomy
+                    });
+
+                var options = {
+                     sightingCollection: sightingCollection,
+                     categorySelectList: model.CategorySelectList,
+                     fieldSelectList: model.FieldSelectList
+                };
+                if (app.isPrerenderingView('sightings')) {
+                    options['el'] = '.sightings';
+                }
+                var sightingExploreView = new SightingExploreView(options);
+
+                app.showContentView('Sightings', sightingExploreView, 'sightings', function () {
+                });
+            });
     };
 
     // Event Handlers

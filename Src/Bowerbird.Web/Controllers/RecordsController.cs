@@ -111,7 +111,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Record = _sightingViewModelBuilder.BuildNewRecord(id);
-            viewModel.Categories = GetCategories();
+            //viewModel.Categories = GetCategories();
 
             return RestfulResult(
                 viewModel,
@@ -141,7 +141,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Record = record;
-            viewModel.Categories = GetCategories(recordId);
+            //viewModel.Categories = GetCategories(recordId);
 
             return RestfulResult(
                 viewModel,
@@ -277,25 +277,28 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        private IEnumerable GetCategories(string recordId = "")
-        {
-            var category = string.Empty;
+        //private IEnumerable GetCategories(string recordId = "")
+        //{
+        //    var category = string.Empty;
 
-            if (!string.IsNullOrWhiteSpace(recordId))
-            {
-                category = _documentSession.Load<Record>(recordId).Category;
-            }
+        //    if (!string.IsNullOrWhiteSpace(recordId))
+        //    {
+        //        category = _documentSession.Load<Record>(recordId).Category;
+        //    }
 
-            return _documentSession
-                .Load<AppRoot>(Constants.AppRootId)
-                .Categories
-                .Select(x => new
-                   {
-                       Text = x.Name,
-                       Value = x.Name,
-                       Selected = x.Name == category
-                   });
-        }
+        //    viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category ?? string.Empty);
+        //    viewModel.Categories = Categories.GetAll();
+
+        //    //return _documentSession
+        //    //    .Load<AppRoot>(Constants.AppRootId)
+        //    //    .Categories
+        //    //    .Select(x => new
+        //    //       {
+        //    //           Text = x.Name,
+        //    //           Value = x.Name,
+        //    //           Selected = x.Name == category
+        //    //       });
+        //}
 
         #endregion
     }

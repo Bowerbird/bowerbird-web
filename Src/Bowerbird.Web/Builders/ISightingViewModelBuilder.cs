@@ -23,9 +23,13 @@ namespace Bowerbird.Web.Builders
 
         object BuildNewRecord(string projectId = "");
 
-        dynamic BuildSighting(string id);
+        object BuildSighting(string id);
+
+        object BuildSightingList(SightingsQueryInput sightingsQueryInput);
 
         object BuildGroupSightingList(string groupId, SightingsQueryInput sightingsQueryInput);
+
+        object BuildFavouritesSightingList(string userId, SightingsQueryInput sightingsQueryInput);
 
         object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput);
 

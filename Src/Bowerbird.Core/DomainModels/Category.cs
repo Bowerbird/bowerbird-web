@@ -20,7 +20,7 @@ using System.Collections.Generic;
 
 namespace Bowerbird.Core.DomainModels
 {
-    public class Category : DomainModel
+    public class Category
     {
 
         #region Members
@@ -36,23 +36,26 @@ namespace Bowerbird.Core.DomainModels
 
         public Category(
             string id,
-            string taxonomy)
+            string name,
+            IEnumerable<string> rootTaxonomies)
             : base()
         {
             Check.RequireNotNullOrWhitespace(id, "id");
 
-            Id = "categories/" + id;
-            Name = id;
-            Taxonomy = taxonomy ?? string.Empty;
+            Id = id;
+            Name = name;
+            RootTaxonomies = rootTaxonomies;
         }
 
         #endregion
 
         #region Properties
 
+        public string Id { get; private set; }
+
         public string Name { get; private set; }
 
-        public string Taxonomy { get; private set; }
+        public IEnumerable<string> RootTaxonomies { get; private set; }
 
         #endregion
 

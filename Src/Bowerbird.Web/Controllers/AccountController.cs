@@ -472,7 +472,7 @@ namespace Bowerbird.Web.Controllers
         [HttpPut]
         [Authorize]
         [Transaction]
-        public ActionResult Update(UserUpdateInput userUpdateInput)
+        public ActionResult Update(AccountUpdateInput updateInput)
         {
             if (ModelState.IsValid)
             {
@@ -480,12 +480,13 @@ namespace Bowerbird.Web.Controllers
                     new UserUpdateCommand()
                     {
                         Id = _userContext.GetAuthenticatedUserId(),
-                        Name = userUpdateInput.Name,
-                        Email = userUpdateInput.Email,
-                        Description = userUpdateInput.Description,
-                        AvatarId = userUpdateInput.AvatarId,
-                        Timezone = userUpdateInput.Timezone,
-                        DefaultLicence = userUpdateInput.DefaultLicence
+                        Name = updateInput.Name,
+                        Email = updateInput.Email,
+                        Description = updateInput.Description,
+                        AvatarId = updateInput.AvatarId,
+                        BackgroundId = updateInput.BackgroundId,
+                        Timezone = updateInput.Timezone,
+                        DefaultLicence = updateInput.DefaultLicence
                     });
 
                 if (Request.IsAjaxRequest())
@@ -503,10 +504,10 @@ namespace Bowerbird.Web.Controllers
             
             ViewBag.Model.User = new
             {
-                userUpdateInput.AvatarId,
-                userUpdateInput.Description,
-                userUpdateInput.Email,
-                userUpdateInput.Name
+                updateInput.AvatarId,
+                updateInput.Description,
+                updateInput.Email,
+                updateInput.Name
             };
 
             return View(Form.Update);

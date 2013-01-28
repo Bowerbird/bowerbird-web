@@ -1,68 +1,71 @@
 ﻿<div class="organisation-about">
-
-
-  {{#Model.Organisation.Description}}
-  <h4>About This Organisation</h4>
+  <div class="about">
+    {{#Model.Organisation.Description}}
+    <h4>About This Organisation</h4>
   
-  <div class="organisation-description">
-    {{{Model.Organisation.Description}}}
-  </div>
-  {{/Model.Organisation.Description}}
-  
-  <h4>Basic Info</h4>
-
-  <div class="organisation-info">
-    <div id="created">
-      Created <span>{{Model.Organisation.Created}}</span>
+    <div class="organisation-description">
+      {{{Model.Organisation.Description}}}
     </div>
-    {{#Model.Organisation.Website}}
-    <div id="website">
-      Website <span><a href="{{Model.Organisation.Website}}" target="new">{{Model.Organisation.Website}}</a></span>
-    </div>
-    {{/Model.Organisation.Website}}
+    {{/Model.Organisation.Description}}
 
-    <div id="activity-chart">
-            
-      <table>
-        <caption>Activity in the last 30 days</caption>
-        <thead>
-          <tr>
-            <td></td>
-            {{#Model.ActivityTimeseries}}
-            <th scope="col">{{CreatedDate}}</th>
-            {{/Model.ActivityTimeseries}}
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Posts Added</th>
-            {{#Model.ActivityTimeseries}}
-            <td>{{PostCount}}</td>
-            {{/Model.ActivityTimeseries}}
-          </tr>
-          <tr>
-            <th scope="row">Comments Made</th>
-            {{#Model.ActivityTimeseries}}
-            <td>{{CommentCount}}</td>
-            {{/Model.ActivityTimeseries}}
-          </tr>
-        </tbody>
-      </table>
-      <div id="chart-area"></div>
-    </div>
-  </div>
+    <h4>Administrators</h4>
 
-  <h4>Organisation Administrators</h4>
-
-  <div>
-    <ul class="user-items">
-    {{#Model.OrganisationAdministrators.PagedListItems}}
-      <li class="user-item tile-user-details">
-        {{>UserTileDetails}}
+    <ul class="administrators">
+      {{#Model.OrganisationAdministrators.PagedListItems}}
+      <li>
+        <a href="{{Id}}">
+          {{#Avatar}}
+          {{>MediaSquare200}}
+          {{/Avatar}}
+        </a>
       </li>
-    {{/Model.OrganisationAdministrators.PagedListItems}}
+      {{/Model.OrganisationAdministrators.PagedListItems}}
     </ul>
+
+
+    <div class="organisation-info">
+      <div id="created">
+        Created <span>{{Model.Organisation.Created}}</span>
+      </div>
+      {{#Model.Organisation.Website}}
+      <div id="website">
+        Website <span><a href="{{Model.Organisation.Website}}" target="new">{{Model.Organisation.Website}}</a></span>
+      </div>
+      {{/Model.Organisation.Website}}
+
+      <div id="activity-chart">
+            
+        <table>
+          <caption>Activity in the last 30 days</caption>
+          <thead>
+            <tr>
+              <td></td>
+              {{#Model.ActivityTimeseries}}
+              <th scope="col">{{CreatedDate}}</th>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">News item posted</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{PostCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Comment made</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{CommentCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+          </tbody>
+        </table>
+        <div id="chart-area"></div>
+      </div>
+    </div>
   </div>
+  
+ 
   
   
 </div>

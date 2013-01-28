@@ -13,6 +13,7 @@
 */
 
 using System;
+using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Events;
 
@@ -29,6 +30,7 @@ namespace Bowerbird.Core.DomainModels
         protected Organisation()
             : base()
         {
+            InitMembers();
         }
 
         public Organisation(
@@ -38,6 +40,7 @@ namespace Bowerbird.Core.DomainModels
             string website,
             MediaResource avatar,
             MediaResource background,
+            IEnumerable<string> categories,
             DateTime createdDateTime,
             Group parentGroup)
             : base(
@@ -46,11 +49,16 @@ namespace Bowerbird.Core.DomainModels
             createdDateTime,
             parentGroup)
         {
+            Check.RequireNotNull(categories != null, "categories");
+
+            InitMembers();
+
             SetOrganisationDetails(
                 description,
                 website,
                 avatar,
-                background);
+                background,
+                categories);
 
             ApplyEvent(new DomainModelCreatedEvent<Organisation>(this, createdByUser, this));
         }
@@ -67,6 +75,8 @@ namespace Bowerbird.Core.DomainModels
 
         public MediaResource Background { get; private set; }
 
+        public IEnumerable<string> Categories { get; private set; }
+
         public override string GroupType
         {
             get { return "organisation"; }
@@ -76,18 +86,27 @@ namespace Bowerbird.Core.DomainModels
 
         #region Methods
 
-        private void SetOrganisationDetails(string description, string website, MediaResource avatar, MediaResource background)
+        private void InitMembers()
+        {
+            Categories = new List<string>();
+        }
+
+        private void SetOrganisationDetails(string description, string website, MediaResource avatar,
+            MediaResource background, IEnumerable<string> categories)
         {
             Description = description;
             Website = website;
             Avatar = avatar;
             Background = background;
+            Categories = categories;
         }
 
-        public Organisation UpdateDetails(User updatedByUser, string name, string description, string website, MediaResource avatar, MediaResource background)
+        public Organisation UpdateDetails(User updatedByUser, string name, string description, string website,
+            MediaResource avatar, MediaResource background, IEnumerable<string> categories)
         {
             Check.RequireNotNull(updatedByUser, "updatedByUser");
             Check.RequireNotNullOrWhitespace(name, "name");
+            Check.RequireNotNull(categories != null, "categories");
 
             SetGroupDetails(name);
 
@@ -95,7 +114,8 @@ namespace Bowerbird.Core.DomainModels
                 description,
                 website,
                 avatar,
-                background);
+                background, 
+                categories);
 
             ApplyEvent(new DomainModelUpdatedEvent<Organisation>(this, updatedByUser, this));
 

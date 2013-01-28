@@ -10,6 +10,7 @@
  
 */
 
+using System;
 using System.Linq;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
@@ -33,6 +34,7 @@ namespace Bowerbird.Web.Builders
         private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -42,17 +44,20 @@ namespace Bowerbird.Web.Builders
             IDocumentSession documentSession,
             IMediaResourceFactory mediaResourceFactory,
             IUserViewFactory userViewFactory,
-            IGroupViewFactory groupViewFactory)
+            IGroupViewFactory groupViewFactory,
+            IUserContext userContext)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _mediaResourceFactory = mediaResourceFactory;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
+            _userContext = userContext;
         }
 
         #endregion
@@ -69,7 +74,8 @@ namespace Bowerbird.Web.Builders
                 Avatar = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.Project),
                 Background = _mediaResourceFactory.MakeDefaultBackgroundImage("project"),
                 AvatarId = string.Empty,
-                BackgroundId = string.Empty
+                BackgroundId = string.Empty,
+                Categories = new string[] { }
             };
         }
 
@@ -90,11 +96,12 @@ namespace Bowerbird.Web.Builders
                 AvatarId = project.Avatar.Id,
                 BackgroundId = project.Background.Id,
                 project.Avatar,
-                project.Background
+                project.Background,
+                project.Categories
             };
         }
 
-        public dynamic BuildProject(string projectId)
+        public object BuildProject(string projectId)
         {
             Check.RequireNotNullOrWhitespace(projectId, "projectId");
 
@@ -103,67 +110,95 @@ namespace Bowerbird.Web.Builders
                 .AsProjection<All_Groups.Result>()
                 .First(x => x.GroupId == projectId);
 
-            return _groupViewFactory.Make(project, true);
+            User authenticatedUser = null;
+
+            if (_userContext.IsUserAuthenticated())
+            {
+                authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            }
+
+            return _groupViewFactory.Make(project.Group, authenticatedUser, true, project.SightingCount, project.UserCount, project.PostCount);
         }
 
         public object BuildProjectList(ProjectsQueryInput projectsQueryInput)
         {
             Check.RequireNotNull(projectsQueryInput, "projectsQueryInput");
 
-            var query = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupType == "project");
-
-            return ExecuteQuery(projectsQueryInput.Sort, projectsQueryInput, query);
+            return ExecuteQuery(projectsQueryInput);
         }
 
-        public object BuildUserProjectList(string userId, PagingInput pagingInput)
-        {
-            Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(pagingInput, "pagingInput");
-
-            var query = _documentSession
-                .Query<All_Groups.Result, All_Groups>()
-                .AsProjection<All_Groups.Result>()
-                .Where(x => x.GroupType == "project" && x.UserIds.Any(y => y == userId));
-
-            return ExecuteQuery("a-z", pagingInput, query);
-        }
-
-        private object ExecuteQuery(string sort, PagingInput pagingInput, IQueryable<All_Groups.Result> query)
+        private object ExecuteQuery(ProjectsQueryInput projectsQueryInput)
         {
             RavenQueryStatistics stats;
-            query = ((IRavenQueryable<All_Groups.Result>)query).Statistics(out stats);
+            User authenticatedUser = null;
 
-            switch (sort.ToLower())
+            if (_userContext.IsUserAuthenticated())
+            {
+                authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            }
+
+            var query = _documentSession
+                .Advanced
+                .LuceneQuery<All_Groups.Result, All_Groups>()
+                .Statistics(out stats)
+                .SelectFields<All_Groups.Result>("GroupType", "GroupId", "CreatedDateTime", "UserCount", "SightingCount", "PostCount", "VoteCount", "LatestObservationIds", "LatestObservations")
+                .WhereEquals("GroupType", "project");
+
+            if (!string.IsNullOrWhiteSpace(projectsQueryInput.Category))
+            {
+                query = query
+                    .AndAlso()
+                    .WhereIn("Categories", new [] { projectsQueryInput.Category });
+            }
+
+            if (!string.IsNullOrWhiteSpace(projectsQueryInput.Query))
+            {
+                var field = "AllFields";
+
+                if (projectsQueryInput.Field.ToLower() == "name")
+                {
+                    field = "Name";
+                }
+                if (projectsQueryInput.Field.ToLower() == "description")
+                {
+                    field = "Description";
+                }
+
+                query = query
+                    .AndAlso()
+                    .Search(field, projectsQueryInput.Query);
+            }
+
+            switch (projectsQueryInput.Sort.ToLower())
             {
                 default:
                 case "popular":
-                    query = query.OrderByDescending(x => x.UserCount).ThenBy(x => x.Name);
+                    query = query.AddOrder(x => x.UserCount, true).AddOrder(x => x.Name, false);
                     break;
                 case "newest":
-                    query = query.OrderByDescending(x => x.CreatedDateTime).ThenBy(x => x.Name);
+                    query = query.AddOrder(x => x.CreatedDateTime, true).AddOrder(x => x.Name, false);
                     break;
                 case "a-z":
-                    query = query.OrderBy(x => x.Name);
+                    query = query.AddOrder(x => x.Name, false);
                     break;
                 case "z-a":
-                    query = query.OrderByDescending(x => x.Name);
+                    query = query.AddOrder(x => x.Name, true);
                     break;
                 case "oldest":
-                    query = query.OrderBy(x => x.CreatedDateTime).ThenBy(x => x.Name);
+                    query = query.AddOrder(x => x.CreatedDateTime, false).AddOrder(x => x.Name, false);
                     break;
             }
 
-            return query.Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.GetPageSize())
+            return query
+                .Skip(projectsQueryInput.GetSkipIndex())
+                .Take(projectsQueryInput.GetPageSize())
                 .ToList()
-                .Select(x => _groupViewFactory.Make(x, true))
+                .Select(x => _groupViewFactory.Make(x.Group, authenticatedUser, true, x.SightingCount, x.UserCount, x.PostCount, x.LatestObservations != null ? x.LatestObservations.Take(4) : null))
                 .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
-                    stats.TotalResults);
+                    projectsQueryInput.GetPage(),
+                    projectsQueryInput.GetPageSize(),
+                    stats.TotalResults
+                );
         }
 
         #endregion

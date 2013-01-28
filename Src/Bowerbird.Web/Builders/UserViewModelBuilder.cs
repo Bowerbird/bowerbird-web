@@ -10,7 +10,9 @@ Funded by:
 */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
@@ -30,6 +32,7 @@ namespace Bowerbird.Web.Builders
         private readonly IDocumentSession _documentSession;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
+        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -38,15 +41,18 @@ namespace Bowerbird.Web.Builders
         public UserViewModelBuilder(
             IDocumentSession documentSession,
             IUserViewFactory userViewFactory,
-            IGroupViewFactory groupViewFactory)
+            IGroupViewFactory groupViewFactory,
+            IUserContext userContext)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
+            _userContext = userContext;
         }
 
         #endregion
@@ -99,10 +105,10 @@ namespace Bowerbird.Web.Builders
             {
                 User = _userViewFactory.Make(user),
                 AppRoot = groupResults.Where(x => x.Group is AppRoot).Select(x => x.Group as AppRoot).First(),
-                Organisations = groupResults.Where(x => x.Group is Organisation).Select(x => _groupViewFactory.Make(x)),
-                Teams = groupResults.Where(x => x.Group is Team).Select(x => _groupViewFactory.Make(x)),
-                Projects = groupResults.Where(x => x.Group is Project).Select(x => _groupViewFactory.Make(x)),
-                UserProjects = groupResults.Where(x => x.Group is UserProject).Select(x => _groupViewFactory.Make(x)),
+                Organisations = groupResults.Where(x => x.Group is Organisation).Select(x => _groupViewFactory.Make(x.Group, user)),
+                Teams = groupResults.Where(x => x.Group is Team).Select(x => _groupViewFactory.Make(x.Group, user)),
+                Projects = groupResults.Where(x => x.Group is Project).Select(x => _groupViewFactory.Make(x.Group, user)),
+                UserProjects = groupResults.Where(x => x.Group is UserProject).Select(x => _groupViewFactory.Make(x.Group, user)),
                 Memberships = user.Memberships.Select(x => new {
                     GroupId = x.Group.Id,
                     x.Group.GroupType,
@@ -113,51 +119,6 @@ namespace Bowerbird.Web.Builders
                 TimezoneOffset = DateTimeZoneProviders.Tzdb[user.Timezone].GetOffsetFromUtc(new Instant()).ToString(),
                 user.CallsToAction
             };
-        }
-
-        public object BuildGroupUserList(string groupId, UsersQueryInput usersQueryInput)
-        {
-            Check.RequireNotNullOrWhitespace(groupId, "groupId");
-            Check.RequireNotNull(usersQueryInput, "usersQueryInput");
-
-            var query = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.GroupIds.Any(y => y == groupId));
-
-            return ExecuteQuery(usersQueryInput.Sort, usersQueryInput, query);
-        }
-
-        public object BuildGroupUserList(string groupId, string role)
-        {
-            Check.RequireNotNullOrWhitespace(groupId, "groupId");
-
-            var query = _documentSession
-                .Advanced.LuceneQuery<All_Users.Result, All_Users>()
-                .SelectFields<All_Users.Result>("UserId", "GroupIds", "ConnectionIds", "SightingCount", "LatestHeartbeat", "LatestActivity", "Name", "Email")
-                .WhereEquals(role.Replace("roles/", ""), groupId);
-
-            //switch (sort.ToLower())
-            //{
-            //    default:
-            //    case "a-z":
-            //        query = query.OrderBy(x => x.Name);
-            //        break;
-            //    case "z-a":
-            //        query = query.OrderByDescending(x => x.Name);
-            //        break;
-            //}
-
-            RavenQueryStatistics stats;
-
-            return query.Statistics(out stats)
-                .Take(50)
-                .ToList()
-                .Select(x => _userViewFactory.Make(x, true))
-                .ToPagedList(
-                    1,
-                    50,
-                    stats.TotalResults);
         }
 
         public object BuildOnlineUserList()
@@ -174,30 +135,111 @@ namespace Bowerbird.Web.Builders
                 .Select(x => _userViewFactory.Make(x.User));
         }
 
-        private object ExecuteQuery(string sort, PagingInput pagingInput, IRavenQueryable<All_Users.Result> query)
+        public object BuildGroupUserList(string groupId, string role)
         {
-            switch (sort.ToLower())
-            {
-                default:
-                case "a-z":
-                    query = query.OrderBy(x => x.Name);
-                    break;
-                case "z-a":
-                    query = query.OrderByDescending(x => x.Name);
-                    break;
-            }
+            Check.RequireNotNullOrWhitespace(groupId, "groupId");
 
             RavenQueryStatistics stats;
 
-            return query.Skip(pagingInput.GetSkipIndex())
+            return _documentSession
+                .Advanced.LuceneQuery<All_Users.Result, All_Users>()
+                .SelectFields<All_Users.Result>("UserId", "GroupIds", "ConnectionIds", "SightingCount", "LatestHeartbeat", "LatestActivity")
+                .WhereEquals(role.Replace("roles/", ""), groupId)
+                .OrderBy(x => x.Name)
                 .Statistics(out stats)
-                .Take(pagingInput.GetPageSize())
+                .Take(100)
                 .ToList()
                 .Select(x => _userViewFactory.Make(x, true))
                 .ToPagedList(
-                    pagingInput.Page,
-                    pagingInput.PageSize,
+                    1,
+                    100,
                     stats.TotalResults);
+        }
+
+        public object BuildGroupUserList(string groupId, UsersQueryInput usersQueryInput)
+        {
+            Check.RequireNotNullOrWhitespace(groupId, "groupId");
+            Check.RequireNotNull(usersQueryInput, "usersQueryInput");
+
+            return ExecuteQuery(usersQueryInput, new[] { groupId });
+        }
+
+        public object BuildUserList(UsersQueryInput usersQueryInput)
+        {
+            Check.RequireNotNull(usersQueryInput, "usersQueryInput");
+
+            return ExecuteQuery(usersQueryInput, new string[] { });
+        }
+
+        private object ExecuteQuery(UsersQueryInput usersQueryInput, IEnumerable<string> groupIds)
+        {
+            RavenQueryStatistics stats;
+            //User authenticatedUser = null;
+
+            //if (_userContext.IsUserAuthenticated())
+            //{
+            //    authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            //}
+
+            var query = _documentSession
+                .Advanced
+                .LuceneQuery<All_Users.Result, All_Users>()
+                .Statistics(out stats)
+                .SelectFields<All_Users.Result>("UserId", "GroupIds", "ConnectionIds", "SightingCount", "LatestHeartbeat", "LatestActivity", "User");
+
+            bool criteriaAdded = false;
+
+            if (groupIds.Any())
+            {
+                query = query
+                    .WhereIn("GroupIds", groupIds);
+
+                criteriaAdded = true;
+            }
+
+            if (!string.IsNullOrWhiteSpace(usersQueryInput.Query))
+            {
+                var field = "AllFields";
+
+                if (usersQueryInput.Field.ToLower() == "name")
+                {
+                    field = "Name";
+                }
+                if (usersQueryInput.Field.ToLower() == "description")
+                {
+                    field = "Description";
+                }
+
+                if (criteriaAdded)
+                {
+                    query = query.AndAlso();
+                }
+
+                query = query
+                    .Search(field, usersQueryInput.Query);
+            }
+
+            switch (usersQueryInput.Sort.ToLower())
+            {
+                default:
+                case "a-z":
+                    query = query.AddOrder(x => x.Name, false);
+                    break;
+                case "z-a":
+                    query = query.AddOrder(x => x.Name, true);
+                    break;
+            }
+
+            return query
+                .Skip(usersQueryInput.GetSkipIndex())
+                .Take(usersQueryInput.GetPageSize())
+                .ToList()
+                .Select(x => _userViewFactory.Make(x))
+                .ToPagedList(
+                    usersQueryInput.GetPage(),
+                    usersQueryInput.GetPageSize(),
+                    stats.TotalResults
+                );
         }
 
         #endregion

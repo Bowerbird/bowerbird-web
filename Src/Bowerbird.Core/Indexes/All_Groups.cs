@@ -33,18 +33,23 @@ namespace Bowerbird.Core.Indexes
             public string[] AncestorGroupIds { get; set; }
             public string[] DescendantGroupIds { get; set; }
             public string[] GroupRoleIds { get; set; }
-            public string Name { get; set; }
             public DateTime CreatedDateTime { get; set; }
             public int UserCount { get; set; }
             public int SightingCount { get; set; }
             public int PostCount { get; set; }
             public int VoteCount { get; set; }
+            public string[] LatestObservationIds { get; set; }
+            public string[] Categories { get; set; }
+            public string Name { get; set; }
+            public string Description { get; set; }
+            public object[] AllFields { get; set; }
 
             public AppRoot AppRoot { get; set; }
             public Organisation Organisation { get; set; }
             public Project Project { get; set; }
             public UserProject UserProject { get; set; }
             public Favourites Favourites { get; set; }
+            public IEnumerable<Observation> LatestObservations { get; set; } 
 
             public Group Group
             {
@@ -74,12 +79,16 @@ namespace Bowerbird.Core.Indexes
                                 AncestorGroupIds = new string[] { },
                                 DescendantGroupIds = new string[] { },
                                 GroupRoleIds = new string[] { },
-                                appRoot.Name,
                                 appRoot.CreatedDateTime,
                                 UserCount = 0,
                                 SightingCount = 0,
                                 PostCount = 0,
-                                VoteCount = 0
+                                VoteCount = 0,
+                                LatestObservationIds = new string[] { },
+                                Categories = new string[] {},
+                                appRoot.Name,
+                                Description = (string)null,
+                                AllFields = new object[] {}
                             });
 
             AddMap<Organisation>(
@@ -99,12 +108,20 @@ namespace Bowerbird.Core.Indexes
                         DescendantGroupIds = from descendant in organisation.DescendantGroups
                                              select descendant.Id,
                         GroupRoleIds = new string[] { },
-                        organisation.Name,
                         organisation.CreatedDateTime,
                         UserCount = 0,
                         SightingCount = 0,
                         PostCount = 0,
-                        VoteCount = 0
+                        VoteCount = 0,
+                        LatestObservationIds = new string[] { },
+                        organisation.Categories,
+                        organisation.Name,
+                        organisation.Description,
+                        AllFields = new[]
+                                    {
+                                        organisation.Name,
+                                        organisation.Description
+                                    }
                     });
 
             AddMap<Project>(
@@ -121,12 +138,20 @@ namespace Bowerbird.Core.Indexes
                                                    select ancestor.Id,
                                 DescendantGroupIds = new string[] { },
                                 GroupRoleIds = new string[] { },
-                                project.Name,
                                 project.CreatedDateTime,
                                 UserCount = 0,
                                 SightingCount = 0,
                                 PostCount = 0,
-                                VoteCount = 0
+                                VoteCount = 0,
+                                LatestObservationIds = new string[] { },
+                                project.Categories,
+                                project.Name,
+                                project.Description,
+                                AllFields = new[]
+                                    {
+                                        project.Name,
+                                        project.Description
+                                    }
                             });
 
             AddMap<UserProject>(
@@ -143,12 +168,16 @@ namespace Bowerbird.Core.Indexes
                                                        select ancestor.Id,
                                     DescendantGroupIds = new string[] { },
                                     GroupRoleIds = new string[] { },
-                                    userProject.Name,
                                     userProject.CreatedDateTime,
                                     UserCount = 0,
                                     SightingCount = 0,
                                     PostCount = 0,
-                                    VoteCount = 0
+                                    VoteCount = 0,
+                                    LatestObservationIds = new string[] { },
+                                    Categories = new string[] { },
+                                    userProject.Name,
+                                    Description = (string)null,
+                                    AllFields = new object[] { }
                                 });
 
             AddMap<Favourites>(
@@ -165,12 +194,16 @@ namespace Bowerbird.Core.Indexes
                                                                select ancestor.Id,
                                             DescendantGroupIds = new string[] {},
                                             GroupRoleIds = new string[] {},
-                                            favourites.Name,
                                             favourites.CreatedDateTime,
                                             UserCount = 0,
                                             SightingCount = 0,
                                             PostCount = 0,
-                                            VoteCount = 0
+                                            VoteCount = 0,
+                                            LatestObservationIds = new string[] { },
+                                            Categories = new string[] { },
+                                            favourites.Name,
+                                            Description = (string)null,
+                                            AllFields = new object[] { }
                                         });
 
             // Memberships of groups
@@ -187,12 +220,16 @@ namespace Bowerbird.Core.Indexes
                              AncestorGroupIds = new string[] { },
                              DescendantGroupIds = new string[] { },
                              GroupRoleIds = member.Roles.Select(x => x.Id),
-                             Name = (string)null,
                              CreatedDateTime = (object)null,
                              UserCount = 1,
                              SightingCount = 0,
                              PostCount = 0,
-                             VoteCount = 0
+                             VoteCount = 0,
+                             LatestObservationIds = new string[] { },
+                             Categories = new string[] { },
+                             Name = (string)null,
+                             Description = (string)null,
+                             AllFields = new object[] { }
                          });
 
             // Count of observation sightings in groups
@@ -209,12 +246,16 @@ namespace Bowerbird.Core.Indexes
                                         AncestorGroupIds = new string[] {},
                                         DescendantGroupIds = new string[] {},
                                         GroupRoleIds = new string[] {},
-                                        Name = (string) null,
                                         CreatedDateTime = (object) null,
                                         UserCount = 0,
                                         SightingCount = 1,
                                         PostCount = 0,
-                                        VoteCount = 0
+                                        VoteCount = 0,
+                                        LatestObservationIds = new [] { observation.Id },
+                                        Categories = new string[] { },
+                                        Name = (string)null,
+                                        Description = (string)null,
+                                        AllFields = new object[] { }
                                     });
 
             // Count of record sightings in groups
@@ -231,12 +272,16 @@ namespace Bowerbird.Core.Indexes
                                    AncestorGroupIds = new string[] {},
                                    DescendantGroupIds = new string[] {},
                                    GroupRoleIds = new string[] {},
-                                   Name = (string) null,
                                    CreatedDateTime = (object) null,
                                    UserCount = 0,
                                    SightingCount = 1,
                                    PostCount = 0,
-                                   VoteCount = 0
+                                   VoteCount = 0,
+                                   LatestObservationIds = new string[] { },
+                                   Categories = new string[] { },
+                                   Name = (string)null,
+                                   Description = (string)null,
+                                   AllFields = new object[] { }
                                });
 
             // Count of posts in groups
@@ -252,12 +297,16 @@ namespace Bowerbird.Core.Indexes
                              AncestorGroupIds = new string[] { },
                              DescendantGroupIds = new string[] { },
                              GroupRoleIds = new string[] { },
-                             Name = (string)null,
                              CreatedDateTime = (object)null,
                              UserCount = 0,
                              SightingCount = 0,
                              PostCount = 1,
-                             VoteCount = 0
+                             VoteCount = 0,
+                             LatestObservationIds = new string[] { },
+                             Categories = new string[] { },
+                             Name = (string)null,
+                             Description = (string)null,
+                             AllFields = new object[] { }
                          });
 
             Reduce = results => from result in results
@@ -273,12 +322,16 @@ namespace Bowerbird.Core.Indexes
                                         AncestorGroupIds = g.SelectMany(x => x.AncestorGroupIds),
                                         DescendantGroupIds = g.SelectMany(x => x.DescendantGroupIds),
                                         GroupRoleIds = g.SelectMany(x => x.GroupRoleIds),
-                                        Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
                                         CreatedDateTime = g.Select(x => x.CreatedDateTime).Where(x => x != null).FirstOrDefault(),
                                         UserCount = g.Sum(x => x.UserCount),
                                         SightingCount = g.Sum(x => x.SightingCount),
                                         PostCount = g.Sum(x => x.PostCount),
-                                        VoteCount = g.Sum(x => x.VoteCount)
+                                        VoteCount = g.Sum(x => x.VoteCount),
+                                        LatestObservationIds = g.SelectMany(x => x.LatestObservationIds).OrderByDescending(x => x).Take(10), // Just ordering by string, lexicographically
+                                        Categories = g.SelectMany(x => x.Categories),
+                                        Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
+                                        Description = g.Select(x => x.Description).Where(x => x != null).FirstOrDefault(),
+                                        AllFields = g.SelectMany(x => x.AllFields)
                                     };
 
             TransformResults = (database, results) =>
@@ -302,6 +355,7 @@ namespace Bowerbird.Core.Indexes
                     Project = result.GroupType == "project" ? database.Load<Project>(result.GroupId) : null,
                     UserProject = result.GroupType == "userproject" ? database.Load<UserProject>(result.GroupId) : null,
                     Favourites = result.GroupType == "favourites" ? database.Load<Favourites>(result.GroupId) : null,
+                    LatestObservations = database.Load<Observation>(result.LatestObservationIds)
                 };
 
             Store(x => x.GroupType, FieldStorage.Yes);
@@ -318,6 +372,12 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.SightingCount, FieldStorage.Yes);
             Store(x => x.PostCount, FieldStorage.Yes);
             Store(x => x.VoteCount, FieldStorage.Yes);
+            Store(x => x.LatestObservationIds, FieldStorage.Yes);
+            Store(x => x.Categories, FieldStorage.Yes);
+
+            Index(x => x.Name, FieldIndexing.Analyzed);
+            Index(x => x.Description, FieldIndexing.Analyzed);
+            Index(x => x.AllFields, FieldIndexing.Analyzed);
         }
     }
 }

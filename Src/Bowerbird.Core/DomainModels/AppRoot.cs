@@ -49,7 +49,7 @@ namespace Bowerbird.Core.DomainModels
 
             Id = Constants.AppRootId;
             SystemSetupDate = systemSetupDate;
-            Categories = categories.Select(x => new Category(x.Key, x.Value));
+            //Categories = categories.Select(x => new Category(x.Key, x.Value));
             base.Name = "Bowerbird";
             base.CreatedDateTime = DateTime.UtcNow;
         }
@@ -63,7 +63,7 @@ namespace Bowerbird.Core.DomainModels
             get { return "approot"; }
         }
 
-        public IEnumerable<Category> Categories { get; private set; }
+        //public IEnumerable<Category> Categories { get; private set; }
 
         public DateTime SystemSetupDate { get; private set; }
 

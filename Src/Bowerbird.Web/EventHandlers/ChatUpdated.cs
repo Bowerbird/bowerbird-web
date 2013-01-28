@@ -206,7 +206,8 @@ namespace Bowerbird.Web.EventHandlers
 
             if (chat.ChatType == "group")
             {
-                chatDetails.Group = _groupViewFactory.Make(GetGroup(chat.Group.Id));
+                var group = GetGroup(chat.Group.Id);
+                chatDetails.Group = _groupViewFactory.Make(group.Group, _documentSession.Load<User>(userId));
 
                 // Group chat users get some historic messages for context
                 chatDetails.Messages = chat

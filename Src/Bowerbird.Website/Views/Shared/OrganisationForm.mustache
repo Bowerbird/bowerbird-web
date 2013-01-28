@@ -27,6 +27,24 @@
             <input type="text" id="Name" name="name" value="{{Model.Organisation.Name}}" />
           </div>
         </div>
+        <div id="categories-field" class="field">
+          <div>
+            <label for="Categories">
+              Categories <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <select id="Categories" multiple="" name="categories" title="Select the categories of sightings your project will contain">
+              <option></option>
+              {{#Model.CategoriesSelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.CategoriesSelectList}}
+            </select>
+            <p>Select the categories of sightings your project will contain</p>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
         <div id="website-field" class="field">
           <div>
             <label for="website">Website</label>
@@ -50,7 +68,6 @@
           </div>
         </div>
       </div>
-
       <div class="field-row">
         <div class="field background-field">
           <div>

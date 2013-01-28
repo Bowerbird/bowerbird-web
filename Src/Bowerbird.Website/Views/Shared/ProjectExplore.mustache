@@ -1,6 +1,4 @@
-﻿<h2>
-  <span class="small-icon project-icon"></span>Projects
-</h2>
+﻿<h2><span class="small-icon project-icon"></span>Projects</h2>
 {{#Model.ShowProjectExploreWelcome}}
 <div class="call-to-action" id="project-explore-welcome">
   <a href="#" class="close-call-to-action" title="Close">Close</a>
@@ -20,9 +18,15 @@
 </div>
 {{/Model.ShowProjectExploreWelcome}}
 <div class="details">
+  <div class="search">
+    <div>
+      {{>ProjectSearchPanel}}
+    </div>
+  </div>
   <div class="list">
     <div>
       {{>ProjectList}}
     </div>
   </div>
 </div>
+ 

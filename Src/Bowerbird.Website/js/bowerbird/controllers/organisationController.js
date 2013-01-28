@@ -48,7 +48,10 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
             .done(function (model) {
                 var organisation = new Organisation(model.Organisation);
 
-                var options = { model: organisation };
+                var options = {
+                     model: organisation,
+                     categoriesSelectList: model.CategoriesSelectList
+                };
 
                 if (app.isPrerenderingView('organisations')) {
                     options['el'] = '.organisation-form';
@@ -96,12 +99,19 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
         $.when(getModel('/organisations/' + id + '/posts?sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
                 var organisation = new Organisation(model.Organisation);
-                var postCollection = new PostCollection(model.Posts.PagedListItems, { groupId: organisation.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Posts.TotalResultCount,
-                    sortBy: model.Query.Sort
-                });
+                var postCollection = new PostCollection(model.Posts.PagedListItems,
+                    { 
+                        groupId: organisation.id,
+                        page: model.Query.page,
+                        pageSize: model.Query.PageSize,
+                        total: model.Posts.TotalResultCount,
+                        sortBy: model.Query.Sort,
+                        query: model.Query.Query,
+                        field: model.Query.Field
+                    });
 
                 if (app.content.currentView instanceof OrganisationDetailsView && app.content.currentView.model.id === organisation.id) {
-                    app.content.currentView.showPosts(postCollection);
+                    app.content.currentView.showPosts(postCollection, model.FieldSelectList);
                 } else {
                     var options = { model: organisation };
                     if (app.isPrerenderingView('organisations')) {
@@ -110,7 +120,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
                     var organisationDetailsView = new OrganisationDetailsView(options);
 
                     app.showContentView(organisation.get('Name'), organisationDetailsView, 'organisations', function () {
-                        organisationDetailsView.showPosts(postCollection);
+                        organisationDetailsView.showPosts(postCollection, model.FieldSelectList);
                     });
                 }
             });
@@ -177,9 +187,23 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
     OrganisationController.showExplore = function (params) {
         $.when(getModel('/organisations?sort=' + (params && params.sort ? params.sort : 'popular')))
         .done(function (model) {
-            var organisationCollection = new OrganisationCollection(model.Organisations.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Organisations.TotalResultCount, sortBy: model.Query.Sort });
+            var organisationCollection = new OrganisationCollection(model.Organisations.PagedListItems,
+                {
+                    page: model.Query.page,
+                    pageSize: model.Query.PageSize,
+                    total: model.Organisations.TotalResultCount,
+                    viewType: model.Query.View,
+                    sortBy: model.Query.Sort,
+                    category: model.Query.Category,
+                    query: model.Query.Query,
+                    field: model.Query.Field
+                });
 
-            var options = { collection: organisationCollection };
+            var options = {
+                 organisationCollection: organisationCollection,
+                 categorySelectList: model.CategorySelectList,
+                 fieldSelectList: model.FieldSelectList
+            };
 
             if (app.authenticatedUser) {
                 options.model = app.authenticatedUser.user;

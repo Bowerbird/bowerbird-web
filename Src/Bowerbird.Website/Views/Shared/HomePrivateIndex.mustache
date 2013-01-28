@@ -27,9 +27,19 @@
         <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/home/sightings">Sightings</a>
       </li>
       <li>
-        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/home/posts">News Items</a>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/home/posts">News</a>
       </li>
     </ul>
+  </div>
+  <div class="search">
+    <div>
+      {{#Model.ShowSightings}}
+      {{>SightingSearchPanel}}
+      {{/Model.ShowSightings}}
+      {{#Model.ShowPosts}}
+      {{>PostSearchPanel}}
+      {{/Model.ShowPosts}}
+    </div>
   </div>
   <div class="list">
     <div>

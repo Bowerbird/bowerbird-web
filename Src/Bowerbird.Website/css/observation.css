@@ -463,36 +463,33 @@
 }
 
 /******* Project about *******/
-.project-about,
-.organisation-about {
-    
+.project-about .about,
+.organisation-about .about{
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
+    display: block;
+    float: left;
 }
 .project-about h4,
 .organisation-about h4 {
     color: rgb(68, 68, 68);
     font-size: 0.875em;
     font-weight: 600;
+    padding: 1em 1em 0;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 .project-description,
 .organisation-description {
-    background-color: rgb(255, 255, 255);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     font-size: 0.875em;
     line-height: 1.5em;
-    margin-bottom: 2%;
-    padding: 2%;
+    padding: 0 1em;
 }
 .project-info,
 .organisation-info {
-    background-color: rgb(255, 255, 255);
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     font-size: 0.875em;
     line-height: 1.5em;
-    margin-bottom: 2%;
-    padding: 2%;
+    padding: 1em 0 1em 1em;
 }
 .project-info #created,
 .project-info #website,
@@ -500,8 +497,8 @@
 .organisation-info #created,
 .organisation-info #website,
 .organisation-info #activity-chart .visualize .visualize-title {
-    color: rgb(34, 34, 34);
-    font-size: 1em;
+    color: rgb(68, 68, 68);
+    font-size: 0.975em;
     font-weight: 600;
     line-height: 1.25em;
 }
@@ -514,18 +511,39 @@
     font-weight: 500;
     margin-bottom: 13px;
 }
+.project-about .administrators,
+.organisation-about .administrators
+{
+    display: block;
+    float: left;
+    list-style: none outside none;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+}
+.project-about .administrators li,
+.organisation-about .administrators li
+{
+    display: block;
+    float: left;
+    margin-right: 0.3em;
+    width: 100px;
+}
 .project-info #website span a,
-.project-info #website span a:hover,
 .project-info #website span a:active,
 .project-info #website span a:visited,
 .organisation-info #website span a,
-.organisation-info #website span a:hover,
 .organisation-info #website span a:active,
 .organisation-info #website span a:visited 
 {
     color: rgb(34, 34, 34);
 }
-
+.project-info #website span a:hover,
+.organisation-info #website span a:hover
+{
+    color: rgb(27, 131, 235);
+}
 .project-info #activity-chart,
 .organisation-info #activity-chart 
 {
@@ -581,12 +599,27 @@
     border-style: dotted;
 }
 /****************************************/
-.projects .project-list
+.projects .details,
+.organisations .details
 {
     float: left;
-    padding-top: 50px;
-    position: relative;
     width: 100%;
+    position: relative;
+}
+.projects .project-list,
+.organisations .organisation-list,
+.sightings .sighting-list,
+.favourites .sighting-list
+{
+    float: left;
+    width: 100%;
+}
+.projects .search,
+.organisations .search,
+.sightings .search,
+.favourites .search
+{
+    padding-top: 44px;
 }
 .projects .join-project-button {
     background-color: rgb(82, 177, 82);
@@ -1349,7 +1382,9 @@ BADGES
 .favourites-badge,
 .identifications-badge,
 .notes-badge,
-.comments-badge 
+.comments-badge,
+.users-badge,
+.sightings-badge 
 {
     background-color: rgb(251, 251, 251);
     border: 1px solid rgb(221, 221, 221);
@@ -1364,9 +1399,12 @@ BADGES
 .favourites-badge.small,
 .identifications-badge.small,
 .notes-badge.small,
-.comments-badge.small
+.comments-badge.small,
+.users-badge.small,
+.sightings-badge.small
 {
-    padding: 0 6px;
+    line-height: 0.01em;
+    padding: 0 6px 3px;
     width: auto;
 }
 .comments-badge {
@@ -1376,7 +1414,10 @@ BADGES
 .favourites-badge .small-icon,
 .identifications-badge .small-icon,
 .notes-badge .small-icon,
-.comments-badge .small-icon {
+.comments-badge .small-icon,
+.users-badge .small-icon,
+.sightings-badge .small-icon
+{
     display: block;
     margin: 0 auto;
 }
@@ -1384,14 +1425,19 @@ BADGES
 .favourites-badge.small .small-icon,
 .identifications-badge.small .small-icon,
 .notes-badge.small .small-icon,
-.comments-badge.small .small-icon {
+.comments-badge.small .small-icon,
+.users-badge.small .small-icon,
+.sightings-badge.small .small-icon
+{
     display: inline-block;
 }
 .votes-badge .count,
 .favourites-badge .count,
 .identifications-badge .count,
 .notes-badge .count,
-.comments-badge .count 
+.comments-badge .count,
+.users-badge .count,
+.sightings-badge .count
 {
     display: block;
     font-size: 0.8em;
@@ -1405,7 +1451,9 @@ BADGES
 .favourites-badge.small .count,
 .identifications-badge.small .count,
 .notes-badge.small .count,
-.comments-badge.small .count 
+.comments-badge.small .count,
+.users-badge.small .count,
+.sightings-badge.small .count
 {
     display: inline-block;
     margin: 0;
@@ -1415,7 +1463,9 @@ BADGES
 .favourites-badge .label,
 .identifications-badge .label,
 .notes-badge .label,
-.comments-badge .label 
+.comments-badge .label,
+.users-badge .label ,
+.sightings-badge .label
 {
     color: rgb(119, 119, 119);
     display: block;
@@ -1428,7 +1478,9 @@ BADGES
 .favourites-badge.small .label,
 .identifications-badge.small .label,
 .notes-badge.small .label,
-.comments-badge.small .label 
+.comments-badge.small .label,
+.users-badge.small .label,
+.sightings-badge .label
 {
     display: none;
 }

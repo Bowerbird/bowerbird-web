@@ -12,6 +12,7 @@
  
 */
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 namespace Bowerbird.Web.ViewModels
 {
@@ -40,6 +41,9 @@ namespace Bowerbird.Web.ViewModels
         public string AvatarId { get; set; }
 
         public string BackgroundId { get; set; }
+
+        [Required]
+        public IEnumerable<string> Categories { get; set; }
 
         #endregion
 

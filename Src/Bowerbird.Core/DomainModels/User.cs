@@ -178,7 +178,8 @@ namespace Bowerbird.Core.DomainModels
             return hashedPassword;
         }
 
-        private void SetDetails(string name, MediaResource avatar, string description, string defaultLicence, string timezone)
+        private void SetDetails(string name, MediaResource avatar, string description, 
+            string defaultLicence, string timezone)
         {
             Name = name;
             Avatar = avatar;

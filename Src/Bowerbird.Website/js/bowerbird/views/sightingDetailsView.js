@@ -125,9 +125,9 @@ function ($, _, Backbone, ich, app, moment, Voter) {
 
             this.$el.find('.actions .button').tipsy({ gravity: 's', html: true });
 
-            if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
-                this.$el.find('.edit-observation-button').hide();
-            }
+            //            if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
+            //                this.$el.find('.edit-observation-button').hide();
+            //            }
 
             this.$el.find('.vote-up, .vote-down, .add-identification-button, .add-note-button, .add-comment-button').tipsy({ gravity: 'n', html: true });
             this.$el.find('.favourites-button').tipsy({ gravity: 's', html: true });

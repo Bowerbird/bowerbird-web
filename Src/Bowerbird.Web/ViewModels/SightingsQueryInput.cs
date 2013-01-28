@@ -40,6 +40,23 @@ namespace Bowerbird.Web.ViewModels
 
         public string View { get; set; }
 
+        public string Category { get; set; }
+
+        public bool NeedsId { get; set; }
+
+        public string Taxonomy { get; set; }
+
+        ///// <summary>
+        ///// Used in mustache views to determine whether to show search panel
+        ///// </summary>
+        //public bool ShowSearch { get
+        //{
+        //    return !string.IsNullOrWhiteSpace(Query) ||
+        //           !string.IsNullOrWhiteSpace(Category) ||
+        //           NeedsId ||
+        //           !string.IsNullOrWhiteSpace(Taxonomy);
+        //}}
+
         #endregion
 
         #region Methods
@@ -50,6 +67,9 @@ namespace Bowerbird.Web.ViewModels
             Field = string.Empty;
             Sort = "newest";
             View = "thumbnails";
+            Category = string.Empty;
+            NeedsId = false;
+            Taxonomy = string.Empty;
         }
 
         #endregion

@@ -19,6 +19,7 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Factories;
 using Raven.Client;
 using Bowerbird.Core.Config;
 
@@ -29,17 +30,21 @@ namespace Bowerbird.Core.CommandHandlers
         #region Members
 
         private readonly IDocumentSession _documentSession;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
 
         #region Constructors
 
         public UserUpdateCommandHandler(
-            IDocumentSession documentSession)
+            IDocumentSession documentSession,
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
             _documentSession = documentSession;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -59,7 +64,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.UpdateDetails(
                 command.Name,
                 command.Description,
-                string.IsNullOrWhiteSpace(command.AvatarId) ? null : _documentSession.Load<MediaResource>(command.AvatarId),
+                string.IsNullOrWhiteSpace(command.AvatarId) ? _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User) : _documentSession.Load<MediaResource>(command.AvatarId),
                 command.DefaultLicence,
                 command.Timezone);
 
@@ -70,8 +75,8 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Name,
                 command.Description,
                 command.Website,
-                string.IsNullOrWhiteSpace(command.AvatarId) ? null : _documentSession.Load<MediaResource>(command.AvatarId),
-                string.IsNullOrWhiteSpace(command.BackgroundId) ? null : _documentSession.Load<MediaResource>(command.BackgroundId));
+                string.IsNullOrWhiteSpace(command.AvatarId) ? _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User) : _documentSession.Load<MediaResource>(command.AvatarId),
+                string.IsNullOrWhiteSpace(command.BackgroundId) ? _mediaResourceFactory.MakeDefaultBackgroundImage("userproject") : _documentSession.Load<MediaResource>(command.BackgroundId));
 
             _documentSession.Store(user);
             _documentSession.Store(userProject);

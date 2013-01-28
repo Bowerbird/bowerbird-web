@@ -41,6 +41,7 @@ namespace Bowerbird.Core.Indexes
             public object[] AllScientificNames { get; set; }
             public object[] AllCommonNames { get; set; }
             public string[] AllCategories { get; set; }
+            public int? SightingCount { get; set; }
         }
 
         public All_Species()
@@ -78,8 +79,35 @@ namespace Bowerbird.Core.Indexes
                                            AllCommonNames = new object[]
                                                {
                                                },
-                                           AllCategories = new [] { s.Category }
+                                           AllCategories = new [] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 1 observation sightings count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank1 = identification.TaxonomicRanks.ElementAtOrDefault(0) != null
+                                                let rank1Name = hasRank1 ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank1 ? rank1Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new string[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 2
             AddMap<Species>(species => from s in species
@@ -117,8 +145,36 @@ namespace Bowerbird.Core.Indexes
                                            AllCommonNames = new object[]
                                                {
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 2 observation sightings count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank2 = identification.TaxonomicRanks.ElementAtOrDefault(1) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = hasRank2 ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank2 ? rank1Name + ": " + rank2Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new string[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 3
             AddMap<Species>(species => from s in species
@@ -168,8 +224,37 @@ namespace Bowerbird.Core.Indexes
                                                    isFamilyRank || isSpeciesRank ? s.CommonGroupNames : new string[] {},
                                                    isSpeciesRank ? s.CommonNames : new string[] {},
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 3 observation sightings count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank3 = identification.TaxonomicRanks.ElementAtOrDefault(2) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = identification.TaxonomicRanks.ElementAtOrDefault(1) != null ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                let rank3Name = hasRank3 ? identification.TaxonomicRanks.ElementAt(2).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank3 ? rank1Name + ": " + rank2Name + ": " + rank3Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new string[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 4
             AddMap<Species>(species => from s in species
@@ -225,8 +310,38 @@ namespace Bowerbird.Core.Indexes
                                                    isFamilyRank || isSpeciesRank || isSubSpeciesRank ? s.CommonGroupNames : new string[] {},
                                                    isSpeciesRank || isSubSpeciesRank ? s.CommonNames : new string[] {},
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 4 observation sightings count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank4 = identification.TaxonomicRanks.ElementAtOrDefault(3) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = identification.TaxonomicRanks.ElementAtOrDefault(1) != null ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                let rank3Name = identification.TaxonomicRanks.ElementAtOrDefault(2) != null ? identification.TaxonomicRanks.ElementAt(2).Name : (string)null
+                                                let rank4Name = hasRank4 ? identification.TaxonomicRanks.ElementAt(3).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank4 ? rank1Name + ": " + rank2Name + ": " + rank3Name + ": " + rank4Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new string[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 5
             AddMap<Species>(species => from s in species
@@ -284,8 +399,39 @@ namespace Bowerbird.Core.Indexes
                                                    isFamilyRank || isSpeciesRank || isSubSpeciesRank ? s.CommonGroupNames : new string[] {},
                                                    isSpeciesRank || isSubSpeciesRank ? s.CommonNames : new string[] {},
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 5 observation sightings count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank5 = identification.TaxonomicRanks.ElementAtOrDefault(4) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = identification.TaxonomicRanks.ElementAtOrDefault(1) != null ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                let rank3Name = identification.TaxonomicRanks.ElementAtOrDefault(2) != null ? identification.TaxonomicRanks.ElementAt(2).Name : (string)null
+                                                let rank4Name = identification.TaxonomicRanks.ElementAtOrDefault(3) != null ? identification.TaxonomicRanks.ElementAt(3).Name : (string)null
+                                                let rank5Name = hasRank5 ? identification.TaxonomicRanks.ElementAt(4).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank5 ? rank1Name + ": " + rank2Name + ": " + rank3Name + ": " + rank4Name + ": " + rank5Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new string[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 6
             AddMap<Species>(species => from s in species
@@ -345,8 +491,40 @@ namespace Bowerbird.Core.Indexes
                                                    isFamilyRank || isSpeciesRank || isSubSpeciesRank ? s.CommonGroupNames : new string[] {},
                                                    isSpeciesRank || isSubSpeciesRank ? s.CommonNames : new string[] {},
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 6 observation sighting count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank6 = identification.TaxonomicRanks.ElementAtOrDefault(5) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = identification.TaxonomicRanks.ElementAtOrDefault(1) != null ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                let rank3Name = identification.TaxonomicRanks.ElementAtOrDefault(2) != null ? identification.TaxonomicRanks.ElementAt(2).Name : (string)null
+                                                let rank4Name = identification.TaxonomicRanks.ElementAtOrDefault(3) != null ? identification.TaxonomicRanks.ElementAt(3).Name : (string)null
+                                                let rank5Name = identification.TaxonomicRanks.ElementAtOrDefault(4) != null ? identification.TaxonomicRanks.ElementAt(4).Name : (string)null
+                                                let rank6Name = hasRank6 ? identification.TaxonomicRanks.ElementAt(5).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank6 ? rank1Name + ": " + rank2Name + ": " + rank3Name + ": " + rank4Name + ": " + rank5Name + ": " + rank6Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new string[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 7
             AddMap<Species>(species => from s in species
@@ -408,8 +586,41 @@ namespace Bowerbird.Core.Indexes
                                                    isFamilyRank || isSpeciesRank || isSubSpeciesRank ? s.CommonGroupNames : new string[] {},
                                                    isSpeciesRank || isSubSpeciesRank ? s.CommonNames : new string[] {},
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 7 observation sighting count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank7 = identification.TaxonomicRanks.ElementAtOrDefault(6) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = identification.TaxonomicRanks.ElementAtOrDefault(1) != null ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                let rank3Name = identification.TaxonomicRanks.ElementAtOrDefault(2) != null ? identification.TaxonomicRanks.ElementAt(2).Name : (string)null
+                                                let rank4Name = identification.TaxonomicRanks.ElementAtOrDefault(3) != null ? identification.TaxonomicRanks.ElementAt(3).Name : (string)null
+                                                let rank5Name = identification.TaxonomicRanks.ElementAtOrDefault(4) != null ? identification.TaxonomicRanks.ElementAt(4).Name : (string)null
+                                                let rank6Name = identification.TaxonomicRanks.ElementAtOrDefault(5) != null ? identification.TaxonomicRanks.ElementAt(5).Name : (string)null
+                                                let rank7Name = hasRank7 ? identification.TaxonomicRanks.ElementAt(6).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank7 ? rank1Name + ": " + rank2Name + ": " + rank3Name + ": " + rank4Name + ": " + rank5Name + ": " + rank6Name + ": " + rank7Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] { },
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] { },
+                                                    CommonNames = new string[] { },
+                                                    Synonyms = new object[] { },
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] { },
+                                                    AllScientificNames = new object[] { },
+                                                    AllCommonNames = new object[] { },
+                                                    AllCategories = new object[] { },
+                                                    SightingCount = 1
+                                                });
 
             // Rank 8
             AddMap<Species>(species => from s in species
@@ -473,8 +684,42 @@ namespace Bowerbird.Core.Indexes
                                                    isFamilyRank || isSpeciesRank || isSubSpeciesRank ? s.CommonGroupNames : new string[] {},
                                                    isSpeciesRank || isSubSpeciesRank ? s.CommonNames : new string[] {},
                                                },
-                                           AllCategories = new[] { s.Category }
+                                           AllCategories = new[] { s.Category },
+                                           SightingCount = 0
                                        });
+
+            // Rank 8 observation sighting count
+            AddMap<Observation>(observations => from observation in observations
+                                                from identification in observation.Identifications
+                                                let hasRank8 = identification.TaxonomicRanks.ElementAtOrDefault(7) != null
+                                                let rank1Name = identification.TaxonomicRanks.ElementAtOrDefault(0) != null ? identification.TaxonomicRanks.ElementAt(0).Name : (string)null
+                                                let rank2Name = identification.TaxonomicRanks.ElementAtOrDefault(1) != null ? identification.TaxonomicRanks.ElementAt(1).Name : (string)null
+                                                let rank3Name = identification.TaxonomicRanks.ElementAtOrDefault(2) != null ? identification.TaxonomicRanks.ElementAt(2).Name : (string)null
+                                                let rank4Name = identification.TaxonomicRanks.ElementAtOrDefault(3) != null ? identification.TaxonomicRanks.ElementAt(3).Name : (string)null
+                                                let rank5Name = identification.TaxonomicRanks.ElementAtOrDefault(4) != null ? identification.TaxonomicRanks.ElementAt(4).Name : (string)null
+                                                let rank6Name = identification.TaxonomicRanks.ElementAtOrDefault(5) != null ? identification.TaxonomicRanks.ElementAt(5).Name : (string)null
+                                                let rank7Name = identification.TaxonomicRanks.ElementAtOrDefault(6) != null ? identification.TaxonomicRanks.ElementAt(6).Name : (string)null
+                                                let rank8Name = hasRank8 ? identification.TaxonomicRanks.ElementAt(7).Name : (string)null
+                                                select new
+                                                {
+                                                    Taxonomy = hasRank8 ? rank1Name + ": " + rank2Name + ": " + rank3Name + ": " + rank4Name + ": " + rank5Name + ": " + rank6Name + ": " + rank7Name + ": " + rank8Name : "[no-rank-found]",
+                                                    Name = (string)null,
+                                                    RankPosition = (string)null,
+                                                    RankName = (string)null,
+                                                    RankType = (string)null,
+                                                    ParentRankName = (string)null,
+                                                    Ranks = new object[] {},
+                                                    identification.Category,
+                                                    CommonGroupNames = new string[] {},
+                                                    CommonNames = new string[] {},
+                                                    Synonyms = new object[] {},
+                                                    SpeciesCount = 0,
+                                                    AllNames = new object[] {},
+                                                    AllScientificNames = new object[] {},
+                                                    AllCommonNames = new object[] {},
+                                                    AllCategories = new object[] {},
+                                                    SightingCount = 1
+                                                });
 
             Reduce = results => from result in results
                                 where result.Taxonomy != "[no-rank-found]"
@@ -483,11 +728,11 @@ namespace Bowerbird.Core.Indexes
                                     select new
                                     {
                                         Taxonomy = g.Key,
-                                        Name = g.Select(x => x.Name).FirstOrDefault(),
-                                        RankPosition = g.Select(x => x.RankPosition).FirstOrDefault(),
-                                        RankName = g.Select(x => x.RankName).FirstOrDefault(),
-                                        RankType = g.Select(x => x.RankType).FirstOrDefault(),
-                                        ParentRankName = g.Select(x => x.ParentRankName).FirstOrDefault(),
+                                        Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
+                                        RankPosition = g.Select(x => x.RankPosition).Where(x => x != null).FirstOrDefault(),
+                                        RankName = g.Select(x => x.RankName).Where(x => x != null).FirstOrDefault(),
+                                        RankType = g.Select(x => x.RankType).Where(x => x != null).FirstOrDefault(),
+                                        ParentRankName = g.Select(x => x.ParentRankName).Where(x => x != null).FirstOrDefault(),
                                         Ranks = g.SelectMany(x => x.Ranks).Distinct(),
                                         Category = g.SelectMany(x => x.AllCategories).Distinct().Count() > 1 ? (string)null : g.SelectMany(x => x.AllCategories).FirstOrDefault(),
                                         CommonGroupNames = g.SelectMany(x => x.CommonGroupNames).Distinct(),
@@ -497,7 +742,8 @@ namespace Bowerbird.Core.Indexes
                                         AllNames = g.SelectMany(x => x.AllNames),
                                         AllScientificNames = g.SelectMany(x => x.AllScientificNames),
                                         AllCommonNames = g.SelectMany(x => x.AllCommonNames),
-                                        AllCategories = g.SelectMany(x => x.AllCategories)
+                                        AllCategories = g.SelectMany(x => x.AllCategories),
+                                        SightingCount = g.Sum(x => x.SightingCount)
                                     };
 
             TransformResults = (database, results) =>
@@ -519,7 +765,8 @@ namespace Bowerbird.Core.Indexes
                                     result.AllNames,
                                     result.AllScientificNames,
                                     result.AllCommonNames,
-                                    result.AllCategories
+                                    result.AllCategories,
+                                    result.SightingCount
                                 };
 
             Store(x => x.Taxonomy, FieldStorage.Yes);
@@ -534,6 +781,7 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.CommonNames, FieldStorage.Yes);
             Store(x => x.Synonyms, FieldStorage.Yes);
             Store(x => x.SpeciesCount, FieldStorage.Yes);
+            Store(x => x.SightingCount, FieldStorage.Yes);
             Store(x => x.AllNames, FieldStorage.No);
             Store(x => x.AllScientificNames, FieldStorage.No);
             Store(x => x.AllCommonNames, FieldStorage.No);

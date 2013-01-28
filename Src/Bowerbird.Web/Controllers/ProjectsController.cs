@@ -119,7 +119,21 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort = "newest";
             }
 
-            dynamic project = _projectViewModelBuilder.BuildProject(projectId);
+            queryInput.Category = queryInput.Category ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(queryInput.Category) && !Categories.IsValidCategory(queryInput.Category))
+            {
+                queryInput.Category = string.Empty;
+            }
+
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
+            queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
+
+            dynamic project = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .Where(x => x.GroupId == projectId)
+                .First();
 
             dynamic viewModel = new ExpandoObject();
             viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
@@ -127,6 +141,8 @@ namespace Bowerbird.Web.Controllers
             viewModel.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (project.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
+            viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
+            viewModel.Categories = Categories.GetAll();
             viewModel.Query = new
             {
                 Id = projectId,
@@ -134,11 +150,49 @@ namespace Bowerbird.Web.Controllers
                 queryInput.PageSize,
                 queryInput.Sort,
                 queryInput.View,
+                queryInput.Category,
+                queryInput.NeedsId,
+                queryInput.Query,
+                queryInput.Field,
+                queryInput.Taxonomy,
                 IsThumbnailsView = queryInput.View == "thumbnails",
                 IsDetailsView = queryInput.View == "details",
                 IsMapView = queryInput.View == "map"
             };
             viewModel.ShowSightings = true;
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Sighting Title",
+                            Value = "title",
+                            Selected = queryInput.Field.ToLower() == "title"
+                        },
+                    new
+                        {
+                            Text = "Descriptions",
+                            Value = "descriptions",
+                            Selected = queryInput.Field.ToLower() == "descriptions"
+                        },
+                    new
+                        {
+                            Text = "Tags",
+                            Value = "tags",
+                            Selected = queryInput.Field.ToLower() == "tags"
+                        },
+                    new
+                        {
+                            Text = "Scientific Name",
+                            Value = "scientificname",
+                            Selected = queryInput.Field.ToLower() == "scientificname"
+                        },
+                    new
+                        {
+                            Text = "Common Name",
+                            Value = "commonname",
+                            Selected = queryInput.Field.ToLower() == "commonname"
+                        }
+                };
 
             return RestfulResult(
                 viewModel,
@@ -167,6 +221,9 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort = "newest";
             }
 
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
             dynamic project = _projectViewModelBuilder.BuildProject(projectId);
 
             dynamic viewModel = new ExpandoObject();
@@ -180,9 +237,26 @@ namespace Bowerbird.Web.Controllers
                 Id = projectId,
                 queryInput.Page,
                 queryInput.PageSize,
-                queryInput.Sort
+                queryInput.Sort,
+                queryInput.Query,
+                queryInput.Field
             };
             viewModel.ShowPosts = true;
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Title",
+                            Value = "title",
+                            Selected = queryInput.Field.ToLower() == "title"
+                        },
+                    new
+                        {
+                            Text = "Body",
+                            Value = "body",
+                            Selected = queryInput.Field.ToLower() == "body"
+                        }
+                };
 
             return RestfulResult(
                 viewModel,
@@ -222,7 +296,7 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort
             };
             viewModel.ShowMembers = true;
-            viewModel.IsMember = _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId);
+            viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
             viewModel.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (project.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
@@ -248,7 +322,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
             viewModel.ShowAbout = true;
-            viewModel.IsMember = _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId);
+            viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
             viewModel.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (project.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
@@ -276,7 +350,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.Project = project;
             viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(projectId, activityInput, pagingInput);
-            viewModel.IsMember = _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId);
+            viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
             viewModel.MemberCountDescription = "Member" + (project.MemberCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (project.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (project.PostCount == 1 ? string.Empty : "s");
@@ -294,23 +368,51 @@ namespace Bowerbird.Web.Controllers
             queryInput.PageSize = 15;
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "popular" &&
-                queryInput.Sort.ToLower() != "newest" &&
-                queryInput.Sort.ToLower() != "oldest" &&
-                queryInput.Sort.ToLower() != "a-z" &&
+                (queryInput.Sort.ToLower() != "popular" ||
+                queryInput.Sort.ToLower() != "newest" ||
+                queryInput.Sort.ToLower() != "oldest" ||
+                queryInput.Sort.ToLower() != "a-z" ||
                 queryInput.Sort.ToLower() != "z-a"))
             {
                 queryInput.Sort = "popular";
             }
 
+            queryInput.Category = queryInput.Category ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(queryInput.Category) && !Categories.IsValidCategory(queryInput.Category))
+            {
+                queryInput.Category = string.Empty;
+            }
+
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
             dynamic viewModel = new ExpandoObject();
             viewModel.Projects = _projectViewModelBuilder.BuildProjectList(queryInput);
+            viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
             {
                 queryInput.Page,
                 queryInput.PageSize,
-                queryInput.Sort
+                queryInput.Sort,
+                queryInput.Category,
+                queryInput.Query,
+                queryInput.Field
             };
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Name",
+                            Value = "name",
+                            Selected = queryInput.Field.ToLower() == "name"
+                        },
+                    new
+                        {
+                            Text = "Description",
+                            Value = "description",
+                            Selected = queryInput.Field.ToLower() == "description"
+                        }
+                };
 
             if (_userContext.IsUserAuthenticated())
             {
@@ -336,6 +438,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.Project = _projectViewModelBuilder.BuildCreateProject();
             viewModel.Create = true;
+            viewModel.CategoriesSelectList = Categories.GetSelectList();
 
             return RestfulResult(
                 viewModel,
@@ -359,9 +462,12 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
+            var project = _documentSession.Load<Project>(projectId);
+
             dynamic viewModel = new ExpandoObject();
             viewModel.Project = _projectViewModelBuilder.BuildUpdateProject(projectId);
             viewModel.Update = true;
+            viewModel.CategoriesSelectList = Categories.GetSelectList(project.Categories.ToArray());
 
             return RestfulResult(
                 viewModel,
@@ -477,7 +583,8 @@ namespace Bowerbird.Web.Controllers
                     Description = createInput.Description,
                     Website = createInput.Website,
                     AvatarId = createInput.AvatarId,
-                    BackgroundId = createInput.BackgroundId
+                    BackgroundId = createInput.BackgroundId,
+                    Categories = createInput.Categories
                 });
 
             return JsonSuccess();
@@ -514,7 +621,8 @@ namespace Bowerbird.Web.Controllers
                     Description = updateInput.Description,
                     Website = updateInput.Website,
                     AvatarId = updateInput.AvatarId,
-                    BackgroundId =  updateInput.BackgroundId
+                    BackgroundId =  updateInput.BackgroundId,
+                    Categories = updateInput.Categories
                 });
 
             return JsonSuccess();
@@ -569,7 +677,7 @@ namespace Bowerbird.Web.Controllers
                 .OpenSubclause()
                 .WhereIn("ParentContributionType", new[] { "observation", "record", "post" })
                 .OrElse()
-                .WhereIn("SubContributionType", new[] { "note", "comment" })
+                .WhereIn("SubContributionType", new[] { "identification", "note", "comment" })
                 .CloseSubclause()
                 .ToList();
 
@@ -607,6 +715,7 @@ namespace Bowerbird.Web.Controllers
                         {
                             CreatedDate = dateItem.ToString(createdDateFormat),
                             SightingCount = x.Count(y => y.ParentContributionType == "observation" || y.ParentContributionType == "record"),
+                            IdentificationCount = x.Count(y => y.SubContributionType == "identification"),
                             NoteCount = x.Count(y => y.SubContributionType == "note"),
                             PostCount = x.Count(y => y.ParentContributionType == "post"),
                             CommentCount = x.Count(y => y.SubContributionType == "comment")

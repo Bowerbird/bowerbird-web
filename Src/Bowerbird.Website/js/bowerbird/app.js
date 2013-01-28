@@ -280,14 +280,14 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             });
 
             // Register closing of all popup menus in entire page
-            $("body, article, header").click(function () {
+            $('html').click(function () {
                 app.vent.trigger('close-sub-menus');
             });
 
             // Catch close menu event and close all types of menus here
             app.vent.on('close-sub-menus', function () {
-                $('body .sub-menu').removeClass('active'); // Make sure to add any new menu button types to the selector
-                $('body .multiSelect').multiSelectOptionsHide();
+                $('html .sub-menu').removeClass('active'); // Make sure to add any new menu button types to the selector
+                $('html .multiSelect').multiSelectOptionsHide();
             });
 
             // Resize the sidebar on window resizing

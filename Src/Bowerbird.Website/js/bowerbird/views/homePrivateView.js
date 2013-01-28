@@ -9,8 +9,8 @@
 // ---------------
 
 // The home page view when logged in
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview'],
-function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/sightingsearchpanelview', 'views/postsearchpanelview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, SightingSearchPanelView, PostSearchPanelView) {
 
     var HomePrivateView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -21,6 +21,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
 
         regions: {
             summary: '.summary',
+            search: '.search',
             list: '.list'
         },
 
@@ -28,6 +29,10 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
             'click .activities-tab-button': 'showActivityTabSelection',
             'click .sightings-tab-button': 'showSightingsTabSelection',
             'click .posts-tab-button': 'showPostsTabSelection'
+        },
+
+        initialize: function () {
+            _.bindAll(this, 'toggleSearchPanel');
         },
 
         serializeData: function () {
@@ -67,23 +72,27 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
 
         showActivityTabSelection: function (e) {
             e.preventDefault();
-            this.switchTabHighlight('activities');
-            this.list.currentView.showLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.showTabSelection('activities', $(e.currentTarget).attr('href'));
         },
 
         showSightingsTabSelection: function (e) {
             e.preventDefault();
-            this.switchTabHighlight('sightings');
-            this.list.currentView.showLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.showTabSelection('sightings', $(e.currentTarget).attr('href'));
         },
 
         showPostsTabSelection: function (e) {
             e.preventDefault();
-            this.switchTabHighlight('posts');
+            this.showTabSelection('posts', $(e.currentTarget).attr('href'));
+        },
+
+        showTabSelection: function (tab, url) {
+            if (this.activeTab === tab) {
+                return;
+            }
+
+            this.switchTabHighlight(tab);
             this.list.currentView.showLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            Backbone.history.navigate(url, { trigger: true });
         },
 
         showActivity: function (activityCollection) {
@@ -109,7 +118,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
             }
         },
 
-        showSightings: function (sightingCollection) {
+        showSightings: function (sightingCollection, categorySelectList, fieldSelectList) {
             this.switchTabHighlight('sightings');
 
             var options = {
@@ -117,21 +126,40 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
                 collection: sightingCollection
             };
 
+            var searchOptions = {
+                sightingCollection: sightingCollection,
+                categorySelectList: categorySelectList,
+                fieldSelectList: fieldSelectList
+            };
+
             if (app.isPrerenderingView('home')) {
                 options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
             }
 
             var sightingListView = new SightingListView(options);
+            var sightingSearchPanelView = new SightingSearchPanelView(searchOptions);
 
             if (app.isPrerenderingView('home')) {
                 this.list.attachView(sightingListView);
                 sightingListView.showBootstrappedDetails();
+
+                this.search.attachView(sightingSearchPanelView);
+                sightingSearchPanelView.showBootstrappedDetails();
             } else {
                 this.list.show(sightingListView);
+
+                this.search.show(sightingSearchPanelView);
+            }
+
+            sightingListView.on('toggle-search', this.toggleSearchPanel);
+
+            if (sightingCollection.hasSearchCriteria()) {
+                this.$el.find('.search-bar').slideDown();
             }
         },
 
-        showPosts: function (postCollection) {
+        showPosts: function (postCollection, fieldSelectList) {
             this.switchTabHighlight('posts');
 
             var options = {
@@ -139,17 +167,35 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
                 collection: postCollection
             };
 
+            var searchOptions = {
+                postCollection: postCollection,
+                fieldSelectList: fieldSelectList
+            };
+
             if (app.isPrerenderingView('home')) {
                 options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
             }
 
             var postListView = new PostListView(options);
+            var postSearchPanelView = new PostSearchPanelView(searchOptions);
 
             if (app.isPrerenderingView('home')) {
                 this.list.attachView(postListView);
                 postListView.showBootstrappedDetails();
+
+                this.search.attachView(postSearchPanelView);
+                postSearchPanelView.showBootstrappedDetails();
             } else {
                 this.list.show(postListView);
+
+                this.search.show(postSearchPanelView);
+            }
+            
+            postListView.on('toggle-search', this.toggleSearchPanel);
+
+            if (postCollection.hasSearchCriteria()) {
+                this.$el.find('.search-bar').slideDown();
             }
         },
 
@@ -157,6 +203,24 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView)
             this.activeTab = tab;
             this.$el.find('.tab-button').removeClass('selected');
             this.$el.find('.' + tab + '-tab-button').addClass('selected');
+
+            if (tab === 'activities' && this.search.currentView) {
+                this.search.currentView.$el.hide();
+            }
+        },
+
+        toggleSearchPanel: function () {
+            log('search bar', this.$el.find('.search-bar'));
+            if (this.$el.find('.search-bar').is(':visible')) {
+                log('search is visible');
+                this.$el.find('.search-bar').slideToggle();
+            } else {
+                log('search is not visible');
+                var that = this;
+                this.$el.find('.search-bar').slideToggle(function () {
+                    that.$el.find('.search-bar #query').focus();
+                });
+            }
         }
     });
 

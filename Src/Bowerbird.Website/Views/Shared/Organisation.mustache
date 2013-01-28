@@ -1,7 +1,6 @@
 ﻿<h2>
   <span class="small-icon organisation-icon"></span>Organisation
 </h2>
-
 <div class="summary" style="background-image: url({{Model.Organisation.Background.Image.Large.Uri}});">
   {{#Model.Organisation.Avatar}}
   {{>Avatar200}}
@@ -15,9 +14,6 @@
     <p>{{Model.Organisation.Description}}</p>
   </div>
 </div>
-
-
-
 <div class="list-details">
   <div class="tab-bar large">
     <ul class="tabs">
@@ -25,7 +21,7 @@
         <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/{{Model.Organisation.Id}}">Timeline</a>
       </li>
       <li>
-        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Organisation.Id}}/posts">News Items</a>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/{{Model.Organisation.Id}}/posts">News</a>
       </li>
       <li>
         <a class="tab-button members-tab-button {{#Model.ShowMembers}}selected{{/Model.ShowMembers}}" href="/{{Model.Organisation.Id}}/members">Members</a>
@@ -34,6 +30,13 @@
         <a class="tab-button about-tab-button {{#Model.ShowAbout}}selected{{/Model.ShowAbout}}" href="/{{Model.Organisation.Id}}/about">About</a>
       </li>
     </ul>
+  </div>
+  <div class="search">
+    <div>
+      {{#Model.ShowPosts}}
+      {{>PostSearchPanel}}
+      {{/Model.ShowPosts}}
+    </div>
   </div>
   <div class="list">
     <div>

@@ -1,31 +1,5 @@
 ﻿
 
-      <div class="field-row" style="display: none;">
-
-        <div class="add-identification-pane">
-          <p>Identify the sighting by searching for the species, or entering the details.</p>
-          <input type="button" id="add-identification-button" value="Identify the Sighting" />
-        </div>
-
-        <div id="selected-identification-field" class="field">
-          <div>
-            <label>Identification</label>
-          </div>
-          <div>
-            <div id="Identification">
-              {{#Identification}}
-              {{>Identification}}
-              {{/Identification}}
-              {{^Identification}}
-              <span class="identification-none">Not Identified</span>
-              {{/Identification}}
-            </div>
-          </div>
-        </div>
-
-
-
-      </div>
 
       <div class="description-fields">
         {{#Descriptions}} 
@@ -36,7 +10,7 @@
       
       <div class="field-row">
 
-        <div class="add-identification-pane">
+        <div class="add-description-type-pane">
           <p>Describe the sighting by adding a detailed description.</p>
         </div>
         

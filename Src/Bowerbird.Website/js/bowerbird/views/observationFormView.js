@@ -236,9 +236,9 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 return;
             }
 
-//            if (this.viewEditMode == 'update') {
-//                this.model.set('Id', this.model.id.replace('observations/', ''));
-//            }
+            //            if (this.viewEditMode == 'update') {
+            //                this.model.set('Id', this.model.id.replace('observations/', ''));
+            //            }
 
             if (this.identification) {
                 this.model.setIdentification(this.identification);

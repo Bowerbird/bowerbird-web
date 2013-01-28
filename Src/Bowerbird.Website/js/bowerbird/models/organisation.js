@@ -6,7 +6,7 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // Organisation
-// -------
+// ------------
 
 define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
@@ -16,8 +16,8 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             Name: '',
             Description: '',
             Website: '',
-            TeamId: null,
-            Type: 'Organisation'
+            Type: 'Organisation',
+            Categories: []
         },
 
         idAttribute: 'Id',
@@ -26,6 +26,17 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
         setAvatar: function (mediaResource) {
             this.set('AvatarId', mediaResource.id);
+        },
+
+        addCategory: function (id) {
+            var categories = this.get('Categories');
+            categories.push(id);
+            this.set('Categories', categories);
+        },
+
+        removeCategory: function (id) {
+            var categories = this.get('Categories');
+            this.set('Categories', _.without(categories, id));
         }
     });
 

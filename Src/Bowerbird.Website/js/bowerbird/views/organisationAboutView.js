@@ -25,7 +25,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'visualize'], function ($, _,
             return {
                 Model: {
                     Organisation: this.model.toJSON(),
-                    IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
+                    //IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
                     MemberCountDescription: this.model.get('MemberCount') === 1 ? 'Member' : 'Members',
                     PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts',
                     OrganisationAdministrators: this.organisationAdministrators,
@@ -66,6 +66,10 @@ define(['jquery', 'underscore', 'backbone', 'app', 'visualize'], function ($, _,
                 .visualize({ type: 'line', lineWeight: 2, width: this.$el.find('#chart-area').width() + 'px', height: '180px', colors: ['#308AE3', '#be1e2d', '#ee8310', '#4cba10', '#8d10ee', '#666699', '#5a3b16', '#26a4ed', '#f45a90', '#92d5ea'] })
                 .appendTo('#activity-chart #chart-area')
                 .trigger('visualizeRefresh');
+        },
+        
+        showLoading: function() {
+            
         }
     });
 

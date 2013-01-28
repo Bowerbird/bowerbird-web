@@ -179,6 +179,7 @@
     <Content Include="img\user-Square100.jpg" />
     <Content Include="img\user-Square200.jpg" />
     <Content Include="img\user-Square400.jpg" />
+    <Content Include="img\userproject-background-large.png" />
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
@@ -194,10 +195,18 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\views\favouritesView.js" />
+    <Content Include="js\bowerbird\views\sightingExploreView.js" />
+    <Content Include="js\bowerbird\views\organisationExploreView.js" />
+    <Content Include="js\bowerbird\views\projectExploreView.js" />
+    <Content Include="js\bowerbird\views\organisationSearchPanelView.js" />
+    <Content Include="js\bowerbird\views\projectSearchPanelView.js" />
+    <Content Include="js\bowerbird\views\postSearchPanelView.js" />
+    <Content Include="js\bowerbird\views\sightingSearchPanelView.js" />
     <Content Include="js\bowerbird\views\postListView.js" />
     <Content Include="js\bowerbird\views\organisationAboutView.js" />
     <Content Include="js\bowerbird\views\organisationDetailsView.js" />
-    <Content Include="js\bowerbird\views\organisationExploreView.js" />
+    <Content Include="js\bowerbird\views\organisationListView.js" />
     <Content Include="js\bowerbird\voter.js" />
     <Content Include="js\bowerbird\sightingNoteDescriptions.js" />
     <Content Include="js\bowerbird\models\identification.js" />
@@ -278,7 +287,7 @@
     <Content Include="js\bowerbird\views\teamCollectionView.js" />
     <Content Include="js\bowerbird\views\homePublicView.js" />
     <Content Include="js\bowerbird\views\projectItemView.js" />
-    <Content Include="js\bowerbird\views\projectExploreView.js" />
+    <Content Include="js\bowerbird\views\projectListView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
     <Content Include="js\bowerbird\views\notificationsCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarMenuGroupView.js" />
@@ -588,7 +597,7 @@
     <Content Include="Views\Shared\ProjectTileDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\ProjectsExplore.mustache">
+    <Content Include="Views\Shared\ProjectExplore.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\SightingIdentificationForm.mustache">
@@ -625,7 +634,7 @@
     <Content Include="Views\Shared\OrganisationAbout.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\OrganisationsExplore.mustache">
+    <Content Include="Views\Shared\OrganisationExplore.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\OrganisationTileDetails.mustache">
@@ -648,7 +657,40 @@
     <Content Include="Views\Home\Sightings.mustache" />
     <Content Include="Views\Home\Timeline.mustache" />
     <Content Include="Views\Projects\Posts.mustache" />
+    <Content Include="Views\Home\Favourites.mustache">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\ReferenceSpecies\Update.mustache" />
+    <Content Include="Views\Shared\SightingSearchPanel.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\PostSearchPanel.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\ProjectSearchPanel.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\OrganisationSearchPanel.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Sightings\List.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\SightingExplore.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\FavouritesIndex.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Users\About.mustache" />
+    <Content Include="Views\Users\Index.mustache" />
+    <Content Include="Views\Users\List.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Users\Sightings.mustache" />
+    <Content Include="Views\Shared\User.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

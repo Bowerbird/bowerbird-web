@@ -104,7 +104,7 @@ namespace Bowerbird.Web.EventHandlers
                 _backChannelService.AddUserToGroupChannel(group.Id, session.ConnectionId);
             }
 
-            var groupViewModel = _groupViewFactory.Make(group);
+            var groupViewModel = _groupViewFactory.Make(group, newMember);
 
             _backChannelService.SendJoinedGroupToUserChannel(user.Id, groupViewModel);
 

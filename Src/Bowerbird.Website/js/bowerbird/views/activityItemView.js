@@ -104,9 +104,9 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Post
 
             this.$el.find('.actions a').tipsy({ gravity: 's', html: true });
 
-            if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
-                this.$el.find('.edit-observation-button').hide();
-            }
+//            if (this.model.get('User').Id !== app.authenticatedUser.user.id) {
+//                this.$el.find('.edit-observation-button').hide();
+//            }
         },
 
         refresh: function () {

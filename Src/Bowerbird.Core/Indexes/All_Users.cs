@@ -34,6 +34,8 @@ namespace Bowerbird.Core.Indexes
             public DateTime[] LatestActivity { get; set; }
             public string Name { get; set; }
             public string Email { get; set; }
+            public string Description { get; set; }
+            public object[] AllFields { get; set; }
 
             public User User { get; set; }
             public IEnumerable<UserProject> UserProjects { get; set; }
@@ -76,7 +78,13 @@ namespace Bowerbird.Core.Indexes
                                           LatestHeartbeat = user.Sessions.Select(x => x.LatestHeartbeat),
                                           LatestActivity = user.Sessions.Select(x => x.LatestActivity),
                                           user.Name,
-                                          user.Email
+                                          user.Email,
+                                          user.Description,
+                                          AllFields = new []
+                                              {
+                                                  user.Name,
+                                                  user.Description
+                                              }
                                       });
 
             AddMap<Observation>(observations => from observation in observations
@@ -91,7 +99,9 @@ namespace Bowerbird.Core.Indexes
                                                     LatestHeartbeat = new object [] {},
                                                     LatestActivity = new object[] { },
                                                     Name = (string)null,
-                                                    Email = (string)null
+                                                    Email = (string)null,
+                                                    Description = (string)null,
+                                                    AllFields = new object[] { }
                                                 });
 
             AddMap<Record>(records => from record in records
@@ -106,7 +116,9 @@ namespace Bowerbird.Core.Indexes
                                           LatestHeartbeat = new object[] { },
                                           LatestActivity = new object[] { },
                                           Name = (string)null,
-                                          Email = (string)null
+                                          Email = (string)null,
+                                          Description = (string)null,
+                                          AllFields = new object[] { }
                                       });
 
             Reduce = results => from result in results
@@ -124,6 +136,8 @@ namespace Bowerbird.Core.Indexes
                                           LatestActivity = g.SelectMany(x => x.LatestActivity),
                                           Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
                                           Email = g.Select(x => x.Email).Where(x => x != null).FirstOrDefault(),
+                                          Description = g.Select(x => x.Description).Where(x => x != null).FirstOrDefault(),
+                                          AllFields = g.SelectMany(x => x.AllFields)
                                     };
 
             TransformResults = (database, results) =>
@@ -137,13 +151,11 @@ namespace Bowerbird.Core.Indexes
                                     result.SightingCount,
                                     LatestHeartbeat = result.LatestHeartbeat ?? new DateTime[] { },
                                     LatestActivity = result.LatestActivity ?? new DateTime[] { },
-                                    result.Name,
-                                    result.Email,
                                     User = database.Load<User>(result.UserId),
                                     UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
                                     Favourites = database.Load<Favourites>(result.GroupIds).Where(x => x.GroupType == "favourites"),
                                     Projects = database.Load<Project>(result.GroupIds).Where(x => x.GroupType == "project"),
-                                    Organsations = database.Load<Organisation>(result.GroupIds).Where(x => x.GroupType == "organisation"),
+                                    Organisations = database.Load<Organisation>(result.GroupIds).Where(x => x.GroupType == "organisation"),
                                     AppRoots = database.Load<AppRoot>(result.GroupIds).Where(x => x.GroupType == "approot")
                                 };
 
@@ -156,6 +168,12 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.LatestActivity, FieldStorage.Yes);
             Store(x => x.Name, FieldStorage.Yes);
             Store(x => x.Email, FieldStorage.Yes);
+            Store(x => x.Description, FieldStorage.Yes);
+            Store(x => x.AllFields, FieldStorage.Yes);
+
+            Index(x => x.Name, FieldIndexing.Analyzed);
+            Index(x => x.Description, FieldIndexing.Analyzed);
+            Index(x => x.AllFields, FieldIndexing.Analyzed);
         }
     }
 }

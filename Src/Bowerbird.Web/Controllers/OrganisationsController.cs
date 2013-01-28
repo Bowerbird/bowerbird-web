@@ -107,6 +107,9 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort = "newest";
             }
 
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
             dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
 
             dynamic viewModel = new ExpandoObject();
@@ -119,9 +122,26 @@ namespace Bowerbird.Web.Controllers
                 Id = organisationId,
                 queryInput.Page,
                 queryInput.PageSize,
-                queryInput.Sort
+                queryInput.Sort,
+                queryInput.Query,
+                queryInput.Field
             };
             viewModel.ShowPosts = true;
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Title",
+                            Value = "title",
+                            Selected = queryInput.Field.ToLower() == "title"
+                        },
+                    new
+                        {
+                            Text = "Body",
+                            Value = "body",
+                            Selected = queryInput.Field.ToLower() == "body"
+                        }
+                };
 
             return RestfulResult(
                 viewModel,
@@ -161,7 +181,7 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort
             };
             viewModel.ShowMembers = true;
-            viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
+            viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId) : false;
             viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
 
@@ -186,7 +206,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
             viewModel.ShowAbout = true;
-            viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
+            viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId) : false;
             viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
             viewModel.OrganisationAdministrators = _userViewModelBuilder.BuildGroupUserList(organisationId, "roles/" + RoleNames.OrganisationAdministrator);
@@ -213,7 +233,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = organisation;
             viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(organisationId, activityInput, pagingInput);
-            viewModel.IsMember = _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId);
+            viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId) : false;
             viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
             viewModel.ShowActivities = true;
@@ -230,23 +250,51 @@ namespace Bowerbird.Web.Controllers
             queryInput.PageSize = 15;
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "popular" &&
-                queryInput.Sort.ToLower() != "newest" &&
-                queryInput.Sort.ToLower() != "oldest" &&
-                queryInput.Sort.ToLower() != "a-z" && 
+                (queryInput.Sort.ToLower() != "popular" ||
+                queryInput.Sort.ToLower() != "newest" ||
+                queryInput.Sort.ToLower() != "oldest" ||
+                queryInput.Sort.ToLower() != "a-z" ||
                 queryInput.Sort.ToLower() != "z-a"))
             {
                 queryInput.Sort = "popular";
             }
 
+            queryInput.Category = queryInput.Category ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(queryInput.Category) && !Categories.IsValidCategory(queryInput.Category))
+            {
+                queryInput.Category = string.Empty;
+            }
+
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisations = _organisationViewModelBuilder.BuildOrganisationList(queryInput);
+            viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
             {
                 queryInput.Page,
                 queryInput.PageSize,
-                queryInput.Sort
+                queryInput.Sort,
+                queryInput.Category,
+                queryInput.Query,
+                queryInput.Field
             };
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Name",
+                            Value = "name",
+                            Selected = queryInput.Field.ToLower() == "name"
+                        },
+                    new
+                        {
+                            Text = "Description",
+                            Value = "description",
+                            Selected = queryInput.Field.ToLower() == "description"
+                        }
+                };
 
             if (_userContext.IsUserAuthenticated())
             {
@@ -272,6 +320,7 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = _organisationViewModelBuilder.BuildCreateOrganisation();
             viewModel.Create = true;
+            viewModel.CategoriesSelectList = Categories.GetSelectList();
 
             return RestfulResult(
                 viewModel,
@@ -295,9 +344,12 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
+            var organisation = _documentSession.Load<Organisation>(organisationId);
+
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = _organisationViewModelBuilder.BuildUpdateOrganisation(organisationId);
             viewModel.Update = true;
+            viewModel.CategoriesSelectList = Categories.GetSelectList(organisation.Categories.ToArray());
 
             return RestfulResult(
                 viewModel,
@@ -412,7 +464,8 @@ namespace Bowerbird.Web.Controllers
                     Description = createInput.Description,
                     Website = createInput.Website,
                     AvatarId = createInput.AvatarId,
-                    BackgroundId = createInput.BackgroundId
+                    BackgroundId = createInput.BackgroundId,
+                    Categories = createInput.Categories
                 });
 
             return JsonSuccess();
@@ -449,7 +502,8 @@ namespace Bowerbird.Web.Controllers
                     Description = updateInput.Description,
                     Website = updateInput.Website,
                     AvatarId = updateInput.AvatarId,
-                    BackgroundId = updateInput.BackgroundId
+                    BackgroundId = updateInput.BackgroundId,
+                    Categories = updateInput.Categories
                 });
 
             return JsonSuccess();

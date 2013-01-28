@@ -28,6 +28,10 @@ function ($, _, Backbone, PaginatedCollection, Project) {
             this.pageSize = options && options.pageSize ? options.pageSize : 15;
             this.total = options && options.total ? options.total : 0;
             this.sortByType = options && options.sortBy ? options.sortBy : 'popular';
+
+            this.category = options && options.category ? options.category : '';
+            this.query = options && options.query ? options.query : '';
+            this.field = options && options.field ? options.field : '';
         },
 
         comparator: function(project) {
@@ -67,7 +71,10 @@ function ($, _, Backbone, PaginatedCollection, Project) {
         getFetchOptions: function (add) {
             var options = {
                 data: {
-                    sort: this.sortByType
+                    sort: this.sortByType,
+                    category: this.category,
+                    query: this.query,
+                    field: this.field
                 },
                 add: add,
                 success: null
@@ -78,6 +85,71 @@ function ($, _, Backbone, PaginatedCollection, Project) {
                 options.success = this.onSuccessWithAddFix;
             }
             return options;
+        },
+
+        changeSort: function (sortByType) {
+            if (this.sortByType !== sortByType) {
+                this.trigger('criteria-changed');
+                this.sortByType = sortByType;
+                this.fetchFirstPage();
+            }
+        },
+
+        changeCategory: function (category) {
+            if (this.category !== category) {
+                this.trigger('criteria-changed');
+                this.category = category;
+                this.fetchFirstPage();
+            }
+        },
+
+        changeQuery: function (query, field) {
+            if (this.query !== query || this.field !== field) {
+                this.trigger('criteria-changed');
+                this.query = query;
+                this.field = field;
+                this.fetchFirstPage();
+            }
+        },
+
+        hasSearchCriteria: function () {
+            return this.category !== '' ||
+                this.query !== '';
+        },
+
+        searchUrl: function () {
+            var url = this.baseUrl;
+
+            var urlBits = [];
+
+            if (this.sortByType !== 'popular') {
+                urlBits.push('sort=' + this.sortByType);
+            }
+
+            if (this.query !== '') {
+                urlBits.push('query=' + this.query);
+                if (this.field !== '') {
+                    urlBits.push('field=' + this.field);
+                }
+            }
+
+            if (this.category !== '') {
+                urlBits.push('category=' + encodeURIComponent(this.category));
+            }
+
+            if (urlBits.length > 0) {
+                url = url + '?' + urlBits.join('&');
+            }
+
+            return url;
+        },
+
+        resetSearch: function () {
+            this.trigger('search-reset');
+            this.query = '';
+            this.field = '',
+            this.category = '';
+            this.fetchFirstPage();
         }
     });
 

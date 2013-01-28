@@ -1,15 +1,10 @@
-﻿  <div class="user">
-    {{#User.Avatar}}
-    {{>MediaSquare100}}
-    {{/User.Avatar}}
-    <span>{{User.Name}}</span>
-  </div>
-
-<h3>
-  <a href="/{{Id}}">
-    {{Title}} <span></span>
-  </a>
-</h3>
+﻿<div class="user">
+  {{#User.Avatar}}
+  {{>MediaSquare100}}
+  {{/User.Avatar}}
+  <span>{{User.Name}}</span>
+</div>
+<h3><a href="/{{Id}}">{{Title}}</a></h3>
 <div class="images">
   <div class="preview">
     {{#PrimaryMedia.MediaResource}}

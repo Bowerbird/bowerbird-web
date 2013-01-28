@@ -11,7 +11,9 @@
  * Atlas of Living Australia
  
 */
-				
+
+using System.Collections.Generic;
+
 namespace Bowerbird.Core.Commands
 {
     public class OrganisationUpdateCommand : ICommand
@@ -39,6 +41,8 @@ namespace Bowerbird.Core.Commands
         public string AvatarId { get; set; }
 
         public string BackgroundId { get; set; }
+
+        public IEnumerable<string> Categories { get; set; }
 
         #endregion
 

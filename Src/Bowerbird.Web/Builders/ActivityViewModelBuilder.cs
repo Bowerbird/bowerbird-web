@@ -90,7 +90,7 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Activities.Result>("All/Activities")
                 .Where(x => x.GroupIds.Any(y => y.In(groupIds)) && x.Type.In(_activityTypes));
 
-            return RunQuery2(query, activityInput, pagingInput);
+            return Execute(query, activityInput, pagingInput);
         }
 
         public object BuildUserActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput)
@@ -103,7 +103,7 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Activities.Result>("All/Activities")
                 .Where(x => x.UserId == userId && x.Type.In(_activityTypes));
 
-            return RunQuery2(query, activityInput, pagingInput);
+            return Execute(query, activityInput, pagingInput);
         }
 
         public object BuildGroupActivityList(string groupId, ActivityInput activityInput, PagingInput pagingInput)
@@ -116,7 +116,7 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Activities.Result>("All/Activities")
                 .Where(x => x.GroupIds.Any(y => y == groupId) && x.Type.In(_activityTypes));
 
-            return RunQuery2(query, activityInput, pagingInput);
+            return Execute(query, activityInput, pagingInput);
         }
 
         public object BuildNotificationActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput)
@@ -133,10 +133,10 @@ namespace Bowerbird.Web.Builders
                 .Query<All_Activities.Result>("All/Activities")
                 .Where(x => x.GroupIds.Any(y => y.In(groupIds)));
 
-            return RunQuery2(query, activityInput, pagingInput);
+            return Execute(query, activityInput, pagingInput);
         }
 
-        private object RunQuery2(IRavenQueryable<All_Activities.Result> query, ActivityInput activityInput, PagingInput pagingInput)
+        private object Execute(IRavenQueryable<All_Activities.Result> query, ActivityInput activityInput, PagingInput pagingInput)
         {
             if (activityInput.NewerThan.HasValue)
             {
@@ -164,7 +164,12 @@ namespace Bowerbird.Web.Builders
                 .Where(x => x.ParentContributionId.In(contributionIds))
                 .ToList();
 
-            var authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            User authenticatedUser = null;
+
+            if (_userContext.IsUserAuthenticated())
+            {
+                authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            }
 
             return new PagedList<object>()
             {

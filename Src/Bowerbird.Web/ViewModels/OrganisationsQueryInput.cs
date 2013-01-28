@@ -38,6 +38,8 @@ namespace Bowerbird.Web.ViewModels
 
         public string Sort { get; set; }
 
+        public string Category { get; set; }
+
         #endregion
 
         #region Methods
@@ -47,6 +49,7 @@ namespace Bowerbird.Web.ViewModels
             Query = string.Empty;
             Field = string.Empty;
             Sort = "popular";
+            Category = string.Empty;
         }
 
         #endregion

@@ -12,10 +12,12 @@
  
 */
 
+using System.Collections;
 using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
+using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Web.ViewModels;
@@ -146,21 +148,71 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort = "newest";
             }
 
+            queryInput.Category = queryInput.Category ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(queryInput.Category) && !Categories.IsValidCategory(queryInput.Category))
+            {
+                queryInput.Category = string.Empty;
+            }
+
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
+            queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
+
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
             viewModel.Sightings = _sightingViewModelBuilder.BuildHomeSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
                 {
                     queryInput.Page,
                     queryInput.PageSize,
                     queryInput.Sort,
                     queryInput.View,
+                    queryInput.Category,
+                    queryInput.NeedsId,
+                    queryInput.Query,
+                    queryInput.Field,
+                    queryInput.Taxonomy,
                     IsThumbnailsView = queryInput.View == "thumbnails",
                     IsDetailsView = queryInput.View == "details",
                     IsMapView = queryInput.View == "map"
                 };
             viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
             viewModel.ShowSightings = true;
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Sighting Title",
+                            Value = "title",
+                            Selected = queryInput.Field.ToLower() == "title"
+                        },
+                    new
+                        {
+                            Text = "Descriptions",
+                            Value = "descriptions",
+                            Selected = queryInput.Field.ToLower() == "descriptions"
+                        },
+                    new
+                        {
+                            Text = "Tags",
+                            Value = "tags",
+                            Selected = queryInput.Field.ToLower() == "tags"
+                        },
+                    new
+                        {
+                            Text = "Scientific Name",
+                            Value = "scientificname",
+                            Selected = queryInput.Field.ToLower() == "scientificname"
+                        },
+                    new
+                        {
+                            Text = "Common Name",
+                            Value = "commonname",
+                            Selected = queryInput.Field.ToLower() == "commonname"
+                        }
+                };
 
             return RestfulResult(
                 viewModel,
@@ -186,6 +238,9 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort = "newest";
             }
 
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
             viewModel.Posts = _postViewModelBuilder.BuildHomePostList(_userContext.GetAuthenticatedUserId(), queryInput);
@@ -193,14 +248,132 @@ namespace Bowerbird.Web.Controllers
             {
                 queryInput.Page,
                 queryInput.PageSize,
-                queryInput.Sort
+                queryInput.Sort,
+                queryInput.Query,
+                queryInput.Field
             };
             viewModel.ShowPosts = true;
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Title",
+                            Value = "title",
+                            Selected = queryInput.Field.ToLower() == "title"
+                        },
+                    new
+                        {
+                            Text = "Body",
+                            Value = "descriptions",
+                            Selected = queryInput.Field.ToLower() == "descriptions"
+                        }
+                };
 
             return RestfulResult(
                 viewModel,
                 "home",
                 "posts");
+        }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Favourites(SightingsQueryInput queryInput)
+        {
+            var user = _documentSession
+                .Query<All_Users.Result, All_Users>()
+                .AsProjection<All_Users.Result>()
+                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                .Single();
+
+            if (queryInput.View.ToLower() == "thumbnails")
+            {
+                queryInput.PageSize = 15;
+            }
+
+            if (queryInput.View.ToLower() == "details")
+            {
+                queryInput.PageSize = 10;
+            }
+
+            if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
+                (queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
+                queryInput.Sort.ToLower() != "a-z" &&
+                queryInput.Sort.ToLower() != "z-a"))
+            {
+                queryInput.Sort = "newest";
+            }
+
+            queryInput.Category = queryInput.Category ?? string.Empty;
+            if (!string.IsNullOrWhiteSpace(queryInput.Category) && !Categories.IsValidCategory(queryInput.Category))
+            {
+                queryInput.Category = string.Empty;
+            }
+
+            queryInput.Query = queryInput.Query ?? string.Empty;
+            queryInput.Field = queryInput.Field ?? string.Empty;
+
+            queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
+
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Sightings = _sightingViewModelBuilder.BuildFavouritesSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
+            viewModel.Query = new
+            {
+                queryInput.Page,
+                queryInput.PageSize,
+                queryInput.Sort,
+                queryInput.View,
+                queryInput.Category,
+                queryInput.NeedsId,
+                queryInput.Query,
+                queryInput.Field,
+                queryInput.Taxonomy,
+                IsThumbnailsView = queryInput.View == "thumbnails",
+                IsDetailsView = queryInput.View == "details",
+                IsMapView = queryInput.View == "map"
+            };
+            viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
+            viewModel.ShowSightings = true;
+            viewModel.FieldSelectList = new[]
+                {
+                    new
+                        {
+                            Text = "Sighting Title",
+                            Value = "title",
+                            Selected = queryInput.Field.ToLower() == "title"
+                        },
+                    new
+                        {
+                            Text = "Descriptions",
+                            Value = "descriptions",
+                            Selected = queryInput.Field.ToLower() == "descriptions"
+                        },
+                    new
+                        {
+                            Text = "Tags",
+                            Value = "tags",
+                            Selected = queryInput.Field.ToLower() == "tags"
+                        },
+                    new
+                        {
+                            Text = "Scientific Name",
+                            Value = "scientificname",
+                            Selected = queryInput.Field.ToLower() == "scientificname"
+                        },
+                    new
+                        {
+                            Text = "Common Name",
+                            Value = "commonname",
+                            Selected = queryInput.Field.ToLower() == "commonname"
+                        }
+                };
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "favourites");
         }
 
         #endregion

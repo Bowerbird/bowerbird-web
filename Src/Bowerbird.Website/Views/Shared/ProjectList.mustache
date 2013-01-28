@@ -3,24 +3,27 @@
   <div class="tab-bar tab-bar-right small">
     <ul class="tabs">
       <li>
+        <span class="tab-button search-button" title="Show or hide search options">Search</span>
+      </li>
+      <li>
         <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
           <span class="tab-list-selection">Most Popular</span>
           <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
           <ul>
             <li>
-              <a href="/projects?sort=popular">Most Popular</a>
+              <a data-sort="popular" href="/projects?sort=popular">Most Popular</a>
             </li>
             <li class="new-section">
-              <a href="/projects?sort=newest">Newest</a>
+              <a data-sort="newest" href="/projects?sort=newest">Newest</a>
             </li>
             <li>
-              <a href="/projects?sort=oldest">Oldest</a>
+              <a data-sort="oldest" href="/projects?sort=oldest">Oldest</a>
             </li>
             <li class="new-section">
-              <a href="/projects?sort=a-z">Alphabetical (A-Z)</a>
+              <a data-sort="a-z" href="/projects?sort=a-z">Alphabetical (A-Z)</a>
             </li>
             <li>
-              <a href="/projects?sort=z-a">Alphabetical (Z-A)</a>
+              <a data-sort="z-a" href="/projects?sort=z-a">Alphabetical (Z-A)</a>
             </li>
           </ul>
         </div>

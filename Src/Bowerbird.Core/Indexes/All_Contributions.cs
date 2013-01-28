@@ -33,9 +33,20 @@ namespace Bowerbird.Core.Indexes
             public DateTime CreatedDateTime { get; set; }
             public string[] GroupIds { get; set; }
 
-            // Sighting specific
+            // Sightings
             public string SightingTitle { get; set; }
             public object SightingSightedOn { get; set; }
+            public string SightingCategory { get; set; }
+            public object[] SightingTags { get; set; }
+            public object[] SightingDescriptions { get; set; }
+            public int? SightingIdentificationCount { get; set; }
+            public object[] SightingAllFields { get; set; }
+            public object[] SightingTaxonomicRanks { get; set; }
+
+            // Posts
+            public string PostTitle { get; set; }
+            public string PostMessage { get; set; }
+            public object[] PostAllFields { get; set; }
 
             public Observation Observation { get; set; }
             public Record Record { get; set; }
@@ -96,24 +107,61 @@ namespace Bowerbird.Core.Indexes
                                                     UserId = observation.User.Id,
                                                     CreatedDateTime = observation.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
-                                                    SightingTitle = observation.Title,
-                                                    SightingSightedOn = observation.ObservedOn
+                                                    SightingTitle = observation.Title,  
+                                                    SightingSightedOn = observation.ObservedOn,
+                                                    SightingCategory = observation.Category,
+                                                    SightingTags = observation.Notes.SelectMany(x => x.Tags),
+                                                    SightingDescriptions = observation.Notes.SelectMany(x => x.Descriptions.Select(y => y.Text)),
+                                                    SightingIdentificationCount = observation.Identifications.Count(),
+                                                    SightingAllFields = new object[]
+                                                        {
+                                                            observation.Title,
+                                                            observation.Notes.SelectMany(x => x.Descriptions.Select(y => y.Text)),
+                                                            observation.Notes.SelectMany(x => x.Tags),
+                                                            observation.Identifications.SelectMany(x => x.TaxonomicRanks.Select(y => y.Name)),
+                                                            observation.Identifications.SelectMany(x => x.CommonNames),
+                                                            observation.Identifications.SelectMany(x => x.CommonGroupNames)
+                                                        },
+                                                    SightingTaxonomicRanks = new object[]
+                                                        {
+                                                            observation.Identifications.SelectMany(x => x.TaxonomicRanks.Select(y => y.Name))  
+                                                        },
+                                                    PostTitle = (string)null,
+                                                    PostMessage = (string)null,
+                                                    PostAllFields = new object[] {}
                                                 });
 
             // Records
             AddMap<Record>(records => from record in records
-                                                 select new
-                                                 {
-                                                     ParentContributionId = record.Id,
-                                                     SubContributionId = (string)null,
-                                                     ParentContributionType = "record",
-                                                     SubContributionType = (string)null,
-                                                     UserId = record.User.Id,
-                                                     CreatedDateTime = record.CreatedOn,
-                                                     GroupIds = record.Groups.Select(x => x.Group.Id),
-                                                     SightingTitle = (string)null,
-                                                     SightingSightedOn = record.ObservedOn
-                                                 });
+                                      select new
+                                          {
+                                              ParentContributionId = record.Id,
+                                              SubContributionId = (string) null,
+                                              ParentContributionType = "record",
+                                              SubContributionType = (string) null,
+                                              UserId = record.User.Id,
+                                              CreatedDateTime = record.CreatedOn,
+                                              GroupIds = record.Groups.Select(x => x.Group.Id),
+                                              SightingTitle = (string) null,
+                                              SightingSightedOn = record.ObservedOn,
+                                              SightingCategory = record.Category,
+                                              SightingTags = new object[] {},
+                                              SightingDescriptions = new object[] {},
+                                              SightingIdentificationCount = 1,
+                                              SightingAllFields = new object[]
+                                                  {
+                                                      record.Identifications.SelectMany(x => x.TaxonomicRanks.Select(y => y.Name)),
+                                                      record.Identifications.SelectMany(x => x.CommonNames),
+                                                      record.Identifications.SelectMany(x => x.CommonGroupNames)
+                                                  },
+                                              SightingTaxonomicRanks = new object[]
+                                                  {
+                                                      record.Identifications.SelectMany(x => x.TaxonomicRanks.Select(y => y.Name))
+                                                  },
+                                              PostTitle = (string)null,
+                                              PostMessage = (string)null,
+                                              PostAllFields = new object[] { }
+                                          });
 
             // Posts
             AddMap<Post>(posts => from post in posts
@@ -127,7 +175,20 @@ namespace Bowerbird.Core.Indexes
                                       CreatedDateTime = post.CreatedOn,
                                       GroupIds = new[] { post.Group.Id },
                                       SightingTitle = (string)null,
-                                      SightingSightedOn = (object)null
+                                      SightingSightedOn = (object)null,
+                                      SightingCategory = (string)null,
+                                      SightingTags = new object[] { },
+                                      SightingDescriptions = new object[] { },
+                                      SightingIdentificationCount = (object)null,
+                                      SightingAllFields = new object[] { },
+                                      SightingTaxonomicRanks = new object[] {},
+                                      PostTitle = post.Subject,
+                                      PostMessage = post.Message,
+                                      PostAllFields = new object[]
+                                          {
+                                              post.Subject,
+                                              post.Message
+                                          }
                                   });
 
             // Observation Notes
@@ -143,7 +204,16 @@ namespace Bowerbird.Core.Indexes
                                                     CreatedDateTime = note.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
                                                     SightingTitle = (string)null,
-                                                    SightingSightedOn = (object)null
+                                                    SightingSightedOn = (object)null,
+                                                    SightingCategory = (string)null,
+                                                    SightingTags = new object[] { },
+                                                    SightingDescriptions = new object[] { },
+                                                    SightingIdentificationCount = (object)null,
+                                                    SightingAllFields = new object[] { },
+                                                    SightingTaxonomicRanks = new object[] { },
+                                                    PostTitle = (string)null,
+                                                    PostMessage = (string)null,
+                                                    PostAllFields = new object[] { }
                                                 });
 
             // Record Notes
@@ -159,7 +229,16 @@ namespace Bowerbird.Core.Indexes
                                           CreatedDateTime = note.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
                                           SightingTitle = (string)null,
-                                          SightingSightedOn = (object)null
+                                          SightingSightedOn = (object)null,
+                                          SightingCategory = (string)null,
+                                          SightingTags = new object[] { },
+                                          SightingDescriptions = new object[] { },
+                                          SightingIdentificationCount = (object)null,
+                                          SightingAllFields = new object[] { },
+                                          SightingTaxonomicRanks = new object[] { },
+                                          PostTitle = (string)null,
+                                          PostMessage = (string)null,
+                                          PostAllFields = new object[] { }
                                       });
 
             // Observation Comments
@@ -175,7 +254,16 @@ namespace Bowerbird.Core.Indexes
                                                     CreatedDateTime = comment.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
                                                     SightingTitle = (string)null,
-                                                    SightingSightedOn = (object)null
+                                                    SightingSightedOn = (object)null,
+                                                    SightingCategory = (string)null,
+                                                    SightingTags = new object[] { },
+                                                    SightingDescriptions = new object[] { },
+                                                    SightingIdentificationCount = (object)null,
+                                                    SightingAllFields = new object[] { },
+                                                    SightingTaxonomicRanks = new object[] { },
+                                                    PostTitle = (string)null,
+                                                    PostMessage = (string)null,
+                                                    PostAllFields = new object[] { }
                                                 });
 
             // Record Comments
@@ -191,7 +279,16 @@ namespace Bowerbird.Core.Indexes
                                           CreatedDateTime = comment.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
                                           SightingTitle = (string)null,
-                                          SightingSightedOn = (object)null
+                                          SightingSightedOn = (object)null,
+                                          SightingCategory = (string)null,
+                                          SightingTags = new object[] { },
+                                          SightingDescriptions = new object[] { },
+                                          SightingIdentificationCount = (object)null,
+                                          SightingAllFields = new object[] { },
+                                          SightingTaxonomicRanks = new object[] { },
+                                          PostTitle = (string)null,
+                                          PostMessage = (string)null,
+                                          PostAllFields = new object[] { }
                                       });
 
             // Observation Identifications
@@ -207,7 +304,16 @@ namespace Bowerbird.Core.Indexes
                                                     CreatedDateTime = identification.CreatedOn,
                                                     GroupIds = observation.Groups.Select(x => x.Group.Id),
                                                     SightingTitle = (string)null,
-                                                    SightingSightedOn = (object)null
+                                                    SightingSightedOn = (object)null,
+                                                    SightingCategory = (string)null,
+                                                    SightingTags = new object[] { },
+                                                    SightingDescriptions = new object[] { },
+                                                    SightingIdentificationCount = (object)null,
+                                                    SightingAllFields = new object[] { },
+                                                    SightingTaxonomicRanks = new object[] { },
+                                                    PostTitle = (string)null,
+                                                    PostMessage = (string)null,
+                                                    PostAllFields = new object[] { }
                                                 });
 
             // Record Identifications
@@ -223,7 +329,16 @@ namespace Bowerbird.Core.Indexes
                                           CreatedDateTime = identification.CreatedOn,
                                           GroupIds = record.Groups.Select(x => x.Group.Id),
                                           SightingTitle = (string)null,
-                                          SightingSightedOn = (object)null
+                                          SightingSightedOn = (object)null,
+                                          SightingCategory = (string)null,
+                                          SightingTags = new object[] { },
+                                          SightingDescriptions = new object[] { },
+                                          SightingIdentificationCount = (object)null,
+                                          SightingAllFields = new object[] { },
+                                          SightingTaxonomicRanks = new object[] { },
+                                          PostTitle = (string)null,
+                                          PostMessage = (string)null,
+                                          PostAllFields = new object[] { }
                                       });
 
             // Observation Votes
@@ -239,7 +354,16 @@ namespace Bowerbird.Core.Indexes
                                                         CreatedDateTime = vote.CreatedOn,
                                                         GroupIds = new string[] {},
                                                         SightingTitle = (string) null,
-                                                        SightingSightedOn = (object) null
+                                                        SightingSightedOn = (object) null,
+                                                        SightingCategory = (string)null,
+                                                        SightingTags = new object[] { },
+                                                        SightingDescriptions = new object[] { },
+                                                        SightingIdentificationCount = (object)null,
+                                                        SightingAllFields = new object[] { },
+                                                        SightingTaxonomicRanks = new object[] { },
+                                                        PostTitle = (string)null,
+                                                        PostMessage = (string)null,
+                                                        PostAllFields = new object[] { }
                                                     });
 
             // Record Votes
@@ -255,7 +379,16 @@ namespace Bowerbird.Core.Indexes
                                               CreatedDateTime = vote.CreatedOn,
                                               GroupIds = new string[] {},
                                               SightingTitle = (string) null,
-                                              SightingSightedOn = (object) null
+                                              SightingSightedOn = (object) null,
+                                              SightingCategory = (string)null,
+                                              SightingTags = new object[] { },
+                                              SightingDescriptions = new object[] { },
+                                              SightingIdentificationCount = (object)null,
+                                              SightingAllFields = new object[] { },
+                                              SightingTaxonomicRanks = new object[] { },
+                                              PostTitle = (string)null,
+                                              PostMessage = (string)null,
+                                              PostAllFields = new object[] { }
                                           });
 
             Reduce = (results => from result in results
@@ -271,7 +404,16 @@ namespace Bowerbird.Core.Indexes
                                         CreatedDateTime = g.Select(x => x.CreatedDateTime).Where(x => x != null).FirstOrDefault(),
                                         GroupIds = g.SelectMany(x => x.GroupIds),
                                         SightingTitle = g.Select(x => x.SightingTitle).Where(x => x != null).FirstOrDefault(),
-                                        SightingSightedOn = g.Select(x => x.SightingSightedOn).Where(x => x != null).FirstOrDefault()
+                                        SightingSightedOn = g.Select(x => x.SightingSightedOn).Where(x => x != null).FirstOrDefault(),
+                                        SightingCategory = g.Select(x => x.SightingCategory).Where(x => x != null).FirstOrDefault(),
+                                        SightingTags = g.SelectMany(x => x.SightingTags),
+                                        SightingDescriptions = g.SelectMany(x => x.SightingDescriptions),
+                                        SightingIdentificationCount = g.Select(x => x.SightingIdentificationCount).Where(x => x != null).FirstOrDefault(),
+                                        SightingAllFields = g.SelectMany(x => x.SightingAllFields),
+                                        SightingTaxonomicRanks = g.SelectMany(x => x.SightingTaxonomicRanks),
+                                        PostTitle = g.Select(x => x.PostTitle).Where(x => x != null).FirstOrDefault(),
+                                        PostMessage = g.Select(x => x.PostMessage).Where(x => x != null).FirstOrDefault(),
+                                        PostAllFields = g.SelectMany(x => x.PostAllFields)
                                      });
 
             TransformResults = (database, results) =>
@@ -302,8 +444,26 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.UserId, FieldStorage.Yes);
             Store(x => x.CreatedDateTime, FieldStorage.Yes);
             Store(x => x.GroupIds, FieldStorage.Yes);
-            Store(x => x.SightingTitle, FieldStorage.Yes);
-            Store(x => x.SightingSightedOn, FieldStorage.Yes);
+            Store(x => x.SightingTitle, FieldStorage.No);
+            Store(x => x.SightingSightedOn, FieldStorage.No);
+            Store(x => x.SightingCategory, FieldStorage.No);
+            Store(x => x.SightingTags, FieldStorage.No);
+            Store(x => x.SightingDescriptions, FieldStorage.No);
+            Store(x => x.SightingIdentificationCount, FieldStorage.No);
+            Store(x => x.SightingAllFields, FieldStorage.No);
+            Store(x => x.SightingTaxonomicRanks, FieldStorage.No);
+            Store(x => x.PostTitle, FieldStorage.No);
+            Store(x => x.PostMessage, FieldStorage.No);
+            Store(x => x.PostAllFields, FieldStorage.No);
+
+            Index(x => x.SightingTitle, FieldIndexing.Analyzed);
+            Index(x => x.SightingTags, FieldIndexing.Analyzed);
+            Index(x => x.SightingDescriptions, FieldIndexing.Analyzed);
+            Index(x => x.SightingAllFields, FieldIndexing.Analyzed);
+            Index(x => x.SightingTaxonomicRanks, FieldIndexing.Analyzed);
+            Index(x => x.PostTitle, FieldIndexing.Analyzed);
+            Index(x => x.PostMessage, FieldIndexing.Analyzed);
+            Index(x => x.PostAllFields, FieldIndexing.Analyzed);
         }
     }
 }

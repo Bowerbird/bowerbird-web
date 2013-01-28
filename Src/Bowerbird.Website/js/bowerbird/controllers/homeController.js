@@ -7,8 +7,8 @@
 
 // HomeController & HomeRouter
 // ---------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/postcollection', 'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview'],
-function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityCollection, HomePublicView, HomePrivateView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/postcollection', 'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview', 'views/favouritesview'],
+function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityCollection, HomePublicView, HomePrivateView, FavouritesView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHome',
@@ -76,10 +76,22 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
     HomeController.showSightings = function (params) {
         $.when(getModel('/home/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
-                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Sightings.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
+                    {
+                        page: model.Query.page,
+                        pageSize: model.Query.PageSize,
+                        total: model.Sightings.TotalResultCount,
+                        viewType: model.Query.View, 
+                        sortBy: model.Query.Sort,
+                        category: model.Query.Category,
+                        needsId: model.Query.NeedsId,
+                        query: model.Query.Query,
+                        field: model.Query.Field,
+                        taxonomy: model.Query.Taxonomy
+                    });
 
                 if (app.content.currentView instanceof HomePrivateView) {
-                    app.content.currentView.showSightings(sightingCollection);
+                    app.content.currentView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
                 } else {
                     var homeView;
 
@@ -95,7 +107,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
 
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
-                            homeView.showSightings(sightingCollection);
+                            homeView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
                         }
                     });
                 }
@@ -105,10 +117,19 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
     HomeController.showPosts = function (id, params) {
         $.when(getModel('/home/posts?sort=' + (params && params.sort ? params.sort : 'newest')))
             .done(function (model) {
-                var postCollection = new PostCollection(model.Posts.PagedListItems, { page: model.Query.page, pageSize: model.Query.PageSize, total: model.Posts.TotalResultCount, sortBy: model.Query.Sort });
+                var postCollection = new PostCollection(model.Posts.PagedListItems,
+                    {
+                        page: model.Query.page,
+                        pageSize: model.Query.PageSize,
+                        total: model.Posts.TotalResultCount,
+                        viewType: model.Query.View,
+                        sortBy: model.Query.Sort,
+                        query: model.Query.Query,
+                        field: model.Query.Field
+                    });
 
                 if (app.content.currentView instanceof HomePrivateView) {
-                    app.content.currentView.showPosts(postCollection);
+                    app.content.currentView.showPosts(postCollection, model.FieldSelectList);
                 } else {
                     var homeView;
 
@@ -124,7 +145,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
 
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
-                            homeView.showPosts(postCollection);
+                            homeView.showPosts(postCollection, model.FieldSelectList);
                         }
                     });
                 }
@@ -134,7 +155,36 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
     HomeController.showAllBowerbirdActivity = function () {
     };
 
-    HomeController.showFavourites = function () {
+    HomeController.showFavourites = function (params) {
+        $.when(getModel('/favourites?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+            .done(function (model) {
+                var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
+                    {
+                        page: model.Query.page,
+                        pageSize: model.Query.PageSize,
+                        total: model.Sightings.TotalResultCount,
+                        viewType: model.Query.View,
+                        sortBy: model.Query.Sort,
+                        category: model.Query.Category,
+                        needsId: model.Query.NeedsId,
+                        query: model.Query.Query,
+                        field: model.Query.Field,
+                        taxonomy: model.Query.Taxonomy
+                    });
+
+                var options = {
+                    sightingCollection: sightingCollection,
+                    categorySelectList: model.CategorySelectList,
+                    fieldSelectList: model.FieldSelectList
+                };
+                if (app.isPrerenderingView('favourites')) {
+                    options['el'] = '.favourites';
+                }
+                var favouritesView = new FavouritesView(options);
+
+                app.showContentView('Favourites', favouritesView, 'favourites', function () {
+                });
+            });
     };
 
     app.addInitializer(function () {

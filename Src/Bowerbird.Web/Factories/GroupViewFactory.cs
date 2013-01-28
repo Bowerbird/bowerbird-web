@@ -25,42 +25,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public dynamic Make(Group group)
-        {
-            Check.RequireNotNull(group, "group");
-
-            return MakeBaseGroup(group);
-        }
-
-        public dynamic Make(All_Groups.Result result, bool fullDetails = false)
-        {
-            Check.RequireNotNull(result, "result");
-
-            dynamic viewModel = MakeBaseGroup(result.Group);
-
-            if (fullDetails)
-            {
-                viewModel.Created = result.Group.CreatedDateTime.ToString("d MMM yyyy");
-                viewModel.CreatedDateTimeOrder = result.Group.CreatedDateTime.ToString("yyyyMMddHHmmss");
-
-                if (result.Group is IPublicGroup)
-                {
-                    viewModel.Background = ((IPublicGroup)result.Group).Background;
-                    viewModel.Website = ((IPublicGroup) result.Group).Website;
-                    viewModel.Description = ((IPublicGroup) result.Group).Description;
-                    viewModel.MemberCount = result.UserCount;
-                    viewModel.PostCount = result.PostCount;
-                }
-                if (result.Group is Project)
-                {
-                    viewModel.SightingCount = result.SightingCount;
-                }
-            }
-
-            return viewModel;
-        }
-
-        private dynamic MakeBaseGroup(Group group)
+        public dynamic Make(Group group, User authenticatedUser, bool fullDetails = false, int sightingCount = 0, int userCount = 0, int postCount = 0, IEnumerable<Observation> sampleObservations = null)
         {
             Check.RequireNotNull(group, "group");
 
@@ -73,6 +38,43 @@ namespace Bowerbird.Web.Factories
             if (group is IPublicGroup)
             {
                 viewModel.Avatar = ((IPublicGroup)group).Avatar;
+            }
+
+            if (fullDetails)
+            {
+                viewModel.Created = group.CreatedDateTime.ToString("d MMM yyyy");
+                viewModel.CreatedDateTimeOrder = group.CreatedDateTime.ToString("yyyyMMddHHmmss");
+
+                if (group is IPublicGroup)
+                {
+                    viewModel.Background = ((IPublicGroup)group).Background;
+                    viewModel.Website = ((IPublicGroup)group).Website;
+                    viewModel.Description = ((IPublicGroup)group).Description;
+                    viewModel.MemberCount = userCount;
+                    viewModel.PostCount = postCount;
+                }
+                if (group is Project)
+                {
+                    viewModel.SightingCount = sightingCount;
+                    viewModel.Categories = ((Project)group).Categories;
+                    if (sampleObservations != null)
+                    {
+                        viewModel.SampleObservations = sampleObservations.Select(x =>
+                                                                        new
+                                                                            {
+                                                                                x.Id,
+                                                                                Media = x.PrimaryMedia
+                                                                            });
+                    }
+                    else
+                    {
+                        viewModel.SampleObservations = new object[] {};
+                    }
+                }
+                if (group is Organisation)
+                {
+                    viewModel.Categories = ((Organisation)group).Categories;
+                }
             }
 
             return viewModel;

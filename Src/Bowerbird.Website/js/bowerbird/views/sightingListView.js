@@ -25,11 +25,12 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             'click .thumbnails-view-button': 'onThumbnailsTabClicked',
             'click .map-view-button': 'onMapTabClicked',
             'click .sort-button': 'showSortMenu',
-            'click .sort-button a': 'changeSort'
+            'click .sort-button a': 'changeSort',
+            'click .search-button': 'showHideSearch'
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'appendHtml');
+            _.bindAll(this, 'appendHtml', 'clearListAnPrepareShowLoading');
 
             if (!options.activeTab) {
                 this.activeTab = 'thumbnails';
@@ -44,6 +45,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             this.collection.on('fetching', this.onLoadingStart, this);
             this.collection.on('fetched', this.onLoadingComplete, this);
             this.collection.on('reset', this.onLoadingComplete, this);
+            this.collection.on('search-reset', this.clearListAnPrepareShowLoading, this);
         },
 
         serializeData: function () {
@@ -86,8 +88,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         _showDetails: function () {
-            this.$el.find('.tabs li a, .tabs .tab-list-button').not('.map-view-button').tipsy({ gravity: 's' });
-            this.$el.find('.map-view-button').tipsy({ gravity: 'se' });
+            this.$el.find('.tabs li a, .tabs .tab-list-button, .search-button').not('.details-view-button').tipsy({ gravity: 's' });
+            this.$el.find('.details-view-button').tipsy({ gravity: 'se' });
 
             this.$el.find('h3 a').on('click', function (e) {
                 e.preventDefault();
@@ -98,6 +100,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             this.onLoadingComplete(this.collection);
             this.changeSortLabel(this.collection.sortByType);
             this.switchTabHighlight(this.collection.viewType);
+
+            this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
         },
 
         changeSortLabel: function (value) {
@@ -176,7 +180,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         onLoadingComplete: function (collection) {
-            log(collection);
             this.$el.find('.stream-message, .stream-loading').remove();
             if (collection.length === 0) {
                 this.$el.find('.sighting-list').append(ich.StreamMessage());
@@ -190,14 +193,18 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             e.preventDefault();
             this.clearListAnPrepareShowLoading();
             this.switchTabHighlight('details');
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.collection.changeView('details');
+            Backbone.history.navigate(this.collection.searchUrl(), { trigger: false });
+            return false;
         },
 
         onThumbnailsTabClicked: function (e) {
             e.preventDefault();
             this.clearListAnPrepareShowLoading();
             this.switchTabHighlight('thumbnails');
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.collection.changeView('thumbnails');
+            Backbone.history.navigate(this.collection.searchUrl(), { trigger: false });
+            return false;
         },
 
         onMapTabClicked: function (e) {
@@ -225,22 +232,23 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             this.$el.find('.sort-button .tab-list-selection').empty().text($(e.currentTarget).text());
             app.vent.trigger('close-sub-menus');
             this.clearListAnPrepareShowLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.collection.changeSort($(e.currentTarget).data('sort'));
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: false });
             return false;
         },
 
         clearListAnPrepareShowLoading: function () {
-            this.$el.find('.stream-message, .stream-load-more, .stream-load-new').remove();
+            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading').remove();
             this.$el.find('.sighting-items').empty();
-            this.onLoadingStart();
         },
 
         showLoading: function () {
-            var that = this;
-            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').fadeOut(100);
-            this.$el.find('.sighting-items').fadeOut(100, function () {
-                that.onLoadingStart();
-            });
+            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
+            this.$el.find('.sighting-items').hide();
+        },
+
+        showHideSearch: function () {
+            this.trigger('toggle-search');
         }
     });
 
