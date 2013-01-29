@@ -149,7 +149,7 @@ namespace Bowerbird.Web.Builders
                 .Statistics(out stats)
                 .Take(100)
                 .ToList()
-                .Select(x => _userViewFactory.Make(x, true))
+                .Select(x => _userViewFactory.Make(x.User, true, x.SightingCount))
                 .ToPagedList(
                     1,
                     100,
@@ -234,7 +234,7 @@ namespace Bowerbird.Web.Builders
                 .Skip(usersQueryInput.GetSkipIndex())
                 .Take(usersQueryInput.GetPageSize())
                 .ToList()
-                .Select(x => _userViewFactory.Make(x))
+                .Select(x => _userViewFactory.Make(x.User, true, x.SightingCount))
                 .ToPagedList(
                     usersQueryInput.GetPage(),
                     usersQueryInput.GetPageSize(),

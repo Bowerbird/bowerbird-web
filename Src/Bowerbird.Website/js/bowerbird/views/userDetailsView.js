@@ -8,102 +8,195 @@
 // UserDetailsView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago', 'tipsy'],
-function ($, _, Backbone, ich, app, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/useraboutview', 'views/sightingsearchpanelview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, UserAboutView, SightingSearchPanelView) {
 
-    var UserDetailsView = Backbone.Marionette.ItemView.extend({
+    var UserDetailsView = Backbone.Marionette.Layout.extend({
+        viewType: 'detail',
 
-        className: 'user-details',
-        
-        template: 'UserTileDetails',
+        className: 'user double',
 
-        events: {
-            //'click .thumbnails > div': 'showMedia',
-            'click .view-button': 'showItem',
-            'click h3 a': 'showItem'
+        template: 'User',
+
+        regions: {
+            summary: '.summary',
+            search: '.search',
+            list: '.list'
         },
 
-        initialize: function (options) {
-            _.bindAll(this, 'refresh');
+        events: {
+            'click .activities-tab-button': 'showActivityTabSelection',
+            'click .sightings-tab-button': 'showSightingsTabSelection',
+            'click .about-tab-button': 'showAboutTabSelection'
+        },
+
+        activeTab: '',
+
+        initialize: function () {
+            _.bindAll(this, 'toggleSearchPanel');
         },
 
         serializeData: function () {
-            var viewModel = this.model.toJSON();
-            return viewModel;
+            return {
+                Model: {
+                    User: this.model.toJSON(),
+                    //IsMember: _.any(app.authenticatedUser.memberships, function (membership) { return membership.GroupId === this.model.id; }, this),
+                    SightingCountDescription: this.model.get('SightingCount') === 1 ? 'Sighting' : 'Sightings',
+                    ProjectCountDescription: this.model.get('ProjectCount') === 1 ? 'Project' : 'Projects',
+                    OrganisationCountDescription: this.model.get('OrganisationCount') === 1 ? 'Organisation' : 'Organisations'
+                }
+            };
         },
 
         onShow: function () {
             this._showDetails();
         },
 
-        onRender: function () {
-            this._showDetails();
-        },
-
         showBootstrappedDetails: function () {
+            this.initializeRegions();
             this._showDetails();
         },
 
         _showDetails: function () {
-            var resizeTimer;
-            var refresh = this.refresh;
-            $(window).resize(function () {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function () {
-                    refresh();
-                }, 100);
-            });
-
-            this.$el.find('.actions .button').tipsy({ gravity: 's', html: true });
         },
 
-        refresh: function () {
-//            // Resize video and audio in observations
-//            if (this.currentObservationMedia) {
-//                var newWidth = (600 / 800) * this.$el.find('.preview').width();
-//                this.$el.find('.preview .video-media, .preview .video-media > iframe, .preview .audio-media.media-constrained-600, .preview .image-media').height(newWidth + 'px');
-//            }
-
-//            if (this.showLocation) {
-//                // Resize maps in sightings
-//                this.map.panTo(this.point);
-//                this.$el.find('.map').width(this.$el.find('.location').width() + 'px');
-//                google.maps.event.trigger(this.map, 'resize');
-//                this.map.panTo(this.point);
-//            }
-        },
-
-        showMedia: function (e) {
-//            var index = this.$el.find('.thumbnails > div').index(e.currentTarget);
-//            this.currentObservationMedia = this.model.get('Media')[index];
-//            var descriptionHtml = '';
-//            this.$el.find('.preview').empty().append(ich.MediaConstrained600(this.currentObservationMedia.MediaResource));
-//            if (this.currentObservationMedia.Description && this.currentObservationMedia.Description !== '') {
-//                descriptionHtml = '<div class="media-details"><div class="overlay"></div><p class="description">' + this.currentObservationMedia.Description + '</p></div>';
-//                this.$el.find('.preview').append(descriptionHtml);
-//            }
-            this.refresh();
-        },
-
-//        showNoteForm: function (e) {
-//            e.preventDefault();
-//            this.$el.find('.observation-action-menu a').tipsy.revalidate();
-//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-//        },
-        
-//        showNoteForm: function (e) {
-//            e.preventDefault();
-//            this.$el.find('.actions a').tipsy.revalidate();
-//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-//        },
-
-        showItem: function (e) {
+        showActivityTabSelection: function (e) {
             e.preventDefault();
-            this.$el.find('.actions a').tipsy.revalidate();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.showTabSelection('activities', $(e.currentTarget).attr('href'));
+        },
+
+        showSightingsTabSelection: function (e) {
+            e.preventDefault();
+            this.showTabSelection('sightings', $(e.currentTarget).attr('href'));
+        },
+
+        showAboutTabSelection: function (e) {
+            e.preventDefault();
+            this.showTabSelection('about', $(e.currentTarget).attr('href'));
+        },
+
+        showTabSelection: function (tab, url) {
+            if (this.activeTab === tab) {
+                return;
+            }
+
+            this.switchTabHighlight(tab);
+            this.list.currentView.showLoading();
+            Backbone.history.navigate(url, { trigger: true });
+        },
+
+        showActivity: function (activityCollection) {
+            this.switchTabHighlight('activities');
+
+            var options = {
+                model: this.model,
+                collection: activityCollection
+            };
+
+            if (app.isPrerenderingView('users')) {
+                options['el'] = '.list > div';
+            }
+
+            var activityListView = new ActivityListView(options);
+
+            if (app.isPrerenderingView('users')) {
+                this.list.attachView(activityListView);
+                activityListView.showBootstrappedDetails();
+            } else {
+                this.list.show(activityListView);
+            }
+        },
+
+        showSightings: function (sightingCollection, categorySelectList, fieldSelectList) {
+            this.switchTabHighlight('sightings');
+
+            var options = {
+                model: this.model,
+                collection: sightingCollection
+            };
+
+            var searchOptions = {
+                sightingCollection: sightingCollection,
+                categorySelectList: categorySelectList,
+                fieldSelectList: fieldSelectList
+            };
+
+            if (app.isPrerenderingView('users')) {
+                options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
+            }
+
+            var sightingListView = new SightingListView(options);
+            var sightingSearchPanelView = new SightingSearchPanelView(searchOptions);
+
+            if (app.isPrerenderingView('users')) {
+                this.list.attachView(sightingListView);
+                sightingListView.showBootstrappedDetails();
+
+                this.search.attachView(sightingSearchPanelView);
+                sightingSearchPanelView.showBootstrappedDetails();
+            } else {
+                this.list.show(sightingListView);
+
+                this.search.show(sightingSearchPanelView);
+            }
+
+            sightingListView.on('toggle-search', this.toggleSearchPanel);
+
+            if (sightingCollection.hasSearchCriteria()) {
+                this.$el.find('.search-bar').slideDown();
+            }
+        },
+
+        showAbout: function (userAdministrators, activityTimeseries) {
+            this.switchTabHighlight('about');
+
+            var options = {
+                model: this.model
+            };
+
+            if (app.isPrerenderingView('users')) {
+                options['el'] = '.list > div';
+            }
+
+            options.userAdministrators = userAdministrators;
+            options.activityTimeseries = activityTimeseries;
+
+            var userAboutView = new UserAboutView(options);
+
+            if (app.isPrerenderingView('users')) {
+                this.list.attachView(userAboutView);
+                userAboutView.showBootstrappedDetails();
+            } else {
+                this.list.show(userAboutView);
+            }
+        },
+
+        switchTabHighlight: function (tab) {
+            this.activeTab = tab;
+            this.$el.find('.tab-button').removeClass('selected');
+            this.$el.find('.' + tab + '-tab-button').addClass('selected');
+
+            if ((tab === 'activities' || tab === 'about') && this.search.currentView) {
+                this.search.currentView.$el.hide();
+            }
+        },
+
+        toggleSearchPanel: function () {
+            log('search bar', this.$el.find('.search-bar'));
+            if (this.$el.find('.search-bar').is(':visible')) {
+                log('search is visible');
+                this.$el.find('.search-bar').slideToggle();
+            } else {
+                log('search is not visible');
+                var that = this;
+                this.$el.find('.search-bar').slideToggle(function () {
+                    that.$el.find('.search-bar #query').focus();
+                });
+            }
         }
     });
 
     return UserDetailsView;
 
-});
+}); 

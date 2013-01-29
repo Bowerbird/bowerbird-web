@@ -20,7 +20,7 @@ namespace Bowerbird.Web.Builders
 
         object BuildUpdateOrganisation(string organisationId);
 
-        dynamic BuildOrganisation(string organisationId);
+        object BuildOrganisation(string organisationId);
 
         object BuildOrganisationList(OrganisationsQueryInput organisationsQueryInput);
 

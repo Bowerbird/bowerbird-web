@@ -130,7 +130,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
         $.when(getModel('/organisations/' + id + '/members?sort=' + (params && params.sort ? params.sort : 'a-z')))
         .done(function (model) {
             var organisation = new Organisation(model.Organisation);
-            var userCollection = new UserCollection(model.Members.PagedListItems, { organisationId: organisation.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Members.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+            var userCollection = new UserCollection(model.Users.PagedListItems, { organisationId: organisation.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Users.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
 
             if (app.content.currentView instanceof OrganisationDetailsView && app.content.currentView.model.id === organisation.id) {
                 app.content.currentView.showMembers(userCollection);

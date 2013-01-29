@@ -183,7 +183,7 @@ function ($, _, Backbone, app, ich, PostDetailsView) {
 
         showLoading: function () {
             this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
-            this.$el.find('.post-items').hide();
+            this.$el.find('.post-items, .tab-bar-right').hide();
             this.onLoadingStart();
         },
 

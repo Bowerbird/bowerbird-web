@@ -111,9 +111,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "newest" &&
-                queryInput.Sort.ToLower() != "oldest" &&
-                queryInput.Sort.ToLower() != "a-z" &&
+                (queryInput.Sort.ToLower() != "a-z" &&
                 queryInput.Sort.ToLower() != "z-a"))
             {
                 queryInput.Sort = "newest";
@@ -130,19 +128,18 @@ namespace Bowerbird.Web.Controllers
 
             queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
 
-            var user = _documentSession
+            var userResult = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .Where(x => x.UserId == userId)
                 .First();
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(userId);
-            viewModel.Sightings = _sightingViewModelBuilder.BuildUserSightingList(userId, queryInput);
-            viewModel.SightingCountDescription = "Sighting" + (user.SightingCount == 1 ? string.Empty : "s");
-            viewModel.ProjectCountDescription = "Project" + (user.Projects.Count() == 1 ? string.Empty : "s");
-            viewModel.OrganisationCountDescription = "Organisation" + (user.Organisations.Count() == 1 ? string.Empty : "s");
+            viewModel.Sightings = _sightingViewModelBuilder.BuildGroupSightingList(userResult.User.UserProject.Id, queryInput);
+            viewModel.SightingCountDescription = "Sighting" + (userResult.SightingCount == 1 ? string.Empty : "s");
+            viewModel.ProjectCountDescription = "Project" + (userResult.Projects.Count() == 1 ? string.Empty : "s");
+            viewModel.OrganisationCountDescription = "Organisation" + (userResult.Organisations.Count() == 1 ? string.Empty : "s");
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
-            viewModel.Categories = Categories.GetAll();
             viewModel.Query = new
             {
                 Id = userId,
@@ -210,7 +207,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var user = _documentSession
+            var userResult = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .Where(x => x.UserId == userId)
                 .First();
@@ -219,9 +216,9 @@ namespace Bowerbird.Web.Controllers
             viewModel.User = _userViewModelBuilder.BuildUser(userId);
             viewModel.ShowAbout = true;
             //viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<UserPro>(PermissionNames.CreateObservation, userId) : false;
-            viewModel.SightingCountDescription = "Sighting" + (user.SightingCount == 1 ? string.Empty : "s");
-            viewModel.ProjectCountDescription = "Project" + (user.Projects.Count() == 1 ? string.Empty : "s");
-            viewModel.OrganisationCountDescription = "Organisation" + (user.Organisations.Count() == 1 ? string.Empty : "s");
+            viewModel.SightingCountDescription = "Sighting" + (userResult.SightingCount == 1 ? string.Empty : "s");
+            viewModel.ProjectCountDescription = "Project" + (userResult.Projects.Count() == 1 ? string.Empty : "s");
+            viewModel.OrganisationCountDescription = "Organisation" + (userResult.Organisations.Count() == 1 ? string.Empty : "s");
             viewModel.ActivityTimeseries = CreateActivityTimeseries(userId);
 
             return RestfulResult(
@@ -240,7 +237,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            var user = _documentSession
+            var userResult = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == userId)
@@ -248,11 +245,11 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(userId);
-            viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(userId, activityInput, pagingInput);
+            viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(userResult.User.UserProject.Id, activityInput, pagingInput);
             //viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
-            viewModel.SightingCountDescription = "Sighting" + (user.SightingCount == 1 ? string.Empty : "s");
-            viewModel.ProjectCountDescription = "Project" + (user.Projects.Count() == 1 ? string.Empty : "s");
-            //viewModel.OrganisationCountDescription = "Organisation" + (user.Organisations.Count() == 1 ? string.Empty : "s");
+            viewModel.SightingCountDescription = "Sighting" + (userResult.SightingCount == 1 ? string.Empty : "s");
+            viewModel.ProjectCountDescription = "Project" + (userResult.Projects.Count() == 1 ? string.Empty : "s");
+            viewModel.OrganisationCountDescription = "Organisation" + (userResult.Organisations.Count() == 1 ? string.Empty : "s");
             viewModel.ShowActivities = true;
 
             return RestfulResult(
@@ -267,10 +264,7 @@ namespace Bowerbird.Web.Controllers
             queryInput.PageSize = 15;
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "popular" ||
-                queryInput.Sort.ToLower() != "newest" ||
-                queryInput.Sort.ToLower() != "oldest" ||
-                queryInput.Sort.ToLower() != "a-z" ||
+                (queryInput.Sort.ToLower() != "a-z" ||
                 queryInput.Sort.ToLower() != "z-a"))
             {
                 queryInput.Sort = "popular";

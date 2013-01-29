@@ -19,19 +19,15 @@ namespace Bowerbird.Web.Builders
 {
     public interface ISightingViewModelBuilder
     {
-        object BuildNewObservation(string category = "", string projectId = "");
+        object BuildCreateObservation(string category = "", string projectId = "");
 
-        object BuildNewRecord(string projectId = "");
+        object BuildCreateRecord(string projectId = "");
 
         object BuildSighting(string id);
 
         object BuildSightingList(SightingsQueryInput sightingsQueryInput);
 
         object BuildGroupSightingList(string groupId, SightingsQueryInput sightingsQueryInput);
-
-        object BuildFavouritesSightingList(string userId, SightingsQueryInput sightingsQueryInput);
-
-        object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput);
 
         object BuildHomeSightingList(string userId, SightingsQueryInput sightingsQueryInput);
     }

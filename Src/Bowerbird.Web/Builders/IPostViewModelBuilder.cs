@@ -16,9 +16,9 @@ namespace Bowerbird.Web.Builders
 {
     public interface IPostViewModelBuilder : IBuilder
     {
-        object BuildNewPost(string groupId);
+        object BuildCreatePost(string groupId);
 
-        dynamic BuildPost(string id);
+        object BuildPost(string id);
 
         object BuildGroupPostList(string groupId, PostsQueryInput postsQueryInput);
 

@@ -103,7 +103,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Post = _postViewModelBuilder.BuildNewPost(actualGroupId);
+            viewModel.Post = _postViewModelBuilder.BuildCreatePost(actualGroupId);
             viewModel.PostTypeSelectList = GetPostTypeSelectList(string.Empty);
 
             return RestfulResult(

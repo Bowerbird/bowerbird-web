@@ -34,7 +34,7 @@ namespace Bowerbird.Web.EventHandlers
         private readonly IDocumentSession _documentSession;
         private readonly IBackChannelService _backChannelService;
         private readonly ISightingViewFactory _sightingViewFactory;
-        private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IIdentificationViewFactory _identificationViewFactory;
 
         #endregion
 
@@ -44,18 +44,18 @@ namespace Bowerbird.Web.EventHandlers
             IDocumentSession documentSession,
             IBackChannelService backChannelService,
             ISightingViewFactory sightingViewFactory,
-            ISightingNoteViewFactory sightingNoteViewFactory
+            IIdentificationViewFactory identificationViewFactory
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(backChannelService, "backChannelService");
             Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
-            Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(identificationViewFactory, "identificationViewFactory");
 
             _documentSession = documentSession;
             _backChannelService = backChannelService;
             _sightingViewFactory = sightingViewFactory;
-            _sightingNoteViewFactory = sightingNoteViewFactory;
+            _identificationViewFactory = identificationViewFactory;
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace Bowerbird.Web.EventHandlers
             activity.IdentificationAdded = new
             {
                 Sighting = _sightingViewFactory.Make(sighting, domainEvent.User, projects, domainEvent.User),
-                Identification = _sightingNoteViewFactory.Make(sighting, domainEvent.DomainModel, domainEvent.User, domainEvent.User)
+                Identification = _identificationViewFactory.Make(sighting, domainEvent.DomainModel, domainEvent.User, domainEvent.User)
             };
 
             _documentSession.Store(activity);

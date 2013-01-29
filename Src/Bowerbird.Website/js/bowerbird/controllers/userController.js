@@ -8,11 +8,14 @@
 // UserController & UserRouter
 // ---------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user'],
-function ($, _, Backbone, app, User) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'collections/usercollection', 'collections/activitycollection', 'collections/sightingcollection', 'views/userdetailsview', 'views/userexploreview'],
+function ($, _, Backbone, app, User, UserCollection, ActivityCollection, SightingCollection, UserDetailsView, UserExploreView) {
     var UserRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
-            'users/:id': 'showUserDetails'
+            'users/:id/sightings*': 'showSightings',
+            'users/:id/about': 'showAbout',
+            'users/:id': 'showUserDetails',
+            'users*': 'showExplore'
         }
     });
 
@@ -117,22 +120,126 @@ function ($, _, Backbone, app, User) {
         app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
 
-    //    // Show an project form
-    //    UserController.showUserForm = function (id) {
-    //        log('userController:showUserForm');
-    //        $.when(getModel(id))
-    //            .done(function (model) {
-    //                var user = new User(model.User);
-    //                var userFormLayoutView = new UserFormLayoutView({ model: user });
-    //                app.showFormContentView(userFormLayoutView, 'users');
-    //                if (app.isPrerenderingView('users')) {
-    //                    userFormLayoutView.showBootstrappedDetails();
-    //                }
-    //                app.setPrerenderComplete();
-    //            });
-    //    };
+    // Public API
+    // ----------
 
     UserController.showUserDetails = function (id) {
+        // Beacause IE is using has fragments, we have to fix the id manually for IE
+        var url = id;
+        if (url.indexOf('users') == -1) {
+            url = '/users/' + url;
+        }
+
+        $.when(getModel(url))
+            .done(function (model) {
+                var user = new User(model.User);
+                var activityCollection = new ActivityCollection(model.Activities.PagedListItems, { id: user.id });
+                activityCollection.setPageInfo(model.Activities);
+
+                if (app.content.currentView instanceof UserDetailsView && app.content.currentView.model.id === user.id) {
+                    app.content.currentView.showActivity(activityCollection);
+                } else {
+                    var options = { model: user };
+                    if (app.isPrerenderingView('users')) {
+                        options['el'] = '.user';
+                    }
+                    var userDetailsView = new UserDetailsView(options);
+
+                    app.showContentView(user.get('Name'), userDetailsView, 'users', function () {
+                        userDetailsView.showActivity(activityCollection);
+                    });
+                }
+            });
+    };
+
+    UserController.showSightings = function (id, params) {
+        $.when(getModel('/users/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+        .done(function (model) {
+            var user = new User(model.User);
+            var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
+                {
+                    userId: user.id,
+                    page: model.Query.page,
+                    pageSize: model.Query.PageSize,
+                    total: model.Sightings.TotalResultCount,
+                    viewType: model.Query.View,
+                    sortBy: model.Query.Sort,
+                    category: model.Query.Category,
+                    needsId: model.Query.NeedsId,
+                    query: model.Query.Query,
+                    field: model.Query.Field,
+                    taxonomy: model.Query.Taxonomy
+                });
+
+            if (app.content.currentView instanceof UserDetailsView && app.content.currentView.model.id === user.id) {
+                app.content.currentView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
+            } else {
+                var options = { model: user };
+                if (app.isPrerenderingView('users')) {
+                    options['el'] = '.user';
+                }
+                var userDetailsView = new UserDetailsView(options);
+
+                app.showContentView(user.get('Name'), userDetailsView, 'users', function () {
+                    userDetailsView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
+                });
+            }
+        });
+    };
+
+    UserController.showAbout = function (id) {
+        $.when(getModel('/users/' + id + '/about'))
+        .done(function (model) {
+            var user = new User(model.User);
+
+            if (app.content.currentView instanceof UserDetailsView && app.content.currentView.model.id === user.id) {
+                app.content.currentView.showAbout(model.ActivityTimeseries);
+            } else {
+                var options = { model: user };
+                if (app.isPrerenderingView('users')) {
+                    options['el'] = '.user';
+                }
+                var userDetailsView = new UserDetailsView(options);
+
+                app.showContentView(user.get('Name'), userDetailsView, 'users', function () {
+                    userDetailsView.showAbout(model.ActivityTimeseries);
+                });
+            }
+        });
+    };
+
+    // Show user explore
+    UserController.showExplore = function (params) {
+        $.when(getModel('/users?sort=' + (params && params.sort ? params.sort : 'a-z')))
+        .done(function (model) {
+            var userCollection = new UserCollection(model.Users.PagedListItems,
+                {
+                    page: model.Query.page,
+                    pageSize: model.Query.PageSize,
+                    total: model.Users.TotalResultCount,
+                    viewType: model.Query.View,
+                    sortBy: model.Query.Sort,
+                    query: model.Query.Query,
+                    field: model.Query.Field
+                });
+
+            var options = {
+                userCollection: userCollection,
+                fieldSelectList: model.FieldSelectList
+            };
+
+            if (app.authenticatedUser) {
+                options.model = app.authenticatedUser.user;
+            }
+
+            if (app.isPrerenderingView('users')) {
+                options['el'] = '.users';
+            }
+            var userExploreView = new UserExploreView(options);
+
+            app.showContentView('People', userExploreView, 'users', function () {
+            });
+        });
     };
 
     app.addInitializer(function () {

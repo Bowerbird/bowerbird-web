@@ -34,6 +34,7 @@ namespace Bowerbird.Web.Builders
         private readonly IDocumentSession _documentSession;
         private readonly ISightingViewFactory _sightingViewFactory;
         private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IIdentificationViewFactory _identificationViewFactory;
         private readonly IUserContext _userContext;
 
         #endregion
@@ -44,16 +45,19 @@ namespace Bowerbird.Web.Builders
             IDocumentSession documentSession,
             ISightingViewFactory sightingViewFactory,
             ISightingNoteViewFactory sightingNoteViewFactory,
+            IIdentificationViewFactory identificationViewFactory,
             IUserContext userContext)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
             Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(identificationViewFactory, "identificationViewFactory");
             Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _sightingViewFactory = sightingViewFactory;
             _sightingNoteViewFactory = sightingNoteViewFactory;
+            _identificationViewFactory = identificationViewFactory;
             _userContext = userContext;
         }
 
@@ -61,14 +65,14 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildNewObservation(string category = "", string projectId = "")
+        public object BuildCreateObservation(string category = "", string projectId = "")
         {
-            return _sightingViewFactory.MakeNewObservation(category, projectId);
+            return _sightingViewFactory.MakeCreateObservation(category, projectId);
         }
 
-        public object BuildNewRecord(string projectId = null)
+        public object BuildCreateRecord(string projectId = null)
         {
-            return _sightingViewFactory.MakeNewRecord(projectId);
+            return _sightingViewFactory.MakeCreateRecord(projectId);
         }
 
         public object BuildSighting(string id)
@@ -89,7 +93,7 @@ namespace Bowerbird.Web.Builders
 
             dynamic viewModel = _sightingViewFactory.Make(sighting, user, projects, authenticatedUser);
 
-            viewModel.Identifications = results.Where(x => x.SubContributionType == "identification").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as IdentificationNew, x.User, authenticatedUser));
+            viewModel.Identifications = results.Where(x => x.SubContributionType == "identification").Select(x => _identificationViewFactory.Make(sighting, x.Contribution as IdentificationNew, x.User, authenticatedUser));
             viewModel.Notes = results.Where(x => x.SubContributionType == "note").Select(x => _sightingNoteViewFactory.Make(sighting, x.Contribution as SightingNote, x.User, authenticatedUser));
 
             return viewModel;
@@ -108,34 +112,6 @@ namespace Bowerbird.Web.Builders
             Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
 
             return ExecuteQuery(sightingsQueryInput, new[] { groupId });
-        }
-
-        public object BuildFavouritesSightingList(string userId, SightingsQueryInput sightingsQueryInput)
-        {
-            Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
-
-            var groupIds = _documentSession
-                .Load<User>(userId)
-                .Memberships
-                .Where(x => x.Group.GroupType == "favourites")
-                .Select(x => x.Group.Id);
-
-            return ExecuteQuery(sightingsQueryInput, groupIds);
-        }
-
-        public object BuildUserSightingList(string userId, SightingsQueryInput sightingsQueryInput)
-        {
-            Check.RequireNotNullOrWhitespace(userId, "userId");
-            Check.RequireNotNull(sightingsQueryInput, "sightingsQueryInput");
-
-            var groupIds = _documentSession
-                .Load<User>(userId)
-                .Memberships
-                .Where(x => x.Group.GroupType == "userproject")
-                .Select(x => x.Group.Id);
-
-            return ExecuteQuery(sightingsQueryInput, groupIds);
         }
 
         public object BuildHomeSightingList(string userId, SightingsQueryInput sightingsQueryInput)

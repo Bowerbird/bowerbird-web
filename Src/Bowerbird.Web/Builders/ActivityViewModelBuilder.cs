@@ -41,6 +41,7 @@ namespace Bowerbird.Web.Builders
 
         private readonly ISightingViewFactory _sightingViewFactory;
         private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IIdentificationViewFactory _identificationViewFactory;
         private readonly IPostViewFactory _postViewFactory;
         private readonly IUserContext _userContext;
 
@@ -52,18 +53,21 @@ namespace Bowerbird.Web.Builders
             IDocumentSession documentSession,
             ISightingViewFactory sightingViewFactory,
             ISightingNoteViewFactory sightingNoteViewFactory,
+            IIdentificationViewFactory identificationViewFactory,
             IPostViewFactory postViewFactory,
             IUserContext userContext)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
             Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(identificationViewFactory, "identificationViewFactory");
             Check.RequireNotNull(postViewFactory, "postViewFactory");
             Check.RequireNotNull(userContext, "userContext");
 
             _documentSession = documentSession;
             _sightingViewFactory = sightingViewFactory;
             _sightingNoteViewFactory = sightingNoteViewFactory;
+            _identificationViewFactory = identificationViewFactory;
             _postViewFactory = postViewFactory;
             _userContext = userContext;
         }
@@ -222,7 +226,7 @@ namespace Bowerbird.Web.Builders
                         if (result != null)
                         {
                             sighting = _sightingViewFactory.Make(result.ParentContribution as Sighting, result.User, result.Groups, authenticatedUser);
-                            identitification = _sightingNoteViewFactory.Make(result.ParentContribution as Sighting, result.Contribution as IdentificationNew, result.User, authenticatedUser);
+                            identitification = _identificationViewFactory.Make(result.ParentContribution as Sighting, result.Contribution as IdentificationNew, result.User, authenticatedUser);
                         }
 
                         activity.IdentificationAdded = new

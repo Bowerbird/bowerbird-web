@@ -6,8 +6,8 @@ namespace Bowerbird.Web.Factories
 {
     public interface IPostViewFactory : IFactory
     {
-        object MakeNewPost(string groupId);
+        object MakeCreatePost(string groupId);
 
-        dynamic Make(Post post, User user, Group group, User authenticatedUser);
+        object Make(Post post, User user, Group group, User authenticatedUser);
     }
 }

@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using Bowerbird.Core.DesignByContract;
 using System.Security.Cryptography;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 using Bowerbird.Core.Events;
 
 namespace Bowerbird.Core.DomainModels
@@ -143,6 +144,18 @@ namespace Bowerbird.Core.DomainModels
             {
                 return _sessions.Count > 0 ? _sessions.Select(x => x.LatestHeartbeat).OrderByDescending(x => x).First() : (DateTime?)null;
             }
+        }
+
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        public DenormalisedGroupReference UserProject
+        {
+            get { return Memberships.First(x => x.Group.GroupType == "userproject").Group; }
+        }
+
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        public DenormalisedGroupReference Favourites
+        {
+            get { return Memberships.First(x => x.Group.GroupType == "favourites").Group; }
         }
 
         #endregion

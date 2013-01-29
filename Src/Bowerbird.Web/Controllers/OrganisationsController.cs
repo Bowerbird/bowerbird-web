@@ -110,13 +110,16 @@ namespace Bowerbird.Web.Controllers
             queryInput.Query = queryInput.Query ?? string.Empty;
             queryInput.Field = queryInput.Field ?? string.Empty;
 
-            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            var organisationResult = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .First(x => x.GroupId == organisationId);
 
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
             viewModel.Posts = _postViewModelBuilder.BuildGroupPostList(organisationId, queryInput);
-            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
+            viewModel.UserCountDescription = "Member" + (organisationResult.UserCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisationResult.PostCount == 1 ? string.Empty : "s");
             viewModel.Query = new
             {
                 Id = organisationId,
@@ -168,11 +171,14 @@ namespace Bowerbird.Web.Controllers
                 queryInput.Sort = "a-z";
             }
 
-            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            var organisationResult = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .First(x => x.GroupId == organisationId);
 
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
-            viewModel.Members = _userViewModelBuilder.BuildGroupUserList(organisationId, queryInput);
+            viewModel.Users = _userViewModelBuilder.BuildGroupUserList(organisationId, queryInput);
             viewModel.Query = new
             {
                 Id = organisationId,
@@ -182,8 +188,8 @@ namespace Bowerbird.Web.Controllers
             };
             viewModel.ShowMembers = true;
             viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId) : false;
-            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
+            viewModel.UserCountDescription = "Member" + (organisationResult.UserCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisationResult.PostCount == 1 ? string.Empty : "s");
 
             return RestfulResult(
                 viewModel,
@@ -201,14 +207,17 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            var organisationResult = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .First(x => x.GroupId == organisationId);
 
             dynamic viewModel = new ExpandoObject();
             viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
             viewModel.ShowAbout = true;
             viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId) : false;
-            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
+            viewModel.UserCountDescription = "Member" + (organisationResult.UserCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisationResult.PostCount == 1 ? string.Empty : "s");
             viewModel.OrganisationAdministrators = _userViewModelBuilder.BuildGroupUserList(organisationId, "roles/" + RoleNames.OrganisationAdministrator);
             viewModel.ActivityTimeseries = CreateActivityTimeseries(organisationId);
 
@@ -228,14 +237,17 @@ namespace Bowerbird.Web.Controllers
                 return HttpNotFound();
             }
 
-            dynamic organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
+            var organisationResult = _documentSession
+                .Query<All_Groups.Result, All_Groups>()
+                .AsProjection<All_Groups.Result>()
+                .First(x => x.GroupId == organisationId);
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Organisation = organisation;
+            viewModel.Organisation = _organisationViewModelBuilder.BuildOrganisation(organisationId);
             viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(organisationId, activityInput, pagingInput);
             viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Organisation>(PermissionNames.CreateObservation, organisationId) : false;
-            viewModel.MemberCountDescription = "Member" + (organisation.MemberCount == 1 ? string.Empty : "s");
-            viewModel.PostCountDescription = "Post" + (organisation.PostCount == 1 ? string.Empty : "s");
+            viewModel.UserCountDescription = "Member" + (organisationResult.UserCount == 1 ? string.Empty : "s");
+            viewModel.PostCountDescription = "Post" + (organisationResult.PostCount == 1 ? string.Empty : "s");
             viewModel.ShowActivities = true;
 
             return RestfulResult(

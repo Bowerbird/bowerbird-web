@@ -374,7 +374,8 @@
 
 /**********************/
 .project > .summary,
-.organisation > .summary
+.organisation > .summary,
+.user > .summary
 {
     background-attachment: scroll;
     background-clip: border-box;
@@ -391,13 +392,17 @@
     z-index: 2;  
 }
 .project > .details,
-.organisation > .details {
+.organisation > .details,
+.user > .details
+{
     background-color: rgb(227, 227, 227);
     float: left;
     width: 100%;
 }
 .project > .summary .image-media,
-.organisation > .summary .image-media {
+.organisation > .summary .image-media,
+.user > .summary .image-media 
+{
     border-radius: 2px;
     box-shadow: 0 2px 4px 0 rgba(1, 1, 1, 0.9);
     display: block;
@@ -406,12 +411,14 @@
     width: 100px;
 }
 .project > .summary img,
-.organisation > .summary img
+.organisation > .summary img,
+.user > .summary img
 {
     border-radius: 4px;
 }
 .project > .summary h1,
-.organisation > .summary h1
+.organisation > .summary h1,
+.user > .summary h1
 {
     color: rgb(255, 255, 255);
     display: block;
@@ -426,7 +433,8 @@
     white-space: nowrap;
 }
 .project > .summary p,
-.organisation > .summary p
+.organisation > .summary p,
+.user > .summary p
 {
     display: none;
     font-size: 0.875em;
@@ -436,14 +444,16 @@
     overflow: hidden;
 }
 .project > .summary .badges,
-.organisation > .summary .badges
+.organisation > .summary .badges,
+.user > .summary .badges
 {
     display: block;
     text-align: center;
     width: 100%;
 }
 .project > .summary .badges li,
-.organisation > .summary .badges li
+.organisation > .summary .badges li,
+.user > .summary .badges li
 {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 2px;
@@ -456,7 +466,8 @@
     text-shadow: 0 1px 0 rgb(0, 0, 0);
 }
 .project .tab-bar,
-.organisation .tab-bar 
+.organisation .tab-bar,
+.user .tab-bar 
 {
     padding-top: 2%;
     padding-bottom: 2%;

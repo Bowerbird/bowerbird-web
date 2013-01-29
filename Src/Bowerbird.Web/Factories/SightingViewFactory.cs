@@ -49,7 +49,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object MakeNewObservation(string category = "", string projectId = "")
+        public object MakeCreateObservation(string category = "", string projectId = "")
         {
             return new
             {
@@ -65,7 +65,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public object MakeNewRecord(string category = "", string projectId = "")
+        public object MakeCreateRecord(string category = "", string projectId = "")
         {
             return new
             {
@@ -78,7 +78,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public dynamic Make(Sighting sighting, User user, IEnumerable<Group> projects, User authenticatedUser)
+        public object Make(Sighting sighting, User user, IEnumerable<Group> projects, User authenticatedUser)
         {
             dynamic viewModel = new ExpandoObject();
 

@@ -75,7 +75,7 @@ namespace Bowerbird.Web.Hubs
             dynamic chatDetails = new ExpandoObject();
 
             chatDetails.ChatId = chat.Id;
-            chatDetails.Users = users.Select(_userViewFactory.Make);
+            chatDetails.Users = users.Select(x => _userViewFactory.Make(x));
 
             if (chat.ChatType == "group")
             {

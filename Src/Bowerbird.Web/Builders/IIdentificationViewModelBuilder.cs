@@ -16,11 +16,11 @@ using Bowerbird.Web.ViewModels;
 
 namespace Bowerbird.Web.Builders
 {
-    public interface ISightingNoteViewModelBuilder
+    public interface IIdentificationViewModelBuilder
     {
-        object BuildCreateSightingNote(string sightingId);
+        object BuildCreateIdentification(string sightingId);
 
-        object BuildUpdateSightingNote(string sightingId, int sightingNoteId);
+        object BuildUpdateIdentification(string sightingId, int sightingIdentificationId);
 
     }
 }

@@ -36,31 +36,29 @@ function ($, _, Backbone, PaginatedCollection, User) {
             this.pageSize = options && options.pageSize ? options.pageSize : 15;
             this.total = options && options.total ? options.total : 0;
             this.sortByType = options && options.sortBy ? options.sortBy : 'a-z';
+
+            this.query = options && options.query ? options.query : '';
+            this.field = options && options.field ? options.field : '';
         },
 
         comparator: function(user) {
             if (this.sortByType === 'z-a') {
-                var str = user.get("Name");
-                str = str.toLowerCase();
-                str = str.split("");
-                str = _.map(str, function (letter) {
-                    return String.fromCharCode(-(letter.charCodeAt(0)));
-                });
-                return str;
+                return String.fromCharCode.apply(String,
+                    _.map(user.get('Name').toLowerCase().split(''), function (c) {
+                        return 0xffff - c.charCodeAt();
+                    })
+                );
             } else {
                 return user.get('Name');
             }
         },
 
         parse: function (resp) {
-            if (this.isProjectUsers) {
-                var sightings = resp.Model.Sightings;
-                this.page = sightings.Page;
-                this.pageSize = sightings.PageSize;
-                this.total = sightings.TotalResultCount;
-                return resp.Model.Sightings.PagedListItems;
-            }
-            return [];
+            var users = resp.Model.Users;
+            this.page = users.Page;
+            this.pageSize = users.PageSize;
+            this.total = users.TotalResultCount;
+            return users.PagedListItems;
         },
 
         fetchFirstPage: function () {
@@ -74,7 +72,9 @@ function ($, _, Backbone, PaginatedCollection, User) {
         getFetchOptions: function (add) {
             var options = {
                 data: {
-                    sort: this.sortByType
+                    sort: this.sortByType,
+                    query: this.query,
+                    field: this.field
                 },
                 add: add,
                 success: null
@@ -85,6 +85,57 @@ function ($, _, Backbone, PaginatedCollection, User) {
                 options.success = this.onSuccessWithAddFix;
             }
             return options;
+        },
+
+        changeSort: function (sortByType) {
+            if (this.sortByType !== sortByType) {
+                this.trigger('criteria-changed');
+                this.sortByType = sortByType;
+                this.fetchFirstPage();
+            }
+        },
+
+        changeQuery: function (query, field) {
+            if (this.query !== query || this.field !== field) {
+                this.trigger('criteria-changed');
+                this.query = query;
+                this.field = field;
+                this.fetchFirstPage();
+            }
+        },
+
+        hasSearchCriteria: function () {
+            return this.query !== '';
+        },
+
+        searchUrl: function () {
+            var url = this.baseUrl;
+
+            var urlBits = [];
+
+            if (this.sortByType !== 'a-z') {
+                urlBits.push('sort=' + this.sortByType);
+            }
+
+            if (this.query !== '') {
+                urlBits.push('query=' + this.query);
+                if (this.field !== '') {
+                    urlBits.push('field=' + this.field);
+                }
+            }
+
+            if (urlBits.length > 0) {
+                url = url + '?' + urlBits.join('&');
+            }
+
+            return url;
+        },
+
+        resetSearch: function () {
+            this.trigger('search-reset');
+            this.query = '';
+            this.field = '',
+            this.fetchFirstPage();
         }
     });
 

@@ -99,7 +99,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
             this.onLoadingComplete(this.collection);
             this.changeSortLabel(this.collection.sortByType);
-            this.switchTabHighlight(this.collection.viewType);
+            //this.switchTabHighlight(this.collection.viewType);
 
             this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
         },
@@ -244,7 +244,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
         showLoading: function () {
             this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
-            this.$el.find('.sighting-items').hide();
+            this.$el.find('.sighting-items, .tab-bar-right').hide();
+            this.onLoadingStart();
         },
 
         showHideSearch: function () {

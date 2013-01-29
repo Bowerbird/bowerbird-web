@@ -137,7 +137,6 @@
     <Compile Include="Utilities\ImageUtility.cs" />
     <Compile Include="Utilities\MediaTypeUtility.cs" />
     <Compile Include="Config\PermissionManager.cs" />
-    <Compile Include="Config\SetupTestData.cs" />
     <Compile Include="CommandHandlers\ChatCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\ChatDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\ChatUpdateCommandHandler.cs" />

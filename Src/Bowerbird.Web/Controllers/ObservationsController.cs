@@ -42,6 +42,7 @@ namespace Bowerbird.Web.Controllers
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
         private readonly ISightingNoteViewModelBuilder _sightingNoteViewModelBuilder;
+        private readonly IIdentificationViewModelBuilder _identificationViewModelBuilder;
 
         #endregion
 
@@ -53,7 +54,8 @@ namespace Bowerbird.Web.Controllers
             ISightingViewModelBuilder sightingViewModelBuilder,
             IDocumentSession documentSession,
             IPermissionManager permissionManager,
-            ISightingNoteViewModelBuilder sightingNoteViewModelBuilder
+            ISightingNoteViewModelBuilder sightingNoteViewModelBuilder,
+            IIdentificationViewModelBuilder identificationViewModelBuilder
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
@@ -62,6 +64,7 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionManager, "permissionManager");
             Check.RequireNotNull(sightingNoteViewModelBuilder, "sightingNoteViewModelBuilder");
+            Check.RequireNotNull(identificationViewModelBuilder, "identificationViewModelBuilder");
 
             _messageBus = messageBus;
             _userContext = userContext;
@@ -69,6 +72,7 @@ namespace Bowerbird.Web.Controllers
             _documentSession = documentSession;
             _permissionManager = permissionManager;
             _sightingNoteViewModelBuilder = sightingNoteViewModelBuilder;
+            _identificationViewModelBuilder = identificationViewModelBuilder;
         }
 
         #endregion
@@ -115,7 +119,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildNewObservation(string.Empty, projectId);
+            viewModel.Observation = _sightingViewModelBuilder.BuildCreateObservation(string.Empty, projectId);
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.ProjectsSelectList = GetProjectsSelectList(projectId);
             viewModel.Categories = Categories.GetAll();
@@ -358,7 +362,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Identification = _sightingNoteViewModelBuilder.BuildCreateIdentification(observationId);
+            viewModel.Identification = _identificationViewModelBuilder.BuildCreateIdentification(observationId);
             viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = Categories.GetAll();
@@ -412,7 +416,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Identification = _sightingNoteViewModelBuilder.BuildUpdateIdentification(observationId, identificationId);
+            viewModel.Identification = _identificationViewModelBuilder.BuildUpdateIdentification(observationId, identificationId);
             viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = Categories.GetAll();

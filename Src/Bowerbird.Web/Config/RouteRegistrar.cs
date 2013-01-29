@@ -97,6 +97,12 @@ namespace Bowerbird.Web.Config
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
+                "users-list",
+                "users",
+                new { controller = "users", action = "list" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
                 "sightings-list",
                 "sightings",
                 new { controller = "sightings", action = "list" },

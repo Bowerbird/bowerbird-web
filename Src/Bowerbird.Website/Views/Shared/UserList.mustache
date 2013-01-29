@@ -3,15 +3,18 @@
   <div class="tab-bar tab-bar-right small">
     <ul class="tabs">
       <li>
+        <span class="tab-button search-button" title="Show or hide search options">Search</span>
+      </li>
+      <li>
         <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
-          <span class="tab-list-selection">Latest Added</span>
+          <span class="tab-list-selection">Alphabetical (A-Z)</span>
           <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
           <ul>
             <li>
-              <a href="{{Id}}/members?sort=a-z">Alphabetical (A-Z)</a>
+              <a data-sort="a-z" href="/projects?sort=a-z">Alphabetical (A-Z)</a>
             </li>
             <li>
-              <a href="{{Id}}/members?sort=z-a">Alphabetical (Z-A)</a>
+              <a data-sort="z-a" href="/projects?sort=z-a">Alphabetical (Z-A)</a>
             </li>
           </ul>
         </div>
@@ -20,10 +23,10 @@
   </div>
   {{/Model.Query}}
   <ul class="user-items">
-  {{#Model.Members.PagedListItems}}
+  {{#Model.Users.PagedListItems}}
   <li class="user-item tile-user-details">
     {{>UserTileDetails}}
   </li>
-  {{/Model.Members.PagedListItems}}
+  {{/Model.Users.PagedListItems}}
   </ul>
 </div>

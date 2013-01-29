@@ -151,6 +151,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\IIdentificationViewModelBuilder.cs" />
+    <Compile Include="Builders\IdentificationViewModelBuilder.cs" />
     <Compile Include="Config\NumericParamContstraint.cs" />
     <Compile Include="Config\RavenDocumentStoreListener.cs" />
     <Compile Include="Config\SignalrJsonNetSerializer.cs" />
@@ -164,20 +166,16 @@
     <Compile Include="Builders\IOrganisationViewModelBuilder.cs" />
     <Compile Include="Builders\IPostViewModelBuilder.cs" />
     <Compile Include="Builders\IProjectViewModelBuilder.cs" />
-    <Compile Include="Builders\IReferenceSpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\ISpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\IActivityViewModelBuilder.cs" />
-    <Compile Include="Builders\ITeamViewModelBuilder.cs" />
     <Compile Include="Builders\IUserViewModelBuilder.cs" />
     <Compile Include="Builders\SightingNoteViewModelBuilder.cs" />
     <Compile Include="Builders\SightingViewModelBuilder.cs" />
     <Compile Include="Builders\OrganisationViewModelBuilder.cs" />
     <Compile Include="Builders\PostViewModelBuilder.cs" />
     <Compile Include="Builders\ProjectViewModelBuilder.cs" />
-    <Compile Include="Builders\ReferenceSpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\SpeciesViewModelBuilder.cs" />
     <Compile Include="Builders\ActivityViewModelBuilder.cs" />
-    <Compile Include="Builders\TeamViewModelBuilder.cs" />
     <Compile Include="Builders\UserViewModelBuilder.cs" />
     <Compile Include="Config\AcceptTypeContstraint.cs" />
     <Compile Include="Config\AuthenticatedConstraint.cs" />
@@ -196,6 +194,8 @@
     <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="EventHandlers\ActivityIdentificationAdded.cs" />
+    <Compile Include="Factories\IdentificationViewFactory.cs" />
+    <Compile Include="Factories\IIdentificationViewFactory.cs" />
     <Compile Include="Factories\PostViewFactory.cs" />
     <Compile Include="Factories\IPostViewFactory.cs" />
     <Compile Include="Factories\ISightingNoteViewFactory.cs" />
@@ -233,7 +233,6 @@
     <Compile Include="Controllers\OrganisationsController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ProjectsController.cs" />
-    <Compile Include="Controllers\ReferenceSpeciesController.cs" />
     <Compile Include="Controllers\SpeciesController.cs" />
     <Compile Include="Controllers\TemplatesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />

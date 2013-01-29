@@ -36,33 +36,10 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object Make(User user)
+        public object Make(User user, bool fullDetails = false, int? sightingCount = 0)
         {
             Check.RequireNotNull(user, "user");
 
-            return MakeBaseUser(user);
-        }
-
-        public object Make(All_Users.Result result, bool fullDetails = false)
-        {
-            Check.RequireNotNull(result, "result");
-
-            dynamic viewModel = MakeBaseUser(result.User);
-
-            if (fullDetails)
-            {
-                viewModel.Joined = result.User.Joined.ToString("d MMM yyyy");
-                viewModel.Description = result.User.Description;
-                viewModel.ProjectCount = result.User.Memberships.Where(x => x.Group.GroupType == "project").Count();
-                viewModel.OrganisationCount = result.User.Memberships.Where(x => x.Group.GroupType == "organisation").Count();
-                viewModel.SightingCount = result.SightingCount;
-            }
-
-            return viewModel;
-        }
-
-        private dynamic MakeBaseUser(User user)
-        {
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Id = user.Id;
@@ -70,6 +47,15 @@ namespace Bowerbird.Web.Factories
             viewModel.Name = user.Name;
             viewModel.LatestActivity = user.SessionLatestActivity;
             viewModel.LatestHeartbeat = user.SessionLatestHeartbeat;
+
+            if (fullDetails)
+            {
+                viewModel.Joined = user.Joined.ToString("d MMM yyyy");
+                viewModel.Description = user.Description;
+                viewModel.ProjectCount = user.Memberships.Where(x => x.Group.GroupType == "project").Count();
+                viewModel.OrganisationCount = user.Memberships.Where(x => x.Group.GroupType == "organisation").Count();
+                viewModel.SightingCount = sightingCount;
+            }
 
             return viewModel;
         }

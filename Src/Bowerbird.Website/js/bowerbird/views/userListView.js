@@ -9,13 +9,13 @@
 // ------------
 
 // Shows users for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/userdetailsview', 'date', 'tipsy'],
-function ($, _, Backbone, app, ich, UserDetailsView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/useritemviewnew', 'date', 'tipsy'],
+function ($, _, Backbone, app, ich, UserItemView) {
 
     var UserListView = Backbone.Marionette.CompositeView.extend({
         template: 'UserList',
 
-        itemView: UserDetailsView,
+        itemView: UserItemView,
 
         activeTab: '',
 
@@ -37,7 +37,7 @@ function ($, _, Backbone, app, ich, UserDetailsView) {
             return {
                 Model: {
                     Query: {
-                        Id: this.collection.projectId,
+                        Id: this.collection.userId,
                         Page: this.collection.pageSize,
                         PageSize: this.collection.page,
                         Sort: this.collection.sortByType
@@ -83,18 +83,12 @@ function ($, _, Backbone, app, ich, UserDetailsView) {
         changeSortLabel: function (value) {
             var label = '';
             switch (value) {
-                case 'oldest':
-                    label = 'Oldest Added';
-                    break;
-                case 'a-z':
-                    label = 'Alphabetical (A-Z)';
-                    break;
                 case 'z-a':
                     label = 'Alphabetical (Z-A)';
                     break;
-                case 'newest':
+                case 'a-z':
                 default:
-                    label = 'Latest Added';
+                    label = 'Alphabetical (A-Z)';
                     break;
             }
 
@@ -176,7 +170,7 @@ function ($, _, Backbone, app, ich, UserDetailsView) {
         showLoading: function () {
             var that = this;
             this.$el.find('.stream-message, .stream-load-new, .stream-load-more').fadeOut(100);
-            this.$el.find('.user-items').fadeOut(100, function () {
+            this.$el.find('.user-items, .tab-bar-right').fadeOut(100, function () {
                 that.onLoadingStart();
             });
         }

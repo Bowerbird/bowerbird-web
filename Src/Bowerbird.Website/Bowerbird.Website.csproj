@@ -195,6 +195,10 @@
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
+    <Content Include="js\bowerbird\views\userItemViewNEW.js" />
+    <Content Include="js\bowerbird\views\userSearchPanelView.js" />
+    <Content Include="js\bowerbird\views\userAboutView.js" />
+    <Content Include="js\bowerbird\views\userExploreView.js" />
     <Content Include="js\bowerbird\views\favouritesView.js" />
     <Content Include="js\bowerbird\views\sightingExploreView.js" />
     <Content Include="js\bowerbird\views\organisationExploreView.js" />
@@ -689,6 +693,15 @@
     </Content>
     <Content Include="Views\Users\Sightings.mustache" />
     <Content Include="Views\Shared\User.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\UserAbout.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\UserExplore.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\UserSearchPanel.mustache">
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>

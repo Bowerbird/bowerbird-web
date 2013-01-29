@@ -46,7 +46,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public object MakeNewPost(string groupId)
+        public object MakeCreatePost(string groupId)
         {
             return new
             {
@@ -56,7 +56,7 @@ namespace Bowerbird.Web.Factories
             };
         }
 
-        public dynamic Make(Post post, User user, Group group, User authenticatedUser)
+        public object Make(Post post, User user, Group group, User authenticatedUser)
         {
             dynamic viewModel = new ExpandoObject();
 

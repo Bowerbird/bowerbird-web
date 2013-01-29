@@ -164,7 +164,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         $.when(getModel('/projects/' + id + '/members?sort=' + (params && params.sort ? params.sort : 'a-z')))
         .done(function (model) {
             var project = new Project(model.Project);
-            var userCollection = new UserCollection(model.Members.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Members.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+            var userCollection = new UserCollection(model.Users.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Users.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
 
             if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
                 app.content.currentView.showMembers(userCollection);

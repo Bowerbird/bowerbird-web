@@ -1,0 +1,44 @@
+﻿{{#Model.Query}}
+<div class="search-bar form">
+  <form>
+    <fieldset>
+      <div class="field-row">
+        <div id="search-query-field" class="field">
+          <div>
+            <label for="Query">Search</label>
+          </div>
+          <div>
+            <input name="query" type="text" id="Query" value="{{Model.Query.Query}}" />
+          </div>
+        </div>
+
+        <div id="search-field-field" class="field">
+          <div>
+            <label for="Field">In Field</label>
+          </div>
+          <div>
+            <select name="field" id="Field">
+              <option value="">All Fields</option>
+              {{#Model.FieldSelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.FieldSelectList}}
+            </select>
+
+          </div>
+        </div>
+
+        <div id="search-go-field" class="field">
+          <div>
+            <button id="search-go-button" class="button">Go</button>
+          </div>
+        </div>
+         
+      </div>
+
+      <div class="field-row">
+        <div><button class="button" id="new-search-button">Start New Search</button></div>
+      </div>
+    </fieldset>  
+  </form>
+</div>
+{{/Model.Query}}

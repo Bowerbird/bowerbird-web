@@ -47,8 +47,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IUserViewModelBuilder _userViewModelBuilder;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IActivityViewModelBuilder _activityViewModelBuilder;
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
-        private readonly IPostViewModelBuilder _postViewModelBuilder;
         private readonly IPermissionManager _permissionManager;
 
         #endregion
@@ -63,8 +61,6 @@ namespace Bowerbird.Web.Controllers
             IUserViewModelBuilder userViewModelBuilder,
             IActivityViewModelBuilder activityViewModelBuilder,
             IUserViewFactory userViewFactory,
-            ISightingViewModelBuilder sightingViewModelBuilder,
-            IPostViewModelBuilder postViewModelBuilder,
             IPermissionManager permissionManager
             )
         {
@@ -75,8 +71,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
             Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
-            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
             Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
@@ -86,8 +80,6 @@ namespace Bowerbird.Web.Controllers
             _userViewModelBuilder = userViewModelBuilder;
             _activityViewModelBuilder = activityViewModelBuilder;
             _userViewFactory = userViewFactory;
-            _sightingViewModelBuilder = sightingViewModelBuilder;
-            _postViewModelBuilder = postViewModelBuilder;
             _permissionManager = permissionManager;
         }
 

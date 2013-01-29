@@ -17,8 +17,6 @@ namespace Bowerbird.Web.Factories
 {
     public interface IUserViewFactory : IFactory
     {
-        object Make(User user);
-
-        object Make(All_Users.Result result, bool fullDetails = false);
+        object Make(User result, bool fullDetails = false, int? sightingCount = 0);
     }
 }

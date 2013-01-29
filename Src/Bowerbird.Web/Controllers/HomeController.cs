@@ -98,16 +98,16 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("PublicIndex");
             }
 
-            var user = _documentSession
+            var userResult = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
-                .Single();
+                .First();
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
             viewModel.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
-            viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
+            viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
             viewModel.ShowActivities = true;
 
             return RestfulResult(
@@ -123,11 +123,11 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Sightings(SightingsQueryInput queryInput)
         {
-            var user = _documentSession
+            var userResult = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
-                .Single();
+                .First();
 
             if (queryInput.View.ToLower() == "thumbnails")
             {
@@ -178,7 +178,7 @@ namespace Bowerbird.Web.Controllers
                     IsDetailsView = queryInput.View == "details",
                     IsMapView = queryInput.View == "map"
                 };
-            viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
+            viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
             viewModel.ShowSightings = true;
             viewModel.FieldSelectList = new[]
                 {
@@ -279,7 +279,7 @@ namespace Bowerbird.Web.Controllers
         [Authorize]
         public ActionResult Favourites(SightingsQueryInput queryInput)
         {
-            var user = _documentSession
+            var userResult = _documentSession
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
@@ -317,7 +317,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Sightings = _sightingViewModelBuilder.BuildFavouritesSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.Sightings = _sightingViewModelBuilder.BuildGroupSightingList(userResult.User.UserProject.Id, queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
             {
@@ -334,7 +334,7 @@ namespace Bowerbird.Web.Controllers
                 IsDetailsView = queryInput.View == "details",
                 IsMapView = queryInput.View == "map"
             };
-            viewModel.ShowUserWelcome = user.User.CallsToAction.Contains("user-welcome");
+            viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
             viewModel.ShowSightings = true;
             viewModel.FieldSelectList = new[]
                 {

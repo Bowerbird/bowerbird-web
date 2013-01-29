@@ -102,7 +102,7 @@ namespace Bowerbird.Web.Builders
             };
         }
 
-        public dynamic BuildOrganisation(string organisationId)
+        public object BuildOrganisation(string organisationId)
         {
             Check.RequireNotNullOrWhitespace(organisationId, "organisationId");
 

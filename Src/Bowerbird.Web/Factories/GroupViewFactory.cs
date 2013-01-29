@@ -25,7 +25,7 @@ namespace Bowerbird.Web.Factories
 
         #region Methods
 
-        public dynamic Make(Group group, User authenticatedUser, bool fullDetails = false, int sightingCount = 0, int userCount = 0, int postCount = 0, IEnumerable<Observation> sampleObservations = null)
+        public object Make(Group group, User authenticatedUser, bool fullDetails = false, int sightingCount = 0, int userCount = 0, int postCount = 0, IEnumerable<Observation> sampleObservations = null)
         {
             Check.RequireNotNull(group, "group");
 
@@ -50,7 +50,7 @@ namespace Bowerbird.Web.Factories
                     viewModel.Background = ((IPublicGroup)group).Background;
                     viewModel.Website = ((IPublicGroup)group).Website;
                     viewModel.Description = ((IPublicGroup)group).Description;
-                    viewModel.MemberCount = userCount;
+                    viewModel.UserCount = userCount;
                     viewModel.PostCount = postCount;
                 }
                 if (group is Project)

@@ -110,7 +110,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Record = _sightingViewModelBuilder.BuildNewRecord(id);
+            viewModel.Record = _sightingViewModelBuilder.BuildCreateRecord(id);
             //viewModel.Categories = GetCategories();
 
             return RestfulResult(

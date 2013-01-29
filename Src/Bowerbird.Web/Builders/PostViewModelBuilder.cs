@@ -59,12 +59,12 @@ namespace Bowerbird.Web.Builders
 
         #region Methods
 
-        public object BuildNewPost(string groupId)
+        public object BuildCreatePost(string groupId)
         {
-            return _postViewFactory.MakeNewPost(groupId);
+            return _postViewFactory.MakeCreatePost(groupId);
         }
 
-        public dynamic BuildPost(string id)
+        public object BuildPost(string id)
         {
             var authenticatedUser = _userContext.IsUserAuthenticated() ? _documentSession.Load<User>(_userContext.GetAuthenticatedUserId()) : null;
 

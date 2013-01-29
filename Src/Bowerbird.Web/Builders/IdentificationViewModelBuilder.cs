@@ -28,46 +28,46 @@ using System;
 
 namespace Bowerbird.Web.Builders
 {
-    public class SightingNoteViewModelBuilder : ISightingNoteViewModelBuilder
+    public class IdentificationViewModelBuilder : IIdentificationViewModelBuilder
     {
         #region Fields
 
         private readonly IDocumentSession _documentSession;
-        private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IIdentificationViewFactory _identificationViewFactory;
 
         #endregion
 
         #region Constructors
 
-        public SightingNoteViewModelBuilder(
+        public IdentificationViewModelBuilder(
             IDocumentSession documentSession,
-            ISightingNoteViewFactory sightingNoteViewFactory)
+            IIdentificationViewFactory identificationViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(identificationViewFactory, "identificationViewFactory");
 
             _documentSession = documentSession;
-            _sightingNoteViewFactory = sightingNoteViewFactory;
+            _identificationViewFactory = identificationViewFactory;
         }
 
         #endregion
 
         #region Methods
 
-        public object BuildCreateSightingNote(string sightingId)
+        public object BuildCreateIdentification(string sightingId)
         {
-            return _sightingNoteViewFactory.MakeCreateSightingNote(sightingId);
+            return _identificationViewFactory.MakeCreateIdentification(sightingId);
         }
 
-        public object BuildUpdateSightingNote(string sightingId, int sightingNoteId)
+        public object BuildUpdateIdentification(string sightingId, int identificationId)
         {
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == sightingNoteId.ToString())
+                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == identificationId.ToString())
                 .First();
 
-            return _sightingNoteViewFactory.MakeUpdateSightingNote(result.Observation, result.User, sightingNoteId);
+            return _identificationViewFactory.MakeUpdateIdentification(result.Observation, result.User, identificationId);
         }
 
         #endregion
