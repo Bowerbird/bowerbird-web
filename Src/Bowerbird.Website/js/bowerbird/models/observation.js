@@ -113,6 +113,10 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
 
         setSightingNote: function (sightingNote) {
             this.set('Note', sightingNote.toJSON());
+        },
+
+        hasLatLong: function () {
+            return this.get('Latitude') !== null && this.get('Longitude') !== null && this.get('Latitude') !== '' && this.get('Longitude') !== null;
         }
     });
 

@@ -18,13 +18,14 @@ using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Builders;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Queries;
+using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using System;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.Infrastructure;
 using Raven.Client;
 using System.Collections;
 using System.Dynamic;
@@ -38,11 +39,11 @@ namespace Bowerbird.Web.Controllers
 
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly ISightingViewModelQuery _sightingViewModelQuery;
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
-        private readonly ISightingNoteViewModelBuilder _sightingNoteViewModelBuilder;
-        private readonly IIdentificationViewModelBuilder _identificationViewModelBuilder;
+        private readonly ISightingNoteViewModelQuery _sightingNoteViewModelQuery;
+        private readonly IIdentificationViewModelQuery _identificationViewModelQuery;
 
         #endregion
 
@@ -51,28 +52,28 @@ namespace Bowerbird.Web.Controllers
         public ObservationsController(
             IMessageBus messageBus,
             IUserContext userContext,
-            ISightingViewModelBuilder sightingViewModelBuilder,
+            ISightingViewModelQuery sightingViewModelQuery,
             IDocumentSession documentSession,
             IPermissionManager permissionManager,
-            ISightingNoteViewModelBuilder sightingNoteViewModelBuilder,
-            IIdentificationViewModelBuilder identificationViewModelBuilder
+            ISightingNoteViewModelQuery sightingNoteViewModelQuery,
+            IIdentificationViewModelQuery identificationViewModelQuery
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelQuery, "sightingViewModelQuery");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionManager, "permissionManager");
-            Check.RequireNotNull(sightingNoteViewModelBuilder, "sightingNoteViewModelBuilder");
-            Check.RequireNotNull(identificationViewModelBuilder, "identificationViewModelBuilder");
+            Check.RequireNotNull(sightingNoteViewModelQuery, "sightingNoteViewModelQuery");
+            Check.RequireNotNull(identificationViewModelQuery, "identificationViewModelQuery");
 
             _messageBus = messageBus;
             _userContext = userContext;
-            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _sightingViewModelQuery = sightingViewModelQuery;
             _documentSession = documentSession;
             _permissionManager = permissionManager;
-            _sightingNoteViewModelBuilder = sightingNoteViewModelBuilder;
-            _identificationViewModelBuilder = identificationViewModelBuilder;
+            _sightingNoteViewModelQuery = sightingNoteViewModelQuery;
+            _identificationViewModelQuery = identificationViewModelQuery;
         }
 
         #endregion
@@ -90,7 +91,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.Observation = _sightingViewModelQuery.BuildSighting(observationId);
 
             return RestfulResult(
                 viewModel,
@@ -119,7 +120,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildCreateObservation(string.Empty, projectId);
+            viewModel.Observation = _sightingViewModelQuery.BuildCreateObservation(string.Empty, projectId);
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.ProjectsSelectList = GetProjectsSelectList(projectId);
             viewModel.Categories = Categories.GetAll();
@@ -151,7 +152,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.Observation = _sightingViewModelQuery.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList(observationId);
             viewModel.ProjectsSelectList = GetProjectsSelectList(observation.Groups.Where(x => x.Group.GroupType == "project").Select(x => x.Group.Id).ToArray());
             viewModel.Categories = Categories.GetAll();
@@ -181,7 +182,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Observation = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.Observation = _sightingViewModelQuery.BuildSighting(observationId);
 
             return RestfulResult(
                 viewModel,
@@ -362,8 +363,8 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Identification = _identificationViewModelBuilder.BuildCreateIdentification(observationId);
-            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.Identification = _identificationViewModelQuery.BuildCreateIdentification(observationId);
+            viewModel.Sighting = _sightingViewModelQuery.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = Categories.GetAll();
 
@@ -388,8 +389,8 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.SightingNote = _sightingNoteViewModelBuilder.BuildCreateSightingNote(observationId);
-            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.SightingNote = _sightingNoteViewModelQuery.BuildCreateSightingNote(observationId);
+            viewModel.Sighting = _sightingViewModelQuery.BuildSighting(observationId);
             viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
             viewModel.DescriptionTypes = GetDescriptionTypes();
             viewModel.CategorySelectList = GetCategorySelectList();
@@ -416,8 +417,8 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Identification = _identificationViewModelBuilder.BuildUpdateIdentification(observationId, identificationId);
-            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.Identification = _identificationViewModelQuery.BuildUpdateIdentification(observationId, identificationId);
+            viewModel.Sighting = _sightingViewModelQuery.BuildSighting(observationId);
             viewModel.CategorySelectList = GetCategorySelectList();
             viewModel.Categories = Categories.GetAll();
 
@@ -442,8 +443,8 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.SightingNote = _sightingNoteViewModelBuilder.BuildUpdateSightingNote(observationId, sightingNoteId);
-            viewModel.Sighting = _sightingViewModelBuilder.BuildSighting(observationId);
+            viewModel.SightingNote = _sightingNoteViewModelQuery.BuildUpdateSightingNote(observationId, sightingNoteId);
+            viewModel.Sighting = _sightingViewModelQuery.BuildSighting(observationId);
             viewModel.DescriptionTypesSelectList = GetDescriptionTypesSelectList();
             viewModel.DescriptionTypes = GetDescriptionTypes();
             viewModel.CategorySelectList = GetCategorySelectList();

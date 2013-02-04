@@ -100,7 +100,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
                 var project = new Project(model.Project);
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     { 
-                        projectId: project.id,
+                        subId: project.id,
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
@@ -134,8 +134,8 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         .done(function (model) {
             var project = new Project(model.Project);
             var postCollection = new PostCollection(model.Posts.PagedListItems,
-                { 
-                    groupId: project.id,
+                {
+                    subId: project.id,
                     page: model.Query.page,
                     pageSize: model.Query.PageSize,
                     total: model.Posts.TotalResultCount,
@@ -164,7 +164,17 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         $.when(getModel('/projects/' + id + '/members?sort=' + (params && params.sort ? params.sort : 'a-z')))
         .done(function (model) {
             var project = new Project(model.Project);
-            var userCollection = new UserCollection(model.Users.PagedListItems, { projectId: project.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Users.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+            var userCollection = new UserCollection(model.Users.PagedListItems, 
+            {
+                subId: project.id,
+                page: model.Query.page,
+                pageSize: model.Query.PageSize,
+                total: model.Users.TotalResultCount,
+                viewType: model.Query.View, 
+                sortBy: model.Query.Sort,
+                query: model.Query.Query,
+                field: model.Query.Field
+            });
 
             if (app.content.currentView instanceof ProjectDetailsView && app.content.currentView.model.id === project.id) {
                 app.content.currentView.showMembers(userCollection);
@@ -256,21 +266,15 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
     // Event Handlers
     // --------------
 
-    app.vent.on('joinProject', function (project) {
+    app.vent.on('join-project', function (project) {
         $.when(getModel('/' + project.id + '/members', 'POST'));
     });
 
-    app.vent.on('leaveProject', function (project) {
+    app.vent.on('leave-project', function (project) {
         $.when(getModel('/' + project.id + '/members', 'DELETE'))
             .done(function (model) {
                 app.authenticatedUser.projects.remove(project.id);
             });
-    });
-
-    app.vent.on('projectAdded:', function (project) {
-        if (ProjectController.projectCollection) {
-            ProjectController.projectCollection.add(project);
-        }
     });
 
     app.addInitializer(function () {

@@ -1,4 +1,13 @@
 ﻿<div class="note-info">
+  <div class="sighting-note-summary">
+    {{#User.Avatar}}
+    {{>MediaSquare100}}
+    {{/User.Avatar}}
+    <div class="description">
+      <span>{{User.Name}}</span>
+      <abbr>{{CreatedOnDescription}}</abbr>
+    </div>
+  </div>
   {{#Descriptions}}
   <div class="sighting-note-description {{Id}}">
     <span>{{Label}}</span>
@@ -30,15 +39,14 @@
         <span class="vote-score user-vote-score{{UserVoteScore}}">{{TotalVoteScore}}</span>
         <span class="vote-label">votes</span>
       </div>
-      <div class="vote-up button user-vote-score{{UserVoteScore}}">+</div>
-      <div class="vote-down button user-vote-score{{UserVoteScore}}">-</div>
     </div>
     <div class="comment-panel">
       <div class="comment-details">
         <span class="comment-icon"></span>
         <span class="comment-count">0</span>
       </div>
-      <a href="#" class="button add-comment-button">Discuss</a>
+    </div>
+    <div class="edit-panel">
     </div>
   </div>
 </div>

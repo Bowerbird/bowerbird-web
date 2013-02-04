@@ -44,7 +44,8 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             return {
                 Model: {
                     Name: this.type,
-                    Label: this.label
+                    Label: this.label,
+                    Icon: this.type === 'userproject' ? 'user' : this.type
                 }
             };
         },

@@ -19,6 +19,7 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
+using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
@@ -34,9 +35,9 @@ namespace Bowerbird.Web.Services
 
         private Logger _logger = LogManager.GetLogger("DocumentService");
 
-        private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IMessageBus _messageBus;
+        private readonly IMediaFilePathFactory _mediaFilePathFactory;
+        private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
 
@@ -45,15 +46,19 @@ namespace Bowerbird.Web.Services
         public DocumentService(
             IUserContext userContext,
             IDocumentSession documentSession,
-            IMessageBus messageBus)
+            IMediaFilePathFactory mediaFilePathFactory,
+            IMessageBus messageBus,
+            IMediaResourceFactory mediaResourceFactory)
         {
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
+            Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
             Check.RequireNotNull(messageBus, "messageBus");
+            Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
-            _userContext = userContext;
             _documentSession = documentSession;
-            _messageBus = messageBus;
+            _mediaFilePathFactory = mediaFilePathFactory;
+            _mediaResourceFactory = mediaResourceFactory;
         }
 
         #endregion
@@ -64,21 +69,21 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, User createdByUser, out string failureReason, out MediaResource mediaResource)
         {
+            failureReason = string.Empty;
+            mediaResource = null;
+
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).DocumentServiceStatus)
             {
                 failureReason = "Word documents and PDF files cannot be uploaded at the moment. Please try again later.";
                 return false;
             }
 
-            MediaResource mediaResource = null;
             bool returnValue;
 
             try
             {
-                var createdByUser = _documentSession.Load<User>(command.UserId);
-
                 //var extension = Path.GetExtension(command.OriginalFileName) ?? string.Empty;
 
                 //var acceptedFileTypes = new List<string>()
@@ -93,20 +98,11 @@ namespace Bowerbird.Web.Services
                 //    MakeDocumentMediaResourceFiles(mediaResource, command);
                 //}
 
-                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
-
-                failureReason = string.Empty;
                 returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving document", exception);
-
-                if (mediaResource != null)
-                {
-                    _documentSession.Delete(mediaResource);
-                    _documentSession.SaveChanges();
-                }
 
                 failureReason = "The file is corrupted or not a valid Word or PDF document and could not be saved. Please check the file and try again.";
                 returnValue = false;

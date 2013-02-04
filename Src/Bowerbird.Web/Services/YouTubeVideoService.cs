@@ -22,7 +22,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.Utilities;
@@ -48,7 +48,6 @@ namespace Bowerbird.Web.Services
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
         private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IDocumentSession _documentSession;
-        private readonly IMessageBus _messageBus;
 
         private const string _uriFormat = @"http://www.youtube.com/embed/{0}?controls=0&modestbranding=1&rel=0&showinfo=0";
         private const string _apiUriFormat = @"http://gdata.youtube.com/feeds/api/videos/{0}?v=2&alt=json";
@@ -60,19 +59,15 @@ namespace Bowerbird.Web.Services
         public YouTubeVideoService(
             IMediaFilePathFactory mediaFilePathFactory,
             IMediaResourceFactory mediaResourceFactory,
-            IDocumentSession documentSession,
-            IMessageBus messageBus
-            )
+            IDocumentSession documentSession)
         {
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(messageBus, "messageBus");
 
             _mediaFilePathFactory = mediaFilePathFactory;
             _mediaResourceFactory = mediaResourceFactory;
             _documentSession = documentSession;
-            _messageBus = messageBus;
         }
 
         #endregion
@@ -83,15 +78,17 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, User createdByUser, out string failureReason, out MediaResource mediaResource)
         {
+            failureReason = string.Empty;
+            mediaResource = null;
+
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).YouTubeVideoServiceStatus)
             {
                 failureReason = "Youtube video files cannot be imported at the moment. Please try again later.";
                 return false;
             }
 
-            MediaResource mediaResource = null;
             bool returnValue;
 
             try
@@ -104,8 +101,6 @@ namespace Bowerbird.Web.Services
                 var mediaThumbnails = data["entry"]["media$group"]["media$thumbnail"];
                 var mediaThumbnail = mediaThumbnails.Single(x => (string)x["yt$name"] == "hqdefault");
                 var thumbnailUri = (string)mediaThumbnail["url"];
-
-                var createdByUser = _documentSession.Load<User>(command.UserId);
 
                 var imageCreationTasks = new List<ImageCreationTask>();
 
@@ -133,23 +128,11 @@ namespace Bowerbird.Web.Services
                     image.Cleanup();
                 }
 
-                _documentSession.Store(mediaResource);
-                _documentSession.SaveChanges();
-
-                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
-
-                failureReason = string.Empty;
                 returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving video", exception);
-
-                if (mediaResource != null)
-                {
-                    _documentSession.Delete(mediaResource);
-                    _documentSession.SaveChanges();
-                }
 
                 failureReason = "The video cannot be retrieved from Youtube. Please check the video and try again.";
                 returnValue = false;

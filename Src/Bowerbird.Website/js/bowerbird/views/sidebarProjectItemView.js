@@ -5,11 +5,11 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarItemView
-// ---------------
+// SidebarProjectItemView
+// ----------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/project', 'tipsy'],
-function ($, _, Backbone, app, Project) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'models/project', 'tipsy'],
+function ($, _, Backbone, ich, app, Project) {
 
     var SidebarProjectItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -21,8 +21,6 @@ function ($, _, Backbone, app, Project) {
         events: {
             'click .chat-menu-item': 'startChat',
             'click .sub-menu': 'showMenu',
-            //'click li#createnewpost': 'createPost',
-            //'click li#createnewobservation a': 'createObservation',
             'click .sub-menu a': 'selectMenuItem'
         },
 
@@ -43,6 +41,17 @@ function ($, _, Backbone, app, Project) {
 
             app.vent.on('newactivity:' + this.model.id + ':sightingadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':sightingnoteadded', this.onNewActivityReceived, this);
 
+            if (app.authenticatedUser) {
+                this.$el.find('ul').append(ich.Buttons({ MenuAddSightings: true, Id: this.model.id }));
+                
+                if (app.authenticatedUser.hasGroupRole(this.model.id, 'roles/projectadministrator')) {
+                    this.$el.find('ul').append(ich.Buttons({ MenuAddProjectPost: true, Id: this.model.id }));
+                    this.$el.find('ul').append(ich.Buttons({ MenuEditProject: true, Id: this.model.id }));
+                }
+
+                this.$el.find('ul').append(ich.Buttons({ MenuChat: true, Id: this.model.id }));
+            }
+
             this.$el.find('#project-menu-group-list .sub-menu a, #project-menu-group-list .sub-menu span').tipsy({ gravity: 'w', live: true });
         },
 
@@ -50,10 +59,7 @@ function ($, _, Backbone, app, Project) {
             return {
                 Id: this.model.id,
                 Name: this.model.get('Name'),
-                Avatar: this.model.get('Avatar'),
-                Permissions: {
-                    UpdateProject: app.authenticatedUser.hasGroupPermission(this.model.id, 'permissions/updateproject')
-                }
+                Avatar: this.model.get('Avatar')
             };
         },
 
@@ -69,24 +75,6 @@ function ($, _, Backbone, app, Project) {
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
         },
-
-        changeSort: function (e) {
-            e.preventDefault();
-            this.clearListAnPrepareShowLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-        },
-
-//        createPost: function (e) {
-//            e.preventDefault();
-//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-//            return false;
-//        },
-
-//        createObservation: function (e) {
-//            e.preventDefault();
-//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-//            return false;
-//        },
 
         startChat: function (e) {
             e.preventDefault();

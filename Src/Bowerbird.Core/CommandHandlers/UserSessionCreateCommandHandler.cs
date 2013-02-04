@@ -54,6 +54,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.AddSession(command.ConnectionId);
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion

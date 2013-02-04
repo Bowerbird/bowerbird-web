@@ -1,0 +1,27 @@
+﻿  <a>
+    {{#Model.User.Avatar}}
+    {{>Avatar100}}
+    {{/Model.User.Avatar}}
+      <div>
+        <p class="user-name">{{Model.User.Name}}</p>
+      </div>
+  </a>
+  <div class="sub-menu-button sub-menu">
+    <span class="arrow-icon right-arrow-icon"></span>
+    <ul>
+      <li>
+        <a href="/{{Model.User.Id}}" title="View this person's timeline">Timeline</a>
+      </li>
+      <li>
+        <a href="/{{Model.User.Id}}/sightings" title="View this person's sightings">Sightings</a>
+      </li>
+      <li>
+        <a href="/{{Model.User.Id}}/about" title="View details about this person">About {{Model.User.Name}}</a>
+      </li>
+      {{#Model.ShowChat}}
+      <li class="chat-menu new-section">
+        <span class="chat-menu-item" id="chat-{{Model.User.Id}}" title="Start a chat">Chat</span>
+      </li>
+      {{/Model.ShowChat}}
+    </ul>
+  </div>

@@ -15,12 +15,9 @@
 using System;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Repositories;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Raven.Client.Linq;
 using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -58,22 +55,16 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var observation = _documentSession
-                .Load<Observation>(command.Id);
+            var observation = _documentSession.Load<Observation>(command.Id);
 
             var mediaResourceIds = command.Media.Select(x => x.MediaResourceId);
             var mediaResources = _documentSession.Load<MediaResource>(mediaResourceIds);
 
             IEnumerable<Project> projects = new List<Project>();
 
-            if (command.Projects != null && command.Projects.Count() > 0)
+            if (command.Projects != null && command.Projects.Any())
             {
-                projects = _documentSession
-                    .Query<All_Groups.Result, All_Groups>()
-                    .AsProjection<All_Groups.Result>()
-                    .Where(x => x.GroupId.In(command.Projects))
-                    .ToList()
-                    .Select(x => x.Project);
+                projects = _documentSession.Load<Project>(command.Projects);
             }
 
             // Ensure at least one media set as primary

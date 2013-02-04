@@ -282,7 +282,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
                 //        var lng = mapMarker.getPosition().lng();
                 //        iw.setContent(lat.toFixed(6) + ", " + lng.toFixed(6));
                 //        iw.open(map, this);
-                self._displayLatLong(false);
+                self._displayLatLong();
             });
 
             g.event.addListener(this.mapMarker, "dragstart", function () {
@@ -294,7 +294,7 @@ function ($, _, Backbone, app, DummyOverlayView) {
             });
 
             g.event.addListener(this.mapMarker, "dragend", function () {
-                self._displayLatLong(true);
+                self._displayLatLong();
                 self._reverseGeocode();
             });
 
@@ -314,15 +314,8 @@ function ($, _, Backbone, app, DummyOverlayView) {
         changeMarkerPosition: function (lat, lng, centrePin) {
             var latlng = new google.maps.LatLng(lat, lng);
 
-            //            if (this.mapMarker === null) {
-            //                this._positionMarker(latlng);
-            //                //this._removeMarkerFromPlaceholder();
-            //                this._reverseGeocode();
-            //            }
-            //            else {
             this._positionMarker(latlng);
             this._reverseGeocode();
-            //}
 
             if (centrePin) {
                 var position = this.mapMarker.getPosition();
@@ -331,28 +324,15 @@ function ($, _, Backbone, app, DummyOverlayView) {
             }
         },
 
-        _displayLatLong: function (fireLatLongFieldsChangeEvent) {
+        _displayLatLong: function () {
             if (this.mapMarker) {
                 var lat = this.mapMarker.getPosition().lat();
                 var lng = this.mapMarker.getPosition().lng();
 
-                //            if (this.model.get('anonymiseLocation') === true) {
-                $('#Latitude').val(lat);
-                $('#Longitude').val(lng);
-                this.$el.find('#lat-long').text(lat + ', ' + lng);
+                this.model.set('Latitude', lat);
+                this.model.set('Longitude', lng);
 
-                //            }
-                //            else {
-                //                $('#latitude').val(parseFloat(lat).toFixed(1));
-                //                $('#longitude').val(parseFloat(lng).toFixed(1));
-                //            }
-                if (fireLatLongFieldsChangeEvent || !this.model.has('Address')) {
-                    //$('#latitude').change();
-                    $('#Longitude').change();
-                }
-            }
-            else {
-                return;
+                this.$el.find('#lat-long').text(lat + ', ' + lng);
             }
         },
 

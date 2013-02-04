@@ -1,4 +1,4 @@
-﻿// <reference path="../../libs/log.js" />
+﻿/// <reference path="../../libs/log.js" />
 /// <reference path="../../libs/require/require.js" />
 /// <reference path="../../libs/jquery/jquery-1.7.2.js" />
 /// <reference path="../../libs/underscore/underscore.js" />
@@ -6,10 +6,9 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // UserListView
-// ------------
+// ---------------
 
-// Shows users for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/useritemviewnew', 'date', 'tipsy'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/useritemview', 'date'],
 function ($, _, Backbone, app, ich, UserItemView) {
 
     var UserListView = Backbone.Marionette.CompositeView.extend({
@@ -17,20 +16,20 @@ function ($, _, Backbone, app, ich, UserItemView) {
 
         itemView: UserItemView,
 
-        activeTab: '',
-
         events: {
             'click #stream-load-more-button': 'onLoadMoreClicked',
             'click .sort-button': 'showSortMenu',
-            'click .sort-button a': 'changeSort'
+            'click .sort-button a': 'changeSort',
+            'click .search-button': 'showHideSearch'
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'appendHtml');
+            _.bindAll(this, 'appendHtml', 'clearListAnPrepareShowLoading');
 
             this.collection.on('fetching', this.onLoadingStart, this);
             this.collection.on('fetched', this.onLoadingComplete, this);
             this.collection.on('reset', this.onLoadingComplete, this);
+            this.collection.on('search-reset', this.clearListAnPrepareShowLoading, this);
         },
 
         serializeData: function () {
@@ -40,6 +39,7 @@ function ($, _, Backbone, app, ich, UserItemView) {
                         Id: this.collection.userId,
                         Page: this.collection.pageSize,
                         PageSize: this.collection.page,
+                        View: this.collection.viewType,
                         Sort: this.collection.sortByType
                     }
                 }
@@ -58,17 +58,19 @@ function ($, _, Backbone, app, ich, UserItemView) {
         showBootstrappedDetails: function () {
             var els = this.$el.find('.user-item');
             _.each(this.collection.models, function (item, index) {
-                var childView = new UserDetailsView({ model: item, tagName: 'li' });
+                var childView = new UserItemView({ model: item, tagName: 'li' });
                 childView.$el = $(els[index]);
                 childView.showBootstrappedDetails();
                 childView.delegateEvents();
                 this.storeChild(childView);
             }, this);
             this._showDetails();
+            this.refresh();
         },
 
         _showDetails: function () {
-            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy({ gravity: 's' });
+            this.$el.find('.search-button').tipsy({ gravity: 'se' });
+            this.$el.find('.sort-button').tipsy({ gravity: 'se' });
 
             this.$el.find('h3 a').on('click', function (e) {
                 e.preventDefault();
@@ -78,6 +80,8 @@ function ($, _, Backbone, app, ich, UserItemView) {
 
             this.onLoadingComplete(this.collection);
             this.changeSortLabel(this.collection.sortByType);
+
+            this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
         },
 
         changeSortLabel: function (value) {
@@ -86,13 +90,13 @@ function ($, _, Backbone, app, ich, UserItemView) {
                 case 'z-a':
                     label = 'Alphabetical (Z-A)';
                     break;
-                case 'a-z':
                 default:
                     label = 'Alphabetical (A-Z)';
                     break;
             }
 
             this.$el.find('.sort-button .tab-list-selection').empty().text(label);
+            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy.revalidate();
         },
 
         refresh: function () {
@@ -130,12 +134,18 @@ function ($, _, Backbone, app, ich, UserItemView) {
             this.collection.fetchNextPage();
         },
 
+        onLoadNewClicked: function () {
+            this.$el.find('.stream-message, .stream-load-new').remove();
+            this.collection.add(this.newStreamItemsCache);
+            this.newStreamItemsCache = [];
+            this.newItemsCount = 0;
+        },
+
         onLoadingStart: function (collection) {
             this.$el.find('.user-list').append(ich.StreamLoading());
         },
 
         onLoadingComplete: function (collection) {
-            log(collection);
             this.$el.find('.stream-message, .stream-loading').remove();
             if (collection.length === 0) {
                 this.$el.find('.user-list').append(ich.StreamMessage());
@@ -155,24 +165,25 @@ function ($, _, Backbone, app, ich, UserItemView) {
             e.preventDefault();
             this.$el.find('.sort-button .tab-list-selection').empty().text($(e.currentTarget).text());
             app.vent.trigger('close-sub-menus');
-            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy.revalidate();
             this.clearListAnPrepareShowLoading();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            this.collection.changeSort($(e.currentTarget).data('sort'));
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: false });
+            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy.revalidate();
             return false;
         },
 
         clearListAnPrepareShowLoading: function () {
-            this.$el.find('.stream-message, .stream-load-more, .stream-load-new').remove();
+            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading').remove();
             this.$el.find('.user-items').empty();
-            this.onLoadingStart();
         },
 
         showLoading: function () {
-            var that = this;
-            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').fadeOut(100);
-            this.$el.find('.user-items, .tab-bar-right').fadeOut(100, function () {
-                that.onLoadingStart();
-            });
+            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
+            this.$el.find('.user-items').hide();
+        },
+
+        showHideSearch: function () {
+            this.trigger('toggle-search');
         }
     });
 

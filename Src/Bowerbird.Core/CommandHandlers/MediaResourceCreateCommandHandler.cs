@@ -58,11 +58,20 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             string failureReason;
+            MediaResource mediaResource;
 
-            if (!GetMediaService(command).Save(command, out failureReason)) 
+            var createdByUser = _documentSession.Load<User>(command.UserId);
+
+            if (GetMediaService(command).Save(command, createdByUser, out failureReason, out mediaResource))
             {
-                var user = _documentSession.Load<User>(command.UserId);
-                _messageBus.Publish(new MediaResourceCreateFailedEvent(user, command.Key, failureReason, user));
+                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
+
+                _documentSession.Store(mediaResource);
+                _documentSession.SaveChanges();
+            }
+            else
+            {
+                _messageBus.Publish(new MediaResourceCreateFailedEvent(createdByUser, command.Key, failureReason, createdByUser));
             }
         }
 

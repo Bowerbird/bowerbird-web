@@ -47,6 +47,7 @@ namespace Bowerbird.Core.DomainModels
             Id = id;
             CreatedByUser = createdByUser;
             CreatedDateTime = createdDateTime;
+            UpdatedDateTime = createdDateTime;
 
             if (group != null)
             {
@@ -68,6 +69,8 @@ namespace Bowerbird.Core.DomainModels
         public DenormalisedUserReference CreatedByUser { get; private set; }
 
         public DateTime CreatedDateTime { get; private set; }
+
+        public DateTime UpdatedDateTime { get; private set; }
 
         public IEnumerable<DenormalisedUserReference> Users { get; private set; }
 
@@ -115,10 +118,12 @@ namespace Bowerbird.Core.DomainModels
 
         public Chat AddUser(User user)
         {
-            if (SetUser(user) != null)
-            {
-                ApplyEvent(new UserJoinedChatEvent(user, this, this));
-            }
+            SetUser(user);
+            UpdatedDateTime = DateTime.UtcNow;
+
+            // Irrespective of whether user already was in chat or not, we need to fire this event so that the user client is notified
+            // that the chat has begun.
+            ApplyEvent(new UserJoinedChatEvent(user, this, this));
 
             return this;
         }
@@ -126,6 +131,7 @@ namespace Bowerbird.Core.DomainModels
         public Chat RemoveUser(User user)
         {
             ((List<DenormalisedUserReference>)Users).RemoveAll(x => x.Id == user.Id);
+            UpdatedDateTime = DateTime.UtcNow;
 
             ApplyEvent(new UserExitedChatEvent(user, this, this));
 

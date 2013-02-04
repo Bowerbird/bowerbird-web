@@ -16,7 +16,7 @@
 
 using System;
 using System.Diagnostics;
-using Bowerbird.Core.Extensions;
+using Bowerbird.Core.Utilities;
 
 namespace Bowerbird.Core.DesignByContract
 {

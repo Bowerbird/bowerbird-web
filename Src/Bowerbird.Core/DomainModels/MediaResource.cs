@@ -18,9 +18,7 @@ using System.Dynamic;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using Bowerbird.Core.Events;
 using System.Globalization;
-using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.DomainModels
 {

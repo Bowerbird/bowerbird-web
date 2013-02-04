@@ -39,7 +39,7 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Post
             var sightingSummaryView = null;
 
             if (this.model.get('Type') === "sightingadded") {
-                detailsView = new SightingDetailsView({ className: 'observation-details', template: 'SightingFullFullDetails', model: new Sighting(this.model.get('ObservationAdded').Observation) });
+                detailsView = new SightingDetailsView({ className: 'observation-details', template: 'SightingFullDetails', model: new Sighting(this.model.get('ObservationAdded').Observation), isObservationActviityItem: true });
             }
 
             if (this.model.get('Type') === "sightingnoteadded") {
@@ -53,7 +53,6 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Post
             }
 
             if (this.model.get('Type') === "postadded") {
-                //sightingSummaryView = new SightingDetailsView({ template: 'SightingSummaryDetails', model: new Sighting(this.model.get('IdentificationAdded').Sighting) });
                 detailsView = new PostDetailsView({ model: new Post(this.model.get('PostAdded').Post), template: 'PostFullDetails' });
             }
 
@@ -73,7 +72,7 @@ function ($, _, Backbone, ich, app, Sighting, SightingNote, Identification, Post
             var sightingSummaryView = null;
 
             if (this.model.get('Type') === "sightingadded") {
-                detailsView = new SightingDetailsView({ className: 'observation-details', template: 'SightingFullFullDetails', el: this.$el.find('.observation-details'), model: new Sighting(this.model.get('ObservationAdded').Observation) });
+                detailsView = new SightingDetailsView({ className: 'observation-details', template: 'SightingFullDetails', el: this.$el.find('.observation-details'), model: new Sighting(this.model.get('ObservationAdded').Observation) });
             }
             if (this.model.get('Type') === "sightingnoteadded") {
                 sightingSummaryView = new SightingDetailsView({ el: this.$el.find('.sighting-summary-details'), template: 'SightingSummaryDetails', model: new Sighting(this.model.get('SightingNoteAdded').Sighting) });

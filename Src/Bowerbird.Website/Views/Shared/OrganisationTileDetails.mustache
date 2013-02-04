@@ -12,7 +12,9 @@
 <ul class="categories">
   {{#Categories}}
   <li>
-    <img src="/img/category-{{.}}.png" alt="{{.}}" />
+    <li class="small-category-icon category-{{.}}">
+      {{.}}
+    </li>
   </li>
   {{/Categories}}
 </ul>
@@ -25,6 +27,4 @@
     </div>
   </div>
 </div>
-<div class="actions" style="display:none;">
-  <a href="/{{Id}}" class="button view-button">View</a>
-</div>
+<div class="actions"></div>

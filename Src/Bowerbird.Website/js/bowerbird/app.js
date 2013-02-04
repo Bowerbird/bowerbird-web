@@ -11,8 +11,8 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/organisationcollection', 'collections/activitycollection', 'collections/chatcollection', 'marionette', 'signalr'],
-function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, OrganisationCollection, ActivityCollection, ChatCollection) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/organisationcollection', 'collections/userprojectcollection', 'collections/activitycollection', 'collections/chatcollection', 'marionette', 'signalr'],
+function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, OrganisationCollection, UserProjectCollection, ActivityCollection, ChatCollection) {
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
 
@@ -24,6 +24,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         this.memberships = data.Memberships;
         this.projects = new ProjectCollection(data.Projects, { sortBy: 'a-z' });
         this.organisations = new OrganisationCollection(data.Organisations, { sortBy: 'a-z' });
+        this.userProjects = new UserProjectCollection(data.UserProjects, { sortBy: 'a-z' });
         this.appRoot = data.AppRoot;
 
         this.hasGroupPermission = function (groupId, permissionId) {
@@ -35,6 +36,18 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             }
             return _.any(membership.PermissionIds, function (p) {
                 return p === permissionId;
+            });
+        };
+
+        this.hasGroupRole = function (groupId, roleId) {
+            var membership = _.find(this.memberships, function (m) {
+                return m.GroupId === groupId;
+            });
+            if (!membership) {
+                return false;
+            }
+            return _.any(membership.RoleIds, function (role) {
+                return role === roleId;
             });
         };
 
@@ -54,6 +67,12 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             app.vent.trigger('organisationAdded:', group);
             if (group.User.Id == app.authenticatedUser.user.id) {
                 app.authenticatedUser.organisations.add(group);
+            }
+        }
+        if (group.GroupType === 'userproject') {
+            app.vent.trigger('userProjectAdded:', group);
+            if (group.User.Id == app.authenticatedUser.user.id) {
+                app.authenticatedUser.userProjects.add(group);
             }
         }
 
@@ -208,9 +227,9 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         };
 
         // Add additional capability if authenticated user
-        if (bootstrapData.AuthenticatedUser) {
+        if (bootstrapData.Model.AuthenticatedUser) {
             // Add the authenticated user to the app for future reference
-            app.authenticatedUser = new AuthenticatedUser(bootstrapData.AuthenticatedUser);
+            app.authenticatedUser = new AuthenticatedUser(bootstrapData.Model.AuthenticatedUser);
 
             // Online users
             app.onlineUsers = new UserCollection();
@@ -222,7 +241,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
         // Add the prerendered view string to the app for use by controller duing init of first view
         app.prerenderedView = {
-            name: bootstrapData.PrerenderedView,
+            name: bootstrapData.Model.PrerenderedView,
             isBound: false, // Flag used to determine if prerenderd view has been bound to the object/DOM model
             data: bootstrapData.Model
         };

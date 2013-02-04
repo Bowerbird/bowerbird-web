@@ -5,11 +5,11 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// SidebarItemView
-// ---------------
+// SidebarOrganisationItemView
+// ---------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation', 'tipsy'],
-function ($, _, Backbone, app, Organisation) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'models/organisation', 'tipsy'],
+function ($, _, Backbone, ich, app, Organisation) {
 
     var SidebarOrganisationItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -41,6 +41,15 @@ function ($, _, Backbone, app, Organisation) {
 
             app.vent.on('newactivity:' + this.model.id + ':postadded', this.onNewActivityReceived, this);
 
+            if (app.authenticatedUser) {
+                if (app.authenticatedUser.hasGroupRole(this.model.id, 'roles/organisationadministrator')) {
+                    this.$el.find('ul').append(ich.Buttons({ MenuAddOrganisationPost: true, Id: this.model.id }));
+                    this.$el.find('ul').append(ich.Buttons({ MenuEditOrganisation: true, Id: this.model.id }));
+                }
+
+                this.$el.find('ul').append(ich.Buttons({ MenuChat: true, Id: this.model.id }));
+            }
+
             this.$el.find('#organisation-menu-group-list .sub-menu a, #organisation-menu-group-list .sub-menu span').tipsy({ gravity: 'w', live: true });
         },
 
@@ -48,10 +57,7 @@ function ($, _, Backbone, app, Organisation) {
             return {
                 Id: this.model.id,
                 Name: this.model.get('Name'),
-                Avatar: this.model.get('Avatar'),
-                Permissions: {
-                    UpdateOrganisation: app.authenticatedUser.hasGroupPermission(this.model.id, 'permissions/updateorganisation')
-                }
+                Avatar: this.model.get('Avatar')
             };
         },
 

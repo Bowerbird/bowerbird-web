@@ -11,9 +11,6 @@
 define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago', 'tipsy'],
 function ($, _, Backbone, ich, app, moment) {
 
-    var leaveButtonTemplate = '<a href="#" class="leave-project-button button" title="&lt;b>Leave this project&lt;/b> &lt;br />Leave the project as a member. You will not longer see project activity in your timeline.">Leave</a>';
-    var joinButtonTemplate = '<a href="#" class="join-project-button button" title="&lt;b>Join this project&lt;/b> &lt;br />Become a member of this project to add sightings and see project activity in your timelines.">Join</a>';
-
     var ProjectItemView = Backbone.Marionette.ItemView.extend({
 
         className: 'project-details',
@@ -23,8 +20,8 @@ function ($, _, Backbone, ich, app, moment) {
         events: {
             'click .view-button': 'showItem',
             'click h3 a': 'showItem',
-            'click .join-project-button': 'joinProject',
-            'click .leave-project-button': 'leaveProject'
+            'click .join-button': 'joinProject',
+            'click .leave-button': 'leaveProject'
         },
 
         initialize: function (options) {
@@ -58,15 +55,9 @@ function ($, _, Backbone, ich, app, moment) {
                 }, 100);
             });
 
-            if (app.authenticatedUser) {
-                if (app.authenticatedUser.projects.get(this.model.id)) {
-                    this.$el.find('.actions').prepend(leaveButtonTemplate);
-                } else {
-                    this.$el.find('.actions').prepend(joinButtonTemplate);
-                }
+            if (app.authenticatedUser && this.model.id !== app.authenticatedUser.user.id) {
+                this.showJoinButton(this.model.get('IsMember') === true ? 'leave' : 'join');
             }
-
-            this.$el.find('.actions .button').tipsy({ gravity: 's', html: true });
         },
 
         refresh: function () {
@@ -78,20 +69,44 @@ function ($, _, Backbone, ich, app, moment) {
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
+        showJoinButton: function (type) {
+            if (type === 'join') {
+                var model = { JoinProject: true };
+                if (this.$el.find('.join-button, .leave-button').length === 0) {
+                    this.$el.find('.actions').append(ich.Buttons(model));
+                } else {
+                    this.$el.find('.leave-button').replaceWith(ich.Buttons(model));
+                }
+                this.$el.find('.join-button').tipsy({ gravity: 's', html: true });
+                this.$el.find('.actions .button').tipsy.revalidate();
+            } else {
+                var model = { LeaveProject: true };
+                if (this.$el.find('.join-button, .leave-button').length === 0) {
+                    this.$el.find('.actions').append(ich.Buttons(model));
+                } else {
+                    this.$el.find('.join-button').replaceWith(ich.Buttons(model));
+                }
+                this.$el.find('.leave-button').tipsy({ gravity: 's', html: true });
+                this.$el.find('.actions .button').tipsy.revalidate();
+
+                this.$el.find(".leave-button").mouseover(function () {
+                    $(this).text('Leave');
+                }).mouseout(function () {
+                    $(this).text('Joined');
+                });
+            }
+        },
+
         joinProject: function (e) {
             e.preventDefault();
-            app.vent.trigger('joinProject', this.model);
-            this.$el.find('.actions .button').tipsy.revalidate();
-            this.$el.find('.join-project-button').replaceWith(leaveButtonTemplate);
-            this.$el.find('.join-project-button').tipsy({ gravity: 's', html: true });
+            app.vent.trigger('join-project', this.model);
+            this.showJoinButton('leave');
         },
 
         leaveProject: function (e) {
             e.preventDefault();
-            app.vent.trigger('leaveProject', this.model);
-            this.$el.find('.actions .button').tipsy.revalidate();
-            this.$el.find('.leave-project-button').replaceWith(joinButtonTemplate);
-            this.$el.find('.leave-project-button').tipsy({ gravity: 's', html: true });
+            app.vent.trigger('leave-project', this.model);
+            this.showJoinButton('join');
         }
     });
 

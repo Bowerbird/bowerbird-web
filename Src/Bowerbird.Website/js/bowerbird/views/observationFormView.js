@@ -8,8 +8,8 @@
 // ObservationFormView
 // -------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/sightingnote', 'models/identification', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'views/sightingidentificationsubformview', 'views/sightingnotesubformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
-function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormView, ObservationMediaFormView, IdentificationFormView, IdentificationSubFormView, SightingNoteSubFormView, moment) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'models/sightingnote', 'models/identification', 'views/locationformview', 'views/observationmediaformview', 'views/identificationformview', 'views/sightingidentificationsubformview', 'views/sightingnotesubformview', 'views/geospatialformview', 'moment', 'datepicker', 'multiselect', 'jqueryui/dialog'],
+function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormView, ObservationMediaFormView, IdentificationFormView, IdentificationSubFormView, SightingNoteSubFormView, GeospatialFormView, moment) {
 
     var ObservationFormView = Backbone.Marionette.Layout.extend({
 
@@ -32,14 +32,15 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             'change input#Title': '_contentChanged',
             'change input#ObservedOn': '_observedOnChanged',
             'change input#Address': '_contentChanged',
-            'change input#Latitude': '_latLongChanged',
-            'change input#Longitude': '_latLongChanged',
+            //'change input#Latitude': '_latLongChanged',
+            //'change input#Longitude': '_latLongChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
             'click #location-options-button': '_locationOptionsClicked',
             'click #add-sighting-identification-button': '_showIdentificationForm',
-            'click #add-sighting-note-button': '_showSightingNoteForm'
+            'click #add-sighting-note-button': '_showSightingNoteForm',
+            'click .show-geospatial-form-button': '_showGeospatialForm'
         },
 
         observedOnUpdated: false, // When we derive the very first media, we extract the date and update the ObservedOn field. No further updates are allowed.
@@ -167,18 +168,18 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
         },
 
         _latLongChanged: function (e) {
-            var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
-            var newPosition = { latitude: this.$el.find('#Latitude').val(), longitude: this.$el.find('#Longitude').val() };
+            //var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
+            //var newPosition = { latitude: this.$el.find('#Latitude').val(), longitude: this.$el.find('#Longitude').val() };
 
-            log('lat/long changed', oldPosition, newPosition);
+            // log('lat/long changed', oldPosition, newPosition);
 
-            this.model.set('Latitude', newPosition.latitude);
-            this.model.set('Longitude', newPosition.longitude);
+            //this.model.set('Latitude', newPosition.latitude);
+            //this.model.set('Longitude', newPosition.longitude);
 
             // Only update pin if the location is different to avoid infinite loop
-            if (newPosition.latitude !== null && newPosition.longitude !== null && newPosition.latitude.trim() !== '' && newPosition.longitude.trim() !== '' && (oldPosition.latitude !== newPosition.latitude || oldPosition.longitude !== newPosition.longitude)) {
-                this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);
-            }
+            //if (newPosition.latitude !== null && newPosition.longitude !== null && newPosition.latitude.trim() !== '' && newPosition.longitude.trim() !== '' && (oldPosition.latitude !== newPosition.latitude || oldPosition.longitude !== newPosition.longitude)) {
+                //this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);
+            //}
         },
 
         _anonymiseLocationChanged: function (e) {
@@ -225,6 +226,20 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             var sightingNoteSubFormView = new SightingNoteSubFormView({ model: this.sightingNote, categories: this.categories, categorySelectList: this.categorySelectList });
             this.sightingNoteSubFormView = sightingNoteSubFormView;
             this.sightingNoteRegion.show(sightingNoteSubFormView);
+        },
+
+        _showGeospatialForm: function (e) {
+            e.preventDefault();
+            $('body').append('<div id="modal-dialog"></div>');
+
+            var geospatialFormView = new GeospatialFormView({ el: $('#modal-dialog'), model: this.model });
+            this.geospatialFormView = geospatialFormView;
+            geospatialFormView.on('coords-done', this.onGeospatialDone, this);
+            geospatialFormView.render();
+        },
+
+        onGeospatialDone: function (obs) {
+            this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);
         },
 
         _cancel: function () {

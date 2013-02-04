@@ -34,7 +34,7 @@ function ($, _, Backbone, ich, app) {
                     CategorySelectList: this.categorySelectList,
                     FieldSelectList: this.fieldSelectList,
                     Query: {
-                        Id: this.sightingCollection.projectId,
+                        Id: this.sightingCollection.subId,
                         Page: this.sightingCollection.pageSize,
                         PageSize: this.sightingCollection.page,
                         View: this.sightingCollection.viewType,

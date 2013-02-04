@@ -61,6 +61,18 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
         return deferred.promise();
     };
 
+    var followUser = function (user) {
+        var deferred = new $.Deferred();
+        $.ajax({
+            url: '/follow',
+            type: 'POST',
+            data: { id: user.id }
+        }).done(function (data) {
+            deferred.resolve(data.Model);
+        });
+        return deferred.promise();
+    };
+
     var docCookies = {
         getItem: function (sKey) {
             if (!sKey || !this.hasItem(sKey)) { return null; }
@@ -170,7 +182,7 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
 
     app.vent.on('update-sighting-vote', function (sighting, score) {
         $.when(updateVote('/' + sighting.id + '/vote', score));
-    }); 
+    });
 
     app.vent.on('update-sighting-note-vote', function (sightingNote, score) {
         $.when(updateVote('/' + sightingNote.get('SightingId') + '/' + sightingNote.id + '/vote', score));
@@ -182,6 +194,18 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
 
     app.vent.on('update-favourites', function (sighting) {
         $.when(updateFavourites(sighting));
+    });
+
+    app.vent.on('follow-user', function (user) {
+        $.when(followUser(user));
+    });
+
+    app.vent.on('unfollow-user', function (user) {
+        $.when(followUser(user));
+
+        var userProject = app.authenticatedUser.userProjects.find(function (item) { return item.get('CreatedBy') === user.id; });
+        log(userProject);
+        app.authenticatedUser.userProjects.remove(userProject);
     });
 
     app.addInitializer(function () {

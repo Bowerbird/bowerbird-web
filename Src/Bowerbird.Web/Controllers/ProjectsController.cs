@@ -16,15 +16,14 @@ using System.Web.Mvc;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Builders;
+using Bowerbird.Core.Queries;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Config;
 using System;
 using System.Linq;
-using System.Collections;
+using Bowerbird.Web.Infrastructure;
 using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Indexes;
@@ -37,11 +36,11 @@ namespace Bowerbird.Web.Controllers
 
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
-        private readonly IProjectViewModelBuilder _projectViewModelBuilder;
-        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
-        private readonly IPostViewModelBuilder _postViewModelBuilder;
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IProjectViewModelQuery _projectViewModelQuery;
+        private readonly IActivityViewModelQuery _activityViewModelQuery;
+        private readonly IPostViewModelQuery _postViewModelQuery;
+        private readonly ISightingViewModelQuery _sightingViewModelQuery;
+        private readonly IUserViewModelQuery _userViewModelQuery;
         private readonly IPermissionManager _permissionManager;
         private readonly IDocumentSession _documentSession;
 
@@ -52,32 +51,32 @@ namespace Bowerbird.Web.Controllers
         public ProjectsController(
             IMessageBus messageBus,
             IUserContext userContext,
-            IProjectViewModelBuilder projectViewModelBuilder,
-            ISightingViewModelBuilder sightingViewModelBuilder,
-            IActivityViewModelBuilder activityViewModelBuilder,
-            IPostViewModelBuilder postViewModelBuilder,
-            IUserViewModelBuilder userViewModelBuilder,
+            IProjectViewModelQuery projectViewModelQuery,
+            ISightingViewModelQuery sightingViewModelQuery,
+            IActivityViewModelQuery activityViewModelQuery,
+            IPostViewModelQuery postViewModelQuery,
+            IUserViewModelQuery userViewModelQuery,
             IPermissionManager permissionManager,
             IDocumentSession documentSession
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(projectViewModelBuilder, "projectViewModelBuilder");
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
-            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
-            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(projectViewModelQuery, "projectViewModelQuery");
+            Check.RequireNotNull(sightingViewModelQuery, "sightingViewModelQuery");
+            Check.RequireNotNull(activityViewModelQuery, "activityViewModelQuery");
+            Check.RequireNotNull(postViewModelQuery, "postViewModelQuery");
+            Check.RequireNotNull(userViewModelQuery, "userViewModelQuery");
             Check.RequireNotNull(permissionManager, "permissionManager");
             Check.RequireNotNull(documentSession, "documentSession");
 
             _messageBus = messageBus;
             _userContext = userContext;
-            _projectViewModelBuilder = projectViewModelBuilder;
-            _sightingViewModelBuilder = sightingViewModelBuilder;
-            _activityViewModelBuilder = activityViewModelBuilder;
-            _postViewModelBuilder = postViewModelBuilder;
-            _userViewModelBuilder = userViewModelBuilder;
+            _projectViewModelQuery = projectViewModelQuery;
+            _sightingViewModelQuery = sightingViewModelQuery;
+            _activityViewModelQuery = activityViewModelQuery;
+            _postViewModelQuery = postViewModelQuery;
+            _userViewModelQuery = userViewModelQuery;
             _permissionManager = permissionManager;
             _documentSession = documentSession;
         }
@@ -137,8 +136,8 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
-            viewModel.Sightings = _sightingViewModelBuilder.BuildGroupSightingList(projectId, queryInput);
+            viewModel.Project = _projectViewModelQuery.BuildProject(projectId);
+            viewModel.Sightings = _sightingViewModelQuery.BuildGroupSightingList(projectId, queryInput);
             viewModel.UserCountDescription = "Member" + (projectResult.UserCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (projectResult.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (projectResult.PostCount == 1 ? string.Empty : "s");
@@ -232,8 +231,8 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
-            viewModel.Posts = _postViewModelBuilder.BuildGroupPostList(projectId, queryInput);
+            viewModel.Project = _projectViewModelQuery.BuildProject(projectId);
+            viewModel.Posts = _postViewModelQuery.BuildGroupPostList(projectId, queryInput);
             viewModel.UserCountDescription = "Member" + (projectResult.UserCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (projectResult.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (projectResult.PostCount == 1 ? string.Empty : "s");
@@ -295,14 +294,16 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
-            viewModel.Users = _userViewModelBuilder.BuildGroupUserList(projectId, queryInput);
+            viewModel.Project = _projectViewModelQuery.BuildProject(projectId);
+            viewModel.Users = _userViewModelQuery.BuildGroupUserList(projectId, queryInput);
             viewModel.Query = new
             {
                 Id = projectId,
                 queryInput.Page,
                 queryInput.PageSize,
-                queryInput.Sort
+                queryInput.Sort,
+                queryInput.Query,
+                queryInput.Field
             };
             viewModel.ShowMembers = true;
             viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
@@ -333,13 +334,13 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
+            viewModel.Project = _projectViewModelQuery.BuildProject(projectId);
             viewModel.ShowAbout = true;
             viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
             viewModel.UserCountDescription = "Member" + (projectResult.UserCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (projectResult.SightingCount == 1 ? string.Empty : "s");
             viewModel.PostCountDescription = "Post" + (projectResult.PostCount == 1 ? string.Empty : "s");
-            viewModel.ProjectAdministrators = _userViewModelBuilder.BuildGroupUserList(projectId, "roles/" + RoleNames.ProjectAdministrator);
+            viewModel.ProjectAdministrators = _userViewModelQuery.BuildGroupUserList(projectId, "roles/" + RoleNames.ProjectAdministrator);
             viewModel.ActivityTimeseries = CreateActivityTimeseries(projectId);
 
             return RestfulResult(
@@ -365,8 +366,8 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
-            viewModel.Activities = _activityViewModelBuilder.BuildGroupActivityList(projectId, activityInput, pagingInput);
+            viewModel.Project = _projectViewModelQuery.BuildProject(projectId);
+            viewModel.Activities = _activityViewModelQuery.BuildGroupActivityList(projectId, activityInput, pagingInput);
             viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
             viewModel.UserCountDescription = "Member" + (projectResult.UserCount == 1 ? string.Empty : "s");
             viewModel.SightingCountDescription = "Sighting" + (projectResult.SightingCount == 1 ? string.Empty : "s");
@@ -385,10 +386,10 @@ namespace Bowerbird.Web.Controllers
             queryInput.PageSize = 15;
 
             if (string.IsNullOrWhiteSpace(queryInput.Sort) ||
-                (queryInput.Sort.ToLower() != "popular" ||
-                queryInput.Sort.ToLower() != "newest" ||
-                queryInput.Sort.ToLower() != "oldest" ||
-                queryInput.Sort.ToLower() != "a-z" ||
+                (queryInput.Sort.ToLower() != "popular" &&
+                queryInput.Sort.ToLower() != "newest" &&
+                queryInput.Sort.ToLower() != "oldest" &&
+                queryInput.Sort.ToLower() != "a-z" &&
                 queryInput.Sort.ToLower() != "z-a"))
             {
                 queryInput.Sort = "popular";
@@ -404,7 +405,7 @@ namespace Bowerbird.Web.Controllers
             queryInput.Field = queryInput.Field ?? string.Empty;
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Projects = _projectViewModelBuilder.BuildProjectList(queryInput);
+            viewModel.Projects = _projectViewModelQuery.BuildProjectList(queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
             {
@@ -453,7 +454,7 @@ namespace Bowerbird.Web.Controllers
         public ActionResult CreateForm()
         {
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildCreateProject();
+            viewModel.Project = _projectViewModelQuery.BuildCreateProject();
             viewModel.Create = true;
             viewModel.CategoriesSelectList = Categories.GetSelectList();
 
@@ -482,7 +483,7 @@ namespace Bowerbird.Web.Controllers
             var project = _documentSession.Load<Project>(projectId);
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildUpdateProject(projectId);
+            viewModel.Project = _projectViewModelQuery.BuildUpdateProject(projectId);
             viewModel.Update = true;
             viewModel.CategoriesSelectList = Categories.GetSelectList(project.Categories.ToArray());
 
@@ -510,7 +511,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Project = _projectViewModelBuilder.BuildProject(projectId);
+            viewModel.Project = _projectViewModelQuery.BuildProject(projectId);
             viewModel.Delete = true;
 
             return RestfulResult(

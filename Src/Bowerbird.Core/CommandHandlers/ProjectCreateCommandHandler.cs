@@ -17,9 +17,8 @@ using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
 using Raven.Client.Linq;
-using Bowerbird.Core.Factories;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.Indexes;
+using Bowerbird.Core.DomainModelFactories;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -58,13 +57,13 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             // Get parent group
-            Group parentGroup = null;
+            Group parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            parentGroup = _documentSession.Load<AppRoot>(Constants.AppRootId);
-            
+            User user = _documentSession.Load<User>(command.UserId);
+
             // Make project
             var project = new Project(
-                _documentSession.Load<User>(command.UserId),
+                user,
                 command.Name,
                 command.Description,
                 command.Website,
@@ -73,10 +72,9 @@ namespace Bowerbird.Core.CommandHandlers
                 command.Categories,
                 DateTime.UtcNow,
                 parentGroup);
-            _documentSession.Store(project);
+            _documentSession.Store(project); // Store project, get a real Id
 
             // Add administrator membership to creating user
-            var user = _documentSession.Load<User>(command.UserId);
             user.UpdateMembership(
                 user,
                 project,

@@ -17,7 +17,11 @@ function ($, _, Backbone, app) {
         template: 'Header',
 
         events: {
-            'click .user-menu-item': 'showMenu'
+            'click .user-menu-item': 'showMenu',
+            'click #explore-menu a': 'selectMenuItem',
+            'click .sub-menu .view-your-profile-button': 'selectMenuItem',
+            'click .login-button': 'selectMenuItem',
+            'click .register-button': 'selectMenuItem'
         },
 
         initialize: function (options) {
@@ -49,17 +53,19 @@ function ($, _, Backbone, app) {
         },
 
         _showDetails: function () {
-            this.$el.find('#explore-menu a, #account-menu .view-your-profile-button, .login-button, .register-button').on('click', function (e) {
-                e.preventDefault();
-                Backbone.history.navigate($(this).attr('href'), { trigger: true });
-                return false;
-            });
         },
 
         showMenu: function (e) {
             app.vent.trigger('close-sub-menus');
             this.$el.find('.sub-menu').addClass('active');
             e.stopPropagation();
+        },
+        
+        selectMenuItem: function (e) {
+            e.preventDefault();
+            app.vent.trigger('close-sub-menus');
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            return false;
         }
     });
 

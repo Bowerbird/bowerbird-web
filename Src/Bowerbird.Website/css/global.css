@@ -314,6 +314,85 @@ article
 .small-icon.post-icon {
     background-position: -117px -178px;
 }
+
+
+
+
+.small-category-icon {
+    background-image: url("/img/icons.png");
+    background-repeat: no-repeat;
+    background-size: 1000% auto;
+    display: block;
+    float: left;
+    height: 23px;
+    text-indent: -99999px;
+    width: 28px;
+}
+.small-category-icon.category-Amphibians {
+    background-position: -120px -248px;
+}
+.small-category-icon.category-Birds {
+    background-position: -30px -248px;
+}
+.small-category-icon.category-Fishes {
+    background-position: -180px -248px;
+}
+.small-category-icon.category-Fungi {
+    background-position: -150px -248px;
+}
+.small-category-icon.category-Invertebrates {
+    background-position: -239px -248px;
+}
+.small-category-icon.category-Mammals {
+    background-position: -60px -248px;
+}
+.small-category-icon.category-Others {
+    background-position: -90px -248px;
+}
+.small-category-icon.category-Plants {
+    background-position: -209px -248px;
+}
+.small-category-icon.category-Reptiles {
+    background-position: -1px -248px;
+}
+
+.medium-category-icon {
+    background-image: url("/img/icons.png");
+    background-repeat: no-repeat;
+    background-size: 1000% auto;
+    display: block;
+    float: left;
+    height: 29px;
+    text-indent: -99999px;
+    width: 33px;
+}
+.medium-category-icon.category-Amphibians {
+    background-position: -142px -291px;
+}
+.medium-category-icon.category-Birds {
+    background-position: -36px -291px;
+}
+.medium-category-icon.category-Fishes {
+    background-position: -212px -291px;
+}
+.medium-category-icon.category-Fungi {
+    background-position: -176px -291px;
+}
+.medium-category-icon.category-Invertebrates {
+    background-position: -282px -291px;
+}
+.medium-category-icon.category-Mammals {
+    background-position: -71px -291px;
+}
+.medium-category-icon.category-Others {
+    background-position: -107px -291px;
+}
+.medium-category-icon.category-Plants {
+    background-position: -247px -291px;
+}
+.medium-category-icon.category-Reptiles {
+    background-position: -2px -291px;
+}
 /*
 *
 * Popup menus
@@ -869,7 +948,7 @@ a.multiSelect:focus,
     padding: 6px 15px;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-.form .validation-summary-errors
+/*.form .validation-summary-errors
 {
     background: none repeat scroll 0 0 #FF9494;
     border-radius: 4px 4px 0 0;
@@ -899,6 +978,24 @@ a.multiSelect:focus,
     line-height: 1.3em;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
     padding-top: 3px;
+}*/
+.validation-summary {
+  background-color: rgb(255, 221, 219);
+  border-bottom: 1px solid rgb(139, 35, 35);
+  border-top: 1px solid rgb(139, 35, 35);
+    font-size: 0.84em;
+    line-height: 1.5em;
+    padding: 1em 1.3em;
+    top: 39px;
+    width: 100%;
+    display: none;
+}
+.validation-summary ul {
+  margin: 0 1em;
+}
+.validation-summary li {
+  font-weight: 600;
+    line-height: 1.3em;
 }
 .field.field-part-one
 {
@@ -1674,6 +1771,7 @@ a.multiSelect:focus,
     margin-bottom: 10px;
     width: 100%;
     display: none;
+    margin-top: 2em;
 }
 .form #location-details {
     float: left;
@@ -1741,9 +1839,109 @@ a.multiSelect:focus,
 .form #anonymise-location-field {
     position: absolute;
     right: 1em;
-    top: 155px;
+    top: 78px;
     width: 139px;
 }
+/***/
+.form .location-latlngdecimal,
+.form .location-latlngdms,
+.form .location-utm 
+{
+    float: left;
+    width: 100%;
+}
+.form .location-latlngdecimal {
+    display: block;
+}
+.form .location-latlngdms,
+.form .location-utm 
+{
+    display: none;
+    /*margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px solid #ddd;*/
+}
+.form .latitude-decimal-field {
+    width: 42%;
+}
+.form .longitude-decimal-field {
+    width: 42%;
+}
+.form .latitude-dms-degrees-field,
+.form .longitude-dms-degrees-field 
+{
+    width: 23%;
+}
+.form .latitude-dms-minutes-field,
+.form .longitude-dms-minutes-field 
+{
+    width: 23%;
+}
+.form .latitude-dms-seconds-field,
+.form .longitude-dms-seconds-field 
+{
+    width: 23%;
+}
+.form .latitude-dms-direction-field,
+.form .longitude-dms-direction-field 
+{
+    width: 12%;
+}
+.form #LatitudeDmsDirection,
+.form #LongitudeDmsDirection 
+{
+    padding: 7px 12px;
+}
+.form .utm-easting-field {
+    width: 27%;
+}
+.form .utm-northing-field {
+    width: 27%;
+}
+.form .utm-zone-field {
+    width: 10%;
+}
+.form .utm-hemisphere-field {
+    width: 20%;
+}
+#UtmHemisphere {
+    padding: 7px 12px;
+}
+.edit-geospatial-form h2 {
+    font-size: 0.84em;
+    font-weight: 600;
+}
+.geospatial-map {
+    width: 100%;
+    height: 100px;
+}
+.geospatial-coordinates {
+    background-color: rgb(234, 234, 234);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    float: left;
+    font-size: 0.8em;
+    padding: 5px;
+    width: 100%;
+}
+.geospatial-coordinates div {
+    display: inline;
+    font-weight: 600;
+}
+.form.edit-geospatial-form .tab-bar.small {
+    padding: 1em 0 0.5em 0;
+}
+.form .check-button-field 
+{
+    margin-top: 1.6em;
+    width: 16%;
+}
+.form .check-button-field .button {
+    height: 41px;
+    margin: 0;
+    width: 100%;
+}
+/***/
 .form #anonymise-location-field label{
     float: right;
 }

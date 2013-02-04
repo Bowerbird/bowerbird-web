@@ -10,16 +10,13 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
-using Raven.Client.Linq;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -80,10 +77,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.UpdateMembership(
                 user,
                 organisation,
-                _documentSession
-                    .Query<Role>()
-                    .Where(x => x.Id.In("roles/organisationadministrator", "roles/organisationmember"))
-                    .ToList());
+                _documentSession.Load<Role>("roles/organisationadministrator", "roles/organisationmember"));
 
             _documentSession.Store(user);
             _documentSession.SaveChanges();

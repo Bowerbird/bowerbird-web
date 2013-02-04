@@ -22,11 +22,9 @@ function ($, _, Backbone, PaginatedCollection, Sighting, moment) {
 
             PaginatedCollection.prototype.initialize.apply(this, arguments);
 
-            if (options.projectId) {
-                this.baseUrl = '/' + options.projectId + '/sightings';
-                this.projectId = options.projectId;
-            } else {
-                this.baseUrl = '/home/sightings';
+            if (options.subId) {
+                this.baseUrl = '/' + options.subId + '/sightings';
+                this.subId = options.subId;
             }
 
             this.page = options && options.page ? options.page : 1;

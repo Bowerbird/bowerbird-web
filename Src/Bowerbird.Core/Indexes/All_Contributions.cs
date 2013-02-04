@@ -42,11 +42,13 @@ namespace Bowerbird.Core.Indexes
             public int? SightingIdentificationCount { get; set; }
             public object[] SightingAllFields { get; set; }
             public object[] SightingTaxonomicRanks { get; set; }
+            public string SightingSortTitle { get; set; }
 
             // Posts
             public string PostTitle { get; set; }
             public string PostMessage { get; set; }
             public object[] PostAllFields { get; set; }
+            public string PostSortTitle { get; set; }
 
             public Observation Observation { get; set; }
             public Record Record { get; set; }
@@ -128,7 +130,9 @@ namespace Bowerbird.Core.Indexes
                                                         },
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
-                                                    PostAllFields = new object[] {}
+                                                    PostAllFields = new object[] {},
+                                                    SightingSortTitle = (string)null,
+                                                    PostSortTitle = (string)null
                                                 });
 
             // Records
@@ -160,7 +164,9 @@ namespace Bowerbird.Core.Indexes
                                                   },
                                               PostTitle = (string)null,
                                               PostMessage = (string)null,
-                                              PostAllFields = new object[] { }
+                                              PostAllFields = new object[] { },
+                                              SightingSortTitle = (string)null,
+                                              PostSortTitle = (string)null
                                           });
 
             // Posts
@@ -188,7 +194,9 @@ namespace Bowerbird.Core.Indexes
                                           {
                                               post.Subject,
                                               post.Message
-                                          }
+                                          },
+                                      SightingSortTitle = (string)null,
+                                      PostSortTitle = (string)null
                                   });
 
             // Observation Notes
@@ -213,7 +221,9 @@ namespace Bowerbird.Core.Indexes
                                                     SightingTaxonomicRanks = new object[] { },
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
-                                                    PostAllFields = new object[] { }
+                                                    PostAllFields = new object[] { },
+                                                    SightingSortTitle = (string)null,
+                                                    PostSortTitle = (string)null
                                                 });
 
             // Record Notes
@@ -238,7 +248,9 @@ namespace Bowerbird.Core.Indexes
                                           SightingTaxonomicRanks = new object[] { },
                                           PostTitle = (string)null,
                                           PostMessage = (string)null,
-                                          PostAllFields = new object[] { }
+                                          PostAllFields = new object[] { },
+                                          SightingSortTitle = (string)null,
+                                          PostSortTitle = (string)null
                                       });
 
             // Observation Comments
@@ -263,7 +275,9 @@ namespace Bowerbird.Core.Indexes
                                                     SightingTaxonomicRanks = new object[] { },
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
-                                                    PostAllFields = new object[] { }
+                                                    PostAllFields = new object[] { },
+                                                    SightingSortTitle = (string)null,
+                                                    PostSortTitle = (string)null
                                                 });
 
             // Record Comments
@@ -288,7 +302,9 @@ namespace Bowerbird.Core.Indexes
                                           SightingTaxonomicRanks = new object[] { },
                                           PostTitle = (string)null,
                                           PostMessage = (string)null,
-                                          PostAllFields = new object[] { }
+                                          PostAllFields = new object[] { },
+                                          SightingSortTitle = (string)null,
+                                          PostSortTitle = (string)null
                                       });
 
             // Observation Identifications
@@ -313,7 +329,9 @@ namespace Bowerbird.Core.Indexes
                                                     SightingTaxonomicRanks = new object[] { },
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
-                                                    PostAllFields = new object[] { }
+                                                    PostAllFields = new object[] { },
+                                                    SightingSortTitle = (string)null,
+                                                    PostSortTitle = (string)null
                                                 });
 
             // Record Identifications
@@ -338,7 +356,9 @@ namespace Bowerbird.Core.Indexes
                                           SightingTaxonomicRanks = new object[] { },
                                           PostTitle = (string)null,
                                           PostMessage = (string)null,
-                                          PostAllFields = new object[] { }
+                                          PostAllFields = new object[] { },
+                                          SightingSortTitle = (string)null,
+                                          PostSortTitle = (string)null
                                       });
 
             // Observation Votes
@@ -363,7 +383,9 @@ namespace Bowerbird.Core.Indexes
                                                         SightingTaxonomicRanks = new object[] { },
                                                         PostTitle = (string)null,
                                                         PostMessage = (string)null,
-                                                        PostAllFields = new object[] { }
+                                                        PostAllFields = new object[] { },
+                                                        SightingSortTitle = (string)null,
+                                                        PostSortTitle = (string)null
                                                     });
 
             // Record Votes
@@ -388,7 +410,9 @@ namespace Bowerbird.Core.Indexes
                                               SightingTaxonomicRanks = new object[] { },
                                               PostTitle = (string)null,
                                               PostMessage = (string)null,
-                                              PostAllFields = new object[] { }
+                                              PostAllFields = new object[] { },
+                                              SightingSortTitle = (string)null,
+                                              PostSortTitle = (string)null
                                           });
 
             Reduce = (results => from result in results
@@ -413,7 +437,9 @@ namespace Bowerbird.Core.Indexes
                                         SightingTaxonomicRanks = g.SelectMany(x => x.SightingTaxonomicRanks),
                                         PostTitle = g.Select(x => x.PostTitle).Where(x => x != null).FirstOrDefault(),
                                         PostMessage = g.Select(x => x.PostMessage).Where(x => x != null).FirstOrDefault(),
-                                        PostAllFields = g.SelectMany(x => x.PostAllFields)
+                                        PostAllFields = g.SelectMany(x => x.PostAllFields),
+                                        SightingSortTitle = g.Select(x => x.SightingTitle).Where(x => x != null).FirstOrDefault(),
+                                        PostSortTitle = g.Select(x => x.PostTitle).Where(x => x != null).FirstOrDefault()
                                      });
 
             TransformResults = (database, results) =>
@@ -455,6 +481,8 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.PostTitle, FieldStorage.No);
             Store(x => x.PostMessage, FieldStorage.No);
             Store(x => x.PostAllFields, FieldStorage.No);
+            Store(x => x.SightingSortTitle, FieldStorage.Yes);
+            Store(x => x.PostSortTitle, FieldStorage.Yes);
 
             Index(x => x.SightingTitle, FieldIndexing.Analyzed);
             Index(x => x.SightingTags, FieldIndexing.Analyzed);

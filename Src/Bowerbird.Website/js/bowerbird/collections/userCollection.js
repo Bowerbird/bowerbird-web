@@ -24,12 +24,9 @@ function ($, _, Backbone, PaginatedCollection, User) {
 
             typeof (options) != 'undefined' || (options = {});
 
-            if (options.projectId) {
-                this.isProjectUsers = true;
-                this.baseUrl = '/' + options.projectId + '/members';
-                this.projectId = '/' + options.projectId;
-            } else {
-                this.baseUrl = '/users';
+            if (options.subId) {
+                this.baseUrl = '/' + options.subId + '/members';
+                this.subId = '/' + options.subId;
             }
 
             this.page = options && options.page ? options.page : 1;

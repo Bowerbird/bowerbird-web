@@ -23,7 +23,7 @@ using Raven.Client.Linq;
 using Bowerbird.Core.Indexes;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Web.Builders;
+using Bowerbird.Core.Queries;
 
 namespace Bowerbird.Web.Hubs
 {
@@ -32,7 +32,7 @@ namespace Bowerbird.Web.Hubs
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IUserViewModelQuery _userViewModelQuery;
         private readonly IBackChannelService _backChannelService;
 
         #endregion
@@ -41,15 +41,15 @@ namespace Bowerbird.Web.Hubs
 
         public UserHub(
             IDocumentSession documentSession,
-            IUserViewModelBuilder userViewModelBuilder,
+            IUserViewModelQuery userViewModelQuery,
             IBackChannelService backChannelService)
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(userViewModelQuery, "userViewModelQuery");
             Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
-            _userViewModelBuilder = userViewModelBuilder;
+            _userViewModelQuery = userViewModelQuery;
             _backChannelService = backChannelService;
         }
 
@@ -72,6 +72,9 @@ namespace Bowerbird.Web.Hubs
             user.AddSession(Context.ConnectionId);
             _documentSession.Store(user);
             _documentSession.SaveChanges();
+
+            // Return all online uses to newly connected client
+            //return _userViewModelQuery.BuildOnlineUserList();
         }
 
         /// <summary>
@@ -81,19 +84,19 @@ namespace Bowerbird.Web.Hubs
         {
             var user = GetUserByConnectionId(Context.ConnectionId);
 
-            if (user != null)
-            {
+            //if (user != null)
+            //{
                 user.UpdateSessionLatestActivity(Context.ConnectionId, latestHeartbeat, latestInteractivity);
 
                 _documentSession.Store(user);
                 _documentSession.SaveChanges();
-            }
+            //}
 
             //dynamic response = new ExpandoObject();
 
-            dynamic onlineUsers =  _userViewModelBuilder.BuildOnlineUserList();
+            return _userViewModelQuery.BuildOnlineUserList(user.Id);
 
-            //response.onlineUsers = _userViewModelBuilder.BuildOnlineUserList();
+            //response.onlineUsers = _userViewModelQuery.BuildOnlineUserList();
 /*
 #if !JS_COMBINE_MINIFY
             _backChannelService.DebugToClient("SERVER onlineUsers:");
@@ -102,7 +105,7 @@ namespace Bowerbird.Web.Hubs
 */
             //return response;
 
-            return onlineUsers;
+            //return onlineUsers;
         }
 
         //public Task Disconnect()
@@ -126,6 +129,7 @@ namespace Bowerbird.Web.Hubs
                 .Query<All_Users.Result, All_Users>()
                 .AsProjection<All_Users.Result>()
                 .Where(x => x.ConnectionIds.Any(y => y == connectionId))
+                .ToList()
                 .FirstOrDefault();
 
             return result != null ? result.User : null;

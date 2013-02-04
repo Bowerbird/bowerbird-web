@@ -14,13 +14,10 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Repositories;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -50,20 +47,16 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(UserUpdateCallToActionCommand userUpdateCallToActionCommand)
+        public void Handle(UserUpdateCallToActionCommand command)
         {
-            Check.RequireNotNull(userUpdateCallToActionCommand, "userUpdateCallToActionCommand");
+            Check.RequireNotNull(command, "command");
 
-            var user = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == userUpdateCallToActionCommand.UserId)
-                .First()
-                .User;
+            var user = _documentSession.Load<User>(command.UserId);
 
-            user.RemoveCallToAction(userUpdateCallToActionCommand.Name);
+            user.RemoveCallToAction(command.Name);
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

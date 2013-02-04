@@ -50,8 +50,14 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DataAnnotationsExtensions">
+      <HintPath>..\..\packages\DataAnnotationsExtensions.1.1.0.0\lib\NETFramework40\DataAnnotationsExtensions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
@@ -78,17 +84,15 @@
       <HintPath>..\..\packages\ReflectionMagic.1.1\lib\net40\ReflectionMagic.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 3\Assemblies\System.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="taglib-sharp">
       <HintPath>..\..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
@@ -97,6 +101,7 @@
     <Compile Include="CommandHandlers\CommentCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\CommentUpdateCommandHandler.cs" />
+    <Compile Include="CommandHandlers\UserFollowUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\FavouriteUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\VoteUpdateCommandHandler.cs" />
     <Compile Include="CommandHandlers\IdentificationCreateCommandHandler.cs" />
@@ -112,6 +117,7 @@
     <Compile Include="Commands\IdentificationDeleteCommand.cs" />
     <Compile Include="Commands\IdentificationUpdateCommand.cs" />
     <Compile Include="Commands\MemberDeleteCommand.cs" />
+    <Compile Include="Commands\UserFollowUpdateCommand.cs" />
     <Compile Include="Commands\UserUpdateCallToActionCommand.cs" />
     <Compile Include="Commands\ObservationMediaUpdateCommand.cs" />
     <Compile Include="Commands\RecordCreateCommand.cs" />
@@ -128,7 +134,42 @@
     <Compile Include="DomainModels\SightingNoteDescription.cs" />
     <Compile Include="DomainModels\TaxonomicRank.cs" />
     <Compile Include="DomainModels\Vote.cs" />
+    <Compile Include="EventHandlers\ActivityCommentAdded.cs" />
+    <Compile Include="EventHandlers\ActivityGroupAdded.cs" />
+    <Compile Include="EventHandlers\ActivityIdentificationAdded.cs" />
+    <Compile Include="EventHandlers\ActivityPostAdded.cs" />
+    <Compile Include="EventHandlers\ActivitySightingAdded.cs" />
+    <Compile Include="EventHandlers\ActivitySightingNoteAdded.cs" />
+    <Compile Include="EventHandlers\ActivityUserJoinedGroup.cs" />
+    <Compile Include="EventHandlers\ChatUpdated.cs" />
+    <Compile Include="EventHandlers\DomainEventHandlerBase.cs" />
+    <Compile Include="EventHandlers\MediaResourceUpdated.cs" />
+    <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
+    <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
+    <Compile Include="EventHandlers\UserSessionUpdated.cs" />
     <Compile Include="Indexes\All_CommonNameTaxa.cs" />
+    <Compile Include="Queries\AccountViewModelQuery.cs" />
+    <Compile Include="Queries\ActivityViewModelQuery.cs" />
+    <Compile Include="Queries\IAccountViewModelQuery.cs" />
+    <Compile Include="Queries\IActivityViewModelQuery.cs" />
+    <Compile Include="Queries\IdentificationViewModelQuery.cs" />
+    <Compile Include="Queries\IIdentificationViewModelQuery.cs" />
+    <Compile Include="Queries\IOrganisationViewModelQuery.cs" />
+    <Compile Include="Queries\IPostViewModelQuery.cs" />
+    <Compile Include="Queries\IProjectViewModelQuery.cs" />
+    <Compile Include="Queries\IQuery.cs" />
+    <Compile Include="Queries\ISightingNoteViewModelQuery.cs" />
+    <Compile Include="Queries\ISightingViewModelQuery.cs" />
+    <Compile Include="Queries\ISpeciesViewModelQuery.cs" />
+    <Compile Include="Queries\IUserViewModelQuery.cs" />
+    <Compile Include="Queries\OrganisationViewModelQuery.cs" />
+    <Compile Include="Queries\PostViewModelQuery.cs" />
+    <Compile Include="Queries\ProjectViewModelQuery.cs" />
+    <Compile Include="Queries\SightingNoteViewModelQuery.cs" />
+    <Compile Include="Queries\SightingViewModelQuery.cs" />
+    <Compile Include="Queries\SpeciesViewModelQuery.cs" />
+    <Compile Include="Queries\UserViewModelQuery.cs" />
+    <Compile Include="Services\IDateTimeZoneService.cs" />
     <Compile Include="Utilities\AudioFileAbstraction.cs" />
     <Compile Include="Utilities\AudioUtility.cs" />
     <Compile Include="Utilities\Email.cs" />
@@ -146,7 +187,6 @@
     <Compile Include="CommandHandlers\UserSessionCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserSessionDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\UserSessionUpdateCommandHandler.cs" />
-    <Compile Include="CommandHandlers\NotificationCreatedCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationCreateCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationDeleteCommandHandler.cs" />
     <Compile Include="CommandHandlers\OrganisationUpdateCommandHandler.cs" />
@@ -208,12 +248,7 @@
     <Compile Include="Commands\WatchlistCreateCommand.cs" />
     <Compile Include="Commands\WatchlistDeleteCommand.cs" />
     <Compile Include="Commands\WatchlistUpdateCommand.cs" />
-    <Compile Include="Config\BowerbirdMediaConfigurationSection.cs" />
-    <Compile Include="Config\BowerbirdEmailConfigurationSection.cs" />
-    <Compile Include="Config\BowerbirdDocumentStoreConfigurationSection.cs" />
-    <Compile Include="Config\BowerbirdEnvironmentConfigurationSection.cs" />
     <Compile Include="Config\Constants.cs" />
-    <Compile Include="Config\BowerbirdSpeciesConfigurationSection.cs" />
     <Compile Include="Config\IPermissionManager.cs" />
     <Compile Include="Config\ISystemStateManager.cs" />
     <Compile Include="Config\IUserContext.cs" />
@@ -288,14 +323,11 @@
     <Compile Include="EventHandlers\IEventHandler.cs" />
     <Compile Include="Events\RequestPasswordResetEvent.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
-    <Compile Include="Extensions\CollectionExtensions.cs" />
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Utilities\DateTimeExtensions.cs" />
     <Compile Include="DomainModels\SightingGroup.cs" />
-    <Compile Include="Extensions\DomainExtensions.cs" />
     <Compile Include="Utilities\ImageDimensions.cs" />
-    <Compile Include="Factories\IMediaResourceFactory.cs" />
-    <Compile Include="Factories\IEventHandlerFactory.cs" />
-    <Compile Include="Factories\MediaResourceFactory.cs" />
+    <Compile Include="DomainModelFactories\IMediaResourceFactory.cs" />
+    <Compile Include="DomainModelFactories\MediaResourceFactory.cs" />
     <Compile Include="Infrastructure\IMessageBus.cs" />
     <Compile Include="Services\IYouTubeVideoService.cs" />
     <Compile Include="Services\IVimeoVideoService.cs" />
@@ -308,21 +340,91 @@
     <Compile Include="Indexes\All_Species.cs" />
     <Compile Include="Indexes\All_Activities.cs" />
     <Compile Include="Paging\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Utilities\StringExtensions.cs" />
     <Compile Include="Paging\PagedList.cs" />
     <Compile Include="Paging\PagedListItem.cs" />
     <Compile Include="Paging\PageNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\DocumentSessionExtensions.cs" />
     <Compile Include="Services\IImageService.cs" />
     <Compile Include="Services\IMediaService.cs" />
     <Compile Include="Services\IBackChannelService.cs" />
     <Compile Include="Services\IEmailService.cs" />
     <Compile Include="Config\IConfigSettings.cs" />
-    <Compile Include="Factories\IMediaFilePathFactory.cs" />
-    <Compile Include="Factories\MediaFilePathFactory.cs" />
-    <Compile Include="Infrastructure\MessageBus.cs" />
+    <Compile Include="DomainModelFactories\IMediaFilePathFactory.cs" />
+    <Compile Include="DomainModelFactories\MediaFilePathFactory.cs" />
     <Compile Include="Infrastructure\MultipleCommandHandlersFoundException.cs" />
+    <Compile Include="DomainModelFactories\ActivityViewFactory.cs" />
+    <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
+    <Compile Include="Validators\LatLong.cs" />
+    <Compile Include="Validators\ModelStateException.cs" />
+    <Compile Include="Validators\UniqueEmailAttribute.cs" />
+    <Compile Include="Validators\ValidEmailAttribute.cs" />
+    <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
+    <Compile Include="Validators\ValidFileAttribute.cs" />
+    <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
+    <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
+    <Compile Include="ViewModelFactories\GroupViewFactory.cs" />
+    <Compile Include="DomainModelFactories\IActivityViewFactory.cs" />
+    <Compile Include="ViewModelFactories\IdentificationViewFactory.cs" />
+    <Compile Include="ViewModelFactories\IGroupViewFactory.cs" />
+    <Compile Include="ViewModelFactories\IIdentificationViewFactory.cs" />
+    <Compile Include="ViewModelFactories\IPostViewFactory.cs" />
+    <Compile Include="ViewModelFactories\ISightingNoteViewFactory.cs" />
+    <Compile Include="ViewModelFactories\ISightingViewFactory.cs" />
+    <Compile Include="ViewModelFactories\IUserViewFactory.cs" />
+    <Compile Include="ViewModelFactories\PostViewFactory.cs" />
+    <Compile Include="ViewModelFactories\SightingNoteViewFactory.cs" />
+    <Compile Include="ViewModelFactories\SightingViewFactory.cs" />
+    <Compile Include="ViewModelFactories\UserViewFactory.cs" />
+    <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\AccountLoginInput.cs" />
+    <Compile Include="ViewModels\AccountRegisterInput.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
+    <Compile Include="ViewModels\AccountResetPasswordInput.cs" />
+    <Compile Include="ViewModels\AccountUpdateInput.cs" />
+    <Compile Include="ViewModels\ActivityInput.cs" />
+    <Compile Include="ViewModels\ClientUserContext.cs" />
+    <Compile Include="ViewModels\CommentCreateInput.cs" />
+    <Compile Include="ViewModels\CommentDeleteInput.cs" />
+    <Compile Include="ViewModels\CommentUpdateInput.cs" />
+    <Compile Include="ViewModels\GroupAssociationCreateInput.cs" />
+    <Compile Include="ViewModels\GroupAssociationDeleteInput.cs" />
+    <Compile Include="ViewModels\IdentificationCreateInput.cs" />
+    <Compile Include="ViewModels\IdentificationUpdateInput.cs" />
+    <Compile Include="ViewModels\IdInput.cs" />
+    <Compile Include="ViewModels\JsonNetResult.cs" />
+    <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
+    <Compile Include="ViewModels\MemberCreateInput.cs" />
+    <Compile Include="ViewModels\MemberDeleteInput.cs" />
+    <Compile Include="ViewModels\ObservationCreateInput.cs" />
+    <Compile Include="ViewModels\ObservationMediaItem.cs" />
+    <Compile Include="ViewModels\ObservationNoteUpdateInput.cs" />
+    <Compile Include="ViewModels\ObservationUpdateInput.cs" />
+    <Compile Include="ViewModels\OrganisationCreateInput.cs" />
+    <Compile Include="ViewModels\OrganisationsQueryInput.cs" />
+    <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
+    <Compile Include="ViewModels\PagingInput.cs" />
+    <Compile Include="ViewModels\PostCreateInput.cs" />
+    <Compile Include="ViewModels\PostsQueryInput.cs" />
+    <Compile Include="ViewModels\PostUpdateInput.cs" />
+    <Compile Include="ViewModels\ProjectCreateInput.cs" />
+    <Compile Include="ViewModels\ProjectsQueryInput.cs" />
+    <Compile Include="ViewModels\ProjectUpdateInput.cs" />
+    <Compile Include="ViewModels\RecordCreateInput.cs" />
+    <Compile Include="ViewModels\RecordUpdateInput.cs" />
+    <Compile Include="ViewModels\ReferenceSpeciesCreateInput.cs" />
+    <Compile Include="ViewModels\ReferenceSpeciesUpdateInput.cs" />
+    <Compile Include="ViewModels\SightingNoteCreateInput.cs" />
+    <Compile Include="ViewModels\SightingNoteUpdateInput.cs" />
+    <Compile Include="ViewModels\SightingsQueryInput.cs" />
+    <Compile Include="ViewModels\SpeciesCreateInput.cs" />
+    <Compile Include="ViewModels\SpeciesQueryInput.cs" />
+    <Compile Include="ViewModels\SpeciesUpdateInput.cs" />
+    <Compile Include="ViewModels\StreamSortInput.cs" />
+    <Compile Include="ViewModels\TeamCreateInput.cs" />
+    <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
+    <Compile Include="ViewModels\TeamUpdateInput.cs" />
+    <Compile Include="ViewModels\UsersQueryInput.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

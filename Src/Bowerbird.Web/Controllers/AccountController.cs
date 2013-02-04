@@ -20,12 +20,11 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Core.Repositories;
-using Bowerbird.Web.Builders;
-using Bowerbird.Web.Factories;
-using Bowerbird.Web.Properties;
-using Bowerbird.Web.ViewModels;
-using NodaTime;
+using Bowerbird.Core.Queries;
+using Bowerbird.Core.Services;
+using Bowerbird.Core.ViewModelFactories;
+using Bowerbird.Core.ViewModels;
+using Bowerbird.Web.Infrastructure;
 using Raven.Client;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
@@ -43,11 +42,12 @@ namespace Bowerbird.Web.Controllers
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IAccountViewModelBuilder _accountViewModelBuilder;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IAccountViewModelQuery _accountViewModelQuery;
+        private readonly IUserViewModelQuery _userViewModelQuery;
         private readonly IUserViewFactory _userViewFactory;
-        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
+        private readonly IActivityViewModelQuery _activityViewModelQuery;
         private readonly IPermissionManager _permissionManager;
+        private readonly IDateTimeZoneService _dateTimeZoneService;
 
         #endregion
 
@@ -57,30 +57,33 @@ namespace Bowerbird.Web.Controllers
             IMessageBus messageBus,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IAccountViewModelBuilder accountViewModelBuilder,
-            IUserViewModelBuilder userViewModelBuilder,
-            IActivityViewModelBuilder activityViewModelBuilder,
+            IAccountViewModelQuery accountViewModelQuery,
+            IUserViewModelQuery userViewModelQuery,
+            IActivityViewModelQuery activityViewModelQuery,
             IUserViewFactory userViewFactory,
-            IPermissionManager permissionManager
+            IPermissionManager permissionManager,
+            IDateTimeZoneService dateTimeZoneService
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(accountViewModelBuilder, "accountViewModelBuilder");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
-            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
+            Check.RequireNotNull(accountViewModelQuery, "accountViewModelQuery");
+            Check.RequireNotNull(userViewModelQuery, "userViewModelQuery");
+            Check.RequireNotNull(activityViewModelQuery, "activityViewModelQuery");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(permissionManager, "permissionManager");
+            Check.RequireNotNull(dateTimeZoneService, "dateTimeZoneService");
 
             _messageBus = messageBus;
             _userContext = userContext;
             _documentSession = documentSession;
-            _accountViewModelBuilder = accountViewModelBuilder;
-            _userViewModelBuilder = userViewModelBuilder;
-            _activityViewModelBuilder = activityViewModelBuilder;
+            _accountViewModelQuery = accountViewModelQuery;
+            _userViewModelQuery = userViewModelQuery;
+            _activityViewModelQuery = activityViewModelQuery;
             _userViewFactory = userViewFactory;
             _permissionManager = permissionManager;
+            _dateTimeZoneService = dateTimeZoneService;
         }
 
         #endregion
@@ -99,13 +102,13 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("privateindex", "home");
             }
 
-            //ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(returnUrl);
+            //ViewBag.AccountLogin = _accountViewModelQuery.MakeAccountLogin(returnUrl);
             //ViewBag.IsStaticLayout = true;
 
             //return View(Form.Login);
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(returnUrl);
+            viewModel.AccountLogin = _accountViewModelQuery.MakeAccountLogin(returnUrl);
 
             return RestfulResult(
                 viewModel,
@@ -139,13 +142,13 @@ namespace Bowerbird.Web.Controllers
                 _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
 
 #if !JS_COMBINE_MINIFY
-    DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
+                DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
 #endif
 
                 if(Request.IsAjaxRequest())
                 {
                     dynamic viewModel = new ExpandoObject();
-                    viewModel.User = _userViewFactory.Make(user);
+                    viewModel.User = _userViewFactory.Make(user, user);
 
                     return RestfulResult(
                         viewModel,
@@ -160,7 +163,7 @@ namespace Bowerbird.Web.Controllers
 
             ModelState.AddModelError("", "");
 
-            ViewBag.AccountLogin = _accountViewModelBuilder.MakeAccountLogin(accountLoginInput);
+            ViewBag.AccountLogin = _accountViewModelQuery.MakeAccountLogin(accountLoginInput);
             ViewBag.IsStaticLayout = true;
 
             return View(Form.Login);
@@ -246,7 +249,7 @@ namespace Bowerbird.Web.Controllers
                 if (Request.IsAjaxRequest())
                 {
                     dynamic viewModel = new ExpandoObject();
-                    viewModel.User = _userViewFactory.Make(user);
+                    viewModel.User = _userViewFactory.Make(user, null);
 
                     return RestfulResult(
                         viewModel,
@@ -259,7 +262,7 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("loggingin");
             }
 
-            ViewBag.AccountRegister = _accountViewModelBuilder.MakeAccountRegister(accountRegisterInput);
+            ViewBag.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
             ViewBag.IsStaticLayout = true;
 
             return View(Form.Register);
@@ -288,7 +291,7 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("requestpasswordresetsuccess", "account");
             }
 
-            ViewBag.RequestPasswordReset = _accountViewModelBuilder.MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
+            ViewBag.RequestPasswordReset = _accountViewModelQuery.MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
             ViewBag.IsStaticLayout = true;
 
             return View(Form.RequestPasswordReset);
@@ -303,7 +306,7 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
         {
-            ViewBag.RequestPasswordResetSuccess = _accountViewModelBuilder.MakeAccountResetPassword(accountResetPasswordInput);
+            ViewBag.RequestPasswordResetSuccess = _accountViewModelQuery.MakeAccountResetPassword(accountResetPasswordInput);
             ViewBag.IsStaticLayout = true;
 
             return View(Form.ResetPassword);
@@ -315,7 +318,10 @@ namespace Bowerbird.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _documentSession.LoadUserByResetPasswordKey(accountResetPasswordInput.ResetPasswordKey);
+                var user = _documentSession
+                    .Query<User>()
+                    .Where(x => x.ResetPasswordKey == accountResetPasswordInput.ResetPasswordKey)
+                    .FirstOrDefault();
 
                 _messageBus.Send(
                     new UserUpdatePasswordCommand()
@@ -329,7 +335,7 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("privateindex", "home");
             }
 
-            ViewBag.ResetPassword = _accountViewModelBuilder.MakeAccountResetPassword(accountResetPasswordInput);
+            ViewBag.ResetPassword = _accountViewModelQuery.MakeAccountResetPassword(accountResetPasswordInput);
             ViewBag.IsStaticLayout = true;
 
             return View(Form.ResetPassword);
@@ -342,8 +348,7 @@ namespace Bowerbird.Web.Controllers
             if (Request.IsAjaxRequest())
             {
                 dynamic viewModel = new ExpandoObject();
-                viewModel.AuthenticatedUser =
-                    _userViewModelBuilder.BuildAuthenticatedUser(_userContext.GetAuthenticatedUserId());
+                viewModel.AuthenticatedUser = _userViewModelQuery.BuildAuthenticatedUser(_userContext.GetAuthenticatedUserId());
 
                 return RestfulResult(
                     viewModel,
@@ -365,7 +370,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     Model = new
                     {
-                        Activities = _activityViewModelBuilder.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                        Activities = _activityViewModelQuery.BuildNotificationActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
                     }
                 });
             }
@@ -383,7 +388,7 @@ namespace Bowerbird.Web.Controllers
                 {
                     Model = new
                     {
-                        Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
+                        Activities = _activityViewModelQuery.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput)
                     }
                 });
             }
@@ -406,7 +411,7 @@ namespace Bowerbird.Web.Controllers
 
             var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
 
-            viewModel.User = _userViewModelBuilder.BuildUpdateUser(userId);
+            viewModel.User = _userViewModelQuery.BuildUpdateUser(userId);
             viewModel.TimezoneSelectList = GetTimeZones(null, user.Timezone);
             viewModel.LicenceSelectList = new[]
                 {
@@ -643,73 +648,38 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        /// <summary>
-        /// Returns a list of valid timezones as a dictionary, where the key is the timezone id, and the value can be used for display.
-        /// </summary>
-        /// <param name="countryCode">The two-letter country code to get timezones for.  Returns all timezones if null or empty.</param>
+        [Transaction]
+        [Authorize]
+        [HttpPost]
+        public ActionResult UpdateFollowUser(string id)
+        {
+            string userId = VerbosifyId<User>(id);
+
+            if (!ModelState.IsValid)
+            {
+                return JsonFailed();
+            }
+
+            _messageBus.Send(
+                new UserFollowUpdateCommand()
+                {
+                    FollowerUserId = _userContext.GetAuthenticatedUserId(),
+                    FolloweeUserId = userId
+                });
+
+            return JsonSuccess();
+        }
+
         private object GetTimeZones(string countryCode, string existingTimezone)
         {
-            var timeZones = string.IsNullOrEmpty(countryCode)
-                                ? Zones.SelectMany(x => x)
-                                : Zones[countryCode.ToUpper()];
+            return _dateTimeZoneService.GetTimeZones(countryCode).Select(x =>
+                                                                  new
+                                                                      {
+                                                                          Value = x.Key,
+                                                                          Text = x.Value,
+                                                                          Selected = x.Key == existingTimezone
+                                                                      });
 
-            var now = Instant.FromDateTimeUtc(DateTime.UtcNow);
-            var tzdb = DateTimeZoneProviders.Tzdb;
-
-            var list = from id in timeZones
-                       let tz = tzdb[id]
-                       let offset = tz.GetZoneInterval(now).StandardOffset
-                       orderby offset, id
-                       select new
-                       {
-                           Value = id,
-                           Text = string.Format("{0} ({1})", id.Replace("_", " "), offset.ToString("+HH:mm", null)),
-                           Selected = id == existingTimezone
-                       };
-
-            return list;
-        }
-
-        private static volatile ILookup<string, string> _zones;
-        private static readonly object SyncRoot = new object();
-
-        private static ILookup<string, string> Zones
-        {
-            get
-            {
-                if (_zones != null)
-                    return _zones;
-
-                lock (SyncRoot)
-                {
-                    if (_zones == null)
-                        _zones = ReadAndParseTimeZones().ToLookup(x => x.Key, x => x.Value);
-                }
-
-                return _zones;
-            }
-        }
-
-        private static IEnumerable<KeyValuePair<string, string>> ReadAndParseTimeZones()
-        {
-            // Simple parser for the zones data, which is embedded as a string resource.
-            // The data is sourced from the zone.tab file from the offical tz database.
-            // TODO: When NodaTime embeds this file, switch to their copy so we don't have to maintain it.
-            using (var reader = new StringReader(Resources.Zones))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    // ignore comments and blank lines
-                    if (line.StartsWith("#") || string.IsNullOrWhiteSpace(line))
-                        continue;
-
-                    var data = line.Split('\t');
-                    var key = data[0];
-                    var value = data[2];
-                    yield return new KeyValuePair<string, string>(key, value);
-                }
-            }
         }
 
         #endregion

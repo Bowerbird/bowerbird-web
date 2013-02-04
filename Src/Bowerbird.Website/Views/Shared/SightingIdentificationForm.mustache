@@ -16,7 +16,7 @@
   <div class="sighting">
     <div class="observation-details">
       {{#Model.Sighting}}
-      {{>SightingFullFullDetails}}
+      {{>SightingFullDetails}}
       {{/Model.Sighting}}
     </div>
   </div>
@@ -24,9 +24,9 @@
   <form action="/identifications" method="post"  enctype="multipart/form-data">
     <fieldset class="sighting-identification-fieldset">
       <legend class="hidden">Identification Details</legend>
-      {{#Model.Identification}}
+      {{#Model}}
       {{>SightingIdentificationSubForm}}
-      {{/Model.Identification}}
+      {{/Model}}
     </fieldset>
     <fieldset>
       <input type="button" value="Save" id="save" />

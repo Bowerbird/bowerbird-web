@@ -21,10 +21,11 @@ using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Utilities;
+using Bowerbird.Web.Infrastructure;
 using Raven.Client;
 using Bowerbird.Core.Config;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Services;
 
 namespace Bowerbird.Web.Controllers

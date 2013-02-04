@@ -70,12 +70,12 @@ namespace Bowerbird.Core.DomainModels
                 defaultLicence,
                 timezone);
 
-            
             AddCallToAction("user-welcome");
             AddCallToAction("first-create-project-welcome");
             AddCallToAction("first-create-observation-welcome");
             AddCallToAction("first-record-welcome");
             AddCallToAction("project-explore-welcome");
+            AddCallToAction("organisation-explore-welcome");
 
             ApplyEvent(new DomainModelCreatedEvent<User>(this, this, this));
         }
@@ -149,13 +149,19 @@ namespace Bowerbird.Core.DomainModels
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         public DenormalisedGroupReference UserProject
         {
-            get { return Memberships.First(x => x.Group.GroupType == "userproject").Group; }
+            get { return Memberships.First(x => x.Group.GroupType == "userproject" && x.Group.CreatedBy == this.Id).Group; }
         }
 
         [Raven.Imports.Newtonsoft.Json.JsonIgnore]
         public DenormalisedGroupReference Favourites
         {
             get { return Memberships.First(x => x.Group.GroupType == "favourites").Group; }
+        }
+
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        public IEnumerable<Member> FollowingUsers
+        {
+            get { return Memberships.Where(x => x.Group.GroupType == "userproject" && x.Group.CreatedBy != this.Id); }
         }
 
         #endregion

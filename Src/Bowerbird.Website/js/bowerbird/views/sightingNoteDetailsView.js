@@ -15,9 +15,10 @@ function ($, _, Backbone, ich, app, moment, Voter) {
         template: 'ActivityItemSightingNoteAdded',
 
         events: {
-            'click h3 a': 'showSighting',
+            'click h3 a': 'showItem',
             'click .vote-panel .vote-up': 'voteUp',
-            'click .vote-panel .vote-down': 'voteDown'
+            'click .vote-panel .vote-down': 'voteDown',
+            'click .edit-button': 'showItem'
         },
 
         initialize: function (options) {
@@ -38,51 +39,63 @@ function ($, _, Backbone, ich, app, moment, Voter) {
             this._showDetails();
         },
 
-        onRender: function () {
-            this._showDetails();
-        },
+//        onRender: function () {
+//            this._showDetails();
+//        },
 
         showBootstrappedDetails: function () {
             this._showDetails();
         },
 
         _showDetails: function () {
-            this.$el.find('.vote-up, .vote-down, .add-comment-button').tipsy({ gravity: 'n', html: true });
+            if (app.authenticatedUser) {
+                this.showActionButtons();
+            }
         },
 
-//        showNoteForm: function (e) {
-//            e.preventDefault();
-//            this.$el.find('.observation-action-menu a').tipsy.revalidate();
-//            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-//        },
-
-        showSighting: function (e) {
+        showItem: function (e) {
             e.preventDefault();
+            this.$el.find('.actions a').tipsy.revalidate();
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
         voteUp: function (e) {
-            log('voting!');
             Voter.voteUp(this.model);
-
-            this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button');
-            this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
-            this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
+            this.updateVotePanel('up');
         },
 
         voteDown: function (e) {
             Voter.voteDown(this.model);
+            this.updateVotePanel('down');
+        },
+        
+        showActionButtons: function () {
+            this.$el.find('.vote-panel, .comment-panel, .edit-panel').addClass('with-buttons');
+            this.$el.find('.vote-panel').append(ich.Buttons({ Vote: true }));
+            this.$el.find('.edit-panel').append(ich.Buttons({ EditNote: true, SightingId: this.model.get('SightingId'), Id: this.model.id }));
+            this.$el.find('.comment-panel').append(ich.Buttons({ Discuss: true, Id: this.model.id }));
 
-            this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button');
-            this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
-            this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
+            if (this.model.get('UserVoteScore') === -1) {
+                this.updateVotePanel('down');
+            }
+            if (this.model.get('UserVoteScore') === 1) {
+                this.updateVotePanel('up');
+            }
+
+            this.$el.find('.vote-up, .vote-down, .add-comment-button').tipsy({ gravity: 'n', html: true });
+            this.$el.find('.edit-button').tipsy({ gravity: 's', html: true });
         },
 
-        addToFavourites: function (e) {
-            Voter.addToFavourites(this.model);
-
-            this.$el.find('.favourites-panel .favourites-count').text(this.model.get('FavouritesCount'));
-            this.$el.find('.favourites-panel .favourites-button').toggleClass('selected');
+        updateVotePanel: function (direction) {
+            if (direction === 'up') {
+                this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button');
+                this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
+                this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
+            } else {
+                this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button');
+                this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
+                this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
+            }
         }
     });
 

@@ -1,35 +1,45 @@
 ﻿<h3>
-    <a href="/{{Id}}">
-    {{Name}} <span></span>
-    </a>
+  <a href="/{{Id}}">{{Name}}</a>
 </h3>
-    
-    <div class="avatar">
-      {{#Avatar}}
-      {{>MediaSquare200}}
-      {{/Avatar}}
-    </div>
-    <div class="info">
-
-    <div class="joined"><span class="small-icon observation-icon"></span> {{Joined}}</div>
-    <div class="sightings"><span class="small-icon observation-icon"></span> {{SightingCount}} Sightings</div>        
-    <div class="projects"><span class="small-icon project-icon"></span> {{ProjectCount}} Projects</div>
-    <div class="organisations"><span class="small-icon organisation-icon"></span> {{OrganisationCount}} Organisations</div>
-        
-    </div>
-
-<div class="actions">
-  <!--<a href="/{{Id}}/favourite" class="button add-favourite-button" title="&lt;b>Add to favourites&lt;/b> &lt;br />Add this sighting to your list of favourites">
-    Add to Favourites <span></span>
-  </a>
-
-  <a href="/{{Id}}/createnote" class="button add-note-button" title="&lt;b>Add a note&lt;/b> &lt;br />Add some more information to this sighting, such as an identification, description of behaviour, environment etc, or add some tags">
-    Add Note
-  </a>
-
-  <a href="/{{Id}}/update" class="button edit-observation-button" title="&lt;b>Edit this sighting&lt;/b> &lt;br />Edit the details of this sighting">
-    Edit
-  </a>-->
-
-  <a href="/{{Id}}" class="button view-button">View</a>
+<div class="avatar">
+  {{#Avatar}}
+  {{>MediaSquare200}}
+  {{/Avatar}}
 </div>
+<ul class="sightings">
+  {{#SampleObservations}}
+  <li>
+    <a href="/{{Id}}">
+      {{#Media.MediaResource}}
+      {{>MediaSquare200}}
+      {{/Media.MediaResource}}
+    </a>
+  </li>
+  {{/SampleObservations}}
+  {{^SampleObservations}}
+  <li class="no-sightings">No sightings yet!</li>
+  {{/SampleObservations}}
+</ul>
+<p class="description">
+  {{Description}}
+</p>
+<div class="info">
+  <div class="sighting-actions">
+    <div class="sightings-badge small">
+      <span class="small-icon observation-icon"></span>
+      <span class="count">{{SightingCount}}</span>
+      <span class="label">sightings</span>
+    </div>
+    <div class="projects-badge small">
+      <span class="small-icon project-icon"></span>
+      <span class="count">{{ProjectCount}}</span>
+      <span class="label">projects</span>
+    </div>
+    <div class="organisations-badge small">
+      <span class="small-icon organisation-icon"></span>
+      <span class="count">{{OrganisationCount}}</span>
+      <span class="label">organisations</span>
+    </div>
+  </div>
+</div>
+<div class="actions"></div>

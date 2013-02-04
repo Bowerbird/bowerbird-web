@@ -18,13 +18,14 @@ using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Builders;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Queries;
+using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using System;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.Infrastructure;
 using Raven.Client;
 using System.Collections;
 using System.Dynamic;
@@ -38,7 +39,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
-        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly IPostViewModelQuery _postViewModelQuery;
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
 
@@ -49,20 +50,20 @@ namespace Bowerbird.Web.Controllers
         public PostsController(
             IMessageBus messageBus,
             IUserContext userContext,
-            IPostViewModelBuilder postViewModelBuilder,
+            IPostViewModelQuery postViewModelQuery,
             IDocumentSession documentSession,
             IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(postViewModelQuery, "postViewModelQuery");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
-            _postViewModelBuilder = postViewModelBuilder;
+            _postViewModelQuery = postViewModelQuery;
             _documentSession = documentSession;
             _permissionManager = permissionManager;
         }
@@ -82,7 +83,7 @@ namespace Bowerbird.Web.Controllers
             }
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Post = _postViewModelBuilder.BuildPost(postId);
+            viewModel.Post = _postViewModelQuery.BuildPost(postId);
 
             return RestfulResult(
                 viewModel,
@@ -103,7 +104,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Post = _postViewModelBuilder.BuildCreatePost(actualGroupId);
+            viewModel.Post = _postViewModelQuery.BuildCreatePost(actualGroupId);
             viewModel.PostTypeSelectList = GetPostTypeSelectList(string.Empty);
 
             return RestfulResult(
@@ -133,7 +134,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Post = _postViewModelBuilder.BuildPost(postId);
+            viewModel.Post = _postViewModelQuery.BuildPost(postId);
             viewModel.PostTypeSelectList = GetPostTypeSelectList(post.PostType);
 
             return RestfulResult(
@@ -161,7 +162,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Post = _postViewModelBuilder.BuildPost(postId);
+            viewModel.Post = _postViewModelQuery.BuildPost(postId);
 
             return RestfulResult(
                 viewModel,

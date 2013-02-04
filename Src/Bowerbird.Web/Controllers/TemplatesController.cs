@@ -12,13 +12,11 @@
  
 */
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Caching;
 using System.Collections.Generic;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -110,7 +108,7 @@ namespace Bowerbird.Web.Controllers
                 return (string)HttpContext.Cache[key];
             }
 
-            var templatePath = HttpContext.Server.MapPath(path.PrependWith("/Views/Shared/").AppendWith(".mustache"));
+            var templatePath = HttpContext.Server.MapPath(string.Format("/Views/Shared/{0}.mustache", path));
             var templateSource = System.IO.File.ReadAllText(templatePath);
 
             HttpContext.Cache.Insert(key, templateSource, new CacheDependency(templatePath));

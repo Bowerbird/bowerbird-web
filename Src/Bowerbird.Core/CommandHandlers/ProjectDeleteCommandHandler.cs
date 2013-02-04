@@ -48,31 +48,31 @@ namespace Bowerbird.Core.CommandHandlers
         
         public void Handle(ProjectDeleteCommand command)
         {
-            Check.RequireNotNull(command, "command");
+            //Check.RequireNotNull(command, "command");
 
-            var project = _documentSession.Load<Project>(command.Id);
+            //var project = _documentSession.Load<Project>(command.Id);
 
-            var team = _documentSession
-                .Query<Team>()
-                .Where(x => x.DescendantGroups.Any(y => y.Id.ToLower() == project.Id.ToLower()))
-                .FirstOrDefault();
+            //var team = _documentSession
+            //    .Query<Team>()
+            //    .Where(x => x.DescendantGroups.Any(y => y.Id.ToLower() == project.Id.ToLower()))
+            //    .FirstOrDefault();
 
-            if(team != null)
-            {
-                team.RemoveDescendantGroup(project);
+            //if(team != null)
+            //{
+            //    team.RemoveDescendantGroup(project);
 
-                var organisation = _documentSession
-                    .Query<Organisation>()
-                    .Where(x => x.DescendantGroups.Any(y => y.Id.ToLower() == project.Id.ToLower()))
-                    .FirstOrDefault();
+            //    var organisation = _documentSession
+            //        .Query<Organisation>()
+            //        .Where(x => x.DescendantGroups.Any(y => y.Id.ToLower() == project.Id.ToLower()))
+            //        .FirstOrDefault();
 
-                if(organisation != null)
-                {
-                    organisation.RemoveDescendantGroup(project);
-                }
-            }
+            //    if(organisation != null)
+            //    {
+            //        organisation.RemoveDescendantGroup(project);
+            //    }
+            //}
 
-            _documentSession.Delete(project);
+            //_documentSession.Delete(project);
         }
 
         #endregion				

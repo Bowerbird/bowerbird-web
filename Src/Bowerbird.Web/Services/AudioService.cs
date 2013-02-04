@@ -19,7 +19,7 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.Utilities;
@@ -34,10 +34,8 @@ namespace Bowerbird.Web.Services
 
         private Logger _logger = LogManager.GetLogger("AudioService");
 
-        private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
-        private readonly IMessageBus _messageBus;
         private readonly IMediaResourceFactory _mediaResourceFactory;
 
         #endregion
@@ -57,10 +55,8 @@ namespace Bowerbird.Web.Services
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
 
-            _userContext = userContext;
             _documentSession = documentSession;
             _mediaFilePathFactory = mediaFilePathFactory;
-            _messageBus = messageBus;
             _mediaResourceFactory = mediaResourceFactory;
         }
 
@@ -72,21 +68,21 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, User createdByUser, out string failureReason, out MediaResource mediaResource)
         {
+            failureReason = string.Empty;
+            mediaResource = null;
+
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).AudioServiceStatus)
             {
                 failureReason = "Audio files cannot be uploaded at the moment. Please try again later.";
                 return false;
             }
 
-            MediaResource mediaResource = null;
             bool returnValue;
 
             try
             {
-                var createdByUser = _documentSession.Load<User>(command.UserId);
-
                 var audio = AudioUtility.Load(command.FileStream, command.FileName, command.FileMimeType);
 
                 mediaResource = _mediaResourceFactory.MakeContributionAudio(
@@ -102,20 +98,11 @@ namespace Bowerbird.Web.Services
 
                 audio.SaveAs(filePath);
 
-                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
-
-                failureReason = string.Empty;
                 returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving audio", exception);
-
-                if (mediaResource != null)
-                {
-                    _documentSession.Delete(mediaResource);
-                    _documentSession.SaveChanges();
-                }
 
                 failureReason = "The file is corrupted or not a valid audio file and could not be saved. Please check the file and try again.";
                 returnValue = false;

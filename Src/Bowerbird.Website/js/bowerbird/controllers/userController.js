@@ -26,7 +26,6 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
         this.userHub.joinedGroup = joinedGroup;
         this.userHub.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
         this.userHub.mediaResourceUploadFailure = mediaResourceUploadFailure;
-        //this.userHub.updateOnlineUsers = updateOnlineUsers; // not called back from server hub anymore..
         this.updateUserClientStatus = updateUserClientStatus;
     };
 
@@ -102,11 +101,11 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
         if (group.GroupType === 'project') {
             app.authenticatedUser.projects.add(group);
         }
-        if (group.GroupType === 'team') {
-            app.authenticatedUser.teams.add(group);
-        }
         if (group.GroupType === 'organisation') {
             app.authenticatedUser.organisations.add(group);
+        }
+        if (group.GroupType === 'userproject') {
+            app.authenticatedUser.userProjects.add(group);
         }
     };
 
@@ -158,7 +157,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
             var user = new User(model.User);
             var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                 {
-                    userId: user.id,
+                    subId: user.id,
                     page: model.Query.page,
                     pageSize: model.Query.PageSize,
                     total: model.Sightings.TotalResultCount,

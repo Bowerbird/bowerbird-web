@@ -32,6 +32,8 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
 
         public string GroupType { get; private set; }
 
+        public string CreatedBy { get; set; }
+
         #endregion
 
         #region Methods
@@ -43,7 +45,8 @@ namespace Bowerbird.Core.DomainModels.DenormalisedReferences
             return new DenormalisedGroupReference
             {
                 Id = group.Id,
-                GroupType = group.GroupType
+                GroupType = group.GroupType,
+                CreatedBy = group.User != null ? group.User.Id : null // Need this check only bevcause of AppRoot not having a User
             };
         }
 

@@ -15,19 +15,17 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.Utilities;
 using NLog;
-using NodaTime;
 using Raven.Client;
 using Raven.Imports.Newtonsoft.Json;
 
@@ -48,7 +46,7 @@ namespace Bowerbird.Web.Services
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
         private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IDocumentSession _documentSession;
-        private readonly IMessageBus _messageBus;
+        private readonly IDateTimeZoneService _dateTimeZoneService;
 
         private const string _uriFormat = @"http://player.vimeo.com/video/{0}?title=0&byline=0&portrait=0";
         private const string _apiUriFormat = @"http://vimeo.com/api/v2/video/{0}.json";
@@ -61,18 +59,18 @@ namespace Bowerbird.Web.Services
             IMediaFilePathFactory mediaFilePathFactory,
             IMediaResourceFactory mediaResourceFactory,
             IDocumentSession documentSession,
-            IMessageBus messageBus
+            IDateTimeZoneService dateTimeZoneService
             )
         {
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(messageBus, "messageBus");
+            Check.RequireNotNull(dateTimeZoneService, "dateTimeZoneService");
 
             _mediaFilePathFactory = mediaFilePathFactory;
             _mediaResourceFactory = mediaResourceFactory;
             _documentSession = documentSession;
-            _messageBus = messageBus;
+            _dateTimeZoneService = dateTimeZoneService;
         }
 
         #endregion
@@ -83,15 +81,17 @@ namespace Bowerbird.Web.Services
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, User createdByUser, out string failureReason, out MediaResource mediaResource)
         {
+            failureReason = string.Empty;
+            mediaResource = null;
+
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).VimeoVideoServiceStatus)
             {
                 failureReason = "Vimeo video files cannot be imported at the moment. Please try again later.";
                 return false;
             }
 
-            MediaResource mediaResource = null;
             bool returnValue;
 
             try
@@ -104,8 +104,6 @@ namespace Bowerbird.Web.Services
                 var thumbnailUri = (string)data[0]["thumbnail_large"];
                 var videoWidth = (int) data[0]["width"];
                 var videoHeight = (int)data[0]["height"];
-
-                var createdByUser = _documentSession.Load<User>(command.UserId);
 
                 var imageCreationTasks = new List<ImageCreationTask>();
 
@@ -133,24 +131,12 @@ namespace Bowerbird.Web.Services
                     image.Cleanup();
                 }
 
-                _documentSession.Store(mediaResource);
-                _documentSession.SaveChanges();
-
-                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
-
-                failureReason = string.Empty;
                 returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving video", exception);
 
-                if (mediaResource != null)
-                {
-                    _documentSession.Delete(mediaResource);
-                    _documentSession.SaveChanges();
-                }
-                
                 failureReason = "The video cannot be retrieved from Vimeo. Please check the video and try again.";
                 returnValue = false;
             }
@@ -168,58 +154,13 @@ namespace Bowerbird.Web.Services
             // Vimeo's dodgy API doesn't include timezone info for upload date. 
             // According to this random link (http://vimeo.com/forums/topic:47127), some "staff" member 
             // says "Eastern", which probably means US eastern time ("America/New_York" in the tzdb that NodaTime uses). :(
-            DateTime convertedDateTime = ConvertDateTime((string)data[0]["upload_date"], "America/New_York");
+            DateTime convertedDateTime = _dateTimeZoneService.ExtractDateTimeFromExif((string)data[0]["upload_date"], "America/New_York");
 
             metadata.Add("Created", convertedDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             metadata.Add("Duration", ((int)data[0]["duration"]).ToString()); 
             metadata.Add("Description", (string)data[0]["title"]);
 
             return metadata;
-        }
-
-        /// <summary>
-        /// EXIF DateTime is stored as a string - "yyyy-MM-dd hh:mm:ss" in 24 hour format.
-        /// 
-        /// Since EXIF datetime does not store timezone info, making the time ambiguous, we grab the user's specified timezone
-        /// and assume the image was taken in that timezone.
-        /// 
-        /// If we don't have a parseable datetime, we set the time to now.
-        /// </summary>
-        private DateTime ConvertDateTime(string dateTimeExif, string timezone)
-        {
-            var dateTimeStringComponents = dateTimeExif.Split(new[] { ':', ' ', '-' });
-
-            if (dateTimeExif != string.Empty && dateTimeStringComponents.Count() == 6)
-            {
-                var dateTimeIntComponents = new int[dateTimeStringComponents.Count()];
-
-                for (var i = 0; i < dateTimeStringComponents.Length; i++)
-                {
-                    int convertedSegment;
-                    if (Int32.TryParse(dateTimeStringComponents[i], out convertedSegment))
-                    {
-                        dateTimeIntComponents[i] = convertedSegment;
-                    }
-                }
-
-                // Get data into a local time object (no time zone specified)
-                var localDateTime = new LocalDateTime(
-                        dateTimeIntComponents[0], // year
-                        dateTimeIntComponents[1], // month
-                        dateTimeIntComponents[2], // day
-                        dateTimeIntComponents[3], // hour
-                        dateTimeIntComponents[4], // minute
-                        dateTimeIntComponents[5], // second
-                        CalendarSystem.Iso);
-
-                // Put the local date time into a timezone
-                var zonedDateTime = localDateTime.InZoneLeniently(DateTimeZoneProviders.Tzdb[timezone]);
-
-                // Get the UTC date time of the given local date time in the given time zone
-                return zonedDateTime.WithZone(DateTimeZone.Utc).ToDateTimeUtc();
-            }
-
-            return DateTime.UtcNow;
         }
 
         /// <summary>

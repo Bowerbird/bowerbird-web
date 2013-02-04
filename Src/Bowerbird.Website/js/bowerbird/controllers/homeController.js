@@ -78,6 +78,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
             .done(function (model) {
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
+                        subId: 'home',
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
@@ -119,6 +120,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
             .done(function (model) {
                 var postCollection = new PostCollection(model.Posts.PagedListItems,
                     {
+                        subId: 'home',
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Posts.TotalResultCount,
@@ -160,6 +162,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
             .done(function (model) {
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
+                        id: 'favourites',
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,

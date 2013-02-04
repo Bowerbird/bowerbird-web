@@ -16,9 +16,9 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Builders;
+using Bowerbird.Core.Queries;
 using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.ViewModels;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -28,7 +28,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
-        private readonly ISpeciesViewModelBuilder _speciesViewModelBuilder;
+        private readonly ISpeciesViewModelQuery _speciesViewModelQuery;
 
         #endregion
 
@@ -37,16 +37,16 @@ namespace Bowerbird.Web.Controllers
         public SpeciesController(
             IMessageBus messageBus,
             IUserContext userContext,
-            ISpeciesViewModelBuilder speciesViewModelBuilder
+            ISpeciesViewModelQuery speciesViewModelQuery
         )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(speciesViewModelBuilder, "speciesViewModelBuilder");
+            Check.RequireNotNull(speciesViewModelQuery, "speciesViewModelQuery");
 
             _messageBus = messageBus;
             _userContext = userContext;
-            _speciesViewModelBuilder = speciesViewModelBuilder;
+            _speciesViewModelQuery = speciesViewModelQuery;
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace Bowerbird.Web.Controllers
         {
             var viewModel = new
             {
-                Species = _speciesViewModelBuilder.BuildSpeciesList(speciesQueryInput, pagingInput)
+                Species = _speciesViewModelQuery.BuildSpeciesList(speciesQueryInput, pagingInput)
             };
 
             return RestfulResult(

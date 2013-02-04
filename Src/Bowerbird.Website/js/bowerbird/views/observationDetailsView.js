@@ -41,7 +41,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
         },
 
         onShow: function () {
-            var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), className: 'observation-details', model: this.model, template: 'SightingFullFullDetails' });
+            var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), className: 'observation-details', model: this.model, template: 'SightingFullDetails' });
             this.sightingView = sightingView;
             this.sightingSection.show(sightingView);
 
@@ -65,7 +65,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
         showBootstrappedDetails: function () {
             this.initializeRegions();
 
-            var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), model: this.model, template: 'SightingFullFullDetails' });
+            var sightingView = new SightingDetailsView({ el: this.$el.find('.observation-details'), model: this.model, template: 'SightingFullDetails' });
             this.sightingView = sightingView;
             this.sightingSection.attachView(sightingView);
             sightingView.showBootstrappedDetails();

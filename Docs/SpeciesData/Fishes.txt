@@ -1138,7 +1138,6 @@ Fishes	Brotulas	Queensland Cusk	Animalia: Chordata: Actinopterygii	Ophidiiformes
 Fishes	Brotulas	Littoral Cusk	Animalia: Chordata: Actinopterygii	Ophidiiformes	Bythitidae	Monothrix	polylepis 																																																																										
 Fishes	Brotulas	Bagbelly Cusk	Animalia: Chordata: Actinopterygii	Ophidiiformes	Bythitidae	Saccogaster	tuberculata 																																																																										
 Fishes	Brotulas	"Bortulas, Cuskfishes, Live-bearing Brotulas"	Animalia: Chordata: Actinopterygii	Ophidiiformes	Bythitidae	Timorichthys	disjunctus																																																																										
-Fishes	Brotulas	"Bortulas, Cuskfishes, Live-bearing Brotulas"	Animalia: Chordata: Actinopterygii	Ophidiiformes	Bythitidae	Timorichthys	disjunctus																																																																										
 Fishes	Brotulas	"Bortulas, Cuskfishes, Live-bearing Brotulas"	Animalia: Chordata: Actinopterygii	Ophidiiformes	Bythitidae	Zephyrichthys	barryi																																																																										
 Fishes	Pearlfish	Star Pearlfish	Animalia: Chordata: Actinopterygii	Ophidiiformes	Carapidae	Carapus	mourlani 																																																																										
 Fishes	Pearlfish	Closefin Pearlfish	Animalia: Chordata: Actinopterygii	Ophidiiformes	Carapidae	Echiodon	anchipterus 																																																																										

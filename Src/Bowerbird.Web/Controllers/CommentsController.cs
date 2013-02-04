@@ -19,8 +19,8 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Config;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.ViewModels;
+using Bowerbird.Web.Infrastructure;
 
 namespace Bowerbird.Web.Controllers
 {

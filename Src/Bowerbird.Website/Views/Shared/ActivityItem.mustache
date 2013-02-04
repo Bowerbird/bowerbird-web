@@ -38,49 +38,16 @@
 <div class="details">
   {{>ActivityItemSightingAdded}}
 </div>
-<!--<div class="actions">
-  <a href="/{{Id}}/favourite" class="button add-favourite-button" title="&lt;b>Add to favourites&lt;/b> &lt;br />Add this sighting to your list of favourites">
-    Add to Favourites <span></span>
-  </a>
-
-  <a href="/{{Id}}/createidentification" class="button add-identification-button" title="&lt;b>Identify the sighting&lt;/b> &lt;br />Identify the species in the sighting">
-    Identify
-  </a>
-
-  <a href="/{{Id}}/createnote" class="button add-note-button" title="&lt;b>Describe the sighting&lt;/b> &lt;br />Add some more information to this sighting, such as description of behaviour, environment etc, or add some tags">
-    Describe
-  </a>
-
-  <a href="/{{Id}}/update" class="button edit-observation-button" title="&lt;b>Edit this sighting&lt;/b> &lt;br />Edit the details of this sighting">
-    Edit
-  </a>
-
-  <a href="/{{Id}}" class="button view-button">View</a>
-</div>-->
 {{/ObservationAdded.Observation}}
 {{#IdentificationAdded}}
 <div class="details">
   {{>ActivityItemIdentificationAdded}}
 </div>
-<!--<div class="actions">
-  <a href="/{{Sighting.Id}}/updateidentification/{{Identification.Id}}" class="button edit-observation-button" title="&lt;b>Edit this identification&lt;/b> &lt;br />Edit the details of this identification">
-    Edit
-  </a>
-
-  <a href="/{{Sighting.Id}}#identification{{Identification.Id}}" class="button view-button">View</a>
-</div>-->
 {{/IdentificationAdded}}
 {{#SightingNoteAdded}}
 <div class="details">
   {{>ActivityItemSightingNoteAdded}}
 </div>
-<!--<div class="actions">
-  <a href="/{{Sighting.Id}}/updatenote/{{SightingNote.Id}}" class="button edit-observation-button" title="&lt;b>Edit this sighting note&lt;/b> &lt;br />Edit the details of this sighting note">
-    Edit
-  </a>    
-  
-  <a href="/{{Sighting.Id}}#note{{SightingNote.Id}}" class="button view-button">View</a>
-</div>-->
 {{/SightingNoteAdded}}
 {{#PostAdded}}
 <div class="details">
@@ -92,3 +59,6 @@
   User joined group
 </div>
 {{/UserJoinedGroup}}
+{{#DeletedActivityItem}}
+<div>{{Message}}</div>
+{{/DeletedActivityItem}}

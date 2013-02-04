@@ -20,7 +20,7 @@ using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
 using Raven.Client.Linq;
-using Bowerbird.Web.Factories;
+using Bowerbird.Core.ViewModelFactories;
 using System.Collections.Generic;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Commands;
@@ -71,11 +71,12 @@ namespace Bowerbird.Web.Hubs
         {
             var chat = _documentSession.Load<Chat>(chatId);
             var users = _documentSession.Load<User>(chat.Users.Select(x => x.Id));
+            var authenticatedUser = GetUserByConnectionId(Context.ConnectionId);
 
             dynamic chatDetails = new ExpandoObject();
 
             chatDetails.ChatId = chat.Id;
-            chatDetails.Users = users.Select(x => _userViewFactory.Make(x));
+            chatDetails.Users = users.Select(x => _userViewFactory.Make(x, authenticatedUser));
 
             if (chat.ChatType == "group")
             {
@@ -86,7 +87,7 @@ namespace Bowerbird.Web.Hubs
                     .ToList()
                     .First();
 
-                chatDetails.Group = _groupViewFactory.Make(group.Group, GetUserByConnectionId(Context.ConnectionId));
+                chatDetails.Group = _groupViewFactory.Make(group.Group, authenticatedUser);
 
                 var chatMessageUsers = _documentSession.Load<User>(chat.Messages.Select(x => x.User.Id).Distinct());
 
@@ -102,7 +103,7 @@ namespace Bowerbird.Web.Hubs
                                             ChatId = chat.Id,
                                             x.Timestamp,
                                             x.Message,
-                                            FromUser = _userViewFactory.Make(chatMessageUsers.Single(y => y.Id == x.User.Id))
+                                            FromUser = _userViewFactory.Make(chatMessageUsers.Single(y => y.Id == x.User.Id), authenticatedUser)
                                         });
             }
 

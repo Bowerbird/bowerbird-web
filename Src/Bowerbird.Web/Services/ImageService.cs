@@ -13,20 +13,17 @@
 */
 
 using System;
-using System.Globalization;
-using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Events;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.Utilities;
 using NLog;
-using NodaTime;
 using Raven.Client;
 
 namespace Bowerbird.Web.Services
@@ -40,7 +37,7 @@ namespace Bowerbird.Web.Services
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
         private readonly IMediaResourceFactory _mediaResourceFactory;
         private readonly IDocumentSession _documentSession;
-        private readonly IMessageBus _messageBus;
+        private readonly IDateTimeZoneService _dateTimeZoneService;
 
         #endregion
 
@@ -50,33 +47,35 @@ namespace Bowerbird.Web.Services
             IMediaFilePathFactory mediaFilePathFactory,
             IMediaResourceFactory mediaResourceFactory,
             IDocumentSession documentSession,
-            IMessageBus messageBus
+            IDateTimeZoneService dateTimeZoneService
             )
         {
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
             Check.RequireNotNull(mediaResourceFactory, "mediaResourceFactory");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(messageBus, "messageBus");
+            Check.RequireNotNull(dateTimeZoneService, "dateTimeZoneService");
 
             _mediaFilePathFactory = mediaFilePathFactory;
             _mediaResourceFactory = mediaResourceFactory;
             _documentSession = documentSession;
-            _messageBus = messageBus;
+            _dateTimeZoneService = dateTimeZoneService;
         }
 
         #endregion
 
         #region Methods
 
-        public bool Save(MediaResourceCreateCommand command, out string failureReason)
+        public bool Save(MediaResourceCreateCommand command, User createdByUser, out string failureReason, out MediaResource mediaResource)
         {
+            failureReason = string.Empty;
+            mediaResource = null;
+
             if (!_documentSession.Load<AppRoot>(Constants.AppRootId).ImageServiceStatus)
             {
                 failureReason = "Image files cannot be uploaded at the moment. Please try again later.";
                 return false;
             }
-
-            MediaResource mediaResource = null;
+            
             ImageUtility image = null;
             bool returnValue;
 
@@ -85,8 +84,6 @@ namespace Bowerbird.Web.Services
                 var imageCreationTasks = new List<ImageCreationTask>();
 
                 image = ImageUtility.Load(command.FileStream);
-
-                var createdByUser = _documentSession.Load<User>(command.UserId);
 
                 if (command.Usage == "contribution")
                 {
@@ -119,23 +116,11 @@ namespace Bowerbird.Web.Services
 
                 image.Save(mediaResource, imageCreationTasks, _mediaFilePathFactory);
 
-                _documentSession.Store(mediaResource);
-                _documentSession.SaveChanges();
-
-                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
-
-                failureReason = string.Empty;
                 returnValue = true;
             }
             catch (Exception exception)
             {
                 _logger.ErrorException("Error saving images", exception);
-
-                if (mediaResource != null)
-                {
-                    _documentSession.Delete(mediaResource);
-                    _documentSession.SaveChanges();
-                }
 
                 failureReason = "The file is corrupted or not a valid JPEG and could not be saved. Please check the file and try again.";
                 returnValue = false;
@@ -230,7 +215,7 @@ namespace Bowerbird.Web.Services
 
             if (exifData.ContainsKey(ExifTags.DateTimeOriginal.ToString()))
             {
-                DateTime convertedDateTime = ConvertDateTime(exifData[ExifTags.DateTimeOriginal.ToString()].ToString(), timezone);
+                DateTime convertedDateTime = _dateTimeZoneService.ExtractDateTimeFromExif(exifData[ExifTags.DateTimeOriginal.ToString()].ToString(), timezone);
 
                 metadata.Add("Created", convertedDateTime.ToString("yyyy-MM-ddTHH:mm:ssZ"));
             }
@@ -260,51 +245,6 @@ namespace Bowerbird.Web.Services
             }
 
             return degrees + (minutes / 60) + (seconds / 3600);
-        }
-
-        /// <summary>
-        /// EXIF DateTime is stored as a string - "yyyy:MM:dd hh:mm:ss" in 24 hour format.
-        /// 
-        /// Since EXIF datetime does not store timezone info, making the time ambiguous, we grab the user's specified timezone
-        /// and assume the image was taken in that timezone.
-        /// 
-        /// If we don't have a parseable datetime, we set the time to now.
-        /// </summary>
-        private DateTime ConvertDateTime(string dateTimeExif, string timezone)
-        {
-            var dateTimeStringComponents = dateTimeExif.Split(new[] { ':', ' ' });
-
-            if (dateTimeExif != string.Empty && dateTimeStringComponents.Count() == 6)
-            {
-                var dateTimeIntComponents = new int[dateTimeStringComponents.Count()];
-
-                for (var i = 0; i < dateTimeStringComponents.Length; i++)
-                {
-                    int convertedSegment;
-                    if (Int32.TryParse(dateTimeStringComponents[i], out convertedSegment))
-                    {
-                        dateTimeIntComponents[i] = convertedSegment;
-                    }
-                }
-
-                // Get data into a local time object (no time zone specified)
-                var localDateTime = new LocalDateTime(
-                        dateTimeIntComponents[0], // year
-                        dateTimeIntComponents[1], // month
-                        dateTimeIntComponents[2], // day
-                        dateTimeIntComponents[3], // hour
-                        dateTimeIntComponents[4], // minute
-                        dateTimeIntComponents[5], // second
-                        CalendarSystem.Iso);
-
-                // Put the local date time into a timezone
-                var zonedDateTime = localDateTime.InZoneLeniently(DateTimeZoneProviders.Tzdb[timezone]);
-
-                // Get the UTC date time of the given local date time in the given time zone
-                return zonedDateTime.WithZone(DateTimeZone.Utc).ToDateTimeUtc();
-            }
-
-            return DateTime.UtcNow;
         }
 
         #endregion

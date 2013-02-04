@@ -20,7 +20,7 @@ using Raven.Client.Linq;
 using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
-using Bowerbird.Web.Factories;
+using Bowerbird.Core.ViewModelFactories;
 using System.Collections.Generic;
 
 namespace Bowerbird.Web.Hubs

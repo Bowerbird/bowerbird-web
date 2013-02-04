@@ -8,9 +8,9 @@
 // OrganisationController & OrganisationRouter
 // -------------------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation', 'collections/organisationcollection', 'collections/activitycollection', 'collections/sightingcollection', 'collections/postcollection',
+define(['jquery', 'underscore', 'backbone', 'app', 'models/organisation', 'collections/organisationcollection', 'collections/activitycollection', 'collections/postcollection',
         'collections/usercollection', 'views/organisationdetailsview', 'views/organisationformview', 'views/organisationexploreview'],
-function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCollection, SightingCollection, PostCollection, UserCollection, OrganisationDetailsView, 
+function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCollection, PostCollection, UserCollection, OrganisationDetailsView, 
     OrganisationFormView, OrganisationExploreView) {
 
     var OrganisationRouter = Backbone.Marionette.AppRouter.extend({
@@ -101,7 +101,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
                 var organisation = new Organisation(model.Organisation);
                 var postCollection = new PostCollection(model.Posts.PagedListItems,
                     { 
-                        groupId: organisation.id,
+                        subId: organisation.id,
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Posts.TotalResultCount,
@@ -130,7 +130,15 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
         $.when(getModel('/organisations/' + id + '/members?sort=' + (params && params.sort ? params.sort : 'a-z')))
         .done(function (model) {
             var organisation = new Organisation(model.Organisation);
-            var userCollection = new UserCollection(model.Users.PagedListItems, { organisationId: organisation.id, page: model.Query.page, pageSize: model.Query.PageSize, total: model.Users.TotalResultCount, viewType: model.Query.View, sortBy: model.Query.Sort });
+            var userCollection = new UserCollection(model.Users.PagedListItems,
+                {
+                    subId: organisation.id,
+                    page: model.Query.page,
+                    pageSize: model.Query.PageSize,
+                    total: model.Users.TotalResultCount,
+                    viewType: model.Query.View, 
+                    sortBy: model.Query.Sort
+                });
 
             if (app.content.currentView instanceof OrganisationDetailsView && app.content.currentView.model.id === organisation.id) {
                 app.content.currentView.showMembers(userCollection);
@@ -222,21 +230,15 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
     // Event Handlers
     // --------------
 
-    app.vent.on('joinOrganisation', function (organisation) {
+    app.vent.on('join-organisation', function (organisation) {
         $.when(getModel('/' + organisation.id + '/members', 'POST'));
     });
 
-    app.vent.on('leaveOrganisation', function (organisation) {
+    app.vent.on('leave-organisation', function (organisation) {
         $.when(getModel('/' + organisation.id + '/members', 'DELETE'))
             .done(function (model) {
                 app.authenticatedUser.organisations.remove(organisation.id);
             });
-    });
-
-    app.vent.on('organisationAdded:', function (organisation) {
-        if (OrganisationController.organisationCollection) {
-            OrganisationController.organisationCollection.add(organisation);
-        }
     });
 
     app.addInitializer(function () {

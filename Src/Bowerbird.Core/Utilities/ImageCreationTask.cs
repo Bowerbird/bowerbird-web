@@ -13,7 +13,6 @@
 */
 
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Factories;
 
 namespace Bowerbird.Core.Utilities
 {

@@ -5,7 +5,8 @@
 */
 .activity-list .activity-item,
 .sighting-item,
-.post-item
+.post-item,
+.user-item
 {
     background-color: rgb(255, 255, 255);
     border-radius: 2px 2px 2px 2px;
@@ -503,7 +504,7 @@ ul.explore-menu
     line-height: 1.1em;
     width: 40%;
 }
-.sighting-summary-details h3 span {
+.sighting-summary-details h3 > span {
     color: rgb(187, 187, 187);
     display: block;
     font-size: 0.75em;
@@ -518,6 +519,9 @@ ul.explore-menu
 .sighting-summary-details h3 a:visited {
     color: rgb(34, 34, 34);
     text-decoration: none;
+}
+.sighting-summary-details h3 .small-category-icon {
+    margin-top: -2px;
 }
 .sighting-summary-details .images {
     display: inline-block;
@@ -626,6 +630,12 @@ ul.explore-menu
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;    
+}
+.tile-sighting-details h3 a .small-category-icon {
+    display: inline-block;
+    margin-right: 2px;
+    margin-top: -3px;
+    top: -2px;
 }
 .tile-sighting-details .images {
     display: block;
@@ -741,7 +751,7 @@ ul.explore-menu
 
 
 
-.tile-user-details {
+/*.tile-user-details {
     background-color: rgb(249, 249, 249);
     border-radius: 6px 6px 6px 6px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
@@ -818,14 +828,15 @@ ul.explore-menu
 .tile-user-details .actions .view-button {
     float: right;
     margin: 0;
-}
+}*/
 
 
 
 
-/*** Project & Organisation tile ****/
+/*** User, Project & Organisation tile ****/
 .tile-project-details,
-.tile-organisation-details 
+.tile-organisation-details,
+.tile-user-details
 {
     background-color: rgb(255, 255, 255);
     border-radius: 2px 2px 2px 2px;
@@ -835,14 +846,17 @@ ul.explore-menu
     margin-bottom: 1.5%;
     margin-right: 1.5%;
     width: 32.3333%;
+    position: relative;
 }
 .tile-project-details:nth-child(3n),
-.tile-organisation-details:nth-child(3n) 
+.tile-organisation-details:nth-child(3n),
+.tile-user-details:nth-child(3n)
 {
     margin-right: 0;
 }
 .tile-project-details h3,
-.tile-organisation-details h3 
+.tile-organisation-details h3,
+.tile-user-details h3 
 {
     background-color: rgb(249, 249, 249);
     border-bottom: 1px solid rgb(221, 221, 221);
@@ -858,7 +872,11 @@ ul.explore-menu
 .tile-organisation-details h3 a, 
 .tile-organisation-details h3 a:hover, 
 .tile-organisation-details h3 a:active, 
-.tile-organisation-details h3 a:visited 
+.tile-organisation-details h3 a:visited,
+.tile-user-details h3 a, 
+.tile-user-details h3 a:hover, 
+.tile-user-details h3 a:active, 
+.tile-user-details h3 a:visited 
 {
     color: rgb(34, 34, 34);
     display: block;
@@ -872,7 +890,8 @@ ul.explore-menu
     white-space: nowrap;  
 }
 .tile-project-details .avatar,
-.tile-organisation-details .avatar 
+.tile-organisation-details .avatar,
+.tile-user-details .avatar 
 {
     display: block;
     float: left;
@@ -882,7 +901,8 @@ ul.explore-menu
     width: 48.5%;
 }
 .tile-project-details .description,
-.tile-organisation-details .description 
+.tile-organisation-details .description,
+.tile-user-details .description 
 {
     display: block;
     float: left;
@@ -896,55 +916,49 @@ ul.explore-menu
     width: 100%;
 }
 
-.tile-organisation-details .description 
+.tile-organisation-details .description
 {
     height: 86px;
     margin-top: 0.5em;
     width: 51%;
 }
+.tile-user-details .description {
+    display: none;
+}
 .tile-project-details .categories,
-.tile-organisation-details .categories 
+.tile-organisation-details .categories
 {
     display: block;
     float: left;
-    height: 32px;
+    height: 27px;
     list-style: none outside none;
+    margin-bottom: 0.5em;
+    overflow: hidden;
     padding-left: 0.5em;
     padding-right: 0.5em;
+    white-space: nowrap;
     width: 100%;
 }
-.tile-project-details .categories img,
-.tile-organisation-details .categories img 
+.tile-project-details .sightings,
+.tile-user-details .sightings 
 {
-    width: 100%;
-}
-.tile-project-details .categories > li,
-.tile-organisation-details .categories > li 
-{
-    display: block;
-    float: left;
-    margin-right: 1.5%;
-    width: 9.7777%;
-}
-.tile-project-details .categories > li:nth-child(9n),
-.tile-organisation-details .categories > li:nth-child(9n)
-{
-    margin-right: 0;
-}
-.tile-project-details .sightings {
     display: block;
     float: left;
     padding: 0.5em 0.5em 0;
     width: 51.5%;
 }
-.tile-project-details .sightings > li {
+.tile-project-details .sightings > li,
+.tile-user-details .sightings > li 
+{
     display: block;
     float: left;
     margin-bottom: 2%;
     margin-right: 2%;
     width: 49%;
 }
-.tile-project-details .sightings > li.no-sightings {
+.tile-project-details .sightings > li.no-sightings,
+.tile-user-details .sightings > li.no-sightings 
+{
     color: rgb(102, 102, 102);
     font-size: 0.8em;
     margin-top: 36%;
@@ -952,11 +966,14 @@ ul.explore-menu
     width: 100%;
     line-height: 1.3em;
 }
-.tile-project-details .sightings > li:nth-child(2n) {
+.tile-project-details .sightings > li:nth-child(2n),
+.tile-user-details .sightings > li:nth-child(2n) 
+{
     margin-right: 0;
 }
 .tile-project-details .info,
-.tile-organisation-details .info 
+.tile-organisation-details .info,
+.tile-user-details .info 
 {
     float: left;
     padding: 0 0.5em 0.5em;
@@ -976,29 +993,51 @@ ul.explore-menu
     line-height: 1.1em;
     width: 100%;
 }*/
-.tile-project-details .actions {
-    background-color: rgb(249, 249, 249);
-    border-radius: 0 0 4px 4px;
-    margin-top: 6px;
-    width: 100%;
+.tile-user-details .actions,
+.tile-project-details .actions, 
+.tile-organisation-details .actions 
+{
+    bottom: 0.5em;
+    display: block;
+    line-height: 0;
+    position: absolute;
+    right: 0.5em;
+    text-align: right;
+    width: 32%;
 }
-.tile-project-details .actions .button {
+.tile-user-details .actions .button,
+.tile-project-details .actions .button,
+.tile-organisation-details .actions .button 
+{
     display: inline-block;
-    padding: 0;
-    position: relative;
-    vertical-align: top;
-}
-.tile-project-details .actions a.join-project-button,
-.tile-project-details .actions a.leave-project-button,
-.tile-project-details .actions .view-button {
     font-size: 0.8em;
-    line-height: 1;
-    margin-right: 3px;
-    padding: 5px 10px;
-}
-.tile-project-details .actions .view-button {
-    float: right;
+    line-height: 1.55em;
     margin: 0;
+    padding: 0 10px;
+}
+.tile-user-details .actions .button.follow-button,
+.tile-user-details .actions .button.unfollow-button,
+.tile-project-details .actions .button.join-button,
+.tile-project-details .actions .button.leave-button,
+.tile-organisation-details .actions .button.join-button,
+.tile-organisation-details .actions .button.leave-button
+{
+    background-color: #1dadff;
+    text-shadow: 0 -1px 0 rgba(19, 58, 104, 0.8);
+}
+.tile-user-details .actions .button.follow-button:hover,
+.tile-project-details .actions .button.join-button:hover,
+.tile-organisation-details .actions .button.join-button:hover
+{
+    background-color: #64b651;
+    border-color: #397834;
+}
+.tile-user-details .actions .button.unfollow-button:hover,
+.tile-project-details .actions .button.leave-button:hover,
+.tile-organisation-details .actions .button.leave-button:hover 
+{
+    background-color: #e04c4c;
+    border-color: #841c1c;
 }
 /*
 *

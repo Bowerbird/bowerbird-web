@@ -67,6 +67,9 @@
     line-height: 1.5em;
     padding: 4px 22px;
 }
+.activity-item .small-category-icon {
+    margin-right: 2px;
+}
 .activity-item .actions .view-button {
     float: right;
     margin: 0;
@@ -481,6 +484,7 @@
     box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
     display: block;
     float: left;
+    width: 100%;
 }
 .project-about h4,
 .organisation-about h4 {
@@ -611,7 +615,8 @@
 }
 /****************************************/
 .projects .details,
-.organisations .details
+.organisations .details,
+.users .details
 {
     float: left;
     width: 100%;
@@ -620,7 +625,8 @@
 .projects .project-list,
 .organisations .organisation-list,
 .sightings .sighting-list,
-.favourites .sighting-list
+.favourites .sighting-list,
+.users .sighting-list
 {
     float: left;
     width: 100%;
@@ -628,7 +634,8 @@
 .projects .search,
 .organisations .search,
 .sightings .search,
-.favourites .search
+.favourites .search,
+.users .search
 {
     padding-top: 44px;
 }
@@ -1227,16 +1234,33 @@ OBSERVATION FULL DETAILS
 .favourites-panel,
 .identify-panel,
 .describe-panel,
-.comment-panel 
+.comment-panel
 {
     background-color: rgb(251, 251, 251);
     border: 1px solid rgb(221, 221, 221);
     border-radius: 2px 2px 2px 2px;
     float: left;
-    height: 79px;
+    height: 56px;
     margin-right: 2%;
     padding: 4px;
     width: 69px;
+}
+.edit-panel
+{
+    float: left;
+    height: 56px;
+    margin-right: 2%;
+    padding: 4px;
+    width: 69px;
+}
+.vote-panel.with-buttons,
+.favourites-panel.with-buttons,
+.identify-panel.with-buttons,
+.describe-panel.with-buttons,
+.comment-panel.with-buttons,
+.edit-panel.with-buttons 
+{
+    height: 79px;
 }
 .vote-panel,
 .favourites-panel
@@ -1286,8 +1310,8 @@ OBSERVATION FULL DETAILS
     padding-right: 6px;
     text-align: center;
 }
-.vote-panel .vote-score.user-vote-score1,
-.vote-panel .vote-score.user-vote-score-1 {
+.vote-panel.with-buttons .vote-score.user-vote-score1,
+.vote-panel.with-buttons .vote-score.user-vote-score-1 {
     background-color: rgb(109, 173, 118);
     color: rgb(255, 255, 255);
 }
@@ -1308,6 +1332,7 @@ OBSERVATION FULL DETAILS
     height: 41px;
     margin: 0 auto;
     width: 41px;
+    padding-bottom: 2px;
 }
 .favourites-panel .favourites-button:hover 
 {
@@ -1326,10 +1351,12 @@ OBSERVATION FULL DETAILS
     font-size: 0.9em;
     font-weight: 700;
     line-height: 1em;
-    padding-top: 2px;
     text-align: center;
 }
-.favourites-panel .favourites-label 
+.favourites-panel .favourites-label {
+    display: none;
+}
+.favourites-panel.with-buttons .favourites-label 
 {
     color: rgb(102, 102, 102);
     display: block;
@@ -1341,6 +1368,15 @@ OBSERVATION FULL DETAILS
 .identify-panel .identify-icon {
     background-image: url("/img/icons.png");
     background-position: -391px -130px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.favourites-panel .favourites-star {
+    background-image: url("/img/icons.png");
+    background-position: -343px -130px;
     background-size: 1500% auto;
     display: block;
     height: 30px;
@@ -1377,7 +1413,8 @@ OBSERVATION FULL DETAILS
 }
 .identify-panel .add-identification-button,
 .describe-panel .add-note-button,
-.comment-panel .add-comment-button {
+.comment-panel .add-comment-button,
+.edit-panel .edit-button {
     display: block;
     font-size: 0.8em;
     line-height: 1.5em;
@@ -1395,7 +1432,9 @@ BADGES
 .notes-badge,
 .comments-badge,
 .users-badge,
-.sightings-badge 
+.sightings-badge ,
+.projects-badge,
+.organisations-badge
 {
     background-color: rgb(251, 251, 251);
     border: 1px solid rgb(221, 221, 221);
@@ -1412,7 +1451,9 @@ BADGES
 .notes-badge.small,
 .comments-badge.small,
 .users-badge.small,
-.sightings-badge.small
+.sightings-badge.small,
+.projects-badge.small,
+.organisations-badge.small
 {
     line-height: 0.01em;
     padding: 0 6px 3px;
@@ -1427,7 +1468,9 @@ BADGES
 .notes-badge .small-icon,
 .comments-badge .small-icon,
 .users-badge .small-icon,
-.sightings-badge .small-icon
+.sightings-badge .small-icon,
+.projects-badge .small-icon,
+.organisations-badge .small-icon
 {
     display: block;
     margin: 0 auto;
@@ -1438,7 +1481,9 @@ BADGES
 .notes-badge.small .small-icon,
 .comments-badge.small .small-icon,
 .users-badge.small .small-icon,
-.sightings-badge.small .small-icon
+.sightings-badge.small .small-icon,
+.projects-badge.small .small-icon,
+.organisations-badge.small .small-icon
 {
     display: inline-block;
 }
@@ -1448,13 +1493,15 @@ BADGES
 .notes-badge .count,
 .comments-badge .count,
 .users-badge .count,
-.sightings-badge .count
+.sightings-badge .count,
+.projects-badge .count,
+.organisations-badge .count
 {
     display: block;
     font-size: 0.8em;
     font-weight: 600;
     line-height: 1em;
-    margin-top: 8px;
+    margin-top: 5px;
     text-align: center;
     width: 100%;
 }
@@ -1464,7 +1511,9 @@ BADGES
 .notes-badge.small .count,
 .comments-badge.small .count,
 .users-badge.small .count,
-.sightings-badge.small .count
+.sightings-badge.small .count,
+.projects-badge.small .count,
+.organisations-badge.small .count
 {
     display: inline-block;
     margin: 0;
@@ -1476,7 +1525,9 @@ BADGES
 .notes-badge .label,
 .comments-badge .label,
 .users-badge .label ,
-.sightings-badge .label
+.sightings-badge .label,
+.projects-badge .label,
+.organisations-badge .label
 {
     color: rgb(119, 119, 119);
     display: block;
@@ -1491,7 +1542,9 @@ BADGES
 .notes-badge.small .label,
 .comments-badge.small .label,
 .users-badge.small .label,
-.sightings-badge .label
+.sightings-badge .label,
+.projects-badge .label,
+.organisations-badge .label
 {
     display: none;
 }

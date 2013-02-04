@@ -22,7 +22,7 @@ using NLog;
 using Raven.Client;
 using System.Threading;
 using System.IO;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 
 namespace Bowerbird.Core.Config
 {
@@ -31,10 +31,10 @@ namespace Bowerbird.Core.Config
         #region Members
 
         private Logger _logger = LogManager.GetLogger("SetupSystem");
-        private const int _testImportLimit = 3000; // In test mode, the max number of species to import per kingdom
+        private const int _testImportLimit = 300; // In test mode, the max number of species to import per kingdom
 
 #if DEBUG
-        private bool _testImport = true;
+        private bool _testImport = false;
 #else
         private bool _testImport = false;
 #endif
@@ -261,21 +261,11 @@ namespace Bowerbird.Core.Config
                         PermissionNames.Chat);
                 AddRole("userprojectadministrator", "User Project Administrator", "Administrator of a user project",
                         documentSession,
-                        PermissionNames.UpdateProject,
-                        PermissionNames.CreatePost,
-                        PermissionNames.UpdatePost,
-                        PermissionNames.DeletePost);
-                AddRole("userprojectmember", "User Project Member", "Member of a user project",
-                        documentSession,
                         PermissionNames.CreateObservation,
                         PermissionNames.UpdateObservation,
-                        PermissionNames.DeleteObservation,
-                        PermissionNames.CreatePost,
-                        PermissionNames.UpdatePost,
-                        PermissionNames.DeletePost,
-                        PermissionNames.CreateSightingNote,
-                        PermissionNames.UpdateSightingNote,
-                        PermissionNames.DeleteSightingNote);
+                        PermissionNames.DeleteObservation);
+                AddRole("userprojectmember", "User Project Member", "Member of a user project",
+                        documentSession);
 
                 documentSession.SaveChanges();
             }

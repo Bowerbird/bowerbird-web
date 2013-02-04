@@ -115,6 +115,7 @@ function ($, _, Backbone, app, ich, ProjectItemView) {
             }
 
             this.$el.find('.sort-button .tab-list-selection').empty().text(label);
+            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy.revalidate();
         },
 
         refresh: function () {

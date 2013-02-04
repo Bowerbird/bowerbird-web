@@ -10,16 +10,11 @@
  
 */
 
-using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using System;
-using Raven.Client.Linq;
-using Bowerbird.Core.Factories;
-using Bowerbird.Core.Config;
-using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -53,20 +48,22 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            var userResult = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .Where(x => x.UserId == command.UserId)
-                .First();
+            var user = _documentSession.Load<User>(command.UserId);
+            var favourites = _documentSession.Load<Favourites>(user.Favourites.Id);
+            Sighting sighting = null;
 
-            var sighting = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .Where(x => x.ParentContributionId == command.SightingId && (x.ParentContributionType == "observation" || x.ParentContributionType == "record"))
-                .First()
-                .Contribution as Sighting;
+            if (command.SightingId.ToLower().StartsWith("observation"))
+            {
+                sighting = _documentSession.Load<Observation>(command.SightingId);
+            }
+            else
+            {
+                sighting = _documentSession.Load<Record>(command.SightingId);
+            }
 
             sighting.AddToFavourites(
-                userResult.Groups.First(x => x.GroupType == "favourites") as Favourites, 
-                userResult.User, 
+                favourites, 
+                user, 
                 DateTime.UtcNow);
 
             _documentSession.Store(sighting);

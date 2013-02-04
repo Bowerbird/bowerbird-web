@@ -29,7 +29,7 @@ function ($, _, Backbone, ich, app) {
                 Model: {
                     FieldSelectList: this.fieldSelectList,
                     Query: {
-                        Id: this.postCollection.groupId ? this.postCollection.groupId : null,
+                        Id: this.postCollection.subId,
                         Page: this.postCollection.pageSize,
                         PageSize: this.postCollection.page,
                         View: this.postCollection.viewType,

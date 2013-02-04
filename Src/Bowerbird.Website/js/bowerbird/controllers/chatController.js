@@ -33,6 +33,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
         this.joinChat = function (chatId, userIds, groupId) {
             log('app.chatRouter.joinChat:' + chatId + ' userIds:' + userIds + ' groupId:' + groupId);
+            log('here........................4 ' + chatId);
             this.chatHub.joinChat(chatId, userIds, groupId);
         };
 
@@ -97,6 +98,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Chat joined
     var chatJoined = function (chatDetails) {
+        log('here........................5 ', chatDetails);
         var chat = app.chats.get(chatDetails.ChatId);
 
         // Chat might not exist if this is a group chat and the user has not received any messages on a secondary browser session
@@ -120,6 +122,11 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // User joined group chat 
     var userJoinedChat = function (details) {
         var chat = app.chats.get(details.ChatId);
+        
+        if (chat == null) {
+            chat = showChat(details.ChatId, [details.FromUser ], [], null);
+        }
+
         chat.chatUsers.add(details.FromUser);
         // Only add other users' joining messages
         if (details.FromUser.Id !== app.authenticatedUser.user.id && chat.chatType() === 'group') {
@@ -127,7 +134,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         }
     };
 
-    // User existed group chat
+    // User exited group chat
     var userExitedChat = function (details) {
         var chat = app.chats.get(details.ChatId);
         chat.chatUsers.remove(chat.chatUsers.get(details.FromUser.Id));
@@ -169,7 +176,9 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     // User is typing a message status
     var userIsTyping = function (typingDetails) {
         var chat = app.chats.get(typingDetails.ChatId);
-        chat.chatUsers.get(typingDetails.UserId).set('IsTyping', typingDetails.IsTyping);
+        if (chat != null) {
+            chat.chatUsers.get(typingDetails.UserId).set('IsTyping', typingDetails.IsTyping);
+        }
     };
 
     // ChatController Public API
@@ -179,9 +188,11 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
 
     // Initiate a new private chat
     ChatController.startPrivateChat = function (user) {
+        log('here........................2');
         log('ChatController.startPrivateChat:');
         // Check to see if we have this user in a one-on-one private chat already
         var chatId = generateChatId([app.authenticatedUser.user.id, user.id]);
+        log('here........................3 ' + chatId);
         log('ChatController.startPrivateChat:' + chatId);
         var chat = app.chats.find(function (c) { return c.id == chatId; }, this);
         if (app.authenticatedUser.user.id != user.id && !chat) { // can't chat with self!
@@ -233,6 +244,7 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
     });
 
     app.vent.on('chats:startPrivateChat', function (user) {
+        log('here........................1');
         ChatController.startPrivateChat(user);
     });
 

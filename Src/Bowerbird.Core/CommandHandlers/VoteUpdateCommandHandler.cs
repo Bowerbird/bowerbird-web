@@ -13,10 +13,8 @@
 */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;

@@ -14,14 +14,10 @@
  
 */
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Raven.Client.Linq;
-using Bowerbird.Core.Repositories;
 
 namespace Bowerbird.Core.Config
 {

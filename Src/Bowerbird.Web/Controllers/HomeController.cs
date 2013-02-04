@@ -20,8 +20,8 @@ using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.ViewModels;
-using Bowerbird.Web.Builders;
+using Bowerbird.Core.ViewModels;
+using Bowerbird.Core.Queries;
 using System;
 using System.Dynamic;
 using Raven.Client;
@@ -35,11 +35,11 @@ namespace Bowerbird.Web.Controllers
 
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
-        private readonly IActivityViewModelBuilder _activityViewModelBuilder;
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
-        private readonly IUserViewModelBuilder _userViewModelBuilder;
+        private readonly IActivityViewModelQuery _activityViewModelQuery;
+        private readonly ISightingViewModelQuery _sightingViewModelQuery;
+        private readonly IUserViewModelQuery _userViewModelQuery;
         private readonly IDocumentSession _documentSession;
-        private readonly IPostViewModelBuilder _postViewModelBuilder;
+        private readonly IPostViewModelQuery _postViewModelQuery;
 
         #endregion
 
@@ -48,28 +48,28 @@ namespace Bowerbird.Web.Controllers
         public HomeController(
             IMessageBus messageBus,
             IUserContext userContext,
-            IActivityViewModelBuilder activityViewModelBuilder,
-            ISightingViewModelBuilder sightingViewModelBuilder,
-            IUserViewModelBuilder userViewModelBuilder,
+            IActivityViewModelQuery activityViewModelQuery,
+            ISightingViewModelQuery sightingViewModelQuery,
+            IUserViewModelQuery userViewModelQuery,
             IDocumentSession documentSession,
-            IPostViewModelBuilder postViewModelBuilder
+            IPostViewModelQuery postViewModelQuery
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(activityViewModelBuilder, "activityViewModelBuilder");
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
-            Check.RequireNotNull(userViewModelBuilder, "userViewModelBuilder");
+            Check.RequireNotNull(activityViewModelQuery, "activityViewModelQuery");
+            Check.RequireNotNull(sightingViewModelQuery, "sightingViewModelQuery");
+            Check.RequireNotNull(userViewModelQuery, "userViewModelQuery");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(postViewModelBuilder, "postViewModelBuilder");
+            Check.RequireNotNull(postViewModelQuery, "postViewModelQuery");
 
             _messageBus = messageBus;
             _userContext = userContext;
-            _activityViewModelBuilder = activityViewModelBuilder;
-            _sightingViewModelBuilder = sightingViewModelBuilder;
-            _userViewModelBuilder = userViewModelBuilder;
+            _activityViewModelQuery = activityViewModelQuery;
+            _sightingViewModelQuery = sightingViewModelQuery;
+            _userViewModelQuery = userViewModelQuery;
             _documentSession = documentSession;
-            _postViewModelBuilder = postViewModelBuilder;
+            _postViewModelQuery = postViewModelQuery;
         }
 
         #endregion
@@ -105,8 +105,8 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Activities = _activityViewModelBuilder.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Activities = _activityViewModelQuery.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
             viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
             viewModel.ShowActivities = true;
 
@@ -160,11 +160,12 @@ namespace Bowerbird.Web.Controllers
             queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Sightings = _sightingViewModelBuilder.BuildHomeSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Sightings = _sightingViewModelQuery.BuildHomeSightingList(_userContext.GetAuthenticatedUserId(), queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
                 {
+                    Id = "home", // We set the id to home, so that the mustache sightings list creates correct sorting URL
                     queryInput.Page,
                     queryInput.PageSize,
                     queryInput.Sort,
@@ -242,10 +243,11 @@ namespace Bowerbird.Web.Controllers
             queryInput.Field = queryInput.Field ?? string.Empty;
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Posts = _postViewModelBuilder.BuildHomePostList(_userContext.GetAuthenticatedUserId(), queryInput);
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Posts = _postViewModelQuery.BuildHomePostList(_userContext.GetAuthenticatedUserId(), queryInput);
             viewModel.Query = new
             {
+                Id = "home", // We set the id to home, so that the mustache sightings list creates correct sorting URL
                 queryInput.Page,
                 queryInput.PageSize,
                 queryInput.Sort,
@@ -316,8 +318,8 @@ namespace Bowerbird.Web.Controllers
             queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelBuilder.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Sightings = _sightingViewModelBuilder.BuildGroupSightingList(userResult.User.UserProject.Id, queryInput);
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+            viewModel.Sightings = _sightingViewModelQuery.BuildGroupSightingList(userResult.User.UserProject.Id, queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Query = new
             {

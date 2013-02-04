@@ -17,10 +17,8 @@
 using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Repositories;
+using Bowerbird.Core.DomainModels;
 using Raven.Client;
-using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -50,20 +48,16 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(UserRequestPasswordResetCommand userRequestPasswordResetCommand)
+        public void Handle(UserRequestPasswordResetCommand command)
         {
-            Check.RequireNotNull(userRequestPasswordResetCommand, "userRequestPasswordResetCommand");
+            Check.RequireNotNull(command, "command");
 
-            var user = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.Email == userRequestPasswordResetCommand.Email)
-                .First()
-                .User;
+            var user = _documentSession.Query<User>().Single(x => x.Email == command.Email);
             
             user.RequestPasswordReset();
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

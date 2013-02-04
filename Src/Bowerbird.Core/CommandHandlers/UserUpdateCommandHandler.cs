@@ -18,8 +18,7 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Extensions;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using Raven.Client;
 using Bowerbird.Core.Config;
 
@@ -80,6 +79,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             _documentSession.Store(user);
             _documentSession.Store(userProject);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

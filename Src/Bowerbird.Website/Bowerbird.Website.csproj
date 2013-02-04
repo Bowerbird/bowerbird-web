@@ -101,28 +101,12 @@
     <Reference Include="RouteDebugger">
       <HintPath>..\..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
-    <Reference Include="System.Web.Helpers" />
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
-    <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="403.html" />
@@ -183,19 +167,22 @@
     <Content Include="js\bowerbird\collections\chatMessageCollection.js" />
     <Content Include="js\bowerbird\collections\chatCollection.js" />
     <Content Include="js\bowerbird\collections\commentCollection.js" />
+    <Content Include="js\bowerbird\collections\userProjectCollection.js" />
     <Content Include="js\bowerbird\collections\postCollection.js" />
     <Content Include="js\bowerbird\collections\identificationCollection.js" />
     <Content Include="js\bowerbird\collections\sightingNoteCollection.js" />
     <Content Include="js\bowerbird\collections\sightingCollection.js" />
     <Content Include="js\bowerbird\collections\observationMediaCollection.js" />
-    <Content Include="js\bowerbird\collections\referenceSpeciesCollection.js" />
     <Content Include="js\bowerbird\collections\speciesCollection.js" />
     <Content Include="js\bowerbird\collections\organisationCollection.js" />
-    <Content Include="js\bowerbird\collections\teamCollection.js" />
     <Content Include="js\bowerbird\controllers\activityController.js" />
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
-    <Content Include="js\bowerbird\views\userItemViewNEW.js" />
+    <Content Include="js\bowerbird\geospatial.js" />
+    <Content Include="js\bowerbird\models\userProject.js" />
+    <Content Include="js\bowerbird\views\geospatialFormView.js" />
+    <Content Include="js\bowerbird\views\sidebarUserProjectItemView.js" />
+    <Content Include="js\bowerbird\views\userItemView.js" />
     <Content Include="js\bowerbird\views\userSearchPanelView.js" />
     <Content Include="js\bowerbird\views\userAboutView.js" />
     <Content Include="js\bowerbird\views\userExploreView.js" />
@@ -223,10 +210,8 @@
     <Content Include="js\bowerbird\controllers\debugController.js" />
     <Content Include="js\bowerbird\controllers\postController.js" />
     <Content Include="js\bowerbird\controllers\homeController.js" />
-    <Content Include="js\bowerbird\controllers\referenceSpeciesController.js" />
     <Content Include="js\bowerbird\controllers\speciesController.js" />
     <Content Include="js\bowerbird\controllers\organisationController.js" />
-    <Content Include="js\bowerbird\controllers\teamController.js" />
     <Content Include="js\bowerbird\controllers\projectController.js" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="js\bowerbird\app.js" />
@@ -245,10 +230,8 @@
     <Content Include="js\bowerbird\models\observationMedia.js" />
     <Content Include="js\bowerbird\models\record.js" />
     <Content Include="js\bowerbird\models\post.js" />
-    <Content Include="js\bowerbird\models\referenceSpecies.js" />
     <Content Include="js\bowerbird\models\species.js" />
     <Content Include="js\bowerbird\models\organisation.js" />
-    <Content Include="js\bowerbird\models\team.js" />
     <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
@@ -286,24 +269,19 @@
     <Content Include="js\bowerbird\views\userFormView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
-    <Content Include="js\bowerbird\views\teamItemView.js" />
-    <Content Include="js\bowerbird\views\teamLayoutView.js" />
-    <Content Include="js\bowerbird\views\teamCollectionView.js" />
     <Content Include="js\bowerbird\views\homePublicView.js" />
     <Content Include="js\bowerbird\views\projectItemView.js" />
     <Content Include="js\bowerbird\views\projectListView.js" />
     <Content Include="js\bowerbird\views\notificationItemView.js" />
     <Content Include="js\bowerbird\views\notificationsCompositeView.js" />
     <Content Include="js\bowerbird\views\sidebarMenuGroupView.js" />
-    <Content Include="js\bowerbird\views\userItemView.js" />
-    <Content Include="js\bowerbird\views\onlineUsersView.js" />
+    <Content Include="js\bowerbird\views\onlineUserItemView.js" />
+    <Content Include="js\bowerbird\views\onlineUserListView.js" />
     <Content Include="js\bowerbird\views\sidebarOrganisationItemView.js" />
     <Content Include="js\bowerbird\views\postFormView.js" />
     <Content Include="js\bowerbird\views\homePrivateView.js" />
-    <Content Include="js\bowerbird\views\referenceSpeciesFormLayoutView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
     <Content Include="js\bowerbird\views\organisationFormView.js" />
-    <Content Include="js\bowerbird\views\teamFormLayoutView.js" />
     <Content Include="js\bowerbird\views\dummyOverlayView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\locationFormView.js" />
@@ -350,7 +328,6 @@
     <Content Include="js\bowerbird\views\headerView.js" />
     <Content Include="js\bowerbird\views\sidebarView.js" />
     <Content Include="js\bowerbird\views\projectDetailsView.js" />
-    <Content Include="js\bowerbird\controllers\groupUserController.js" />
     <Content Include="js\libs\jquery\jquery-1.7.2.js" />
     <Content Include="js\libs\moment\moment.js" />
     <Content Include="js\libs\require\async.js" />
@@ -388,7 +365,6 @@
     <Content Include="Views\Projects\List.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\ReferenceSpecies\Create.mustache" />
     <Content Include="Views\Shared\HomePrivateIndex.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -402,7 +378,6 @@
     <Content Include="Views\Shared\ActivityItem.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\ReferenceSpeciesCreate.mustache" />
     <Content Include="Views\Shared\SpeciesCreate.mustache" />
     <Content Include="Views\Shared\Observation.mustache">
       <SubType>Designer</SubType>
@@ -472,9 +447,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\PostReplyForm.mustache" />
-    <Content Include="Views\Shared\UserItem.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Records\Create.mustache" />
     <Content Include="Views\Records\Index.mustache" />
     <Content Include="Views\Records\Update.mustache" />
@@ -576,9 +548,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\StreamLoading.mustache" />
-    <Content Include="Views\Shared\SightingNoteFullDetails.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\SightingSummaryDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -613,19 +582,16 @@
     <Content Include="Views\Shared\ActivityItemIdentificationAdded.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\IdentificationFullDetails.mustache">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="Views\Shared\ActivityItemSightingAdded.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\SightingFullFullDetails.mustache">
+    <Content Include="Views\Shared\SightingFullDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\SightingNoteFullFullDetails.mustache">
+    <Content Include="Views\Shared\SightingNoteFullDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Views\Shared\IdentificationFullFullDetails.mustache">
+    <Content Include="Views\Shared\IdentificationFullDetails.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\SightingListItem.mustache">
@@ -664,7 +630,6 @@
     <Content Include="Views\Home\Favourites.mustache">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="Views\ReferenceSpecies\Update.mustache" />
     <Content Include="Views\Shared\SightingSearchPanel.mustache">
       <SubType>Designer</SubType>
     </Content>
@@ -704,6 +669,16 @@
     <Content Include="Views\Shared\UserSearchPanel.mustache">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Shared\OnlineUserItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\Buttons.mustache" />
+    <Content Include="Views\Shared\SidebarUserProjectItem.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\GeospatialForm.mustache" />
+    <Content Include="Views\Shared\ValidationSummary.mustache" />
+    <Content Include="Views\Observations\UpdateIdentification.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

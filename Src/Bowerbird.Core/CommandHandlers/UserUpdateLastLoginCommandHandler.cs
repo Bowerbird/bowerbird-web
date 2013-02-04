@@ -18,7 +18,6 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Core.Repositories;
 using Raven.Client;
 using Raven.Client.Linq;
 

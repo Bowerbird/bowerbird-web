@@ -16,12 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Commands;
-using Bowerbird.Core.Extensions;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Raven.Client;
 using Raven.Client.Linq;
-using Bowerbird.Core.Indexes;
 
 namespace Bowerbird.Core.CommandHandlers
 {
@@ -57,6 +55,8 @@ namespace Bowerbird.Core.CommandHandlers
             Check.RequireNotNull(command, "command");
 
             List<MediaResource> mediaResources;
+            var user = _documentSession.Load<User>(command.UserId);
+            var userProject = _documentSession.Load<UserProject>(user.UserProject.Id);
 
             // the presumption here is that there is either media referenced by mediaresourceid or key.
             bool mediaByResourceId = command.Media.Any(x => x.MediaResourceId != null);
@@ -77,26 +77,11 @@ namespace Bowerbird.Core.CommandHandlers
                     .ToList();
             }
 
-            var userProject = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == command.UserId)
-                .First()
-                .UserProjects
-                .First();
-
-            var user = _documentSession.Load<User>(command.UserId);
-
             IEnumerable<Project> projects = new List<Project>();
 
-            if (command.Projects != null && command.Projects.Count() > 0)
+            if (command.Projects != null && command.Projects.Any())
             {
-                projects = _documentSession
-                    .Query<All_Groups.Result, All_Groups>()
-                    .AsProjection<All_Groups.Result>()
-                    .Where(x => x.GroupId.In(command.Projects))
-                    .ToList()
-                    .Select(x => x.Project);
+                projects = _documentSession.Load<Project>(command.Projects);
             }
 
             // Ensure at least one media set as primary

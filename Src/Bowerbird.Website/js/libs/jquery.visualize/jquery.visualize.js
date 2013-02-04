@@ -1,3 +1,4 @@
+define(['jquery'], function ($) {
 /*
 * --------------------------------------------------------------------
 * jQuery inputToButton plugin
@@ -459,4 +460,7 @@
         }).next(); //returns canvas(es)
     };
 })(jQuery);
+    
+
+});
 

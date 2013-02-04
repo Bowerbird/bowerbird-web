@@ -14,10 +14,10 @@
  
 */
 
+using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Repositories;
 using Raven.Client;
 
 namespace Bowerbird.Core.CommandHandlers
@@ -48,25 +48,29 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(UserUpdatePasswordCommand userUpdatePasswordCommand)
+        public void Handle(UserUpdatePasswordCommand command)
         {
-            Check.RequireNotNull(userUpdatePasswordCommand, "userUpdatePasswordCommand");
+            Check.RequireNotNull(command, "command");
 
             User user = null;
 
-            if (!string.IsNullOrWhiteSpace(userUpdatePasswordCommand.ResetPasswordKey))
+            if (!string.IsNullOrWhiteSpace(command.ResetPasswordKey))
             {
-                user = _documentSession.LoadUserByResetPasswordKey(userUpdatePasswordCommand.ResetPasswordKey);
+                user = _documentSession
+                    .Query<User>()
+                    .Where(x => x.ResetPasswordKey == command.ResetPasswordKey)
+                    .FirstOrDefault();
             }
 
-            if(!string.IsNullOrWhiteSpace(userUpdatePasswordCommand.UserId))
+            if (!string.IsNullOrWhiteSpace(command.UserId))
             {
-                user = _documentSession.Load<User>(userUpdatePasswordCommand.UserId);
+                user = _documentSession.Load<User>(command.UserId);
             }
 
-            user.UpdatePassword(userUpdatePasswordCommand.Password);
+            user.UpdatePassword(command.Password);
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

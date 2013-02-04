@@ -54,39 +54,39 @@ namespace Bowerbird.Core.CommandHandlers
         /// </summary>
         public void Handle(OrganisationDeleteCommand command)
         {
-            Check.RequireNotNull(command, "command");
+            //Check.RequireNotNull(command, "command");
 
-            var organisation = _documentSession.Load<Organisation>(command.Id);
+            //var organisation = _documentSession.Load<Organisation>(command.Id);
 
-            var teams = _documentSession
-               .Query<Team>()
-               .Where(x => x.AncestorGroups.Any(y => y.Id.ToLower() == organisation.Id))
-               .ToList();
+            //var teams = _documentSession
+            //   .Query<Team>()
+            //   .Where(x => x.AncestorGroups.Any(y => y.Id.ToLower() == organisation.Id))
+            //   .ToList();
 
-            if (teams.Count > 0)
-            {
-                foreach (var team in teams)
-                {
-                    team.AncestorGroups.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
-                    _documentSession.Store(team);
-                }
+            //if (teams.Count > 0)
+            //{
+            //    foreach (var team in teams)
+            //    {
+            //        team.AncestorGroups.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
+            //        _documentSession.Store(team);
+            //    }
 
-                var projects = _documentSession
-                   .Query<Project>()
-                   .Where(x => x.AncestorGroups.Any(y => y.Id.ToLower() == organisation.Id))
-                   .ToList();
+            //    var projects = _documentSession
+            //       .Query<Project>()
+            //       .Where(x => x.AncestorGroups.Any(y => y.Id.ToLower() == organisation.Id))
+            //       .ToList();
 
-                if (projects.Count > 0)
-                {
-                    foreach (var project in projects)
-                    {
-                        project.AncestorGroups.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
-                        _documentSession.Store(project);
-                    }
-                }
-            }
+            //    if (projects.Count > 0)
+            //    {
+            //        foreach (var project in projects)
+            //        {
+            //            project.AncestorGroups.ToList().RemoveAll(y => y.Id.ToLower() == organisation.Id);
+            //            _documentSession.Store(project);
+            //        }
+            //    }
+            //}
 
-            _documentSession.Delete(organisation);
+            //_documentSession.Delete(organisation);
         }
 
         #endregion

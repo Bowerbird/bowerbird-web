@@ -19,6 +19,6 @@ namespace Bowerbird.Core.Services
 {
     public interface IMediaService
     {
-        bool Save(MediaResourceCreateCommand command, out string failureReason);
+        bool Save(MediaResourceCreateCommand command, User createdByUser, out string failureReason, out MediaResource mediaResource);
     }
 }

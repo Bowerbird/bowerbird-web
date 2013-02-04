@@ -43,6 +43,7 @@ namespace Bowerbird.Core.Indexes
             public string Name { get; set; }
             public string Description { get; set; }
             public object[] AllFields { get; set; }
+            public string SortName { get; set; }
 
             public AppRoot AppRoot { get; set; }
             public Organisation Organisation { get; set; }
@@ -88,7 +89,8 @@ namespace Bowerbird.Core.Indexes
                                 Categories = new string[] {},
                                 appRoot.Name,
                                 Description = (string)null,
-                                AllFields = new object[] {}
+                                AllFields = new object[] {},
+                                SortName = appRoot.Name
                             });
 
             AddMap<Organisation>(
@@ -121,7 +123,8 @@ namespace Bowerbird.Core.Indexes
                                     {
                                         organisation.Name,
                                         organisation.Description
-                                    }
+                                    },
+                        SortName = organisation.Name
                     });
 
             AddMap<Project>(
@@ -151,7 +154,8 @@ namespace Bowerbird.Core.Indexes
                                     {
                                         project.Name,
                                         project.Description
-                                    }
+                                    },
+                                SortName = project.Name
                             });
 
             AddMap<UserProject>(
@@ -177,7 +181,8 @@ namespace Bowerbird.Core.Indexes
                                     Categories = new string[] { },
                                     userProject.Name,
                                     Description = (string)null,
-                                    AllFields = new object[] { }
+                                    AllFields = new object[] { },
+                                    SortName = userProject.Name
                                 });
 
             AddMap<Favourites>(
@@ -203,7 +208,8 @@ namespace Bowerbird.Core.Indexes
                                             Categories = new string[] { },
                                             favourites.Name,
                                             Description = (string)null,
-                                            AllFields = new object[] { }
+                                            AllFields = new object[] { },
+                                            SortName = favourites.Name
                                         });
 
             // Memberships of groups
@@ -229,7 +235,8 @@ namespace Bowerbird.Core.Indexes
                              Categories = new string[] { },
                              Name = (string)null,
                              Description = (string)null,
-                             AllFields = new object[] { }
+                             AllFields = new object[] { },
+                             SortName = (string)null
                          });
 
             // Count of observation sightings in groups
@@ -255,7 +262,8 @@ namespace Bowerbird.Core.Indexes
                                         Categories = new string[] { },
                                         Name = (string)null,
                                         Description = (string)null,
-                                        AllFields = new object[] { }
+                                        AllFields = new object[] { },
+                                        SortName = (string)null
                                     });
 
             // Count of record sightings in groups
@@ -281,7 +289,8 @@ namespace Bowerbird.Core.Indexes
                                    Categories = new string[] { },
                                    Name = (string)null,
                                    Description = (string)null,
-                                   AllFields = new object[] { }
+                                   AllFields = new object[] { },
+                                   SortName = (string)null
                                });
 
             // Count of posts in groups
@@ -306,7 +315,8 @@ namespace Bowerbird.Core.Indexes
                              Categories = new string[] { },
                              Name = (string)null,
                              Description = (string)null,
-                             AllFields = new object[] { }
+                             AllFields = new object[] { },
+                             SortName = (string)null
                          });
 
             Reduce = results => from result in results
@@ -331,7 +341,8 @@ namespace Bowerbird.Core.Indexes
                                         Categories = g.SelectMany(x => x.Categories),
                                         Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
                                         Description = g.Select(x => x.Description).Where(x => x != null).FirstOrDefault(),
-                                        AllFields = g.SelectMany(x => x.AllFields)
+                                        AllFields = g.SelectMany(x => x.AllFields),
+                                        SortName = g.Select(x => x.SortName).Where(x => x != null).FirstOrDefault(),
                                     };
 
             TransformResults = (database, results) =>
@@ -374,10 +385,13 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.VoteCount, FieldStorage.Yes);
             Store(x => x.LatestObservationIds, FieldStorage.Yes);
             Store(x => x.Categories, FieldStorage.Yes);
+            Store(x => x.SortName, FieldStorage.Yes);
 
             Index(x => x.Name, FieldIndexing.Analyzed);
             Index(x => x.Description, FieldIndexing.Analyzed);
             Index(x => x.AllFields, FieldIndexing.Analyzed);
+
+            Sort(x => x.UserCount, SortOptions.Int);
         }
     }
 }

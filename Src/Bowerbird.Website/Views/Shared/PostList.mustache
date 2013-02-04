@@ -11,10 +11,10 @@
           <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
           <ul>
             <li>
-              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/posts?view={{View}}&sort=newest">Latest Added</a>
+              <a data-sort="newest" href="/{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}posts?view={{View}}&sort=newest">Latest Added</a>
             </li>
             <li>
-              <a href="/{{#Model.Query.Id}}{{Id}}{{/Model.Query.Id}}{{^Model.Query.Id}}home{{/Model.Query.Id}}/posts?view={{View}}&sort=oldest">Oldest Added</a>
+              <a data-sort="oldest" href="/{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}posts?view={{View}}&sort=oldest">Oldest Added</a>
             </li>
           </ul>
         </div>

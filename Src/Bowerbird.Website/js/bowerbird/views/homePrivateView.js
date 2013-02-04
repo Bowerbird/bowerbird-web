@@ -191,7 +191,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
 
                 this.search.show(postSearchPanelView);
             }
-            
+
             postListView.on('toggle-search', this.toggleSearchPanel);
 
             if (postCollection.hasSearchCriteria()) {

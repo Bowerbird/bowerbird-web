@@ -48,7 +48,7 @@ function ($, _, Backbone, PaginatedCollection, Organisation) {
             } else if (this.sortByType === 'newest') {
                 return -parseInt(organisation.get('CreatedDateTimeOrder'));
             } else {
-                return parseInt(organisation.get('UserCount'));
+                return -parseInt(organisation.get('UserCount'));
             }
         },
 

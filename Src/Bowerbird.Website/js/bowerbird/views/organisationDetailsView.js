@@ -8,8 +8,9 @@
 // OrganisationDetailsView
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/userlistview', 'views/organisationaboutview', 'views/sightingsearchpanelview', 'views/postsearchpanelview'],
-function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, UserListView, OrganisationAboutView, SightingSearchPanelView, PostSearchPanelView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'views/activitylistview', 'views/sightinglistview', 'views/postlistview', 'views/userlistview', 'views/organisationaboutview', 
+        'views/sightingsearchpanelview', 'views/postsearchpanelview', 'views/usersearchpanelview'],
+function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView, UserListView, OrganisationAboutView, SightingSearchPanelView, PostSearchPanelView, UserSearchPanelView) {
 
     var OrganisationDetailsView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
@@ -152,7 +153,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
             }
         },
 
-        showMembers: function (userCollection) {
+        showMembers: function (userCollection, fieldSelectList) {
             this.switchTabHighlight('members');
 
             var options = {
@@ -160,17 +161,35 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
                 collection: userCollection
             };
 
+            var searchOptions = {
+                userCollection: userCollection,
+                fieldSelectList: fieldSelectList
+            };
+
             if (app.isPrerenderingView('organisations')) {
                 options['el'] = '.list > div';
+                searchOptions['el'] = '.search > div';
             }
 
             var userListView = new UserListView(options);
+            var userSearchPanelView = new UserSearchPanelView(searchOptions);
 
             if (app.isPrerenderingView('organisations')) {
                 this.list.attachView(userListView);
                 userListView.showBootstrappedDetails();
+
+                this.search.attachView(userSearchPanelView);
+                userSearchPanelView.showBootstrappedDetails();
             } else {
                 this.list.show(userListView);
+
+                this.search.show(userSearchPanelView);
+            }
+
+            userListView.on('toggle-search', this.toggleSearchPanel);
+
+            if (userCollection.hasSearchCriteria()) {
+                this.$el.find('.search-bar').slideDown();
             }
         },
 
@@ -203,7 +222,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
             this.$el.find('.tab-button').removeClass('selected');
             this.$el.find('.' + tab + '-tab-button').addClass('selected');
 
-            if ((tab === 'activities' || tab === 'members' || tab === 'about') && this.search.currentView) {
+            if ((tab === 'activities' || tab === 'about') && this.search.currentView) {
                 this.search.currentView.$el.hide();
             }
         },

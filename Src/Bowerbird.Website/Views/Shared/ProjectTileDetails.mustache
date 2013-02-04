@@ -23,8 +23,8 @@
 </p>
 <ul class="categories">
   {{#Categories}}
-  <li>
-    <img src="/img/category-{{.}}.png" alt="{{.}}" title="This project contains {{.}}" />
+  <li class="small-category-icon category-{{.}}">
+    {{.}}
   </li>
   {{/Categories}}
 </ul>
@@ -42,6 +42,4 @@
     </div>
   </div>
 </div>
-<div class="actions" style="display:none;">
-  <a href="/{{Id}}" class="button view-button">View</a>
-</div>
+<div class="actions"></div>

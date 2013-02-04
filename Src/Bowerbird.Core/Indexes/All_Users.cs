@@ -30,12 +30,16 @@ namespace Bowerbird.Core.Indexes
             public IDictionary<string, string> GroupRoles { get; set; } // Key is role, and value is project
             public string[] ConnectionIds { get; set; }
             public int SightingCount { get; set; }
+            public IEnumerable<string> FollowingUserIds { get; set; }
             public DateTime[] LatestHeartbeat { get; set; }
             public DateTime[] LatestActivity { get; set; }
+            public string[] LatestObservationIds { get; set; }
             public string Name { get; set; }
             public string Email { get; set; }
             public string Description { get; set; }
             public object[] AllFields { get; set; }
+            public string SortName { get; set; }
+            public int FollowerCount { get; set; }
 
             public User User { get; set; }
             public IEnumerable<UserProject> UserProjects { get; set; }
@@ -43,6 +47,8 @@ namespace Bowerbird.Core.Indexes
             public IEnumerable<Project> Projects { get; set; }
             public IEnumerable<Organisation> Organisations { get; set; }
             public IEnumerable<AppRoot> AppRoots { get; set; }
+            public IEnumerable<Observation> LatestObservations { get; set; } 
+
             public IEnumerable<Group> Groups
             {
                 get
@@ -75,8 +81,10 @@ namespace Bowerbird.Core.Indexes
                                           _ = "ignored",
                                           ConnectionIds = user.Sessions.Select(x => x.ConnectionId),
                                           SightingCount = 0,
+                                          FollowingUserIds = new string[] {},
                                           LatestHeartbeat = user.Sessions.Select(x => x.LatestHeartbeat),
                                           LatestActivity = user.Sessions.Select(x => x.LatestActivity),
+                                          LatestObservationIds = new string[] { },
                                           user.Name,
                                           user.Email,
                                           user.Description,
@@ -84,7 +92,8 @@ namespace Bowerbird.Core.Indexes
                                               {
                                                   user.Name,
                                                   user.Description
-                                              }
+                                              },
+                                          SortName = user.Name
                                       });
 
             AddMap<Observation>(observations => from observation in observations
@@ -96,12 +105,15 @@ namespace Bowerbird.Core.Indexes
                                                     _ = "ignored",
                                                     ConnectionIds = new string[] { },
                                                     SightingCount = 1,
+                                                    FollowingUserIds = new string[] { },
                                                     LatestHeartbeat = new object [] {},
                                                     LatestActivity = new object[] { },
+                                                    LatestObservationIds = new[] { observation.Id },
                                                     Name = (string)null,
                                                     Email = (string)null,
                                                     Description = (string)null,
-                                                    AllFields = new object[] { }
+                                                    AllFields = new object[] { },
+                                                    SortName = (string)null
                                                 });
 
             AddMap<Record>(records => from record in records
@@ -113,12 +125,36 @@ namespace Bowerbird.Core.Indexes
                                           _ = "ignored",
                                           ConnectionIds = new string[] { },
                                           SightingCount = 1,
+                                          FollowingUserIds = new string[] { },
                                           LatestHeartbeat = new object[] { },
                                           LatestActivity = new object[] { },
+                                          LatestObservationIds = new string[] { },
                                           Name = (string)null,
                                           Email = (string)null,
                                           Description = (string)null,
-                                          AllFields = new object[] { }
+                                          AllFields = new object[] { },
+                                          SortName = (string)null
+                                      });
+
+            // Get followers
+            AddMap<User>(users => from user in users
+                                  select new
+                                      {
+                                          UserId = user.Id,
+                                          GroupIds = new string[] { },
+                                          GroupRoles = new object[] { },
+                                          _ = "ignored",
+                                          ConnectionIds = new string[] { },
+                                          SightingCount = 0,
+                                          FollowingUserIds = user.Memberships.Where(x => x.Group.GroupType == "userproject" && x.Group.CreatedBy != user.Id).Select(x => x.Group.CreatedBy),
+                                          LatestHeartbeat = new object[] { },
+                                          LatestActivity = new object[] { },
+                                          LatestObservationIds = new string[] { },
+                                          Name = (string)null,
+                                          Email = (string)null,
+                                          Description = (string)null,
+                                          AllFields = new object[] { },
+                                          SortName = (string)null
                                       });
 
             Reduce = results => from result in results
@@ -132,12 +168,15 @@ namespace Bowerbird.Core.Indexes
                                           _ = g.SelectMany(x => x.GroupRoles).Select(y => CreateField(y.Key, y.Value)),
                                           ConnectionIds = g.SelectMany(x => x.ConnectionIds).Distinct(),
                                           SightingCount = g.Sum(x => x.SightingCount),
+                                          FollowingUserIds = g.SelectMany(x => x.FollowingUserIds),
                                           LatestHeartbeat = g.SelectMany(x => x.LatestHeartbeat),
                                           LatestActivity = g.SelectMany(x => x.LatestActivity),
+                                          LatestObservationIds = g.SelectMany(x => x.LatestObservationIds).OrderByDescending(x => x).Take(10), // Just ordering by string, lexicographically
                                           Name = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault(),
                                           Email = g.Select(x => x.Email).Where(x => x != null).FirstOrDefault(),
                                           Description = g.Select(x => x.Description).Where(x => x != null).FirstOrDefault(),
-                                          AllFields = g.SelectMany(x => x.AllFields)
+                                          AllFields = g.SelectMany(x => x.AllFields),
+                                          SortName = g.Select(x => x.Name).Where(x => x != null).FirstOrDefault()
                                     };
 
             TransformResults = (database, results) =>
@@ -149,14 +188,17 @@ namespace Bowerbird.Core.Indexes
                                     //GroupRoles = result.GroupRoles.Select(x => new { x.Key, x.Value }),
                                     ConnectionIds = result.ConnectionIds ?? new string[] { },
                                     result.SightingCount,
+                                    result.FollowingUserIds,
                                     LatestHeartbeat = result.LatestHeartbeat ?? new DateTime[] { },
                                     LatestActivity = result.LatestActivity ?? new DateTime[] { },
+                                    FollowerCount = result.FollowingUserIds.Count(),
                                     User = database.Load<User>(result.UserId),
                                     UserProjects = database.Load<UserProject>(result.GroupIds).Where(x => x.GroupType == "userproject"),
                                     Favourites = database.Load<Favourites>(result.GroupIds).Where(x => x.GroupType == "favourites"),
                                     Projects = database.Load<Project>(result.GroupIds).Where(x => x.GroupType == "project"),
                                     Organisations = database.Load<Organisation>(result.GroupIds).Where(x => x.GroupType == "organisation"),
-                                    AppRoots = database.Load<AppRoot>(result.GroupIds).Where(x => x.GroupType == "approot")
+                                    AppRoots = database.Load<AppRoot>(result.GroupIds).Where(x => x.GroupType == "approot"),
+                                    LatestObservations = database.Load<Observation>(result.LatestObservationIds)
                                 };
 
             Store(x => x.UserId, FieldStorage.Yes);
@@ -164,13 +206,16 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.GroupRoles, FieldStorage.Yes);
             Store(x => x.ConnectionIds, FieldStorage.Yes);
             Store(x => x.SightingCount, FieldStorage.Yes);
+            Store(x => x.FollowingUserIds, FieldStorage.Yes);
             Store(x => x.LatestHeartbeat, FieldStorage.Yes);
             Store(x => x.LatestActivity, FieldStorage.Yes);
+            Store(x => x.LatestObservationIds, FieldStorage.Yes);
             Store(x => x.Name, FieldStorage.Yes);
             Store(x => x.Email, FieldStorage.Yes);
             Store(x => x.Description, FieldStorage.Yes);
             Store(x => x.AllFields, FieldStorage.Yes);
-
+            Store(x => x.SortName, FieldStorage.Yes);
+            
             Index(x => x.Name, FieldIndexing.Analyzed);
             Index(x => x.Description, FieldIndexing.Analyzed);
             Index(x => x.AllFields, FieldIndexing.Analyzed);

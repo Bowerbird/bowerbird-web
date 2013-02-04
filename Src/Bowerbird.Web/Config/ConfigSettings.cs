@@ -18,6 +18,7 @@ using System.Configuration;
 using Bowerbird.Core.Config;
 using System.Web;
 using System;
+using Bowerbird.Web.Config;
 
 namespace Bowerbird.Web.Services
 {

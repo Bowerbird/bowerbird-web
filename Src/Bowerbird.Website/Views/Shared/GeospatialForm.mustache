@@ -1,0 +1,201 @@
+﻿<div class="window" id="edit-geospatial-window">
+    <div class="window-title-bar">
+    Location
+    <span class="close" title="Close"></span>
+    </div>
+    <div class="window-body">
+        <div class="form edit-geospatial-form">
+        <form action="">
+            <fieldset>
+                <legend class="hidden">Location Details</legend>
+
+              <div class="field-row">
+                <div class="geospatial-map"></div>
+                <div class="geospatial-coordinates">
+                  <div>Location</div>
+                  <span id="geospatial-lat-long">None</span>
+                </div>
+
+                <div class="tab-bar small">
+                  <ul class="tabs">
+                    <li>
+                      <a href="#" class="tab-button latlng-decimal-button selected">Lat/Long (Decimal)</a>
+                    </li>
+                    <li>
+                      <a href="#" class="tab-button latlng-dms-button">Lat/Long (Degrees, Minutes, Seconds)</a>
+                    </li>
+                    <li>
+                      <a href="#" class="tab-button utm-button">UTM Coordinates</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="location-latlngdecimal">
+              
+              <div class="field-row">
+                <h2>Latitude and longitude in decimals</h2>
+                <p>Enter the latitude and longitude in decimal degrees and click check to ensure they are valid.</p>
+                <div class="latitude-decimal-field field">
+                  <div>
+                    <label for="LatitudeDecimal">Latitude</label>
+                  </div>
+                  <div>
+                    <input type="text" id="LatitudeDecimal" name="LatitudeDecimal" value="{{Model.Coordinates.Decimal.Latitude}}" />
+                  </div>
+                </div>
+                <div class="longitude-decimal-field field">
+                  <div>
+                    <label for="LongitudeDecimal">Longitude</label>
+                  </div>
+                  <div>
+                    <input type="text" id="LongitudeDecimal" name="LongitudeDecimal" value="{{Model.Coordinates.Decimal.Longitude}}" />
+                  </div>
+                </div>
+                <div class="field check-button-field">
+                  <button id="check-latlng-decimal-button" class="button">Check</button>
+                </div>
+              </div>
+              </div>
+
+              <div class="location-latlngdms">
+
+                <div class="field-row">
+                  <h2>Latitude and longitude in degrees, minutes and seconds</h2>
+                  <p>Enter the latitude and longitude in degrees, minutes and seconds and click check to ensure they are valid.</p>
+                  <div class="latitude-dms-degrees-field field">
+                    <div>
+                      <label for="LatitudeDmsDegrees">Latitude Degrees</label>
+                    </div>
+                    <div>
+                      <input type="text" id="LatitudeDmsDegrees" name="LatitudeDmsDegrees" value="{{Model.Coordinates.Dms.Latitude.Degrees}}" />
+                    </div>
+                  </div>
+                  <div class="latitude-dms-minutes-field field">
+                    <div>
+                      <label for="LatitudeDmsMinutes">Minutes</label>
+                    </div>
+                    <div>
+                      <input type="text" id="LatitudeDmsMinutes" name="LatitudeDmsMinutes" value="{{Model.Coordinates.Dms.Latitude.Minutes}}" />
+                    </div>
+                  </div>
+                  <div class="latitude-dms-seconds-field field">
+                    <div>
+                      <label for="LatitudeDmsSeconds">Seconds</label>
+                    </div>
+                    <div>
+                      <input type="text" id="LatitudeDmsSeconds" name="LatitudeDmsSeconds" value="{{Model.Coordinates.Dms.Latitude.Seconds}}" />
+                    </div>
+                  </div>
+                  <div class="latitude-dms-direction-field field">
+                    <div>
+                      <label for="LatitudeDmsDirection">Direction</label>
+                    </div>
+                    <div>
+                      <select id="LatitudeDmsDirection" name="LatitudeDmsDirection">
+                        <option {{#Model.LatitudeDmsDirection.IsNorth}}selected{{/Model.LatitudeDmsDirection.IsNorth}}>N</option>
+                        <option {{#Model.LatitudeDmsDirection.IsSouth}}selected{{/Model.LatitudeDmsDirection.IsSouth}}>S</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field-row">
+                  <div class="longitude-dms-degrees-field field">
+                    <div>
+                      <label for="LongitudeDmsDegrees">Longitude Degrees</label>
+                    </div>
+                    <div>
+                      <input type="text" id="LongitudeDmsDegrees" name="LongitudeDmsDegrees" value="{{Model.Coordinates.Dms.Longitude.Degrees}}" />
+                    </div>
+                  </div>
+                  <div class="longitude-dms-minutes-field field">
+                    <div>
+                      <label for="LongitudeDmsMinutes">Minutes</label>
+                    </div>
+                    <div>
+                      <input type="text" id="LongitudeDmsMinutes" name="LongitudeDmsMinutes" value="{{Model.Coordinates.Dms.Longitude.Minutes}}" />
+                    </div>
+                  </div>
+                  <div class="longitude-dms-seconds-field field">
+                    <div>
+                      <label for="LongitudeDmsSeconds">Seconds</label>
+                    </div>
+                    <div>
+                      <input type="text" id="LongitudeDmsSeconds" name="LongitudeDmsSeconds" value="{{Model.Coordinates.Dms.Longitude.Seconds}}" />
+                    </div>
+                  </div>
+                  <div class="longitude-dms-direction-field field">
+                    <div>
+                      <label for="LongitudeDmsDirection">Direction</label>
+                    </div>
+                    <div>
+                      <select id="LongitudeDmsDirection" name="LongitudeDmsDirection">
+                        <option {{#Model.LongitudeDmsDirection.IsEast}}selected{{/Model.LongitudeDmsDirection.IsEast}}>E</option>
+                        <option {{#Model.LongitudeDmsDirection.IsWest}}selected{{/Model.LongitudeDmsDirection.IsWest}}>W</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field check-button-field">
+                    <button id="check-latlng-dms-button" class="button">Check</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="location-utm">
+
+              <div class="field-row">
+                <h2>UTM coordinates</h2>
+                <p>Enter all the UTM coordinates below and click check to ensure they are valid.</p>
+                <div class="utm-easting-field field">
+                  <div>
+                    <label for="UtmEasting">Easting</label>
+                  </div>
+                  <div>
+                    <input type="text" id="UtmEasting" name="UtmEasting" value="{{Model.Coordinates.Utm.Easting}}" />
+                  </div>
+                </div>
+                <div class="utm-northing-field field">
+                  <div>
+                    <label for="UtmNorthing">Northing</label>
+                  </div>
+                  <div>
+                    <input type="text" id="UtmNorthing" name="UtmNorthing" value="{{Model.Coordinates.Utm.Northing}}" />
+                  </div>
+                </div>
+                <div class="utm-zone-field field">
+                  <div>
+                    <label for="UtmZone">Zone</label>
+                  </div>
+                  <div>
+                    <input type="text" id="UtmZone" name="UtmZone" value="{{Model.Coordinates.Utm.Zone}}" />
+                  </div>
+                </div>
+                <div class="utm-hemisphere-field field">
+                  <div>
+                    <label for="UtmHemisphere">Hemishpere</label>
+                  </div>
+                  <div>
+                    <select id="UtmHemisphere" name="UtmHemisphere">
+                      <option {{#Model.HemisphereSelectList.IsSouth}}selected{{/Model.HemisphereSelectList.IsSouth}}>South</option>
+                      <option {{#Model.HemisphereSelectList.IsNorth}}selected{{/Model.HemisphereSelectList.IsNorth}}>North</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="field check-button-field">
+                  <button id="check-utm-button" class="button">Check</button>
+                </div>
+              </div>
+
+              </div>
+
+            </fieldset>
+            <fieldset>
+                <input type="button" value="Done" class="done-button" />
+                <input type="button" value="Cancel" class="cancel-button" />
+            </fieldset>
+            </form>
+            </div>
+    </div>
+</div>

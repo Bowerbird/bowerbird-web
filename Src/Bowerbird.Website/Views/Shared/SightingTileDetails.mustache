@@ -4,7 +4,8 @@
   {{/User.Avatar}}
   <span>{{User.Name}}</span>
 </div>
-<h3><a href="/{{Id}}">{{Title}}</a></h3>
+<h3><a href="/{{Id}}">
+  <span title="{{Category}}" class="small-category-icon category-{{Category}}"></span>{{Title}}</a></h3>
 <div class="images">
   <div class="preview">
     {{#PrimaryMedia.MediaResource}}

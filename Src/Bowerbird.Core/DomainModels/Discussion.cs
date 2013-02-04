@@ -13,10 +13,7 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Bowerbird.Core.DesignByContract;
-using Bowerbird.Core.Extensions;
 
 namespace Bowerbird.Core.DomainModels
 {

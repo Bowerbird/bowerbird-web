@@ -42,15 +42,5 @@ namespace Bowerbird.Core.DomainModels
             _events.Add(@event);
         }
 
-        [Obsolete]
-        protected void EnableEvents()
-        {
-        }
-
-        [Obsolete]
-        protected void FireEvent<T>(T domainEvent) where T : IDomainEvent
-        {
-        }
-
     }
 }

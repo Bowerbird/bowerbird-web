@@ -16,13 +16,14 @@ using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Builders;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Queries;
+using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
 using System;
 using Bowerbird.Core.Config;
+using Bowerbird.Web.Infrastructure;
 using Raven.Client;
 using System.Collections;
 using System.Dynamic;
@@ -35,7 +36,7 @@ namespace Bowerbird.Web.Controllers
 
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly ISightingViewModelQuery _sightingViewModelQuery;
         private readonly IDocumentSession _documentSession;
         private readonly IPermissionManager _permissionManager;
 
@@ -46,20 +47,20 @@ namespace Bowerbird.Web.Controllers
         public RecordsController(
             IMessageBus messageBus,
             IUserContext userContext,
-            ISightingViewModelBuilder sightingViewModelBuilder,
+            ISightingViewModelQuery sightingViewModelQuery,
             IDocumentSession documentSession,
             IPermissionManager permissionManager
             )
         {
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelQuery, "sightingViewModelQuery");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(permissionManager, "permissionManager");
 
             _messageBus = messageBus;
             _userContext = userContext;
-            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _sightingViewModelQuery = sightingViewModelQuery;
             _documentSession = documentSession;
             _permissionManager = permissionManager;
         }
@@ -80,7 +81,7 @@ namespace Bowerbird.Web.Controllers
 
             var viewModel = new
                 {
-                    Record = _sightingViewModelBuilder.BuildSighting(recordId)
+                    Record = _sightingViewModelQuery.BuildSighting(recordId)
                 };
 
             return RestfulResult(
@@ -110,7 +111,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Record = _sightingViewModelBuilder.BuildCreateRecord(id);
+            viewModel.Record = _sightingViewModelQuery.BuildCreateRecord(id);
             //viewModel.Categories = GetCategories();
 
             return RestfulResult(
@@ -136,7 +137,7 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            var record = _sightingViewModelBuilder.BuildSighting(recordId);
+            var record = _sightingViewModelQuery.BuildSighting(recordId);
 
             dynamic viewModel = new ExpandoObject();
 
@@ -168,7 +169,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
 
-            viewModel.Record = _sightingViewModelBuilder.BuildSighting(recordId);
+            viewModel.Record = _sightingViewModelQuery.BuildSighting(recordId);
 
             return RestfulResult(
                 viewModel,

@@ -1,0 +1,96 @@
+﻿<div>
+  <h3>
+    <a href="/{{Id}}">
+    {{#ObservationAdded}}
+      <span title="{{Category}}" class="small-category-icon category-{{Category}}"></span> {{Title}}</a>
+    {{/ObservationAdded}}
+    {{^ObservationAdded}}
+      <span title="{{Category}}" class="medium-category-icon category-{{Category}}"></span> {{Title}}</a>
+    {{/ObservationAdded}}
+  </h3>
+  <div class="images">
+    <div class="preview">
+      {{#PrimaryMedia.MediaResource}}
+      {{>MediaConstrained600}}
+      {{/PrimaryMedia.MediaResource}}
+      {{#PrimaryMedia.Description}}
+      <div class="media-details">
+        <div class="overlay"></div>
+        <p class="description">{{PrimaryMedia.Description}}</p>
+      </div>
+      {{/PrimaryMedia.Description}}
+    </div>
+    {{#ShowMediaThumbnails}}
+    <div class="thumbnails">
+      {{#Media}}
+      {{#MediaResource}}
+      {{>MediaSquare200}}
+      {{/MediaResource}}
+      {{/Media}}
+    </div>
+    {{/ShowMediaThumbnails}}
+  </div>
+  <div class="info">
+    <div class="sighting-actions">
+      <div class="vote-panel">
+        <div class="vote-details">
+          <span class="vote-score user-vote-score{{UserVoteScore}}">{{TotalVoteScore}}</span>
+          <span class="vote-label">votes</span>
+        </div>
+      </div>
+      <div class="favourites-panel">
+        <div class="favourites-star"></div>
+        <div class="favourites-details">
+          <span class="favourites-count">{{FavouritesCount}}</span>
+          <span class="favourites-label">favourites</span>
+        </div>
+      </div>
+      <div class="edit-panel">
+      </div>
+      <div class="identify-panel">
+        <div class="identify-details">
+          <span class="identify-icon"></span>
+          <span class="identify-count">{{IdentificationCount}}</span>
+        </div>
+      </div>
+      <div class="describe-panel">
+        <div class="describe-details">
+          <span class="describe-icon"></span>
+          <span class="describe-count">{{NoteCount}}</span>
+        </div>
+      </div>
+      <div class="comment-panel">
+        <div class="comment-details">
+          <span class="comment-icon"></span>
+          <span class="comment-count">0</span>
+        </div>
+      </div>
+    </div>
+    <div class="sighting-sighted">
+      Sighted
+      <span>{{ObservedOnDescription}}</span>
+    </div>
+    <div class="location">
+      <div class="map"></div>
+      <span>{{Address}}</span>
+      <!--<span>Latitude {{Observation.Latitude}}</span>
+                  <span>Longitude {{Observation.Longitude}}</span>-->
+    </div>
+    {{#ProjectCount}}
+    <div class="sighting-projects">
+      <h4>Projects</h4>
+      <ul>
+        {{#Projects}}
+        <li class="sighting-project">
+          <a href="/{{Id}}">
+            {{#Avatar}}
+            {{>MediaSquare200}}
+            {{/Avatar}}
+          </a>
+        </li>
+        {{/Projects}}
+      </ul>
+    </div>
+    {{/ProjectCount}}
+  </div>
+</div>

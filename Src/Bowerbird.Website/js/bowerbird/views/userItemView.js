@@ -1,108 +1,112 @@
-﻿/// <reference path="../../libs/log.js" />
-/// <reference path="../../libs/require/require.js" />
-/// <reference path="../../libs/jquery/jquery-1.7.2.js" />
-/// <reference path="../../libs/underscore/underscore.js" />
-/// <reference path="../../libs/backbone/backbone.js" />
-/// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
+﻿///// <reference path="../../libs/log.js" />
+///// <reference path="../../libs/require/require.js" />
+///// <reference path="../../libs/jquery/jquery-1.7.2.js" />
+///// <reference path="../../libs/underscore/underscore.js" />
+///// <reference path="../../libs/backbone/backbone.js" />
+///// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// OnlineUserItemView
-// ------------------
+// UserItemView
+// ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user'],
-function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'moment', 'timeago', 'tipsy'],
+function ($, _, Backbone, ich, app, moment) {
 
     var UserItemView = Backbone.Marionette.ItemView.extend({
 
-        tagName: 'li',
+        className: 'user-details',
 
-        className: 'online-user-item',
-
-        template: 'UserItem',
+        template: 'UserTileDetails',
 
         events: {
-            'click .online-user-item a': 'startChat',
-            'click .chat-menu-item': 'startChat',
-            'click .sub-menu': 'showMenu',
-            'click .sub-menu li': 'selectMenuItem'
+            'click .view-button': 'showItem',
+            'click h3 a': 'showItem',
+            'click .follow-button': 'followUser',
+            'click .unfollow-button': 'unfollowUser'
         },
 
-        initialize: function () {
-            _.bindAll(this, 'onStatusChange', 'onUpdateUserStatus', 'onRender');
-            this.model.on('statuschange', this.onStatusChange, this);
-            if (this.model.id === app.authenticatedUser.user.id) {
-                this.model.on('pollserver', this.onUpdateUserStatus, this);
-            }
+        initialize: function (options) {
+            _.bindAll(this, 'refresh');
         },
 
         serializeData: function () {
-            return {
-                Model: {
-                    User: this.model.toJSON(),
-                    ShowChat: this.model.id !== app.authenticatedUser.user.id
-                }
-            };
+            var viewModel = this.model.toJSON();
+            return viewModel;
         },
 
-        startChat: function (e) {
-            if (this.model.getCurrentStatus() != 'offline') {
-                app.vent.trigger('chats:startPrivateChat', this.model);
-            }
+        onShow: function () {
+            this._showDetails();
         },
 
         onRender: function () {
-            log('userItemView.onRender');
-            var self = this;
-            this.onStatusChange({ user: this.model, status: this.model.getCurrentStatus() });
-            self.model.startTimer();
-            // if this user is 'Me' track my interactivity to pass back to the server
-            if (self.model.id === app.authenticatedUser.user.id) {
-                self.model.startTracker();
+            this._showDetails();
+        },
+
+        showBootstrappedDetails: function () {
+            this._showDetails();
+        },
+
+        _showDetails: function () {
+            var resizeTimer;
+            var refresh = this.refresh;
+            $(window).resize(function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    refresh();
+                }, 100);
+            });
+
+            if (app.authenticatedUser && this.model.id !== app.authenticatedUser.user.id) {
+                this.showFollowButton(this.model.get('IsFollowing') === true ? 'unfollow' : 'follow');
             }
         },
 
-        showMenu: function (e) {
-            app.vent.trigger('close-sub-menus');
-            $(e.currentTarget).addClass('active');
-            var position = $(e.currentTarget).offset();
-            var scrollTop = $(window).scrollTop();
-            this.$el.find('.sub-menu ul').css({ position: 'fixed' }).css({ top: position.top - scrollTop + 'px', left: position.left + 25 + 'px' });
-            e.stopPropagation();
+        refresh: function () {
         },
 
-        selectMenuItem: function (e) {
-            app.vent.trigger('close-sub-menus');
-            e.stopPropagation();
+        showItem: function (e) {
+            e.preventDefault();
+            this.$el.find('.actions a').tipsy.revalidate();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
         },
 
-        onStatusChange: function (userStatus) {
-            var chatMenuCss = {};
-            var actualStatus = '';
-            if (userStatus.status === 'online') {
-                actualStatus = 'online';
-                chatMenuCss.display = 'list-item';
-            } else if (userStatus.status === 'away') {
-                actualStatus = 'away';
-                chatMenuCss.display = 'list-item';
-            } else if (userStatus.status === 'offline') {
-                actualStatus = 'offline';
-                chatMenuCss.display = 'none';
+        showFollowButton: function (type) {
+            if (type === 'follow') {
+                var model = { Follow: true };
+                if (this.$el.find('.follow-button, .unfollow-button').length === 0) {
+                    this.$el.find('.actions').append(ich.Buttons(model));
+                } else {
+                    this.$el.find('.unfollow-button').replaceWith(ich.Buttons(model));
+                }
+                this.$el.find('.follow-button').tipsy({ gravity: 's', html: true });
+                this.$el.find('.actions .button').tipsy.revalidate();
+            } else {
+                var model = { Unfollow: true };
+                if (this.$el.find('.follow-button, .unfollow-button').length === 0) {
+                    this.$el.find('.actions').append(ich.Buttons(model));
+                } else {
+                    this.$el.find('.follow-button').replaceWith(ich.Buttons(model));
+                }
+                this.$el.find('.unfollow-button').tipsy({ gravity: 's', html: true });
+                this.$el.find('.actions .button').tipsy.revalidate();
+
+                this.$el.find(".unfollow-button").mouseover(function () {
+                    $(this).text('Unfollow');
+                }).mouseout(function () {
+                    $(this).text('Following');
+                });
             }
-            this.$el.find('.chat-menu').css(chatMenuCss);
-            this.$el.find('.user-name')
-                .removeClass('online')
-                .removeClass('away')
-                .removeClass('offline')
-                .addClass(actualStatus)
-                .empty()
-                .html(userStatus.user.get('Name') + ' <span>' + actualStatus + '</span>');
-            log(this.model.get('Name') + ' is now ' + actualStatus);
         },
 
-        onUpdateUserStatus: function (userStatus) {
-            log('userItemView:onUpdateUserStatus:');
-            if (userStatus.user.id === app.authenticatedUser.user.id) {
-                app.userHubRouter.updateUserClientStatus(userStatus.user.id, userStatus.user.get('LatestHeartbeat'), userStatus.user.get('LatestActivity'));
-            }
+        followUser: function (e) {
+            e.preventDefault();
+            app.vent.trigger('follow-user', this.model);
+            this.showFollowButton('unfollow');
+        },
+
+        unfollowUser: function (e) {
+            e.preventDefault();
+            app.vent.trigger('unfollow-user', this.model);
+            this.showFollowButton('follow');
         }
     });
 

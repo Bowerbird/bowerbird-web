@@ -8,8 +8,8 @@
 // PostCollection
 // --------------
 
-define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/post'],
-function ($, _, Backbone, PaginatedCollection, Post) {
+define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/post', 'moment'],
+function ($, _, Backbone, PaginatedCollection, Post, moment) {
 
     var PostCollection = PaginatedCollection.extend({
 
@@ -22,12 +22,8 @@ function ($, _, Backbone, PaginatedCollection, Post) {
 
             PaginatedCollection.prototype.initialize.apply(this, arguments);
 
-            if (options.groupId) {
-                this.baseUrl = '/' + options.groupId + '/posts';
-                this.groupId = options.groupId;
-            } else {
-                this.baseUrl = '/home/posts';
-            }
+            this.baseUrl = '/' + options.subId + '/posts';
+            this.subId = options.subId;
 
             this.page = options && options.page ? options.page : 1;
             this.pageSize = options && options.pageSize ? options.pageSize : 15;
@@ -36,6 +32,14 @@ function ($, _, Backbone, PaginatedCollection, Post) {
 
             this.query = options && options.query ? options.query : '';
             this.field = options && options.field ? options.field : '';
+        },
+
+        comparator: function (post) {
+            if (this.sortByType === 'oldest') {
+                return parseInt(moment(post.get('CreatedOn')).format('YYYYMMDDTHHmmss'));
+            } else {
+                return -parseInt(moment(post.get('CreatedOn')).format('YYYYMMDDTHHmmss'));
+            }
         },
 
         parse: function (resp) {

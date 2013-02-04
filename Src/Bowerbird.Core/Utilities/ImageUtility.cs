@@ -22,7 +22,7 @@ using System.Linq;
 using System.Text;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using NLog;
 using Encoder = System.Drawing.Imaging.Encoder;
 

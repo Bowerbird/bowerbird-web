@@ -21,7 +21,7 @@ using Raven.Client;
 using System;
 using Bowerbird.Core.Config;
 using Raven.Client.Linq;
-using Bowerbird.Core.Factories;
+using Bowerbird.Core.DomainModelFactories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -79,7 +79,7 @@ namespace Bowerbird.Core.CommandHandlers
             // Make user's project group
             var userProject = new UserProject(
                 user, 
-                userCreateCommand.Name, 
+                userCreateCommand.Name,
                 string.Empty,
                 string.Empty,
                 defaultAvatarImage,

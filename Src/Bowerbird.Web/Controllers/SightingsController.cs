@@ -18,8 +18,8 @@ using System.Web.Mvc;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Web.Builders;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Queries;
+using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Web.Config;
@@ -36,7 +36,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
-        private readonly ISightingViewModelBuilder _sightingViewModelBuilder;
+        private readonly ISightingViewModelQuery _sightingViewModelQuery;
         private readonly IDocumentSession _documentSession;
 
         #endregion
@@ -44,14 +44,14 @@ namespace Bowerbird.Web.Controllers
         #region Constructors
 
         public SightingsController(
-            ISightingViewModelBuilder sightingViewModelBuilder,
+            ISightingViewModelQuery sightingViewModelQuery,
             IDocumentSession documentSession
             )
         {
-            Check.RequireNotNull(sightingViewModelBuilder, "sightingViewModelBuilder");
+            Check.RequireNotNull(sightingViewModelQuery, "sightingViewModelQuery");
             Check.RequireNotNull(documentSession, "documentSession");
 
-            _sightingViewModelBuilder = sightingViewModelBuilder;
+            _sightingViewModelQuery = sightingViewModelQuery;
             _documentSession = documentSession;
         }
 
@@ -93,7 +93,7 @@ namespace Bowerbird.Web.Controllers
             queryInput.Taxonomy = queryInput.Taxonomy ?? string.Empty;
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Sightings = _sightingViewModelBuilder.BuildSightingList(queryInput);
+            viewModel.Sightings = _sightingViewModelQuery.BuildSightingList(queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.Categories = Categories.GetAll();
             viewModel.Query = new

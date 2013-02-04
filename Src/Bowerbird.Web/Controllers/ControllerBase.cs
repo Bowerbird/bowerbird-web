@@ -15,8 +15,8 @@ using System.Dynamic;
 using System.Web.Mvc;
 using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.Config;
-using Bowerbird.Web.Builders;
-using Bowerbird.Web.ViewModels;
+using Bowerbird.Core.Queries;
+using Bowerbird.Core.ViewModels;
 using System;
 using Bowerbird.Core.Services;
 
@@ -46,41 +46,26 @@ namespace Bowerbird.Web.Controllers
 
                 var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
 
-                ViewBag.Ver = System.Configuration.ConfigurationManager.AppSettings["StaticContentIncrement"]; ;
+                ViewBag.Ver = System.Configuration.ConfigurationManager.AppSettings["StaticContentIncrement"];
 
                 if (userContext.IsUserAuthenticated())
                 {
-                    var userViewModelBuilder = ServiceLocator.Current.GetInstance<IUserViewModelBuilder>();
-
-                    var authenticatedUser = userViewModelBuilder.BuildAuthenticatedUser(userContext.GetAuthenticatedUserId());
-
-                    ViewBag.Model.AuthenticatedUser = authenticatedUser;
-                    ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(new
-                        {
-                            AuthenticatedUser = authenticatedUser,
-                            ViewBag.Model,
-                            ViewBag.PrerenderedView
-                        });
+                    var userViewModelQuery = ServiceLocator.Current.GetInstance<IUserViewModelQuery>();
+                    ViewBag.Model.AuthenticatedUser = userViewModelQuery.BuildAuthenticatedUser(userContext.GetAuthenticatedUserId());
                 }
-                else
-                {
-                    ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(new
-                    {
-                        ViewBag.Model,
-                        ViewBag.PrerenderedView
-                    });
-                }
+
+                ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag);
 
 #if JS_COMBINE_MINIFY
-                    ViewBag.JavascriptSource = "main-min.js";
+                ViewBag.JavascriptSource = "main-min.js";
 #elif JS_COMBINE_VERBOSE
-                    ViewBag.JavascriptSource = "main-combined.js";
+                ViewBag.JavascriptSource = "main-combined.js";
 #else
                 ViewBag.JavascriptSource = "main.js";
 #endif
 
 #if DEBUG
-                ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
+                //ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
 #endif
             }
 
@@ -162,7 +147,9 @@ namespace Bowerbird.Web.Controllers
         {
             ActionResult actionResult = null;
 
-            var newViewModel = new { Model = viewModel }; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
+            dynamic newViewModel = new ExpandoObject();
+            newViewModel.Model = new ExpandoObject();
+            newViewModel.Model = viewModel; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
 
             // Stupid IE aggressively caches all requests, even *AJAX* requests. So, we have to bust out of the caching 
             // for IE using this rudimentary browser sniffing. It does the job. 'Nuff said.
@@ -186,7 +173,7 @@ namespace Bowerbird.Web.Controllers
                 // Add the prerendered view name that will be used by the client side JS to render bootstrapped data
                 if (!string.IsNullOrWhiteSpace(prerenderedViewName))
                 {
-                    ViewBag.PrerenderedView = prerenderedViewName;
+                    newViewModel.Model.PrerenderedView = prerenderedViewName;
                 }
 
                 // Perform any additional html view tasks on the model
@@ -195,7 +182,7 @@ namespace Bowerbird.Web.Controllers
                     htmlViewTask(newViewModel);
                 }
 
-                ViewBag.Model = viewModel;
+                ViewBag.Model = newViewModel.Model;
 
                 actionResult = View(htmlViewName);
             }

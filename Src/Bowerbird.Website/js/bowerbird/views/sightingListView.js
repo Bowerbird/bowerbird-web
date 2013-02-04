@@ -30,13 +30,13 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         initialize: function (options) {
-            _.bindAll(this, 'appendHtml', 'clearListAnPrepareShowLoading');
+            _.bindAll(this, 'appendHtml', 'clearListAnPrepareShowLoading', 'onDetailsTabClicked', 'onThumbnailsTabClicked');
 
-            if (!options.activeTab) {
-                this.activeTab = 'thumbnails';
-            } else {
-                this.activeTab = options.activeTab;
-            }
+            //            if (!options.activeTab) {
+            //                this.activeTab = 'thumbnails';
+            //            } else {
+            //                this.activeTab = options.activeTab;
+            //            }
 
             this.activeTab = this.collection.viewType;
 
@@ -44,7 +44,6 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
             this.collection.on('fetching', this.onLoadingStart, this);
             this.collection.on('fetched', this.onLoadingComplete, this);
-            this.collection.on('reset', this.onLoadingComplete, this);
             this.collection.on('search-reset', this.clearListAnPrepareShowLoading, this);
         },
 
@@ -52,7 +51,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             return {
                 Model: {
                     Query: {
-                        Id: this.collection.projectId,
+                        Id: this.collection.subId,
                         Page: this.collection.pageSize,
                         PageSize: this.collection.page,
                         View: this.collection.viewType,
@@ -63,12 +62,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         onShow: function () {
-            this.refresh();
-        },
-
-        onRender: function () {
             this._showDetails();
-            this.refresh();
         },
 
         showBootstrappedDetails: function () {
@@ -83,8 +77,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
                 childView.delegateEvents();
                 this.storeChild(childView);
             }, this);
+
             this._showDetails();
-            this.refresh();
         },
 
         _showDetails: function () {
@@ -99,9 +93,11 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
             this.onLoadingComplete(this.collection);
             this.changeSortLabel(this.collection.sortByType);
-            //this.switchTabHighlight(this.collection.viewType);
+            this.switchTabHighlight(this.collection.viewType);
 
             this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
+
+            this.refresh();
         },
 
         changeSortLabel: function (value) {
@@ -123,6 +119,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             }
 
             this.$el.find('.sort-button .tab-list-selection').empty().text(label);
+            this.$el.find('.tabs li a, .tabs .tab-list-button').tipsy.revalidate();
         },
 
         refresh: function () {
@@ -159,6 +156,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             } else {
                 $li.before(itemView.el);
             }
+
+            itemView._showDetails();
 
             itemView.refresh();
         },
@@ -211,7 +210,7 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             e.preventDefault();
             this.clearListAnPrepareShowLoading();
             this.switchTabHighlight('map');
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: false });
         },
 
         switchTabHighlight: function (tab) {
