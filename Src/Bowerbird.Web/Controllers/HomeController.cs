@@ -379,5 +379,45 @@ namespace Bowerbird.Web.Controllers
         }
 
         #endregion
+
+        #region Static Content Methods
+
+        [HttpGet]
+        public ActionResult Blog()
+        {
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult Privacy()
+        {
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult Terms()
+        {
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult About()
+        {
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult Resources()
+        {
+            return HttpNotFound();
+        }
+
+        [HttpGet]
+        public ActionResult Developer()
+        {
+            return HttpNotFound();
+        }
+
+        #endregion
     }
 }
