@@ -3929,8 +3929,11 @@ ul.tagit input[type="text"] {
     box-shadow: none;
 }
 
-
-
+/* HC Added for Static Content from footer links */
+div.bowerbird-static-content { }
+#footer { width: 100%; overflow: hidden; }
+#footer ul { list-style: none; position: relative; float: left; display: block; left: 50%; }
+#footer ul li { position: relative; float: left; display: block; right: 50%; }
 
 /***** Chart styles *****/
 /*plugin styles*/

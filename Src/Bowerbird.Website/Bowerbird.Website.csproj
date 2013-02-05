@@ -679,6 +679,12 @@
     <Content Include="Views\Shared\GeospatialForm.mustache" />
     <Content Include="Views\Shared\ValidationSummary.mustache" />
     <Content Include="Views\Observations\UpdateIdentification.mustache" />
+    <None Include="Views\Shared\BowerbirdAbout.mustache" />
+    <None Include="Views\Shared\BowerbirdBlog.mustache" />
+    <None Include="Views\Shared\BowerbirdDeveloper.mustache" />
+    <None Include="Views\Shared\BowerbirdPrivacy.mustache" />
+    <None Include="Views\Shared\BowerbirdResources.mustache" />
+    <None Include="Views\Shared\BowerbirdTerms.mustache" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

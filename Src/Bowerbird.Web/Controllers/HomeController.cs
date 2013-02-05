@@ -385,37 +385,73 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult Blog()
         {
-            return HttpNotFound();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "blog");
         }
 
         [HttpGet]
         public ActionResult Privacy()
         {
-            return HttpNotFound();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "privacy");
         }
 
         [HttpGet]
         public ActionResult Terms()
         {
-            return HttpNotFound();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "terms");
         }
 
         [HttpGet]
         public ActionResult About()
         {
-            return HttpNotFound();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "about");
         }
 
         [HttpGet]
         public ActionResult Resources()
         {
-            return HttpNotFound();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "resources");
         }
 
         [HttpGet]
         public ActionResult Developer()
         {
-            return HttpNotFound();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "developer");
         }
 
         #endregion
