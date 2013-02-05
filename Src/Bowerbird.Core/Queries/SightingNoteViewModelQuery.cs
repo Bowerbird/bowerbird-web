@@ -54,10 +54,12 @@ namespace Bowerbird.Core.Queries
 
         public object BuildUpdateSightingNote(string sightingId, int sightingNoteId)
         {
+            var subId = "notes/" + sightingNoteId.ToString();
+
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == sightingNoteId.ToString())
+                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == subId)
                 .First();
 
             return _sightingNoteViewFactory.MakeUpdateSightingNote(result.Observation, result.User, sightingNoteId);

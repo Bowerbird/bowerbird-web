@@ -54,10 +54,12 @@ namespace Bowerbird.Core.Queries
 
         public object BuildUpdateIdentification(string sightingId, int identificationId)
         {
+            var subId = "notes/" + identificationId.ToString();
+
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()
                 .AsProjection<All_Contributions.Result>()
-                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == identificationId.ToString())
+                .Where(x => x.ParentContributionId == sightingId && x.SubContributionId == subId)
                 .First();
 
             return _identificationViewFactory.MakeUpdateIdentification(result.Observation, result.User, identificationId);

@@ -69,6 +69,7 @@ namespace Bowerbird.Core.CommandHandlers
                 _documentSession.Load<User>(command.UserId));
 
             _documentSession.Store(sighting);
+            _documentSession.SaveChanges();
         }
 
         #endregion

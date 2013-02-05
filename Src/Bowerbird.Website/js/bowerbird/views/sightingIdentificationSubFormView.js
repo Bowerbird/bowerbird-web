@@ -50,7 +50,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
         _showDetails: function () {
         },
 
-        _onCommentsChanged: function(e) {
+        _onCommentsChanged: function (e) {
             this.model.set('Comments', $(e.currentTarget).val());
         },
 
@@ -64,7 +64,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
 
             this.identificationFormView.render();
         },
-        
+
         _onIdentificationDone: function (identification) {
             log('identification done', identification);
 

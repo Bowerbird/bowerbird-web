@@ -293,7 +293,6 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                         var processingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'processing'; }).length;
                         var loadingCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'loading'; }).length;
                         var completeCount = _.filter(uploads, function (upload) { return upload.progressStatus === 'complete'; }).length;
-                        var failureCount = _.filter(uploads, function (upload) { return upload.successStatus === 'fail'; }).length;
 
                         if (completeCount < totalCount) {
                             var total = totalCount * 5;
@@ -318,11 +317,19 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                             }), 200);
                         }
 
-                        if (failureCount > 0) {
-                            var desc = failureCount > 1 ? 'files' : 'file';
-                            that.$el.find('#upload-error')
-                                .html(failureCount + ' media ' + desc + ' failed to be uploaded. <a href="#" id="upload-error-info-button">Click here to view more info</a>.')
-                                .show();
+                        if (mediaUpload.get('successStatus') === 'fail') {
+                            var errors = that.mediaUploads.filter(function(item) {
+                                return item.get('successStatus') === 'fail';
+                            });
+                            
+                            errors = _.map(errors, function (item) {
+                                return {
+                                    Field: 'Media-' + item.id,
+                                    Message: 'The file "' + item.get('filename') + '" failed to be added. The supported file types for uploading are JPEG, TIFF, PNG and MP3. If uploading a video, please ensure it is a valid Youtube or Vimeo video.'
+                                };
+                            });
+
+                            that.trigger('upload-error', mediaUpload, errors);
                         }
 
                         next();

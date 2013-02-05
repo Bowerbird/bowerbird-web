@@ -23,16 +23,18 @@
     <li>
       <a href="/{{Id}}/about" title="View details about this organisation">About {{Name}}</a>
     </li>
-    <!--<li class="new-section">
+    {{#IsAdministrator}}
+    <li class="new-section">
       <a href="/{{Id}}/posts/create" title="Post a news item to this organisation">Add News Item</a>
     </li>
-    {{#Permissions.UpdateOrganisation}}
     <li>
       <a href="/{{Id}}/update" title="Edit the details of this organisation">Edit Organisation Details</a>
     </li>
-    {{/Permissions.UpdateOrganisation}}
-    <li class="new-section">
-      <span class="chat-menu-item" id="chat-{{Id}}" title="Chat with other organisation members">Chat</span>
-    </li>-->
+    {{/IsAdministrator}}
+    {{#IsMember}}
+    <li class="chat-menu-item new-section">
+      <span class="chat-menu-item" id="chat-{{Id}}" title="Start a chat">Chat</span>
+    </li>
+    {{/IsMember}}
   </ul>
 </div>

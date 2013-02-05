@@ -16,63 +16,8 @@
 {{#LeaveOrganisation}}
 <a href="/{{Id}}/members" class="button leave-button" title="&lt;b>Leave this organisation&lt;/b> &lt;br />Leave the organisation as a member; you will not longer see organisation activity in your timeline">Joined</a>
 {{/LeaveOrganisation}}
-{{#Vote}}
-<div class="vote-up button user-vote-score{{UserVoteScore}}" title="<b>Vote up</b> <br />This sighting shows effort; the media (images, videos, audio) are well composed; the title is descriptive, meaningful and representative of the media <br />(Click again to undo)">+</div>
-<div class="vote-down button user-vote-score{{UserVoteScore}}" title="<b>Vote down</b> <br />This sighting shows no effort; the media (images, videos, audio) is not well composed; the title is not descriptive, meaningful or representative of the media <br />(Click again to undo)">-</div>
-{{/Vote}}
-{{#Favourites}}
-<div class="favourites-button" title="<b>Add to your favourites</b> <br />Add this sighting to your favourites<br /> (Click again to undo)"></div>
-{{/Favourites}}
-{{#Identify}}
-<a href="/{{Id}}/identifications/create" class="button add-identification-button" title="<b>Identify this sighting</b> <br />Identify the species in this sighting">Identify</a>
-{{/Identify}}
-{{#Describe}}
-<a href="/{{Id}}/notes/create" class="button add-note-button" title="<b>Describe this sighting</b> <br />Add a description and/or tags to this sighting">Describe</a>
-{{/Describe}}
-{{#Discuss}}
-<a href="/{{Id}}/comments/create" class="button add-comment-button" title="<b>Discuss this sighting</b> <br />Comment about this sighting">Discuss</a>
-{{/Discuss}}
-{{#EditSighting}}
-<a href="/{{Id}}/update" class="button edit-button" title="<b>Edit this sighting</b> <br /> Change the details of the sigthing">Edit</a>
-{{/EditSighting}}
-{{#EditIdentification}}
-<a href="/{{SightingId}}/{{Id}}/update" class="button edit-button" title="<b>Edit this identification</b> <br /> Change the details of the identification">Edit</a>
-{{/EditIdentification}}
-{{#EditNote}}
-<a href="/{{SightingId}}/{{Id}}/update" class="button edit-button" title="<b>Edit this note</b> <br /> Change the details of the descriptions and tags in this note">Edit</a>
-{{/EditNote}}
-
-
-{{#MenuAddSightings}}
-<li class="new-section">
-	<a href="/observations/create?projectid={{Id}}" title="Add a sighting that contains images, videos and/or audio to this project">Add Full Sighting</a>
-</li>
-<li>
-	<a href="/records/create?projectid={{Id}}" title="Add a sighting that consists of a location alone to this project">Add Simple Sighting</a>
-</li>
-{{/MenuAddSightings}}
-{{#MenuAddProjectPost}}
-<li>
-	<a href="/{{Id}}/posts/create" title="Post a news item to this project">Add News Item</a>
-</li>
-{{/MenuAddProjectPost}}
-{{#MenuAddOrganisationPost}}
-<li class="new-section">
-	<a href="/{{Id}}/posts/create" title="Post a news item to this organisation">Add News Item</a>
-</li>
-{{/MenuAddOrganisationPost}}
-{{#MenuEditProject}}
-<li>
-	<a href="/{{Id}}/update" title="Edit the details of this project">Edit Project Details</a>
-</li>
-{{/MenuEditProject}}
-{{#MenuEditOrganisation}}
-<li>
-	<a href="/{{Id}}/update" title="Edit the details of this organisation">Edit Organisation Details</a>
-</li>
-{{/MenuEditOrganisation}}
 {{#MenuChat}}
 <li class="chat-menu-item new-section">
-	<span class="chat-menu-item" id="chat-{{Id}}" title="Start a chat">Chat</span>
+<span class="chat-menu-item" id="chat-{{Id}}" title="Start a chat">Chat</span>
 </li>
 {{/MenuChat}}

@@ -934,7 +934,7 @@ function ($, _, Backbone, app, ich, licences) {
             if (errors.length > 0) {
                 if (this.$el.find('.validation-summary').length == 0) {
                     this.$el.find('.edit-geospatial-form').prepend(ich.ValidationSummary({
-                        SummaryMessage: 'Please correct the following error(s) before continuing:',
+                        SummaryMessage: 'Please correct the following before continuing:',
                         Errors: errors
                     }));
                     this.$el.find('.validation-summary').slideDown();
@@ -962,15 +962,13 @@ function ($, _, Backbone, app, ich, licences) {
                 }
             }
 
-            if (coords.isValid()) {
+            if (errors.length == 0) {
                 var latLongDec = coords.getDecimalLatLong();
                 this.$el.find('#geospatial-lat-long').text(latLongDec.Latitude + ', ' + latLongDec.Longitude);
                 this.$el.find('.done-button').removeAttr('disabled');
 
                 this.showPointOnMap(new google.maps.LatLng(latLongDec.Latitude, latLongDec.Longitude));
-
-                this.$el.find('.done-button').removeAttr('disabled');
-
+                
                 this.validCoordinates = latLongDec;
             } else {
                 this.$el.find('#geospatial-lat-long').text('None');
@@ -982,8 +980,6 @@ function ($, _, Backbone, app, ich, licences) {
                 }
                 this.map.panTo(australia);
                 this.map.setZoom(3);
-
-                this.$el.find('.done-button').attr('disabled', 'disabled');
 
                 this.validCoordinates = null;
             }

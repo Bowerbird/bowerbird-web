@@ -32,8 +32,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             'change input#Title': '_contentChanged',
             'change input#ObservedOn': '_observedOnChanged',
             'change input#Address': '_contentChanged',
-            //'change input#Latitude': '_latLongChanged',
-            //'change input#Longitude': '_latLongChanged',
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
@@ -59,6 +57,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             }
 
             this.model.media.on('add', this.onMediaChanged, this);
+            this.model.on('validated', this.onValidation, this);
         },
 
         serializeData: function () {
@@ -99,6 +98,8 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             var observationMediaFormView = new ObservationMediaFormView({ el: '#media-details', model: this.model, collection: this.model.media });
             this.media.attachView(observationMediaFormView);
             observationMediaFormView.render();
+
+            observationMediaFormView.on('upload-error', this.onValidation, this);
 
             this.$el.find('#ObservedOn').val(moment(this.model.get('ObservedOn')).format('D MMMM YYYY'));
             this.observedOnDatePicker = this.$el.find('#ObservedOn').datepicker();
@@ -153,10 +154,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             var data = {};
             data[target.attr('id')] = target.attr('value');
             this.model.set(data);
-
-            if (target.attr('id') === 'Address') {
-                this._latLongChanged(e);
-            }
         },
 
         _observedOnChanged: function (e) {
@@ -165,21 +162,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             var data = {};
             data[target.attr('id')] = target.attr('value');
             this.model.set(data);
-        },
-
-        _latLongChanged: function (e) {
-            //var oldPosition = { latitude: this.model.get('Latitude'), longitude: this.model.get('Longitude') };
-            //var newPosition = { latitude: this.$el.find('#Latitude').val(), longitude: this.$el.find('#Longitude').val() };
-
-            // log('lat/long changed', oldPosition, newPosition);
-
-            //this.model.set('Latitude', newPosition.latitude);
-            //this.model.set('Longitude', newPosition.longitude);
-
-            // Only update pin if the location is different to avoid infinite loop
-            //if (newPosition.latitude !== null && newPosition.longitude !== null && newPosition.latitude.trim() !== '' && newPosition.longitude.trim() !== '' && (oldPosition.latitude !== newPosition.latitude || oldPosition.longitude !== newPosition.longitude)) {
-                //this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);
-            //}
         },
 
         _anonymiseLocationChanged: function (e) {
@@ -242,6 +224,64 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             this.location.currentView.changeMarkerPosition(this.model.get('Latitude'), this.model.get('Longitude'), true);
         },
 
+        onValidation: function (obs, errors) {
+            if (errors.length == 0) {
+                this.$el.find('.validation-summary').slideUp(function () { $(this).remove(); });
+            }
+
+            if (errors.length > 0) {
+                if (this.$el.find('.validation-summary').length == 0) {
+                    this.$el.find('.form-details').prepend(ich.ValidationSummary({
+                        SummaryMessage: 'Please correct the following before continuing:',
+                        Errors: errors
+                    }));
+                    this.$el.find('.validation-summary').slideDown();
+                } else {
+                    var that = this;
+                    // Remove items
+                    this.$el.find('.validation-summary li').each(function () {
+                        var $li = that.$el.find(this);
+                        var found = _.find(errors, function (err) {
+                            return 'validation-field-' + err.Field === $li.attr('class');
+                        });
+                        if (!found) {
+                            $li.slideUp(function () { $(this).remove(); });
+                        }
+                    });
+
+                    // Add items
+                    _.each(errors, function (err) {
+                        if (this.$el.find('.validation-field-' + err.Field).length === 0) {
+                            var li = $('<li class="validation-field-' + err.Field + '">' + err.Message + '</li>').css({ display: 'none' });
+                            this.$el.find('.validation-summary ul').append(li);
+                            li.slideDown();
+                        }
+                    }, this);
+                }
+            }
+
+            //            if (errors.length == 0) {
+            //                //this.$el.find('#save').removeAttr('disabled');
+            //            } else {
+            //                //this.$el.find('#save').attr('disabled', 'disabled');
+            //            }
+
+            this.$el.find('#Title, #Category, #pin-field, .observation-media-items').removeClass('input-validation-error');
+
+            if (_.any(errors, function (item) { return item.Field === 'Title'; })) {
+                this.$el.find('#Title').addClass('input-validation-error');
+            }
+            if (_.any(errors, function (item) { return item.Field === 'Category'; })) {
+                this.$el.find('#Category').addClass('input-validation-error');
+            }
+            if (_.any(errors, function (item) { return item.Field === 'Location'; })) {
+                this.$el.find('#pin-field').addClass('input-validation-error');
+            }
+            if (_.any(errors, function (item) { return item.Field === 'Media'; })) {
+                this.$el.find('.observation-media-items').addClass('input-validation-error');
+            }
+        },
+
         _cancel: function () {
             app.showPreviousContentView();
         },
@@ -251,9 +291,10 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 return;
             }
 
-            //            if (this.viewEditMode == 'update') {
-            //                this.model.set('Id', this.model.id.replace('observations/', ''));
-            //            }
+            if (!this.model.isValid(true)) {
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                return;
+            }
 
             if (this.identification) {
                 this.model.setIdentification(this.identification);
@@ -267,7 +308,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             app.showPreviousContentView();
         }
     });
-
+     
     return ObservationFormView;
 
 });

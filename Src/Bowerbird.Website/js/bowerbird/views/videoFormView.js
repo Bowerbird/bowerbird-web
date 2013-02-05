@@ -111,7 +111,7 @@ function ($, _, Backbone, app, ich) {
         },
 
         provider: null,
-        
+
         videoId: '',
 
         serializeData: function () {
@@ -140,6 +140,9 @@ function ($, _, Backbone, app, ich) {
                     that._loadVideo(that.$el.find('#VideoUri').val());
                 }, 100);
             });
+
+            this.$el.find('.add-button').attr('disabled', 'disabled');
+
             return this;
         },
 
@@ -171,17 +174,68 @@ function ($, _, Backbone, app, ich) {
             this.$el.find('.video-preview').html('');
             switch (status) {
                 case 'success':
+                    this.onValidation(null, []);
                     this.$el.find('.video-preview').html(html);
                     break;
                 case 'loading':
-                    this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.gif" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
+                    //this.$el.find('#video-uri-field input').after('<div class="field-validation-info"><img src="/img/loader.gif" alt="" />Loading ' + this.provider.getJSON().name + ' video...</div>');
                     break;
                 case 'error':
                     this.$el.find('#VideoUri').addClass('input-validation-error');
-                    this.$el.find('#video-uri-field input').after('<div class="field-validation-error">The video link entered is not valid. Please correct the link and try again.</div>');
+                    //this.$el.find('#video-uri-field input').after('<div class="field-validation-error">The video link entered is not valid. Please correct the link and try again.</div>');
+                    this.onValidation(null, [{ Field: 'VideoUri', Message: 'The video link entered is not valid. Please correct the link and try again.'}]);
                     break;
                 default:
                     return;
+            }
+        },
+
+        onValidation: function (obs, errors) {
+            if (errors.length == 0) {
+                this.$el.find('.validation-summary').slideUp(function () { $(this).remove(); });
+            }
+
+            if (errors.length > 0) {
+                if (this.$el.find('.validation-summary').length == 0) {
+                    this.$el.find('.video-form').prepend(ich.ValidationSummary({
+                        SummaryMessage: 'Please correct the following before continuing:',
+                        Errors: errors
+                    }));
+                    this.$el.find('.validation-summary').slideDown();
+                } else {
+                    var that = this;
+                    // Remove items
+                    this.$el.find('.validation-summary li').each(function () {
+                        var $li = that.$el.find(this);
+                        var found = _.find(errors, function (err) {
+                            return 'validation-field-' + err.Field === $li.attr('class');
+                        });
+                        if (!found) {
+                            $li.slideUp(function () { $(this).remove(); });
+                        }
+                    });
+
+                    // Add items
+                    _.each(errors, function (err) {
+                        if (this.$el.find('.validation-field-' + err.Field).length === 0) {
+                            var li = $('<li class="validation-field-' + err.Field + '">' + err.Message + '</li>').css({ display: 'none' });
+                            this.$el.find('.validation-summary ul').append(li);
+                            li.slideDown();
+                        }
+                    }, this);
+                }
+            }
+
+            if (errors.length == 0) {
+                this.$el.find('.add-button').removeAttr('disabled');
+            } else {
+                this.$el.find('.add-button').attr('disabled', 'disabled');
+            }
+
+            this.$el.find('#VideoUri').removeClass('input-validation-error');
+
+            if (_.any(errors, function (item) { return item.Field === 'VideoUri'; })) {
+                this.$el.find('#VideoUri').addClass('input-validation-error');
             }
         },
 

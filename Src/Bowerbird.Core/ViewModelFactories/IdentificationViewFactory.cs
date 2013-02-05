@@ -108,6 +108,7 @@ namespace Bowerbird.Core.ViewModelFactories
                 var userId = authenticatedUser.Id;
 
                 viewModel.UserVoteScore = identification.Votes.Any(x => x.User.Id == userId) ? identification.Votes.Single(x => x.User.Id == userId).Score : 0;
+                viewModel.IsOwner = sighting.User.Id == authenticatedUser.Id;
             }
 
             viewModel.CreatedOnDescription = identification.CreatedOn.ToString("d MMMM yyyy");

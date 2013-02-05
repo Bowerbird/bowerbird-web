@@ -31,19 +31,29 @@
 </div>
 <div class="info">
   <div class="identification-actions">
-    <div class="vote-panel">
-      <div class="vote-details">
-        <span class="vote-score user-vote-score{{UserVoteScore}}">{{TotalVoteScore}}</span>
-        <span class="vote-label">votes</span>
-      </div>
+    <div class="vote-panel {{#Model.AuthenticatedUser}}with-buttons{{/Model.AuthenticatedUser}}">
+	    <div class="vote-details">
+		    <span class="vote-score user-vote-score{{UserVoteScore}}">{{TotalVoteScore}}</span>
+		    <span class="vote-label">votes</span>
+	    </div>
+	    {{#Model.AuthenticatedUser}}
+	    <div class="vote-up button user-vote-score{{UserVoteScore}}" title="<b>Vote up</b> <br />This identification is accurate; the comments support the identification <br />(Click again to undo)">+</div>
+	    <div class="vote-down button user-vote-score{{UserVoteScore}}" title="<b>Vote down</b> <br /> This identification is inaccurate; the comments do not support the identification <br />(Click again to undo)">-</div>
+	    {{/Model.AuthenticatedUser}}
     </div>
-    <div class="comment-panel">
+    <div class="comment-panel {{#Model.AuthenticatedUser}}with-buttons{{/Model.AuthenticatedUser}}">
       <div class="comment-details">
         <span class="comment-icon"></span>
         <span class="comment-count">0</span>
       </div>
+      {{#Model.AuthenticatedUser}}
+      <a href="/{{Id}}/comments/create" class="button add-comment-button" title="<b>Discuss this identification</b> <br />Comment about this identification">Discuss</a>
+      {{/Model.AuthenticatedUser}}
     </div>
     <div class="edit-panel">
+    {{#IsOwner}}
+	    <a href="/{{SightingId}}/{{Id}}/update" class="button edit-button" title="<b>Edit this identification</b> <br /> Change the details of the identification">Edit</a>
+    {{/IsOwner}}
     </div>
   </div>
 </div>

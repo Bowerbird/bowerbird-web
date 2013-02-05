@@ -29,20 +29,17 @@ function ($, _, Backbone, ich, app, moment, Voter) {
         serializeData: function () {
             var viewModel = {
                 Identification: this.model.toJSON(),
-                Sighting: this.sighting.toJSON()
+                Sighting: this.sighting.toJSON(),
+                Model: { AuthenticatedUser: app.authenticatedUser != undefined }
             };
             return viewModel;
         },
 
         currentObservationMedia: null,
 
-        onShow: function () {
+        onRender: function () {
             this._showDetails();
         },
-
-//        onRender: function () {
-//            this._showDetails();
-//        },
 
         showBootstrappedDetails: function () {
             this._showDetails();
@@ -50,7 +47,10 @@ function ($, _, Backbone, ich, app, moment, Voter) {
 
         _showDetails: function () {
             if (app.authenticatedUser) {
-                this.showActionButtons();
+                //this.$el.find('.edit-panel').append(ich.Buttons({ EditIdentification: true, SightingId: this.model.get('SightingId'), Id: this.model.id }));
+
+                this.$el.find('.vote-up, .vote-down, .add-comment-button').tipsy({ gravity: 'n', html: true });
+                this.$el.find('.edit-button').tipsy({ gravity: 's', html: true });                
             }
         },
 
@@ -68,23 +68,6 @@ function ($, _, Backbone, ich, app, moment, Voter) {
         voteDown: function (e) {
             Voter.voteDown(this.model);
             this.updateVotePanel('down');
-        },
-
-        showActionButtons: function () {
-            this.$el.find('.vote-panel, .comment-panel, .edit-panel').addClass('with-buttons');
-            this.$el.find('.vote-panel').append(ich.Buttons({ Vote: true }));
-            this.$el.find('.edit-panel').append(ich.Buttons({ EditIdentification: true, SightingId: this.model.get('SightingId'), Id: this.model.id }));
-            this.$el.find('.comment-panel').append(ich.Buttons({ Discuss: true, Id: this.model.id }));
-
-            if (this.model.get('UserVoteScore') === -1) {
-                this.updateVotePanel('down');
-            }
-            if (this.model.get('UserVoteScore') === 1) {
-                this.updateVotePanel('up');
-            }
-
-            this.$el.find('.vote-up, .vote-down, .add-comment-button').tipsy({ gravity: 'n', html: true });
-            this.$el.find('.edit-button').tipsy({ gravity: 's', html: true });
         },
 
         updateVotePanel: function (direction) {

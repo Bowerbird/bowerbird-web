@@ -28,6 +28,16 @@ function ($, _, Backbone, ich, app, Project) {
             this.activityCount = 0;
         },
 
+        serializeData: function () {
+            return {
+                Id: this.model.id,
+                Name: this.model.get('Name'),
+                Avatar: this.model.get('Avatar'),
+                IsMember: app.authenticatedUser.hasGroupRole(this.model.id, 'roles/projectmember'),
+                IsAdministrator: app.authenticatedUser.hasGroupRole(this.model.id, 'roles/projectadministrator')
+            };
+        },
+
         onRender: function () {
             var that = this;
 
@@ -41,26 +51,7 @@ function ($, _, Backbone, ich, app, Project) {
 
             app.vent.on('newactivity:' + this.model.id + ':sightingadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':sightingnoteadded', this.onNewActivityReceived, this);
 
-            if (app.authenticatedUser) {
-                this.$el.find('ul').append(ich.Buttons({ MenuAddSightings: true, Id: this.model.id }));
-                
-                if (app.authenticatedUser.hasGroupRole(this.model.id, 'roles/projectadministrator')) {
-                    this.$el.find('ul').append(ich.Buttons({ MenuAddProjectPost: true, Id: this.model.id }));
-                    this.$el.find('ul').append(ich.Buttons({ MenuEditProject: true, Id: this.model.id }));
-                }
-
-                this.$el.find('ul').append(ich.Buttons({ MenuChat: true, Id: this.model.id }));
-            }
-
             this.$el.find('#project-menu-group-list .sub-menu a, #project-menu-group-list .sub-menu span').tipsy({ gravity: 'w', live: true });
-        },
-
-        serializeData: function () {
-            return {
-                Id: this.model.id,
-                Name: this.model.get('Name'),
-                Avatar: this.model.get('Avatar')
-            };
         },
 
         showMenu: function (e) {

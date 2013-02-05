@@ -35,7 +35,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView, SightingNoteDetailsView
         serializeData: function () {
             return {
                 Model: {
-                    Observation: this.model.toJSON()
+                    Observation: this.model.toJSON(),
+                    AuthenticatedUser: app.authenticatedUser != undefined
                 }
             };
         },

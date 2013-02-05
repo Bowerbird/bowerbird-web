@@ -108,6 +108,7 @@ namespace Bowerbird.Core.ViewModelFactories
                 
                 viewModel.UserVoteScore = sighting.Votes.Any(x => x.User.Id == userId) ? sighting.Votes.Single(x => x.User.Id == userId).Score : 0;
                 viewModel.UserFavourite = sighting.Groups.Any(x => x.Group.Id == favouritesId);
+                viewModel.IsOwner = sighting.User.Id == authenticatedUser.Id;
             }
 
             if (sighting is Observation)

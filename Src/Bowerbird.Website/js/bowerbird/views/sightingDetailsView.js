@@ -54,20 +54,15 @@ function ($, _, Backbone, ich, app, moment, Voter) {
             viewModel.ObservedOnDescription = moment(this.model.get('ObservedOn')).format('D MMM YYYY');
             viewModel.CreatedOnDescription = moment(this.model.get('CreatedOn')).format('D MMM YYYY');
             viewModel.ObservationAdded = this.isObservationActviityItem; // For category icon selection in template
+            viewModel.Model = { AuthenticatedUser: app.authenticatedUser != undefined }; 
             return viewModel;
         },
 
         currentObservationMedia: null,
 
-        onShow: function () {
+        onRender: function () {
             this._showDetails();
-            //this.refresh();
         },
-
-//        onRender: function () {
-//            this._showDetails();
-//            //this.refresh();
-//        },
 
         showBootstrappedDetails: function () {
             this._showDetails();
@@ -76,6 +71,15 @@ function ($, _, Backbone, ich, app, moment, Voter) {
         _showDetails: function () {
             this.currentObservationMedia = _.find(this.model.get('Media'), function (item) {
                 return item.IsPrimaryMedia;
+            });
+
+            var resizeTimer;
+            var refresh = this.refresh;
+            $(window).resize(function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    refresh();
+                }, 100);
             });
 
             if (this.showLocation) {
@@ -117,17 +121,9 @@ function ($, _, Backbone, ich, app, moment, Voter) {
                 });
             }
 
-            var resizeTimer;
-            var refresh = this.refresh;
-            $(window).resize(function () {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function () {
-                    refresh();
-                }, 100);
-            });
-
-            if (app.authenticatedUser) {
-                this.showActionButtons();
+            if (app.authenticatedUser && this.template !== 'SightingTileDetails') {
+                this.$el.find('.vote-up, .vote-down, .add-identification-button, .add-note-button, .add-comment-button').tipsy({ gravity: 'n', html: true });
+                this.$el.find('.favourites-button, .edit-button').tipsy({ gravity: 's', html: true });
             }
         },
 
@@ -192,44 +188,22 @@ function ($, _, Backbone, ich, app, moment, Voter) {
             this.updateFavouritesPanel();
         },
 
-        showActionButtons: function () {
-            this.$el.find('.vote-panel, .favourites-panel, .identify-panel, .describe-panel, .comment-panel, .edit-panel').addClass('with-buttons');
-            this.$el.find('.vote-panel').append(ich.Buttons({ Vote: true }));
-            this.$el.find('.identify-panel').append(ich.Buttons({ Identify: true, Id: this.model.id }));
-            this.$el.find('.favourites-panel .favourites-star').replaceWith(ich.Buttons({ Favourites: true }));
-            this.$el.find('.edit-panel').append(ich.Buttons({ EditSighting: true, Id: this.model.id }));
-            this.$el.find('.describe-panel').append(ich.Buttons({ Describe: true, Id: this.model.id }));
-            this.$el.find('.comment-panel').append(ich.Buttons({ Discuss: true, Id: this.model.id }));
-
-            if (this.model.get('UserVoteScore') === -1) {
-                this.updateVotePanel('down');
-            }
-            if (this.model.get('UserVoteScore') === 1) {
-                this.updateVotePanel('up');
-            }
-
-            if (this.model.get('FavouritesCount') !== 0) {
-                this.updateFavouritesPanel();
-            }
-
-            this.$el.find('.vote-up, .vote-down, .add-identification-button, .add-note-button, .add-comment-button').tipsy({ gravity: 'n', html: true });
-            this.$el.find('.favourites-button, .edit-button').tipsy({ gravity: 's', html: true });
-        },
-
         updateFavouritesPanel: function () {
-            this.$el.find('.favourites-panel .favourites-count').text(this.model.get('FavouritesCount'));
-            this.$el.find('.favourites-panel .favourites-button').toggleClass('selected');
+            var $favouritesPanel = this.$el.find('.favourites-panel');
+            $favouritesPanel.find('.favourites-count').text(this.model.get('FavouritesCount'));
+            $favouritesPanel.find('.favourites-button').toggleClass('selected');
         },
 
         updateVotePanel: function (direction) {
+            var $votePanel = this.$el.find('.vote-panel');
             if (direction === 'up') {
-                this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button');
-                this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
-                this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
+                $votePanel.find('.vote-down').removeClass().addClass('vote-down button');
+                $votePanel.find('.vote-up').removeClass().addClass('vote-up button user-vote-score' + this.model.get('UserVoteScore'));
+                $votePanel.find('.vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
             } else {
-                this.$el.find('.vote-panel .vote-up').removeClass().addClass('vote-up button');
-                this.$el.find('.vote-panel .vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
-                this.$el.find('.vote-panel .vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
+                $votePanel.find('.vote-up').removeClass().addClass('vote-up button');
+                $votePanel.find('.vote-down').removeClass().addClass('vote-down button user-vote-score' + this.model.get('UserVoteScore'));
+                $votePanel.find('.vote-score').removeClass().addClass('vote-score user-vote-score' + this.model.get('UserVoteScore')).text(this.model.get('TotalVoteScore'));
             }
         }
 

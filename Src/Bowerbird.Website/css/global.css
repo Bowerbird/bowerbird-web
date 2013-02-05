@@ -643,10 +643,13 @@ a.multiSelect:focus,
 .form input[type=date].input-validation-error,
 .form input[type=email].input-validation-error,
 .form select.input-validation-error,
-.form textarea.input-validation-error
+.form textarea.input-validation-error,
+.form .observation-media-items.input-validation-error,
+.multiSelect.input-validation-error,
+.form #pin-field.input-validation-error 
 {
-    border-color: #8B2323;
-    background-color: rgb(255, 221, 219);
+    border-color: rgb(220, 65, 56);
+    background-color: rgb(251, 244, 244);
 }
 .form input[type=text].input-validation-error:focus,
 .form input[type=password].input-validation-error:focus,
@@ -980,15 +983,14 @@ a.multiSelect:focus,
     padding-top: 3px;
 }*/
 .validation-summary {
-  background-color: rgb(255, 221, 219);
-  border-bottom: 1px solid rgb(139, 35, 35);
-  border-top: 1px solid rgb(139, 35, 35);
+    background-color: rgb(220, 65, 56);
     font-size: 0.84em;
     line-height: 1.5em;
     padding: 1em 1.3em;
     top: 39px;
     width: 100%;
     display: none;
+    color: #fff;
 }
 .validation-summary ul {
   margin: 0 1em;
@@ -1130,18 +1132,14 @@ a.multiSelect:focus,
 }
 .form .observation-media-item > div
 {
-    background-color: #FFFFFF;
-    box-shadow: 0 1px 2px 0 #5071A6;
+    background-color: rgb(249, 249, 249);
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     position: relative;
-    
-    
     width: 100%;
     height: 100%;    
 }
 .form .observation-media-item .media
 {
-    background-image: url(/img/image-upload.png);
-    
     width: 100%;
     height: 100%;
 }
@@ -1159,15 +1157,15 @@ a.multiSelect:focus,
 }
 .form .observation-media-item .sub-menu-button
 {
-    background-color: #FFFFFF;
+    background-color: rgb(255, 255, 255);
     border-radius: 0 0 2px 0;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+    height: 50px;
+    left: 0;
     padding-left: 8px;
-    width: 38px;    
-    box-shadow: 0 1px 2px 0 #5071A6;
     position: absolute;
     top: 0;
-    left: 0;
-    height: 50px;
+    width: 38px;
 }
 .form .observation-media-item .media-details {
     bottom: 0;
@@ -3405,10 +3403,10 @@ li.chat-message .message-text
 }
 .video-form .field .video-preview > iframe
 {
-    box-shadow: 0 1px 2px 0 #5071A6;
-    background-image: url("/img/image-upload.png");
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
     background-repeat: repeat-x;
     border: none;
+    background-color: rgb(249, 249, 249);
 }
 .video-form .field-validation-info img
 {

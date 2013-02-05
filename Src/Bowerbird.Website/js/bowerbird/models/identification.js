@@ -44,7 +44,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
         idAttribute: 'Id',
 
-        isValid: function () {
+        hasTaxonomy: function () {
             if (this.get('IsCustomIdentification') === true) {
                 return this.get('Kingdom') !== '';
             } else {
@@ -70,7 +70,24 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             this.set('CommonGroupNames', []);
             this.set('CommonNames', []);
             this.set('Synonyms', []);
+        },
+
+        isValid: function (fireEvent) {
+            var isValid = true;
+            var errors = [];
+
+            if (!this.hasTaxonomy()) {
+                errors.push({ Field: 'Taxonomy', Message: 'Please select an identification.' });
+                isValid = false;
+            }
+
+            if (fireEvent === true) {
+                this.trigger('validated', this, errors);
+            }
+
+            return isValid;
         }
+
     });
 
     return Identification;

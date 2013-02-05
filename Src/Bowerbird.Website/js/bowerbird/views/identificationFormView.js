@@ -258,7 +258,7 @@ function ($, _, Backbone, app, ich, Identification) {
         },
 
         _displaySelectedId: function () {
-            if (this.model.isValid()) {
+            if (this.model.hasTaxonomy()) {
                 this.$el.find('#Identification').empty().html(ich.Identification(this.model.toJSON()));
                 this.$el.find('.done-button').removeAttr('disabled');
             } else {

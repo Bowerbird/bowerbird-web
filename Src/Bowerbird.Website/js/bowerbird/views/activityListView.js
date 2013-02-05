@@ -71,20 +71,45 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
         },
 
         appendHtml: function (collectionView, itemView) {
-            var items = this.collection.pluck('Id');
-            var index = _.indexOf(items, itemView.model.id);
+            $.when(this.sortAndAppend(collectionView, itemView))
+                .then(function () {
+                    itemView.refresh();
+                });
+            
+//            var items = this.collection.pluck('Id');
+//            var index = _.indexOf(items, itemView.model.id);
 
-            var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
+//            var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
 
-            itemView.$el.addClass(itemView.model.get('Type') + '-activity-item');
+//            itemView.$el.addClass(itemView.model.get('Type') + '-activity-item');
 
-            if ($li.length === 0) {
-                collectionView.$el.find('.activity-items').append(itemView.el);
-            } else {
-                $li.before(itemView.el);
-            }
+//            if ($li.length === 0) {
+//                collectionView.$el.find('.activity-items').append(itemView.el);
+//            } else {
+//                $li.before(itemView.el);
+//            }
 
-            itemView.refresh();
+//            itemView.refresh();
+        },
+
+        sortAndAppend: function (collectionView, itemView) {
+            var that = this;
+            return $.Deferred(function (dfd) {
+                var items = that.collection.pluck('Id');
+                var index = _.indexOf(items, itemView.model.id);
+
+                var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
+
+                itemView.$el.addClass(itemView.model.get('Type') + '-activity-item');
+
+                if ($li.length === 0) {
+                    collectionView.$el.find('.activity-items').append(itemView.el);
+                } else {
+                    $li.before(itemView.el);
+                }
+
+                dfd.resolve();
+            }).promise();
         },
 
         onLoadMoreClicked: function () {

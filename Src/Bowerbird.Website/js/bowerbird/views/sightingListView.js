@@ -146,20 +146,43 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         appendHtml: function (collectionView, itemView) {
-            var items = this.collection.pluck('Id');
-            var index = _.indexOf(items, itemView.model.id);
+            $.when(this.sortAndAppend(collectionView, itemView))
+                .then(function () {
+                    itemView._showDetails();
+                    itemView.refresh();
+                });
 
-            var $li = collectionView.$el.find('.sighting-items > li:eq(' + (index) + ')');
+            //            var items = this.collection.pluck('Id');
+            //            var index = _.indexOf(items, itemView.model.id);
 
-            if ($li.length === 0) {
-                collectionView.$el.find('.sighting-items').append(itemView.el);
-            } else {
-                $li.before(itemView.el);
-            }
+            //            var $li = collectionView.$el.find('.sighting-items > li:eq(' + (index) + ')');
 
-            itemView._showDetails();
+            //            if ($li.length === 0) {
+            //                collectionView.$el.find('.sighting-items').append(itemView.el);
+            //            } else {
+            //                $li.before(itemView.el);
+            //            }
 
-            itemView.refresh();
+            //            itemView._showDetails();
+
+            //            itemView.refresh();
+        },
+
+        sortAndAppend: function (collectionView, itemView) {
+            var that = this;
+            return $.Deferred(function (dfd) {
+                var items = that.collection.pluck('Id');
+                var index = _.indexOf(items, itemView.model.id);
+
+                var $li = collectionView.$el.find('.sighting-items > li:eq(' + (index) + ')');
+
+                if ($li.length === 0) {
+                    collectionView.$el.find('.sighting-items').append(itemView.el);
+                } else {
+                    $li.before(itemView.el);
+                }
+                dfd.resolve();
+            }).promise();
         },
 
         onLoadMoreClicked: function () {

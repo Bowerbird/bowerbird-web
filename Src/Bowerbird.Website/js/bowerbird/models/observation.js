@@ -117,6 +117,41 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
 
         hasLatLong: function () {
             return this.get('Latitude') !== null && this.get('Longitude') !== null && this.get('Latitude') !== '' && this.get('Longitude') !== null;
+        },
+
+        isValid: function (fireEvent) {
+            var isValid = true;
+            var errors = [];
+
+            var title = this.get('Title') != null ? this.get('Title').trim() : '';
+            var category = this.get('Category');
+            var media = this.get('Media');
+
+            if (!this.hasLatLong()) {
+                errors.push({ Field: 'Location', Message: 'Please enter a location. Either drag and drop the pin or enter an exact coordinate (click the options button).' });
+                isValid = false;
+            }
+
+            if (title.length == 0) {
+                errors.push({ Field: 'Title', Message: 'Please enter a title.' });  
+                isValid = false;
+            }
+
+            if (category.length == 0) {
+                errors.push({ Field: 'Category', Message: 'Please select a category.' });
+                isValid = false;
+            }
+
+            if (media.length == 0) {
+                errors.push({ Field: 'Media', Message: 'Please add at least one media file.' });
+                isValid = false;
+            }
+
+            if (fireEvent === true) {
+                this.trigger('validated', this, errors);
+            }
+
+            return isValid;
         }
     });
 

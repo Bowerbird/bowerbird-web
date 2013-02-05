@@ -263,7 +263,8 @@ namespace Bowerbird.Web.Controllers
                             SightingKey = key, // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
                             UserId = _userContext.GetAuthenticatedUserId(),
                             Descriptions = createInput.Note.Descriptions ?? new Dictionary<string, string>(),
-                            Tags = createInput.Note.Tags ?? string.Empty
+                            Tags = createInput.Note.Tags ?? string.Empty,
+                            Comments = createInput.Note.Comments ?? string.Empty
                         });
             }
 
@@ -479,7 +480,7 @@ namespace Bowerbird.Web.Controllers
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Descriptions = createInput.Descriptions ?? new Dictionary<string, string>(),
                     Tags = createInput.Tags ?? string.Empty,
-                    Comments = createInput.Comments
+                    Comments = createInput.Comments ?? string.Empty
                 });
 
             return JsonSuccess();
@@ -548,7 +549,8 @@ namespace Bowerbird.Web.Controllers
                     SightingId = updateInput.SightingId,
                     UserId = _userContext.GetAuthenticatedUserId(),
                     Descriptions = updateInput.Descriptions ?? new Dictionary<string, string>(),
-                    Tags = updateInput.Tags ?? string.Empty
+                    Tags = updateInput.Tags ?? string.Empty,
+                    Comments = updateInput.Comments ?? string.Empty
                 });
 
             return JsonSuccess();

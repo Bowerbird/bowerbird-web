@@ -33,6 +33,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             this.categorySelectList = options.categorySelectList;
             this.categories = options.categories;
             this.sighting = options.sighting;
+
+            this.model.on('validated', this.onValidation, this);
         },
 
         serializeData: function () {
@@ -75,6 +77,55 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
             app.vent.on('view:render:complete', function () {
                 this.sightingView.refresh();
             }, this);
+        },
+
+        onValidation: function (obs, errors) {
+            if (errors.length == 0) {
+                this.$el.find('.validation-summary').slideUp(function () { $(this).remove(); });
+            }
+
+            if (errors.length > 0) {
+                if (this.$el.find('.validation-summary').length == 0) {
+                    this.$el.find('form').prepend(ich.ValidationSummary({
+                        SummaryMessage: 'Please correct the following before continuing:',
+                        Errors: errors
+                    }));
+                    this.$el.find('.validation-summary').slideDown();
+                } else {
+                    var that = this;
+                    // Remove items
+                    this.$el.find('.validation-summary li').each(function () {
+                        var $li = that.$el.find(this);
+                        var found = _.find(errors, function (err) {
+                            return 'validation-field-' + err.Field === $li.attr('class');
+                        });
+                        if (!found) {
+                            $li.slideUp(function () { $(this).remove(); });
+                        }
+                    });
+
+                    // Add items
+                    _.each(errors, function (err) {
+                        if (this.$el.find('.validation-field-' + err.Field).length === 0) {
+                            var li = $('<li class="validation-field-' + err.Field + '">' + err.Message + '</li>').css({ display: 'none' });
+                            this.$el.find('.validation-summary ul').append(li);
+                            li.slideDown();
+                        }
+                    }, this);
+                }
+            }
+
+            //            if (errors.length == 0) {
+            //                //this.$el.find('#save').removeAttr('disabled');
+            //            } else {
+            //                //this.$el.find('#save').attr('disabled', 'disabled');
+            //            }
+
+            this.$el.find('.form #selected-identification-field #Identification').removeClass('input-validation-error');
+
+            if (_.any(errors, function (item) { return item.Field === 'Taxonomy'; })) {
+                this.$el.find('.form #selected-identification-field #Identification').addClass('input-validation-error');
+            }
         },
 
         _cancel: function () {

@@ -97,6 +97,7 @@ namespace Bowerbird.Core.ViewModelFactories
                 var userId = authenticatedUser.Id;
 
                 viewModel.UserVoteScore = sightingNote.Votes.Any(x => x.User.Id == userId) ? sightingNote.Votes.Single(x => x.User.Id == userId).Score : 0;
+                viewModel.IsOwner = sightingNote.User.Id == authenticatedUser.Id;
             }
 
             return viewModel;

@@ -28,6 +28,16 @@ function ($, _, Backbone, ich, app, Organisation) {
             this.activityCount = 0;
         },
 
+        serializeData: function () {
+            return {
+                Id: this.model.id,
+                Name: this.model.get('Name'),
+                Avatar: this.model.get('Avatar'),
+                IsMember: app.authenticatedUser.hasGroupRole(this.model.id, 'roles/organisationmember'),
+                IsAdministrator: app.authenticatedUser.hasGroupRole(this.model.id, 'roles/organisationadministrator')
+            };
+        },
+
         onRender: function () {
             var that = this;
 
@@ -41,24 +51,7 @@ function ($, _, Backbone, ich, app, Organisation) {
 
             app.vent.on('newactivity:' + this.model.id + ':postadded', this.onNewActivityReceived, this);
 
-            if (app.authenticatedUser) {
-                if (app.authenticatedUser.hasGroupRole(this.model.id, 'roles/organisationadministrator')) {
-                    this.$el.find('ul').append(ich.Buttons({ MenuAddOrganisationPost: true, Id: this.model.id }));
-                    this.$el.find('ul').append(ich.Buttons({ MenuEditOrganisation: true, Id: this.model.id }));
-                }
-
-                this.$el.find('ul').append(ich.Buttons({ MenuChat: true, Id: this.model.id }));
-            }
-
             this.$el.find('#organisation-menu-group-list .sub-menu a, #organisation-menu-group-list .sub-menu span').tipsy({ gravity: 'w', live: true });
-        },
-
-        serializeData: function () {
-            return {
-                Id: this.model.id,
-                Name: this.model.get('Name'),
-                Avatar: this.model.get('Avatar')
-            };
         },
 
         showMenu: function (e) {
