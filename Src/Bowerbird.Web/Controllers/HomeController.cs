@@ -379,5 +379,81 @@ namespace Bowerbird.Web.Controllers
         }
 
         #endregion
+
+        #region Static Content Methods
+
+        [HttpGet]
+        public ActionResult Blog()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "blog");
+        }
+
+        [HttpGet]
+        public ActionResult Privacy()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "privacy");
+        }
+
+        [HttpGet]
+        public ActionResult Terms()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "terms");
+        }
+
+        [HttpGet]
+        public ActionResult About()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "about");
+        }
+
+        [HttpGet]
+        public ActionResult Resources()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "resources");
+        }
+
+        [HttpGet]
+        public ActionResult Developer()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+
+            return RestfulResult(
+                viewModel,
+                "home",
+                "developer");
+        }
+
+        #endregion
     }
 }

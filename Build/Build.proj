@@ -51,17 +51,7 @@
     <MakeDir Directories="$(CurrentBuildDir)" />
   </Target>
   <Target Name="BuildMediaDirectories">
-    <MakeDir Directories="$(CurrentBuildDir)\media" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\default" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\document" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\video" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image\0" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image\1" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image\2" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image\3" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image\4" />
-    <MakeDir Directories="$(CurrentBuildDir)\media\image\5" />
+    <MakeDir Directories="$(CurrentBuildDir)\media\0" />
   </Target>
   <Target Name="ConfigSettingsMessages">
     <Message Text="Configuration is $(Configuration)" />
@@ -74,7 +64,7 @@
   </Target>
   <Target Name="CopyFilesToReleaseDir">
     <Copy SourceFiles="@(PackageFiles)" DestinationFiles="@(PackageFiles->'$(CurrentBuildDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(MediaFiles)" DestinationFiles="@(MediaFiles->'$(CurrentBuildDir)\media\testdata\%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(MediaFiles)" DestinationFiles="@(MediaFiles->'$(CurrentBuildDir)\media\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(ConfigFiles)" DestinationFiles="$(CurrentBuildDir)\web.config" />
   </Target>
   <Target Name="ZipUpReleaseFiles">
