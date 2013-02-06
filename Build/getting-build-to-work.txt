@@ -2,11 +2,13 @@ Download node.js and add to system PATH variable
 
 Download MSI from this project https://github.com/loresoft/msbuildtasks and install to make the extensions link work
 
-from a command line, browse to C:\Projects\bowerbird.web\Build and run build.bat
+from a command line, browse to and run C:\[Project root dir]\Build\build.bat
 
 Running build.bat:
 1st command line arguement is configuration [debug, debugprod, prod] - default is debug
+The differnt configurations apply combination and minification of javascript files.
+
 2nd command line arguement is build number [1.0.0.0] - default is 0.1.0.0
 
 This will output a copy of the site files into Release\[configuration]\[yyyyMMdd]-[hhmm]\ 
-and also a zip of the site files into Release\[configuration]\[yyyyMMdd]-[hhmm].zip 
+and also a zip of the site files into Release\[configuration]\[yyyyMMdd]-[hhmm].zip
