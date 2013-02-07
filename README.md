@@ -29,7 +29,7 @@ To develop for BowerBird, you will need to ensure the following development mach
 Web.Config
 ==========
 You will need to edit the web.config file where it is commented with: <!--YOU WILL NEED TO CHANGE THESE SETTINGS-->
-* documentStore: databaseName refers to the RavenDB Tenant. If single tenant, leave blank. url is the path to the ravenDB instance.
+* documentStore: databaseName refers to the RavenDB Tenant. If single tenant, leave blank. url is the path to the ravenDB instance. RavenDB in itself is a big learning curve. Checkout the docs and jabbR user groups as referenced on the www.ravendb.net site.
 * environment: the url to the root of the site
 * media: the relative path to the user uploaded resources. If you are serving content from a CDN, this will require a code refactor as this setting is currently relative
 * species: the relative path to the source files for populating the system with species data. This is used once on initial application startup.
@@ -48,12 +48,12 @@ Running Locally
 To build and run the source code for BowerBird on your development machine you will need to ensure:
 * You have the NUGet Package Manager installed: http://nuget.org/
 * If running locally in IIS, you will need a dedicated application pool running in integrated mode with Framework version 4.0 to host the website and another to host RavenDB
-* You have an instance of RavenDB you can point your BowerBird instance to. For help with ravenDB go to www.ravendb.net. It can be ran in memory or hosted in IIS.
+* You have an instance of RavenDB you can point your BowerBird instance to. For help with ravenDB and best practices, go to https://jabbr.net/#/rooms/RavenDB and the user group forum at www.jabbr.net/#ravendb It can be ran in memory or hosted in IIS.
 
 
 First Run
 =========
-Bowerbird has over 200,000 species that need to be loaded and indexed. This may take a long time. 
+Bowerbird has over 200,000 species that need to be loaded and indexed. This will happen on the first load as part of the system setup. This may take a long time.
 * When running in Debug mode, the species import will be limited to the _testImportLimit property in Bowerbird.Core.Config.SetupSystem.
 * When running in DebugProd or DebugRelease mode, all species will be imported.
 * You can see the status of the indexing by browsing to your RavenDB instance (at your local address or localhost:8080 if running in memory) and clicking on 'Stale Indexes' in the footer of the home page.
