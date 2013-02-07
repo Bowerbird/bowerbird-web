@@ -28,12 +28,25 @@ To develop for BowerBird, you will need to ensure the following development mach
 
 Anatomy of the source code directory
 ====================================
+the /Build directory contains the build batch file, the msbuild file, the javascript combine and minification scripts and some instructions
+
 the /Docs directory contains the following folders:
 * RavenDBConfig: RavenDB web.config with the recommented hosted ravenDb config settings
 * MediaAssets: UI design documents as illustrator and photoshop files
 * SpeciesData: The text files in this document are consumed by the system startup process on initial site load as explained below in 'First Run'. The system startup code is dependent on the structure of these docs.
 * UML: Visio files documenting the specifications of the system in it's early stages - mostly out of date or irrelevant
 * Whiteboards: Diagrams of brainstorming sessions at the whiteboard. Possibly very interesting, possibly illegible. Worth a look anyway.
+
+the /Src directory contains the following folders:
+* Bowerbird.Core: the models, commands, handlers, indexes, queries, configuration, events, event handlers, services, utilities, validators, view models and factories
+* Bowerbird.Test: Legacy unit test project using NUnit. This will break the build if used so should be ignored. Feel free to use and contribute. It has some interesting implementations of using RavenDB in memory.
+* Bowerbird.Web: the ASP.Net MVC3 web layer infrastructure and implementations
+* Bowerbird.Website: The Client UI Moustache templates, Bowerbird backbone.marionette based javascript framework, 3rd party Javascript libraries
+
+Additional artefacts of the build process are the folders:
+/Lib: for additional dependent assemblies and build process executables
+/packages: repository for NuGet packages which are pulled in as required on project compilation
+/Release: repository for folder and zip file artefacts of running the build script. Copy the zip file build from this directory to your website to deploy.
 
 
 Web.Config
@@ -43,6 +56,7 @@ You will need to edit the web.config file where it is commented with: <!--YOU WI
 * environment: the url to the root of the site
 * media: the relative path to the user uploaded resources. If you are serving content from a CDN, this will require a code refactor as this setting is currently relative
 * species: the relative path to the source files for populating the system with species data. This is used once on initial application startup.
+* If you like to leave your web.config in place when deploying or deploy it from a separate location, be sure to increment the <add key="StaticContentIncrement" value="2" /> value. The build prcess increments this number to "YYYYDDMM-hhmm" and the system appends this value to all javascript resources as a cache-busting fix. If you are experiencing Javascript errors after deployment, you may have forgotten to increment this value.
 
 
 Build Script
