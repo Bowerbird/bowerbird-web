@@ -26,6 +26,16 @@ To develop for BowerBird, you will need to ensure the following development mach
 * MSBuildTasks - Download and install the MSI from this project: https://github.com/loresoft/msbuildtasks
 
 
+Anatomy of the source code directory
+====================================
+the /Docs directory contains the following folders:
+* RavenDBConfig: RavenDB web.config with the recommented hosted ravenDb config settings
+* MediaAssets: UI design documents as illustrator and photoshop files
+* SpeciesData: The text files in this document are consumed by the system startup process on initial site load as explained below in 'First Run'. The system startup code is dependent on the structure of these docs.
+* UML: Visio files documenting the specifications of the system in it's early stages - mostly out of date or irrelevant
+* Whiteboards: Diagrams of brainstorming sessions at the whiteboard. Possibly very interesting, possibly illegible. Worth a look anyway.
+
+
 Web.Config
 ==========
 You will need to edit the web.config file where it is commented with: <!--YOU WILL NEED TO CHANGE THESE SETTINGS-->
@@ -57,6 +67,11 @@ Bowerbird has over 200,000 species that need to be loaded and indexed. This will
 * When running in Debug mode, the species import will be limited to the _testImportLimit property in Bowerbird.Core.Config.SetupSystem.
 * When running in DebugProd or DebugRelease mode, all species will be imported.
 * You can see the status of the indexing by browsing to your RavenDB instance (at your local address or localhost:8080 if running in memory) and clicking on 'Stale Indexes' in the footer of the home page.
+
+How this happens:
+* When IIS starts up the app pool and the site is hit for the first time, the Web activator along with the interrogation of the document database determines if the species data needs loading and indexing. 
+* This results in the creation of a Document called AppRoot in the RavenDB store.
+* As the procedural code in SystemSetup works through, services are turned off and on depending on the need for events to fire.
 
 
 Issues
