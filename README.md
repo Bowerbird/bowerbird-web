@@ -53,7 +53,10 @@ To build and run the source code for BowerBird on your development machine you w
 
 First Run
 =========
-Bowerbird has over 200,000 species that need to be loaded and indexed. This may take a long time. You can see the status of the indexing by browsing to your RavenDB instance (at your local address or localhost:8080 if running in memory) and clicking on 'Stale Indexes' in the footer of the home page.
+Bowerbird has over 200,000 species that need to be loaded and indexed. This may take a long time. 
+* When running in Debug mode, the species import will be limited to the _testImportLimit property in Bowerbird.Core.Config.SetupSystem.
+* When running in DebugProd or DebugRelease mode, all species will be imported.
+* You can see the status of the indexing by browsing to your RavenDB instance (at your local address or localhost:8080 if running in memory) and clicking on 'Stale Indexes' in the footer of the home page.
 
 
 Issues
