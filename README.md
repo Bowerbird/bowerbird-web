@@ -48,7 +48,7 @@ Running Locally
 To build and run the source code for BowerBird on your development machine you will need to ensure:
 * You have the NUGet Package Manager installed: http://nuget.org/
 * If running locally in IIS, you will need a dedicated application pool running in integrated mode with Framework version 4.0 to host the website and another to host RavenDB
-* You have an instance of RavenDB you can point your BowerBird instance to. For help with ravenDB and best practices, go to https://jabbr.net/#/rooms/RavenDB and the user group forum at www.jabbr.net/#ravendb It can be ran in memory or hosted in IIS.
+* You have an instance of RavenDB you can point your BowerBird instance to. It can be ran in memory or hosted in IIS. For help with ravenDB and best practices, go to www.ravendb.net and the user group forum at https://jabbr.net/#/rooms/RavenDB.
 
 
 First Run
