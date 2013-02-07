@@ -4,7 +4,7 @@ Bowerbird is:
 *	A social network without walls, closed doors or exclusivity; totally open, totally visible and totally collaborative
 *	A continuous activity stream of natural history observations
 *	A workspace tool for the Citizen Science as well as the Scientific Biodiversity and Biosecurity communities where individuals can form groups; communicate and collaborate; make, discuss and identify their observations.
-*	An aggregator of observational data (specimen and images/video) and community comment into species pages with the added richness of interpretation from external sources (eg. ALA, GBIF, BHL, specimen data, mapping overlays: rainfall, climate, vegetation).
+*	An aggregator of observational data (specimen and images/video) and community comment into species pages with the added richness^ of interpretation from external sources (eg. ALA, GBIF, BHL, specimen data, mapping overlays: rainfall, climate, vegetation). Well this last part (^) is on the wishlist.
 
 
 The Technology Stack
@@ -16,15 +16,15 @@ The Technology Stack
 * Server to Client: signalR
 
 
-Getting Started
-===============
+Getting Started by Configuring your Development Environment
+===========================================================
 It is assumed that you are familiar with IIS, the Microsoft .Net Framework 
 To develop for BowerBird, you will need to ensure the following development machine configuration:
 * Microsoft Windows 64 bit Environment running .Net Framework version 4
-* Visual Studio 2010 installed with MVC3 for web based development
+* Visual Studio 2010 installed with Asp.Net MVC3 for web based development (or the solution file will not load properly). If you need to install Asp.Net MVC, use the downloadable installer - the Web Platform Installer takes a very long time.
 * Node.js installed and added to the system PATH variable
-* MSBuildTasks - Download and install the MSI from this project: https://github.com/loresoft/msbuildtasks
-* Use git (recommended) or simply downloading source as a zip file to your environment
+* MSBuildTasks - Download and install the MSI of this project: https://github.com/loresoft/msbuildtasks from this link: http://code.google.com/p/msbuildtasks/downloads/list
+* Use git (recommended) to download the source or pull it down as a zip file to your environment
 
 
 Anatomy of the source code directory
@@ -55,10 +55,30 @@ Additional artefacts of the build process are the folders:
 /Release: repository for folder and zip file artefacts of running the build script. Copy the zip file build from this directory to your website to deploy
 
 
+First Compilation:
+==================
+Once you have the source code downloaded and in place, open up the solution file Bowerbird.sln in the root folder. 
+* Make the output window visible (Debug > Windows > Output). 
+* Build the solution. 
+* Nuget will download all the dependent third party assemblies and run a build. THIS BUILD WILL FAIL. 
+* Now that you have all the required assemblies, you need to run the build script by opening a console and navigating to and running [path to root]\Build\Build.bat.
+* This will create the main-combined.js file that the environment depends on to locally build within Visual Studio for development. It's a bit of a chicken or egg situation. 
+
+
+Setting up RavenDB on your Environment:
+=======================================
+This part is unusual if you are new to RavenDB but as you will see, it's very easy. We will set up an in-memory ravenDB instance. This particular configuration is great for development. You might also look into running RavenDB in memory, but with local storage - which means every time you istart your RavenDB session, it already has data. When it comes to hosting, you would instead host RavenDB in IIS or run it as a service.
+* Go to the [source code folder]\packages\Ravendb.version.server\
+* Because we are running with an older, stable version of RavenDB for production, we can't pull the server source from NuGet. You need to go and download build 960 from http://hibernatingrhinos.com/builds/ravendb-stable-v1.0/960. Extract this zip to a local folder. This is where it gets magical.
+* Navigate to the [Raven Source code]\Server directory. Right click on the Raven.Server application icon. Pin it to your Task Bar. Once the Maroon Raven icon appears on your task bar, Right click on it, Right click on the Raven icon in the context popup and select properties. In the top text field in the 'General' tab, give the shortcut a name, like 'Raven DB 960'. On the 'Shortcut' tab, in the 'Target' field, at the end of the shortcut path (...Server\Raven.Server.exe), add the switch -RAM so that it will now read like this:  ..Server\Raven.Server.exe -RAM
+* Ok out of this dialog then click on the RavenDB shortcut on your task bar. Raven will initialize after a few moments in console in RAM. It will display the server url. Paste this URL into your web browser. You will need to have silverlight installed. If not it will prompt you to install. otherwise, welcome to your raven database.
+* To run the website, you will need to have this console running, and you will need to set up the ravendb url as your documentStore setting in the web.config.
+
+
 Web.Config
 ==========
 You will need to edit the web.config file where it is commented with: <!--YOU WILL NEED TO CHANGE THESE SETTINGS-->
-* documentStore: databaseName refers to the RavenDB Tenant. If single tenant, leave blank. url is the path to the ravenDB instance. RavenDB in itself is a big learning curve. Checkout the docs and jabbR user groups as referenced on the www.ravendb.net site
+* documentStore: databaseName refers to the RavenDB Tenant. If single tenant (like running in ram), leave blank. url is the path to the ravenDB instance. RavenDB in itself is a big learning curve. Checkout the docs and jabbR user groups as referenced on the www.ravendb.net site
 * environment: the url to the root of the site
 * media: the relative path to the user uploaded resources. If you are serving content from a CDN, this will require a code refactor as this setting is currently relative
 * species: the relative path to the source files for populating the system with species data. This is used once on initial application startup
@@ -81,8 +101,8 @@ To build and run the source code for BowerBird on your development machine you w
 * You have an instance of RavenDB you can point your BowerBird instance to. It can be ran in memory or hosted in IIS. For help with ravenDB and best practices, go to www.ravendb.net and the user group forum at https://jabbr.net/#/rooms/RavenDB
 
 
-First Run
-=========
+First Website Run
+=================
 Bowerbird has over 200,000 species that need to be loaded and indexed. This will happen on the first load as part of the system setup. This may take a long time
 * When running in Debug mode, the species import will be limited to the _testImportLimit property in Bowerbird.Core.Config.SetupSystem
 * When running in DebugProd or DebugRelease mode, all species will be imported
@@ -98,6 +118,7 @@ If you have a healthy running application, the homepage will load, you will be a
 
 Issues
 ======
+These instructions have been tested on a blank slate Dell laptop circa 2008 model and have worked. Make sure you read and follow them carefully and they should work for you too.
 If you have any issues or feature requests or improvements for this document, submit them to https://github.com/Bowerbird/bowerbird-web/issues
 
 
