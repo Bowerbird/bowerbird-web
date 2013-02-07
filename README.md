@@ -62,3 +62,8 @@ Bowerbird has over 200,000 species that need to be loaded and indexed. This may 
 Issues
 ======
 If you have any issues or feature requests or improvements for this document, submit them to https://github.com/Bowerbird/bowerbird-web/issues
+
+
+Unit Tests
+==========
+There is a long forgotten Test project but this has long since been abandoned so needs to be ignored for your build, however, Feel free to contribute to resurrect it.
