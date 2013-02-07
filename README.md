@@ -47,7 +47,7 @@ the /Src directory contains the following folders:
 
 the /Lib: for additional dependent assemblies and build process executables
 * Nustache.*.* is an assembly that allows serverside use of client side Mustache templates. This impementation is a customised version of the Nustache code base with some logic improvements. Source code is hosted at [not uploaded yet - ask frank@radocaj.com for a copy]
-* hubify.exe is a custom build of a SignalR tool, particularly the file: SignalR.ProxyGenerator.Program.cs. The source for this forked code can be found, downloaded and compile from https://github.com/hamishcrittenden/SignalR/ 
+* hubify.exe is a custom build of a SignalR tool, particularly the file: SignalR.ProxyGenerator.Program.cs. The custom build applies an AMD compliant wrapper to the resultant signalR javascript build artefact. The source for this forked code can be found, downloaded and compile from https://github.com/hamishcrittenden/SignalR/ If you download and compile this source code, DO NOT USE ANY ASSEMBLY OR EXECUTABLE OTHER THAN hubify.exe. VERY IMPORTANT!!!
 * AjaxMin.*.* is a minification assembly that minifies javascript files
 
 Additional artefacts of the build process are the folders:
