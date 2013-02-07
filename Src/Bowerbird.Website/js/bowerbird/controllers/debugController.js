@@ -15,7 +15,7 @@ function ($, _, Backbone, app) {
 
         this.hub = $.connection.debugHub;
         this.controller = options.controller;
-        this.hub.debugToClient = this.controller.debugToClient;
+        this.hub.client.debugToClient = this.controller.debugToClient;
     };
 
     var DebugController = {};

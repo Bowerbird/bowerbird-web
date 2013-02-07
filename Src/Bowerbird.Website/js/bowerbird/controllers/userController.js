@@ -21,11 +21,11 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
 
     var UserHubRouter = function (options) {
         this.userHub = options.hub;
-        this.userHub.setupOnlineUsers = setupOnlineUsers;
-        this.userHub.userStatusUpdate = userStatusUpdate;
-        this.userHub.joinedGroup = joinedGroup;
-        this.userHub.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
-        this.userHub.mediaResourceUploadFailure = mediaResourceUploadFailure;
+        this.userHub.client.setupOnlineUsers = setupOnlineUsers;
+        this.userHub.client.userStatusUpdate = userStatusUpdate;
+        this.userHub.client.joinedGroup = joinedGroup;
+        this.userHub.client.mediaResourceUploadSuccess = mediaResourceUploadSuccess;
+        this.userHub.client.mediaResourceUploadFailure = mediaResourceUploadFailure;
         this.updateUserClientStatus = updateUserClientStatus;
     };
 
@@ -63,7 +63,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
     var updateUserClientStatus = function (userId, latestHeartbeat, latestInteractivity) {
         log(userId, latestHeartbeat, latestInteractivity);
 
-        this.userHub.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity)
+        this.userHub.server.updateUserClientStatus(userId, latestHeartbeat, latestInteractivity)
                 .done(function (onlineUsers) {
                     log('online users received from server:', onlineUsers);
                     updateOnlineUsers(onlineUsers);

@@ -18,8 +18,10 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Bowerbird.Core.DesignByContract;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Json;
 using Ninject;
-using SignalR;
+//using SignalR;
 
 namespace Bowerbird.Web.Infrastructure
 {
@@ -36,7 +38,7 @@ namespace Bowerbird.Web.Infrastructure
 
         public override object GetService(Type serviceType)
         {
-            if (typeof(SignalR.IConnection).Assembly == serviceType.Assembly && serviceType != typeof(SignalR.IJsonSerializer)) // Push DI for SignalR types to base
+            if (typeof(IConnection).Assembly == serviceType.Assembly && serviceType != typeof(IJsonSerializer)) // Push DI for SignalR types to base
             {
                 return base.GetService(serviceType);
             }
@@ -48,7 +50,7 @@ namespace Bowerbird.Web.Infrastructure
 
         public override IEnumerable<object> GetServices(Type serviceType)
         {
-            if (typeof(SignalR.IConnection).Assembly == serviceType.Assembly && serviceType != typeof(SignalR.IJsonSerializer)) // Push DI for SignalR types to base
+            if (typeof(IConnection).Assembly == serviceType.Assembly && serviceType != typeof(IJsonSerializer)) // Push DI for SignalR types to base
             {
                 return base.GetServices(serviceType);
             }

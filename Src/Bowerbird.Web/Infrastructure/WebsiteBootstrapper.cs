@@ -19,7 +19,8 @@ using Bowerbird.Core.Config;
 using Nustache.Mvc;
 using Raven.Client.MvcIntegration;
 using Raven.Client;
-using SignalR;
+using Microsoft.AspNet.SignalR;
+//using SignalR;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.WebsiteBootstrapper), "PostStart", Order = 2)]
 

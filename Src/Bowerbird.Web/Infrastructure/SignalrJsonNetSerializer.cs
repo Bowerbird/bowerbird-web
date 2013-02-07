@@ -1,5 +1,7 @@
 ﻿using System;
-using SignalR;
+//using SignalR;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Json;
 
 namespace Bowerbird.Web.Infrastructure
 {
@@ -71,6 +73,12 @@ namespace Bowerbird.Web.Infrastructure
         public T Parse<T>(string json)
         {
             return Raven.Imports.Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json, _settings);
+        }
+
+        // Added when SignalR was upgraged - HC
+        public void Serialize(object value, System.IO.TextWriter writer)
+        {
+            Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(value, Raven.Imports.Newtonsoft.Json.Formatting.None, _settings);
         }
     }
 }

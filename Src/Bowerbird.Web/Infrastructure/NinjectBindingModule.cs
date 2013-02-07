@@ -17,6 +17,8 @@
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
+using Microsoft.AspNet.SignalR.Infrastructure;
+using Microsoft.AspNet.SignalR.Json;
 using Microsoft.Practices.ServiceLocation;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Factory;
@@ -24,7 +26,8 @@ using Ninject.Extensions.NamedScope;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using Raven.Client;
-using SignalR;
+//using SignalR;
+using Microsoft.AspNet.SignalR;
 
 namespace Bowerbird.Web.Infrastructure
 {

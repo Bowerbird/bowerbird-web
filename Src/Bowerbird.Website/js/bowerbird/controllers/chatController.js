@@ -17,36 +17,36 @@ function ($, _, Backbone, app, Chat, UserCollection, ChatMessageCollection, Chat
         this.userHub = options.userHub;
 
         // Wire up user hub callbacks
-        this.userHub.chatJoined = chatJoined;
-        this.userHub.chatExited = chatExited;
+        this.userHub.client.chatJoined = chatJoined;
+        this.userHub.client.chatExited = chatExited;
 
         // Wire up chat hub callbacks
-        this.chatHub.userIsTyping = userIsTyping;
-        this.chatHub.userJoinedChat = userJoinedChat;
-        this.chatHub.userExitedChat = userExitedChat;
-        this.chatHub.newChatMessage = newChatMessage;
-        this.chatHub.debugToLog = debugToLog;
+        this.chatHub.client.userIsTyping = userIsTyping;
+        this.chatHub.client.userJoinedChat = userJoinedChat;
+        this.chatHub.client.userExitedChat = userExitedChat;
+        this.chatHub.client.newChatMessage = newChatMessage;
+        this.chatHub.client.debugToLog = debugToLog;
 
         this.getChat = function (chatId) {
-            return this.chatHub.getChat(chatId);
+            return this.chatHub.server.getChat(chatId);
         };
 
         this.joinChat = function (chatId, userIds, groupId) {
             log('app.chatRouter.joinChat:' + chatId + ' userIds:' + userIds + ' groupId:' + groupId);
             log('here........................4 ' + chatId);
-            this.chatHub.joinChat(chatId, userIds, groupId);
+            this.chatHub.server.joinChat(chatId, userIds, groupId);
         };
 
         this.exitChat = function (chatId) {
-            this.chatHub.exitChat(chatId);
+            this.chatHub.server.exitChat(chatId);
         };
 
         this.typing = function (chatId, isTyping) {
-            this.chatHub.typing(chatId, isTyping);
+            this.chatHub.server.typing(chatId, isTyping);
         };
 
         this.sendChatMessage = function (chatId, messageId, message) {
-            this.chatHub.sendChatMessage(chatId, messageId, message);
+            this.chatHub.server.sendChatMessage(chatId, messageId, message);
         };
     };
 

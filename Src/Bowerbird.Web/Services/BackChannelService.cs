@@ -15,11 +15,12 @@
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
+using Microsoft.AspNet.SignalR.Infrastructure;
 using Raven.Client;
 using Bowerbird.Core.Config;
-using SignalR;
+using Microsoft.AspNet.SignalR;
 using Bowerbird.Web.Hubs;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace Bowerbird.Web.Services
 {
@@ -77,7 +78,7 @@ namespace Bowerbird.Web.Services
 
             lock (_userHubLock)
             {
-                GetHub<UserHub>().Clients["user-" + userId].joinedGroup(group);
+                GetHub<UserHub>().Clients.Group("user-" + userId).joinedGroup(group);
             }
         }
 
@@ -89,7 +90,7 @@ namespace Bowerbird.Web.Services
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].updateOnlineUsers(onlineUsers);
+            GetHub<UserHub>().Clients.Group("user-" + userId).updateOnlineUsers(onlineUsers);
         }
 
         public void SendOnlineUsersToUserChannel(string userId, object onlineUsers)
@@ -98,7 +99,7 @@ namespace Bowerbird.Web.Services
 
             lock (_userHubLock)
             {
-                GetHub<UserHub>().Clients["user-" + userId].setupOnlineUsers(onlineUsers);
+                GetHub<UserHub>().Clients.Group("user-" + userId).setupOnlineUsers(onlineUsers);
             }
         }
 
@@ -108,7 +109,7 @@ namespace Bowerbird.Web.Services
 
             lock (_userHubLock)
             {
-                GetHub<UserHub>().Clients["user-" + userId].chatJoined(chatDetails);
+                GetHub<UserHub>().Clients.Group("user-" + userId).chatJoined(chatDetails);
             }
         }
 
@@ -118,7 +119,7 @@ namespace Bowerbird.Web.Services
 
             lock (_userHubLock)
             {
-                GetHub<UserHub>().Clients["user-" + userId].chatExited(chatId);
+                GetHub<UserHub>().Clients.Group("user-" + userId).chatExited(chatId);
             }
         }
 
@@ -126,14 +127,14 @@ namespace Bowerbird.Web.Services
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].mediaResourceUploadSuccess(mediaResource);
+            GetHub<UserHub>().Clients.Group("user-" + userId).mediaResourceUploadSuccess(mediaResource);
         }
 
         public void NotifyMediaResourceUploadFailureToUserChannel(string userId, string key, string reason)
         {
             if (ChannelServiceOff()) return;
 
-            GetHub<UserHub>().Clients["user-" + userId].mediaResourceUploadFailure(key, reason);
+            GetHub<UserHub>().Clients.Group("user-" + userId).mediaResourceUploadFailure(key, reason);
         }
 
         #endregion
@@ -160,7 +161,7 @@ namespace Bowerbird.Web.Services
 
                 foreach (var group in activity.Groups)
                 {
-                    groupHub.Clients["group-" + group.Id].newActivity(group.Id, activity);
+                    groupHub.Clients.Group("group-" + group.Id).newActivity(group.Id, activity);
                 }
             }
         }
@@ -185,7 +186,7 @@ namespace Bowerbird.Web.Services
 
             lock (_userHubLock)
             {
-                GetHub<UserHub>().Clients["online-users"].userStatusUpdate(userStatus);
+                GetHub<UserHub>().Clients.Group("online-users").userStatusUpdate(userStatus);
             }
         }
 
@@ -219,7 +220,7 @@ namespace Bowerbird.Web.Services
 
             lock (_chatHubLock)
             {
-                GetHub<ChatHub>().Clients["chat-" + chatId].userJoinedChat(chatMessageDetails);
+                GetHub<ChatHub>().Clients.Group("chat-" + chatId).userJoinedChat(chatMessageDetails);
             }
         }
 
@@ -229,7 +230,7 @@ namespace Bowerbird.Web.Services
 
             lock (_chatHubLock)
             {
-                GetHub<ChatHub>().Clients["chat-" + chatId].userExitedChat(chatMessageDetails);
+                GetHub<ChatHub>().Clients.Group("chat-" + chatId).userExitedChat(chatMessageDetails);
             }
         }
 
@@ -239,7 +240,7 @@ namespace Bowerbird.Web.Services
 
             lock (_chatHubLock)
             {
-                GetHub<ChatHub>().Clients["chat-" + chatId].newChatMessage(chatMessageDetails);
+                GetHub<ChatHub>().Clients.Group("chat-" + chatId).newChatMessage(chatMessageDetails);
             }
         }
 
@@ -253,7 +254,7 @@ namespace Bowerbird.Web.Services
 
             lock (_debugHubLock)
             {
-                _connectionManager.GetHubContext<DebugHub>().Clients.debugToClient(output);
+                _connectionManager.GetHubContext<DebugHub>().Clients.All.debugToClient(output);
             }
         }
 

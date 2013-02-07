@@ -17,7 +17,8 @@ using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
 using Microsoft.Practices.ServiceLocation;
-using SignalR;
+//using SignalR;
+using Microsoft.AspNet.SignalR;
 using System.Web;
 using NinjectAdapter;
 

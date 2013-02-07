@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Website", "Src\Bo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Web", "Src\Bowerbird.Web\Bowerbird.Web.csproj", "{32CE4221-21E5-48E9-BA54-E0908FD5B80A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Test", "Src\Bowerbird.Test\Bowerbird.Test.csproj", "{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Core", "Src\Bowerbird.Core\Bowerbird.Core.csproj", "{F71840F1-86D3-460B-B49A-7770CD7E06E4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DEC69C6-40F4-4DC0-8E60-D6C215EB471E}"
@@ -103,28 +101,6 @@ Global
 		{32CE4221-21E5-48E9-BA54-E0908FD5B80A}.Test|Mixed Platforms.ActiveCfg = Test|Any CPU
 		{32CE4221-21E5-48E9-BA54-E0908FD5B80A}.Test|Mixed Platforms.Build.0 = Test|Any CPU
 		{32CE4221-21E5-48E9-BA54-E0908FD5B80A}.Test|x86.ActiveCfg = Test|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.DebugProd|Any CPU.ActiveCfg = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.DebugProd|Mixed Platforms.ActiveCfg = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.DebugProd|x86.ActiveCfg = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Prod|Any CPU.ActiveCfg = Prod|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Prod|Mixed Platforms.ActiveCfg = Prod|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Prod|x86.ActiveCfg = Prod|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Release|Any CPU.ActiveCfg = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Release|Any CPU.Build.0 = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Release|Mixed Platforms.ActiveCfg = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Release|Mixed Platforms.Build.0 = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Release|x86.ActiveCfg = DebugProd|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Stage|Any CPU.ActiveCfg = Stage|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Stage|Mixed Platforms.ActiveCfg = Stage|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Stage|Mixed Platforms.Build.0 = Stage|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Stage|x86.ActiveCfg = Stage|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Test|Any CPU.ActiveCfg = Test|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Test|Mixed Platforms.ActiveCfg = Test|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Test|Mixed Platforms.Build.0 = Test|Any CPU
-		{E372C4B3-14CE-4D15-84F4-2F9E4750BC5F}.Test|x86.ActiveCfg = Test|Any CPU
 		{F71840F1-86D3-460B-B49A-7770CD7E06E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F71840F1-86D3-460B-B49A-7770CD7E06E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F71840F1-86D3-460B-B49A-7770CD7E06E4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
