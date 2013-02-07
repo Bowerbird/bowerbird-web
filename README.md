@@ -56,7 +56,7 @@ You will need to edit the web.config file where it is commented with: <!--YOU WI
 * environment: the url to the root of the site
 * media: the relative path to the user uploaded resources. If you are serving content from a CDN, this will require a code refactor as this setting is currently relative
 * species: the relative path to the source files for populating the system with species data. This is used once on initial application startup.
-* If you like to leave your web.config in place when deploying or deploy it from a separate location, be sure to increment the <add key="StaticContentIncrement" value="2" /> value. The build prcess increments this number to "YYYYDDMM-hhmm" and the system appends this value to all javascript resources as a cache-busting fix. If you are experiencing Javascript errors after deployment, you may have forgotten to increment this value.
+* If you like to leave your web.config in place when deploying or deploy it from a separate location, be sure to increment the "StaticContentIncrement" value. The build prcess increments this number to "YYYYDDMM-hhmm" and the system appends this value to all javascript resources as a cache-busting fix. If you are experiencing Javascript errors after deployment, you may have forgotten to increment this value.
 
 
 Build Script
