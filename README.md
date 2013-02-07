@@ -61,4 +61,4 @@ Bowerbird has over 200,000 species that need to be loaded and indexed. This may 
 
 Issues
 ======
-If you have any issues or feature requests, submit them to https://github.com/Bowerbird/bowerbird-web/issues
+If you have any issues or feature requests or improvements for this document, submit them to https://github.com/Bowerbird/bowerbird-web/issues
