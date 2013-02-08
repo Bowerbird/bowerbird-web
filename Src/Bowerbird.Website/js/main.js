@@ -45,7 +45,8 @@ require.config({
         tipsy: '../libs/jquery.tipsy/jquery.tipsy',
         tagging: '../libs/jquery.tag-it/jquery.tag-it',
         visualize: '../libs/jquery.visualize/jquery.visualize',
-        moment: '../libs/moment/moment'
+        moment: '../libs/moment/moment',
+        i18n: 'noext!/i18n'
     }
 });
 
@@ -62,6 +63,8 @@ require([
         'queryparams',
         'marionette',
         'noext!/templates', // Load templates from server
+        'noext!/i18n', // Load localised strings from server
+        'models/authenticateduser',
         'controllers/usercontroller',
         'controllers/activitycontroller',
         'controllers/debugcontroller',

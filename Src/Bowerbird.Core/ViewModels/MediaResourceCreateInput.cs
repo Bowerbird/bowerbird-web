@@ -18,9 +18,9 @@ using Bowerbird.Core.Validators;
 
 namespace Bowerbird.Core.ViewModels
 {
-    [ValidMediaResource]
-    [ValidFile(ErrorMessage = "The uploaded file is not a supported type. The supported image types are JPEG, PNG, TIFF, BMP and GIF. The supported audio types are M4A and MP3. The supported document types are DOC, TXT and PDF. Please check the file and try again.")]
-    [ValidExternalVideo(ErrorMessage = "The imported video is not valid. Videos can only be imported from Youtube and Vimeo. Please check the URL and try again.")]
+    [MediaResourceUsage]
+    [File(ErrorMessage = "The uploaded file is not a supported type. The supported image types are JPEG, PNG, TIFF, BMP and GIF. The supported audio types are M4A and MP3. The supported document types are DOC, TXT and PDF. Please check the file and try again.")]
+    [VideoProvider(ErrorMessage = "The imported video is not valid. Videos can only be imported from Youtube and Vimeo. Please check the URL and try again.")]
     public class MediaResourceCreateInput
     {
         #region Members

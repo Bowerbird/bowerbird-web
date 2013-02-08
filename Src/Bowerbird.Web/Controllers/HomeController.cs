@@ -91,7 +91,7 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult PrivateIndex(ActivityInput activityInput, PagingInput pagingInput)
+        public ActionResult PrivateIndex(ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             if (!_userContext.IsUserAuthenticated())
             {

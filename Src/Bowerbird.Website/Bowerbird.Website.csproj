@@ -179,6 +179,10 @@
     <Content Include="js\bowerbird\controllers\chatController.js" />
     <Content Include="js\bowerbird\controllers\accountController.js" />
     <Content Include="js\bowerbird\geospatial.js" />
+    <Content Include="js\bowerbird\models\authenticatedUser.js" />
+    <Content Include="js\bowerbird\models\accountUpdate.js" />
+    <Content Include="js\bowerbird\models\register.js" />
+    <Content Include="js\bowerbird\models\login.js" />
     <Content Include="js\bowerbird\models\userProject.js" />
     <Content Include="js\bowerbird\views\geospatialFormView.js" />
     <Content Include="js\bowerbird\views\sidebarUserProjectItemView.js" />
@@ -235,7 +239,6 @@
     <Content Include="js\bowerbird\models\mediaResource.js" />
     <Content Include="js\bowerbird\models\observation.js" />
     <Content Include="js\bowerbird\models\project.js" />
-    <Content Include="js\bowerbird\views\avatarItemView.js" />
     <Content Include="js\bowerbird\views\chatMessageItemView.js" />
     <Content Include="js\bowerbird\views\chatRegion.js" />
     <Content Include="js\bowerbird\views\chatCompositeView.js" />
@@ -266,7 +269,7 @@
     <Content Include="js\bowerbird\views\discussionLayoutView.js" />
     <Content Include="js\bowerbird\views\videoFormView.js" />
     <Content Include="js\bowerbird\views\sightingDetailsView.js" />
-    <Content Include="js\bowerbird\views\userFormView.js" />
+    <Content Include="js\bowerbird\views\accountUpdateFormView.js" />
     <Content Include="js\bowerbird\views\organisationItemView.js" />
     <Content Include="js\bowerbird\views\organisationCollectionView.js" />
     <Content Include="js\bowerbird\views\homePublicView.js" />
@@ -282,7 +285,6 @@
     <Content Include="js\bowerbird\views\homePrivateView.js" />
     <Content Include="js\bowerbird\views\speciesFormItemView.js" />
     <Content Include="js\bowerbird\views\organisationFormView.js" />
-    <Content Include="js\bowerbird\views\dummyOverlayView.js" />
     <Content Include="js\bowerbird\views\editAvatarView.js" />
     <Content Include="js\bowerbird\views\locationFormView.js" />
     <Content Include="js\bowerbird\views\observationMediaFormView.js" />
@@ -420,9 +422,6 @@
     <Content Include="Views\Species\Index.mustache" />
     <Content Include="Views\Species\List.mustache" />
     <Content Include="Views\Organisations\Index.mustache" />
-    <Content Include="Views\Shared\AvatarChooseFile.mustache" />
-    <Content Include="Views\Shared\AvatarUploaded.mustache" />
-    <Content Include="Views\Shared\AvatarUploader.mustache" />
     <Content Include="Views\Shared\ChatMessage.mustache" />
     <Content Include="Views\Shared\ChatUserList.mustache" />
     <Content Include="Views\Shared\Chat.mustache">
@@ -491,7 +490,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Account\Update.mustache" />
-    <Content Include="Views\Shared\UserForm.mustache">
+    <Content Include="Views\Shared\AccountUpdateForm.mustache">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Web.DebugProd.config">

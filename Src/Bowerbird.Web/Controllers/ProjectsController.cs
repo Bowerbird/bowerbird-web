@@ -350,7 +350,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string id, ActivityInput activityInput, PagingInput pagingInput)
+        public ActionResult Index(string id, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -586,26 +586,34 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult Create(ProjectCreateInput createInput)
+        public ActionResult Create(ProjectUpdateInput createInput)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new ProjectCreateCommand()
+                        {
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Name = createInput.Name,
+                            Description = createInput.Description,
+                            Website = createInput.Website,
+                            AvatarId = createInput.AvatarId,
+                            BackgroundId = createInput.BackgroundId,
+                            Categories = createInput.Categories
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new ProjectCreateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Name = createInput.Name,
-                    Description = createInput.Description,
-                    Website = createInput.Website,
-                    AvatarId = createInput.AvatarId,
-                    BackgroundId = createInput.BackgroundId,
-                    Categories = createInput.Categories
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Project = createInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "create");
         }
 
         [Transaction]
@@ -625,25 +633,33 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new ProjectUpdateCommand()
+                    {
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        Id = projectId,
+                        Name = updateInput.Name,
+                        Description = updateInput.Description,
+                        Website = updateInput.Website,
+                        AvatarId = updateInput.AvatarId,
+                        BackgroundId =  updateInput.BackgroundId,
+                        Categories = updateInput.Categories
+                    });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new ProjectUpdateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = projectId,
-                    Name = updateInput.Name,
-                    Description = updateInput.Description,
-                    Website = updateInput.Website,
-                    AvatarId = updateInput.AvatarId,
-                    BackgroundId =  updateInput.BackgroundId,
-                    Categories = updateInput.Categories
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Project = updateInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "projects",
+                "update");
         }
 
         [Transaction]

@@ -21,7 +21,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
             'click #add-identification-button': '_showIdentificationForm',
             'change .description-fields textarea': '_descriptionChanged',
             'change #Tags': '_onTagsChanged',
-            'change #Comments': '_onCommentsChanged'
+            'change #NoteComments': '_onCommentsChanged'
         },
 
         initialize: function (options) {
@@ -161,7 +161,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
         },
 
         _onCommentsChanged: function (e) {
-            this.model.set('Comments', $(e.currentTarget).val());
+            this.model.set('NoteComments', $(e.currentTarget).val());
         },
 
         _descriptionChanged: function (e) {

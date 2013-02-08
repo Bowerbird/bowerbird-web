@@ -8,8 +8,9 @@
 // AccountController & AccountRouter
 // ---------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'views/accountloginview', 'views/accountregisterview', 'views/userformview'],
-function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, UserFormView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'models/accountupdate', 'models/login', 'models/register', 'views/accountloginview', 'views/accountregisterview',
+    'views/accountupdateformview'],
+function ($, _, Backbone, app, User, AccountUpdate, Login, Register, AccountLoginView, AccountRegisterView, AccountUpdateFormView) {
 
     var AccountRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
@@ -118,21 +119,30 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
             window.location.replace('/');
             return;
         }
-        var options = {
-            email: '',
-            returnUrl: ''
-        };
-        if (app.isPrerenderingView('account')) {
-            options['el'] = '.login';
-        }
+
+        var email = '';
+        var returnUrl = '';
 
         if (app.isPrerendering()) {
-            options.email = app.prerenderedView.data.AccountLogin.Email;
-            options.returnUrl = app.prerenderedView.data.AccountLogin.ReturnUrl;
+            email = app.prerenderedView.data.AccountLogin.Email;
+            returnUrl = app.prerenderedView.data.AccountLogin.ReturnUrl;
         } else {
             if (docCookies.hasItem('56277e138f774318ab152a84dad7adf9')) {
-                options.email = docCookies.getItem('56277e138f774318ab152a84dad7adf9');
+                email = docCookies.getItem('56277e138f774318ab152a84dad7adf9');
             }
+        }
+
+        var login = new Login({
+            Email: email,
+            ReturnUrl: returnUrl
+        });
+
+        var options = {
+            model: login
+        };
+
+        if (app.isPrerenderingView('account')) {
+            options['el'] = '.login';
         }
 
         var accountLoginView = new AccountLoginView(options);
@@ -146,10 +156,14 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
             return;
         }
 
-        var options = {};
+        var options = {
+            model: new Register()
+        };
+
         if (app.isPrerenderingView('account')) {
             options['el'] = '.register';
         }
+
         var accountRegisterView = new AccountRegisterView(options);
 
         app.showContentView('Join', accountRegisterView, 'account');
@@ -159,18 +173,26 @@ function ($, _, Backbone, app, User, AccountLoginView, AccountRegisterView, User
         var options = {};
         if (app.isPrerenderingView('account')) {
             options['el'] = '.user-form';
-        }
-
-        if (app.isPrerenderingView('account')) {
-            log('user edit', app.prerenderedView.data);
-            options.model = new User(app.prerenderedView.data.User);
+            options.model = new AccountUpdate(app.prerenderedView.data.User);
             options.timezoneSelectList = app.prerenderedView.data.TimezoneSelectList;
             options.licenceSelectList = app.prerenderedView.data.LicenceSelectList;
+
+            var accountUpdateFormView = new AccountUpdateFormView(options);
+            app.showContentView('Edit Account Details', accountUpdateFormView, 'account');
+        } else {
+            var accountUpdate = new AccountUpdate({ Id: app.authenticatedUser.user.id });
+            accountUpdate.fetch({
+                success: function (model, data) {
+                    options.model = model;
+                    options.timezoneSelectList = data.Model.TimezoneSelectList;
+                    options.licenceSelectList = data.Model.LicenceSelectList;
+
+                    var accountUpdateFormView = new AccountUpdateFormView(options);
+                    app.showContentView('Edit Account Details', accountUpdateFormView, 'account');
+                }
+            });
         }
 
-        var userFormView = new UserFormView(options);
-
-        app.showContentView('Edit Account Details', userFormView, 'account');
     };
 
     // Event Handlers

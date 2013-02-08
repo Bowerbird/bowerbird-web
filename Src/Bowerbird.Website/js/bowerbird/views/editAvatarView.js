@@ -7,9 +7,10 @@
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
 // EditAvatarView
-// -------------------------
+// --------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview', 'loadimage', 'models/mediaresource'], function ($, _, Backbone, app, ich, AvatarItemView, loadImage, MediaResource) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'models/mediaresource'], 
+    function ($, _, Backbone, app, ich, loadImage, MediaResource) {
 
     var EditAvatarView = Backbone.View.extend({
 
@@ -26,7 +27,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
             );
             this.model = options.model;
             this.currentUploadKey = 0;
-            this.avatarItemView = null;
+            this.uploading = false;
 
             app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
             app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
@@ -48,6 +49,8 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
         },
 
         _onImageUploadAdd: function (e, data) {
+            this.uploading = true;
+            
             this.$el.find('#avatar-viewer').empty().append('<img class="progress-indicator" src="/img/loader-small.gif" alt="" style="width: " />');
 
             this.key = app.generateGuid();
@@ -68,9 +71,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/avataritemview'
 
                 this.$el.find('#avatar-viewer').empty().append('<img src="' + mediaResource.get('Image').Square200.Uri + '" alt="" />');
             }
+            this.uploading = false;
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
+            this.uploading = false;
         },
 
         onClose: function () {

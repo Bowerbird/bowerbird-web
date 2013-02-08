@@ -88,16 +88,24 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
                 if (this.$el.find('.validation-summary').length == 0) {
                     this.$el.find('form').prepend(ich.ValidationSummary({
                         SummaryMessage: 'Please correct the following before continuing:',
-                        Errors: errors
+                        Errors: errors,
+                        // Due to a bug in mustache.js where you can't reference a parent element in a string array loop, we have to build the HTML here
+                        Error: function () {
+                            return _.map(this.Messages, function (message) {
+                                return '<li class="validation-field-' + this.Field + '">' + message + '</li>';
+                            }, this).join('\n');
+                        }
                     }));
                     this.$el.find('.validation-summary').slideDown();
                 } else {
                     var that = this;
-                    // Remove items
+                    // Remove items that are now valid
                     this.$el.find('.validation-summary li').each(function () {
                         var $li = that.$el.find(this);
                         var found = _.find(errors, function (err) {
-                            return 'validation-field-' + err.Field === $li.attr('class');
+                            return _.find(err.Messages, function (message) {
+                                return 'validation-field-' + err.Field === $li.attr('class') && message === $li.text();
+                            });
                         });
                         if (!found) {
                             $li.slideUp(function () { $(this).remove(); });
@@ -105,26 +113,29 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
                     });
 
                     // Add items
+                    var lis = this.$el.find('.validation-summary li');
                     _.each(errors, function (err) {
-                        if (this.$el.find('.validation-field-' + err.Field).length === 0) {
-                            var li = $('<li class="validation-field-' + err.Field + '">' + err.Message + '</li>').css({ display: 'none' });
-                            this.$el.find('.validation-summary ul').append(li);
-                            li.slideDown();
-                        }
+                        _.each(err.Messages, function (message) {
+                            // Only add if the class and text is not found in li list
+                            var found = _.find(lis, function (li) {
+                                var $li = $(li);
+                                return $li.attr('class') === 'validation-field-' + err.Field && $li.text() === message;
+                            });
+
+                            if (!found) {
+                                var linew = $('<li class="validation-field-' + err.Field + '">' + message + '</li>').css({ display: 'none' });
+                                that.$el.find('.validation-summary ul').append(linew);
+                                linew.slideDown();
+                            }
+                        });
                     }, this);
                 }
             }
 
-            //            if (errors.length == 0) {
-            //                //this.$el.find('#save').removeAttr('disabled');
-            //            } else {
-            //                //this.$el.find('#save').attr('disabled', 'disabled');
-            //            }
+            this.$el.find('#Identification').removeClass('input-validation-error');
 
-            this.$el.find('.form #selected-identification-field #Identification').removeClass('input-validation-error');
-
-            if (_.any(errors, function (item) { return item.Field === 'Taxonomy'; })) {
-                this.$el.find('.form #selected-identification-field #Identification').addClass('input-validation-error');
+            if (_.any(errors, function (item) { return item.Field === 'IsCustomIdentification'; })) {
+                this.$el.find('#Identification').addClass('input-validation-error');
             }
         },
 
@@ -133,8 +144,24 @@ function ($, _, Backbone, app, ich, SightingDetailsView, IdentificationFormView,
         },
 
         _save: function () {
-            this.model.save();
-            app.showPreviousContentView();
+            this.$el.find('#save').attr('disabled', 'disabled').val('Saving...');
+
+            var that = this;
+
+            this.model.save(null, {
+                success: function (model, response, options) {
+                    that.$el.find('#save').attr('disabled', 'disabled').val('Saved');
+                    that.onValidation(that.model, []);
+                    app.showPreviousContentView();
+                },
+                error: function (model, xhr, options) {
+                    that.$el.find('#save').removeAttr('disabled').val('Save');
+
+                    var data = JSON.parse(xhr.responseText);
+                    that.onValidation(that.model, data.Model.Errors);
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                }
+            });
         }
     });
 

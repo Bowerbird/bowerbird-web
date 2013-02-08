@@ -15,6 +15,7 @@
 */
 
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
 using DataAnnotationsExtensions;
 
 namespace Bowerbird.Core.ViewModels
@@ -31,11 +32,11 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [Required(ErrorMessage = "Please enter your email address")]
-        [Email(ErrorMessage = "Please enter a valid email address")]
+        [Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(I18n))]
+        [Email(ErrorMessageResourceName = "EmailInvalid", ErrorMessageResourceType = typeof(I18n))]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter your password")]
+        [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }

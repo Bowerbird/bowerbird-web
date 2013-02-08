@@ -5,7 +5,7 @@ using Bowerbird.Core.ViewModels;
 namespace Bowerbird.Core.Validators
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ValidExternalVideoAttribute : ValidationAttribute
+    public class VideoProviderAttribute : ValidationAttribute
     {
 
         /// <summary>

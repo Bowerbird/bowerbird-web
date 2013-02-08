@@ -11,13 +11,13 @@
  * Atlas of Living Australia
  
 */
-
-using System;
-using System.Collections.Generic;
- 
+                
 namespace Bowerbird.Core.ViewModels
 {
-    public class ObservationNoteUpdateInput
+    /// <summary>
+    /// Create/update an observation media item
+    /// </summary>
+    public class ObservationMediaUpdateInput
     {
         #region Members
 
@@ -29,21 +29,18 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        public string Id { get; set; }
+        /// <summary>
+        /// Specify MediaResourceId if it has been created prior
+        /// </summary>
+        public string MediaResourceId { get; set; }
 
-        public DateTime NotedOn { get; set; }
+        public string Key { get; set; }
 
-        public string CommonName { get; set; }
+        public string Description { get; set; }
 
-        public string ScientificName { get; set; }
+        public string Licence { get; set; }
 
-        public string Taxonomy { get; set; }
-
-        public Dictionary<string,string> Descriptions { get; set; }
-
-        public Dictionary<string, string> References { get; set; }
-
-        public IEnumerable<string> Tags { get; set; }
+        public bool IsPrimaryMedia { get; set; }
 
         #endregion
 

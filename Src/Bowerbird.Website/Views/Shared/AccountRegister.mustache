@@ -3,8 +3,6 @@
 </h2>
 <div class="form form-small form-details">
   <form action="/account/register" method="post">
-    <!--@Html.ValidationSummary(true, "There were some problems with your registration.")-->
-
     <fieldset>
       <legend class="hidden">Join Details</legend>
       <p>Please fill in the details below to join BowerBird. An email will be sent to you to confirm that your email address is correct.</p>
@@ -15,7 +13,6 @@
           </div>
           <div>
             <input type="text" id="Name" name="Name" value="{{AccountRegister.Name}}" />
-            <!--@Html.ValidationMessageFor(x => x.Name)-->
           </div>
         </div>
       </div>
@@ -26,7 +23,6 @@
           </div>
           <div>
             <input type="email" id="Email" name="Email" value="{{AccountRegister.Email}}" />
-            <!--@Html.ValidationMessageFor(x => x.Email)-->
           </div>
         </div>
       </div>
@@ -37,14 +33,13 @@
           </div>
           <div>
             <input type="password" id="Password" name="Password" />
-            <!--@Html.ValidationMessage("password")-->
             <p>Passwords must be at least 6 characters in length.</p>
           </div>
         </div>
       </div>
     </fieldset>
     <fieldset>
-      <input type="submit" value="Join" />
+      <input type="submit" value="Join" id="register" />
     </fieldset>
   </form>
 </div>

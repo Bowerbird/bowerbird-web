@@ -22,7 +22,15 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
         idAttribute: 'Id',
 
-        urlRoot: '/organisations',
+        url: function () {
+            url = '/';
+            if (this.id) {
+                url += this.id;
+            } else {
+                url += 'organisations';
+            }
+            return url;
+        },
 
         setAvatar: function (mediaResource) {
             this.set('AvatarId', mediaResource.id);

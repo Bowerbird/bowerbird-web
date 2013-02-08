@@ -646,10 +646,16 @@ a.multiSelect:focus,
 .form textarea.input-validation-error,
 .form .observation-media-items.input-validation-error,
 .multiSelect.input-validation-error,
-.form #pin-field.input-validation-error 
+.form #pin-field.input-validation-error,
+.form #selected-identification-field #Identification.input-validation-error,
+ul.tagit.input-validation-error
 {
     border-color: rgb(220, 65, 56);
     background-color: rgb(251, 244, 244);
+}
+.form #location-coordinates.input-validation-error {
+    background-color: rgb(220, 65, 56);
+    color: rgb(255, 255, 255);
 }
 .form input[type=text].input-validation-error:focus,
 .form input[type=password].input-validation-error:focus,
@@ -661,11 +667,11 @@ a.multiSelect:focus,
 {
     box-shadow: 0 0 2px 1px rgba(119, 119, 119, 0.3) inset, 0 0 0 3px rgba(238, 67, 67, 0.4);
 }
-.form form > div 
+/*.form form > div 
 {
     margin-top: 20px;
     text-align: right;
-}
+}*/
 .form input[type=submit],
 .form input[type=button],
 .form button,
@@ -1706,24 +1712,6 @@ a.multiSelect:focus,
     visibility: hidden;
     margin-top: 15px;
 }
-.form #upload-error 
-{
-    background-color: rgb(255, 221, 219);
-    border: 1px solid rgb(189, 24, 12);
-    border-radius: 4px 4px 4px 4px;
-    color: rgb(189, 24, 12);
-    display: none;
-    font-size: 0.8em;
-    line-height: 1.3em;
-    margin-top: 21px;
-    padding: 10px;
-    display: none;
-}
-.form #upload-error a,
-.form #upload-error a:visited,
-.form #upload-error a:active {
-    color: rgb(189, 24, 12);
-}
 .form #title-field
 {
     padding-right: 1em;
@@ -1757,19 +1745,12 @@ a.multiSelect:focus,
 {
     cursor: pointer;
 }
-.form #address-field
+.form #address-field 
 {
-    margin-bottom: 10px;
-    padding-right: 139px;
-    position: relative;
-    width: 100%;
-}
-.form #location-options {
-    float: left;
-    margin-bottom: 10px;
-    width: 100%;
-    display: none;
-    margin-top: 2em;
+  margin-bottom: 10px;
+  padding-right: 187px;
+  position: relative;
+  width: 100%;
 }
 .form #location-details {
     float: left;
@@ -1777,23 +1758,10 @@ a.multiSelect:focus,
     position: relative;
     width: 70%;
 }
-.form #location-options-button {
-    height: 41px;
+.button.show-geospatial-form-button {
+    float: right;
     margin: 0;
-    overflow: hidden;
-    position: absolute;
-    right: 1em;
-    top: 26px;
-    width: 64px;
-}
-.form #location-options-button span {
-    display: block;
-    font-size: 0.8em;
-    line-height: 3.1em;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+    padding: 1px 9px;
 }
 .form #location-map
 {
@@ -1835,10 +1803,10 @@ a.multiSelect:focus,
     font-weight: 600;
 }
 .form #anonymise-location-field {
-    position: absolute;
-    right: 1em;
-    top: 78px;
-    width: 139px;
+  position: absolute;
+  right: 1em;
+  top: 1px;
+  width: 139px;
 }
 /***/
 .form .location-latlngdecimal,
@@ -1948,12 +1916,11 @@ a.multiSelect:focus,
     right: 0;
     top: 25px;
 }
-.form #pin-field
-{
-    height: 67px;
-    position: absolute;
-    right: 83px;
-    width: 59px;
+.form #pin-field {
+  height: 67px;
+  position: absolute;
+  right: 125px;
+  width: 59px;
 }
 .form #pin-field > div:last-child
 {

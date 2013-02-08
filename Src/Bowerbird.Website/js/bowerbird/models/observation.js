@@ -108,50 +108,21 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
         },
 
         setIdentification: function (identification) {
-            this.set('Identification', identification.toJSON());
+            this.set('NewSighting', true); // Forces saving of this id
+            this.set('IdentificationComments', identification.get('IdentificationComments'));
+            this.set('IsCustomIdentification', identification.get('IsCustomIdentification'));
+            this.set('Taxonomy', identification.get('Taxonomy'));
         },
 
         setSightingNote: function (sightingNote) {
-            this.set('Note', sightingNote.toJSON());
+            this.set('NewSighting', true); // Forces saving of this note
+            this.set('NoteComments', sightingNote.get('NoteComments'));
+            this.set('Descriptions', sightingNote.get('Descriptions'));
+            this.set('Tags', sightingNote.get('Tags'));
         },
 
         hasLatLong: function () {
             return this.get('Latitude') !== null && this.get('Longitude') !== null && this.get('Latitude') !== '' && this.get('Longitude') !== null;
-        },
-
-        isValid: function (fireEvent) {
-            var isValid = true;
-            var errors = [];
-
-            var title = this.get('Title') != null ? this.get('Title').trim() : '';
-            var category = this.get('Category');
-            var media = this.get('Media');
-
-            if (!this.hasLatLong()) {
-                errors.push({ Field: 'Location', Message: 'Please enter a location. Either drag and drop the pin or enter an exact coordinate (click the options button).' });
-                isValid = false;
-            }
-
-            if (title.length == 0) {
-                errors.push({ Field: 'Title', Message: 'Please enter a title.' });  
-                isValid = false;
-            }
-
-            if (category.length == 0) {
-                errors.push({ Field: 'Category', Message: 'Please select a category.' });
-                isValid = false;
-            }
-
-            if (media.length == 0) {
-                errors.push({ Field: 'Media', Message: 'Please add at least one media file.' });
-                isValid = false;
-            }
-
-            if (fireEvent === true) {
-                this.trigger('validated', this, errors);
-            }
-
-            return isValid;
         }
     });
 

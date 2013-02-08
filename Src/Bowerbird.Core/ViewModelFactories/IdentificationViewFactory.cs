@@ -43,7 +43,8 @@ namespace Bowerbird.Core.ViewModelFactories
             {
                 SightingId = sightingId,
                 IsCustomIdentification = false,
-                Taxonomy = string.Empty
+                Taxonomy = string.Empty,
+                IdentificationComments = string.Empty
             };
         }
 
@@ -55,7 +56,7 @@ namespace Bowerbird.Core.ViewModelFactories
 
             viewModel.Id = identificationId;
             viewModel.SightingId = sighting.Id;
-            viewModel.Comments = identification.Comments;
+            viewModel.IdentificationComments = identification.Comments;
             viewModel.Category = identification.Category;
             viewModel.Name = identification.Name;
             viewModel.RankName = identification.RankName;
@@ -85,7 +86,7 @@ namespace Bowerbird.Core.ViewModelFactories
             viewModel.Id = identification.Id;
             viewModel.SightingId = sighting.Id;
             viewModel.CreatedOn = identification.CreatedOn;
-            viewModel.Comments = identification.Comments;
+            viewModel.IdentificationComments = identification.Comments;
             viewModel.Category = identification.Category;
             viewModel.AllCommonNames = identification.AllCommonNames;
             viewModel.Category = identification.Category;

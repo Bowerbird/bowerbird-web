@@ -42,12 +42,9 @@ namespace Bowerbird.Core.ViewModelFactories
             return new
             {
                 SightingId = sightingId,
-                IsCustomIdentification = false,
-                Identification = (object)null,
                 Tags = string.Empty,
                 Descriptions = new object[] { },
-                Comments = string.Empty,
-                Taxonomy = string.Empty
+                NoteComments = string.Empty
             };
         }
 
@@ -69,7 +66,7 @@ namespace Bowerbird.Core.ViewModelFactories
                                                                           x.Label
                                                                       });
             viewModel.Tags = string.Join(", ", sightingNote.Tags);
-            viewModel.Comments = sightingNote.Comments;
+            viewModel.NoteComments = sightingNote.Comments;
 
             return viewModel;
         }
@@ -81,7 +78,7 @@ namespace Bowerbird.Core.ViewModelFactories
             viewModel.Id = sightingNote.Id;
             viewModel.SightingId = sighting.Id;
             viewModel.CreatedOn = sightingNote.CreatedOn;
-            viewModel.Comments = sightingNote.Comments;
+            viewModel.NoteComments = sightingNote.Comments;
             viewModel.Descriptions = sightingNote.Descriptions;
             viewModel.Tags = sightingNote.Tags;
             viewModel.User = _userViewFactory.Make(user, authenticatedUser); 

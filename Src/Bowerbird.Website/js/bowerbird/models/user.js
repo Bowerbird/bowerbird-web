@@ -16,7 +16,6 @@ function ($, _, Backbone, moment, Timer, Tracker) {
         defaults: {
             Id: null,
             Name: '',
-            Email: '',
             AvatarId: null,
             LatestActivity: null,
             LatestHeartbeat: null,
@@ -26,11 +25,7 @@ function ($, _, Backbone, moment, Timer, Tracker) {
 
         idAttribute: 'Id',
 
-        //urlRoot: '/users',
-
-        url: function () {
-            return '/account/update';
-        },
+        urlRoot: '/users',
 
         initialize: function () {
             _.bindAll(this, 'startTimer', 'stopTimer', 'timerExpired', 'startTracker', 'stopTracker', 'onLatestActivityChanged', 'onLatestHeartbeatChange', 'getCurrentStatus');

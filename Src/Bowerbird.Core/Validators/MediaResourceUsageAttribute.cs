@@ -5,7 +5,7 @@ using Bowerbird.Core.ViewModels;
 namespace Bowerbird.Core.Validators
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ValidMediaResourceAttribute : ValidationAttribute
+    public class MediaResourceUsageAttribute : ValidationAttribute
     {
 
         public override bool IsValid(Object value)

@@ -30,7 +30,7 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [ValidResetPasswordKeyRequest(ErrorMessage = "The password reset request is not valid")]
+        [ResetPasswordKey(ErrorMessage = "The password reset request is not valid")]
         public string ResetPasswordKey { get; set; }
 
         #endregion

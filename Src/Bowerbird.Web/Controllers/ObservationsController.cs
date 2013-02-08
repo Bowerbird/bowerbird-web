@@ -128,8 +128,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel, 
                 "observations", 
-                "create", 
-                new Action<dynamic>(x => x.Model.Create = true));
+                "create");
         }
 
         [HttpGet]
@@ -160,8 +159,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "observations",
-                "update", 
-                new Action<dynamic>(x => x.Model.Update = true));
+                "update");
         }
 
         [HttpGet]
@@ -187,88 +185,97 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "observations",
-                "delete", 
-                new Action<dynamic>(x => x.Model.Delete = true));
+                "delete");
         }
 
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult Create(ObservationCreateInput createInput)
+        public ActionResult Create(ObservationUpdateInput createInput, IdentificationUpdateInput identificationCreateInput, SightingNoteUpdateInput sightingNoteCreateInput)
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
                 return HttpUnauthorized();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
-            }
+                var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
 
-            var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
-
-            _messageBus.Send(new ObservationCreateCommand()
-                {
-                    Key = key,
-                    Title = createInput.Title,
-                    Latitude = createInput.Latitude,
-                    Longitude = createInput.Longitude,
-                    Address = createInput.Address,
-                    AnonymiseLocation = createInput.AnonymiseLocation,
-                    Category = createInput.Category,
-                    ObservedOn = createInput.ObservedOn,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Projects = createInput.ProjectIds,
-                    Media = createInput.Media.Select(x => new ObservationMediaUpdateCommand()
-                        {
-                            MediaResourceId = x.MediaResourceId,
-                            Key = x.Key,
-                            Description = x.Description,
-                            Licence = x.Licence,
-                            IsPrimaryMedia = x.IsPrimaryMedia
-                        })
-                });
-
-            if (createInput.Identification != null && IsValidIdentification(createInput.Identification))
-            {
-                _messageBus.Send(
-                    new IdentificationCreateCommand()
+                _messageBus.Send(new ObservationCreateCommand()
                     {
-                        SightingKey = key, // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                        Key = key,
+                        Title = createInput.Title,
+                        Latitude = createInput.Latitude,
+                        Longitude = createInput.Longitude,
+                        Address = createInput.Address,
+                        AnonymiseLocation = createInput.AnonymiseLocation,
+                        Category = createInput.Category,
+                        ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        Comments = createInput.Identification.Comments ?? string.Empty,
-                        IsCustomIdentification = createInput.Identification.IsCustomIdentification,
-                        Taxonomy = createInput.Identification.Taxonomy ?? string.Empty,
-                        Category = createInput.Identification.Category ?? string.Empty,
-                        Kingdom = createInput.Identification.Kingdom ?? string.Empty,
-                        Phylum = createInput.Identification.Phylum ?? string.Empty,
-                        Class = createInput.Identification.Class ?? string.Empty,
-                        Order = createInput.Identification.Order ?? string.Empty,
-                        Family = createInput.Identification.Family ?? string.Empty,
-                        Genus = createInput.Identification.Genus ?? string.Empty,
-                        Species = createInput.Identification.Species ?? string.Empty,
-                        Subspecies = createInput.Identification.Subspecies ?? string.Empty,
-                        CommonGroupNames = createInput.Identification.CommonGroupNames ?? new string[] { },
-                        CommonNames = createInput.Identification.CommonNames ?? new string[] { },
-                        Synonyms = createInput.Identification.Synonyms ?? new string[] { }
+                        Projects = createInput.ProjectIds,
+                        Media = createInput.Media.Select(x => new ObservationMediaUpdateCommand()
+                            {
+                                MediaResourceId = x.MediaResourceId,
+                                Key = x.Key,
+                                Description = x.Description,
+                                Licence = x.Licence,
+                                IsPrimaryMedia = x.IsPrimaryMedia
+                            })
                     });
-            }
 
-            if (createInput.Note != null && IsValidSightingNote(createInput.Note))
+                if (identificationCreateInput != null)
+                {
+                    _messageBus.Send(
+                        new IdentificationCreateCommand()
+                            {
+                                SightingKey = key,
+                                // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                                UserId = _userContext.GetAuthenticatedUserId(),
+                                Comments = identificationCreateInput.IdentificationComments ?? string.Empty,
+                                IsCustomIdentification = identificationCreateInput.IsCustomIdentification,
+                                Taxonomy = identificationCreateInput.Taxonomy ?? string.Empty,
+                                Category = identificationCreateInput.Category ?? string.Empty,
+                                Kingdom = identificationCreateInput.Kingdom ?? string.Empty,
+                                Phylum = identificationCreateInput.Phylum ?? string.Empty,
+                                Class = identificationCreateInput.Class ?? string.Empty,
+                                Order = identificationCreateInput.Order ?? string.Empty,
+                                Family = identificationCreateInput.Family ?? string.Empty,
+                                Genus = identificationCreateInput.Genus ?? string.Empty,
+                                Species = identificationCreateInput.Species ?? string.Empty,
+                                Subspecies = identificationCreateInput.Subspecies ?? string.Empty,
+                                CommonGroupNames = identificationCreateInput.CommonGroupNames ?? new string[] {},
+                                CommonNames = identificationCreateInput.CommonNames ?? new string[] {},
+                                Synonyms = identificationCreateInput.Synonyms ?? new string[] {}
+                            });
+                }
+
+                if (sightingNoteCreateInput != null)
+                {
+                    _messageBus.Send(
+                        new SightingNoteCreateCommand()
+                            {
+                                SightingKey = key,
+                                // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                                UserId = _userContext.GetAuthenticatedUserId(),
+                                Descriptions = sightingNoteCreateInput.Descriptions ?? new Dictionary<string, string>(),
+                                Tags = sightingNoteCreateInput.Tags ?? string.Empty,
+                                Comments = sightingNoteCreateInput.NoteComments ?? string.Empty
+                            });
+                }
+            }
+            else
             {
-                _messageBus.Send(
-                    new SightingNoteCreateCommand()
-                        {
-                            SightingKey = key, // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
-                            UserId = _userContext.GetAuthenticatedUserId(),
-                            Descriptions = createInput.Note.Descriptions ?? new Dictionary<string, string>(),
-                            Tags = createInput.Note.Tags ?? string.Empty,
-                            Comments = createInput.Note.Comments ?? string.Empty
-                        });
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            return JsonSuccess();
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Observation = createInput;
+
+            return RestfulResult(
+                viewModel,
+                "observations",
+                "create");
         }
 
         [Transaction]
@@ -288,34 +295,42 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new ObservationUpdateCommand
+                        {
+                            Id = observationId,
+                            Title = updateInput.Title,
+                            Latitude = updateInput.Latitude,
+                            Longitude = updateInput.Longitude,
+                            Address = updateInput.Address,
+                            AnonymiseLocation = updateInput.AnonymiseLocation,
+                            Category = updateInput.Category,
+                            ObservedOn = updateInput.ObservedOn,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Projects = updateInput.ProjectIds,
+                            Media = updateInput.Media.Select(x => new ObservationMediaUpdateCommand()
+                                {
+                                    MediaResourceId = x.MediaResourceId,
+                                    Description = x.Description,
+                                    Licence = x.Licence,
+                                    IsPrimaryMedia = x.IsPrimaryMedia
+                                })
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new ObservationUpdateCommand
-                {
-                    Id = observationId,
-                    Title = updateInput.Title,
-                    Latitude = updateInput.Latitude,
-                    Longitude = updateInput.Longitude,
-                    Address = updateInput.Address,
-                    AnonymiseLocation = updateInput.AnonymiseLocation,
-                    Category = updateInput.Category,
-                    ObservedOn = updateInput.ObservedOn,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Projects = updateInput.ProjectIds,
-                    Media = updateInput.Media.Select(x => new ObservationMediaUpdateCommand()
-                    {
-                        MediaResourceId = x.MediaResourceId,
-                        Description = x.Description,
-                        Licence = x.Licence,
-                        IsPrimaryMedia = x.IsPrimaryMedia
-                    })
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Observation = updateInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "observations",
+                "update");
         }
 
         [Transaction]
@@ -372,8 +387,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "identifications",
-                "createidentification",
-                new Action<dynamic>(x => x.Model.Create = true));
+                "createidentification");
         }
 
         [HttpGet]
@@ -400,8 +414,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "sightingnotes",
-                "createnote",
-                new Action<dynamic>(x => x.Model.Create = true));
+                "createnote");
         }
 
         [HttpGet]
@@ -426,8 +439,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "identifications",
-                "updateidentification",
-                new Action<dynamic>(x => x.Model.Update = true));
+                "updateidentification");
         }
 
         [HttpGet]
@@ -454,76 +466,91 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "sightingnotes",
-                "updatenote",
-                new Action<dynamic>(x => x.Model.Update = true));
+                "updatenote");
         }
 
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult CreateNote(SightingNoteCreateInput createInput)
+        public ActionResult CreateNote(SightingNoteUpdateInput createInput)
         {
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
             //{
             //    return HttpUnauthorized();
             //}
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new SightingNoteCreateCommand()
+                        {
+                            SightingId = createInput.SightingId,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Descriptions = createInput.Descriptions ?? new Dictionary<string, string>(),
+                            Tags = createInput.Tags ?? string.Empty,
+                            Comments = createInput.NoteComments ?? string.Empty
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new SightingNoteCreateCommand()
-                {
-                    SightingId = createInput.SightingId,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Descriptions = createInput.Descriptions ?? new Dictionary<string, string>(),
-                    Tags = createInput.Tags ?? string.Empty,
-                    Comments = createInput.Comments ?? string.Empty
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Note = createInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "sightingnotes",
+                "createnote");
         }
 
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult CreateIdentification(IdentificationCreateInput createInput)
+        public ActionResult CreateIdentification(IdentificationUpdateInput createInput)
         {
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
             //{
             //    return HttpUnauthorized();
             //}
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new IdentificationCreateCommand()
+                        {
+                            SightingId = createInput.SightingId,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Comments = createInput.IdentificationComments ?? string.Empty,
+                            IsCustomIdentification = createInput.IsCustomIdentification,
+                            Taxonomy = createInput.Taxonomy ?? string.Empty,
+                            Category = createInput.Category ?? string.Empty,
+                            Kingdom = createInput.Kingdom ?? string.Empty,
+                            Phylum = createInput.Phylum ?? string.Empty,
+                            Class = createInput.Class ?? string.Empty,
+                            Order = createInput.Order ?? string.Empty,
+                            Family = createInput.Family ?? string.Empty,
+                            Genus = createInput.Genus ?? string.Empty,
+                            Species = createInput.Species ?? string.Empty,
+                            Subspecies = createInput.Subspecies ?? string.Empty,
+                            CommonGroupNames = createInput.CommonGroupNames ?? new string[] {},
+                            CommonNames = createInput.CommonNames ?? new string[] {},
+                            Synonyms = createInput.Synonyms ?? new string[] {}
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new IdentificationCreateCommand()
-                {
-                    SightingId = createInput.SightingId,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Comments = createInput.Comments ?? string.Empty,
-                    IsCustomIdentification = createInput.IsCustomIdentification,
-                    Taxonomy = createInput.Taxonomy ?? string.Empty,
-                    Category = createInput.Category ?? string.Empty,
-                    Kingdom = createInput.Kingdom ?? string.Empty,
-                    Phylum = createInput.Phylum ?? string.Empty,
-                    Class = createInput.Class ?? string.Empty,
-                    Order = createInput.Order ?? string.Empty,
-                    Family = createInput.Family ?? string.Empty,
-                    Genus = createInput.Genus ?? string.Empty,
-                    Species = createInput.Species ?? string.Empty,
-                    Subspecies = createInput.Subspecies ?? string.Empty,
-                    CommonGroupNames = createInput.CommonGroupNames ?? new string[] { },
-                    CommonNames = createInput.CommonNames ?? new string[] { },
-                    Synonyms = createInput.Synonyms ?? new string[] { }
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Identification = createInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "identifications",
+                "createidentification");
         }
 
         [Transaction]
@@ -537,23 +564,31 @@ namespace Bowerbird.Web.Controllers
             //    return HttpUnauthorized();
             //}
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new SightingNoteUpdateCommand()
+                        {
+                            Id = updateInput.Id.Value,
+                            SightingId = updateInput.SightingId,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Descriptions = updateInput.Descriptions ?? new Dictionary<string, string>(),
+                            Tags = updateInput.Tags ?? string.Empty,
+                            Comments = updateInput.NoteComments ?? string.Empty
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new SightingNoteUpdateCommand()
-                {
-                    Id = updateInput.Id,
-                    SightingId = updateInput.SightingId,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Descriptions = updateInput.Descriptions ?? new Dictionary<string, string>(),
-                    Tags = updateInput.Tags ?? string.Empty,
-                    Comments = updateInput.Comments ?? string.Empty
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Note = updateInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "sightingnotes",
+                "updatenote");
         }
 
         [Transaction]
@@ -567,35 +602,43 @@ namespace Bowerbird.Web.Controllers
             //    return HttpUnauthorized();
             //}
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new IdentificationUpdateCommand()
+                        {
+                            Id = updateInput.Id.Value,
+                            SightingId = updateInput.SightingId,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Comments = updateInput.IdentificationComments,
+                            IsCustomIdentification = updateInput.IsCustomIdentification,
+                            Taxonomy = updateInput.Taxonomy ?? string.Empty,
+                            Category = updateInput.Category ?? string.Empty,
+                            Kingdom = updateInput.Kingdom ?? string.Empty,
+                            Phylum = updateInput.Phylum ?? string.Empty,
+                            Class = updateInput.Class ?? string.Empty,
+                            Order = updateInput.Order ?? string.Empty,
+                            Family = updateInput.Family ?? string.Empty,
+                            Genus = updateInput.Genus ?? string.Empty,
+                            Species = updateInput.Species ?? string.Empty,
+                            Subspecies = updateInput.Subspecies ?? string.Empty,
+                            CommonGroupNames = updateInput.CommonGroupNames ?? new string[] {},
+                            CommonNames = updateInput.CommonNames ?? new string[] {},
+                            Synonyms = updateInput.Synonyms ?? new string[] {}
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new IdentificationUpdateCommand()
-                {
-                    Id = updateInput.Id,
-                    SightingId = updateInput.SightingId,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Comments = updateInput.Comments,
-                    IsCustomIdentification = updateInput.IsCustomIdentification,
-                    Taxonomy = updateInput.Taxonomy ?? string.Empty,
-                    Category = updateInput.Category ?? string.Empty,
-                    Kingdom = updateInput.Kingdom ?? string.Empty,
-                    Phylum = updateInput.Phylum ?? string.Empty,
-                    Class = updateInput.Class ?? string.Empty,
-                    Order = updateInput.Order ?? string.Empty,
-                    Family = updateInput.Family ?? string.Empty,
-                    Genus = updateInput.Genus ?? string.Empty,
-                    Species = updateInput.Species ?? string.Empty,
-                    Subspecies = updateInput.Subspecies ?? string.Empty,
-                    CommonGroupNames = updateInput.CommonGroupNames ?? new string[] { },
-                    CommonNames = updateInput.CommonNames ?? new string[] { },
-                    Synonyms = updateInput.Synonyms ?? new string[] { }
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Identification = updateInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "identifications",
+                "updateidentification");
         }
 
         public ActionResult CategoryList()
@@ -616,20 +659,6 @@ namespace Bowerbird.Web.Controllers
             }
 
             return HttpNotFound();
-        }
-
-        private bool IsValidIdentification(IdentificationCreateInput identificationCreateInput)
-        {
-            // At least one of the following items has been filled in:
-            return identificationCreateInput.IsCustomIdentification ? true : !string.IsNullOrWhiteSpace(identificationCreateInput.Taxonomy); // An identification
-        }
-
-        private bool IsValidSightingNote(SightingNoteCreateInput sightingNoteCreateInput)
-        {
-            // At least one of the following items has been filled in:
-            return
-                (sightingNoteCreateInput.Descriptions != null && sightingNoteCreateInput.Descriptions.Where(x => !string.IsNullOrWhiteSpace(x.Key) && !string.IsNullOrWhiteSpace(x.Value)).Count() > 0) || // At least one description
-                (sightingNoteCreateInput.Tags != null && sightingNoteCreateInput.Tags.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Count() > 0); // At least one tag
         }
 
         private object GetCategorySelectList(string observationId = "", string category = "")

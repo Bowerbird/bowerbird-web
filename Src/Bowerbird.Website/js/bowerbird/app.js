@@ -19,65 +19,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     // Let's pollute the global namespace, just a little, for debug purposes :)
     window.Bowerbird = window.Bowerbird || { app: app };
 
-    var AuthenticatedUser = function (data) {
-        this.user = new User(data.User);
-        this.memberships = data.Memberships;
-        this.projects = new ProjectCollection(data.Projects, { sortBy: 'a-z' });
-        this.organisations = new OrganisationCollection(data.Organisations, { sortBy: 'a-z' });
-        this.userProjects = new UserProjectCollection(data.UserProjects, { sortBy: 'a-z' });
-        this.appRoot = data.AppRoot;
-
-        this.hasGroupPermission = function (groupId, permissionId) {
-            var membership = _.find(this.memberships, function (m) {
-                return m.GroupId === groupId;
-            });
-            if (!membership) {
-                return false;
-            }
-            return _.any(membership.PermissionIds, function (p) {
-                return p === permissionId;
-            });
-        };
-
-        this.hasGroupRole = function (groupId, roleId) {
-            var membership = _.find(this.memberships, function (m) {
-                return m.GroupId === groupId;
-            });
-            if (!membership) {
-                return false;
-            }
-            return _.any(membership.RoleIds, function (role) {
-                return role === roleId;
-            });
-        };
-
-        this.defaultLicence = data.DefaultLicence;
-        this.callsToAction = data.CallsToAction;
-    };
-
-    app.vent.on('newactivity:groupadded', function (activity) {
-        var group = activity.get('GroupAdded').Group;
-        if (group.GroupType === 'project') {
-            app.vent.trigger('projectAdded:', group);
-            if (group.User.Id == app.authenticatedUser.user.id) {
-                app.authenticatedUser.projects.add(group);
-            }
-        }
-        if (group.GroupType === 'organisation') {
-            app.vent.trigger('organisationAdded:', group);
-            if (group.User.Id == app.authenticatedUser.user.id) {
-                app.authenticatedUser.organisations.add(group);
-            }
-        }
-        if (group.GroupType === 'userproject') {
-            app.vent.trigger('userProjectAdded:', group);
-            if (group.User.Id == app.authenticatedUser.user.id) {
-                app.authenticatedUser.userProjects.add(group);
-            }
-        }
-
-    }, this);
-
     app.addRegions({
         header: '#header',
         footer: 'footer',
@@ -87,18 +28,12 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         usersonline: '#onlineusers'
     });
 
-    app.isPrerenderingView = function (name) {
-        return name === app.prerenderedView.name && !app.prerenderedView.isBound;
-    };
-
-    app.isPrerendering = function () {
-        return !app.prerenderedView.isBound;
-    };
-
+    // Sets the prerender complete flag to "done"
     var setPrerenderComplete = function () {
         app.prerenderedView.isBound = true;
     };
 
+    // Determines which Backbone method to call to init the view (bootstrap it, or render it)
     var getShowViewMethodName = function (name) {
         if (!name) {
             var err = new Error("A name must be provided!");
@@ -108,6 +43,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         return app.isPrerenderingView(name) ? 'attachView' : 'show';
     };
 
+    //Updates the HTML title tag
     var updateTitle = function (titleSegment) {
         var newTitle = 'BowerBird';
         if (titleSegment.length > 0) {
@@ -116,6 +52,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         document.title = newTitle;
     };
 
+    // Renders a view, taking into account if it should be bootstrapped in, or rendered
     var renderView = function (title, view, name, onShowCallback, showSidebar) {
         // Update title
         updateTitle(title);
@@ -145,9 +82,29 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         });
     };
 
-    app.routeHistory = [];
+    // A history of the routes that have been navigated
+    var routeHistory = [];
 
-    app.previousContentView = null;
+    // Holds a ref to the previous content view
+    var previousContentView = null;
+
+    // Resize the sidebar
+    var resizeSidebar = function () {
+        if ($('#sidebar').length > 0) {
+            log('resizing sidebar', $('header.default-header h1').offset(), $('header.default-header h1').width());
+
+            $('#sidebar').css('width', $('header.default-header h1').width() + 'px');
+            $('#sidebar').css('left', $('header.default-header h1').offset().left + 'px');
+        }
+    };
+
+    app.isPrerenderingView = function (name) {
+        return name === app.prerenderedView.name && !app.prerenderedView.isBound;
+    };
+
+    app.isPrerendering = function () {
+        return !app.prerenderedView.isBound;
+    };
 
     app.showContentView = function (title, view, name, onShow) {
         var onShowCallback = onShow || function () { };
@@ -164,7 +121,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 // form task. Provides for better UX.
                 if (isForm) {
                     // Store previous view in cache
-                    app.previousContentView = {
+                    previousContentView = {
                         viewType: app.content.currentView.viewType || 'unknown',
                         title: document.title.replace('BowerBird', '').replace('-', ''),
                         view: app.content.currentView,
@@ -183,20 +140,20 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     };
 
     app.showPreviousContentView = function () {
-        if (app.previousContentView) {
+        if (previousContentView) {
             // Close current view
             app.content.close();
 
             // Reinstate previous view
-            app.content.$el.append(app.previousContentView.$el);
-            app.content.currentView = app.previousContentView.view;
-            app.routeHistory.shift();
-            Backbone.history.navigate(_.first(app.routeHistory));
+            app.content.$el.append(previousContentView.$el);
+            app.content.currentView = previousContentView.view;
+            routeHistory.shift();
+            Backbone.history.navigate(_.first(routeHistory));
 
-            updateTitle(app.previousContentView.title);
+            updateTitle(previousContentView.title);
 
             // Clear out previous view cache
-            app.previousContentView = null;
+            previousContentView = null;
 
             // Perform anim
             $('#sidebar').fadeIn(100);
@@ -228,9 +185,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
         // Add additional capability if authenticated user
         if (bootstrapData.Model.AuthenticatedUser) {
-            // Add the authenticated user to the app for future reference
-            app.authenticatedUser = new AuthenticatedUser(bootstrapData.Model.AuthenticatedUser);
-
             // Online users
             app.onlineUsers = new UserCollection();
 
@@ -247,16 +201,6 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
         };
     });
 
-    // Resize the sidebar
-    var resizeSidebar = function () {
-        if ($('#sidebar').length > 0) {
-            log('resizing sidebar', $('header.default-header h1').offset(), $('header.default-header h1').width());
-
-            $('#sidebar').css('width', $('header.default-header h1').width() + 'px');
-            $('#sidebar').css('left', $('header.default-header h1').offset().left + 'px');
-        }
-    };
-
     app.bind('initialize:after', function () {
         // Tasks to perform on DOM ready
         var that = this;
@@ -265,7 +209,7 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             // Only start history once app is fully initialised
             if (Backbone.history) {
                 Backbone.history.on('route', function (route, name) {
-                    app.routeHistory.unshift(Backbone.history.fragment);
+                    routeHistory.unshift(Backbone.history.fragment);
                 });
 
                 // Start URL and history routing

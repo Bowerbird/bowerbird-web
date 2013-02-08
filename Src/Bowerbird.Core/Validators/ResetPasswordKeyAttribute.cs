@@ -27,7 +27,7 @@ namespace Bowerbird.Core.Validators
     /// Checks whether specified reset password key exists
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class ValidResetPasswordKeyRequestAttribute : ValidationAttribute
+    public class ResetPasswordKeyAttribute : ValidationAttribute
     {
             
         #region Members

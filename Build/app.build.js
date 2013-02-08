@@ -36,7 +36,8 @@
         visualize: '../libs/jquery.visualize/jquery.visualize',
         moment: '../libs/moment/moment',
         'bootstrap-data': 'empty:',
-        '/templates': 'empty:'
+        '/templates': 'empty:',
+        '/i18n': 'empty'
          
     },
 //    shim: {

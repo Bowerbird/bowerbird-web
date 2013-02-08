@@ -1,11 +1,12 @@
-﻿<div class="form-details">
+﻿<h2>
+  <span class="small-icon user-icon"></span> Account
+</h2>
+<div class="form-details">
 <form action="/user/update" method="post"  enctype="multipart/form-data">
   <fieldset>
     <legend class="hidden">User Details</legend>
-
     <p>Edit your account details below. You can also update your public profile description to enable others to more easily find you.</p>
     <div class="field-row">
-
       <div class="field avatar-field">
         <div>
           <label for="avatar">Avatar</label>
@@ -17,7 +18,6 @@
           </div>
         </div>
       </div>
-      
       <div id="name-field" class="field">
         <div>
           <label for="Name">
@@ -28,7 +28,6 @@
           <input type="text" id="Name" name="name" value="{{Model.User.Name}}" />
         </div>
       </div>
-      
       <div id="email-field" class="field">
         <div>
           <label for="Email">Email <span>Required</span>
@@ -38,11 +37,8 @@
           <input type="text" id="Email" name="email" value="{{Model.User.Email}}" />
         </div>
       </div>
-      
     </div>
     <div class="field-row">
-      
-      
       <div id="description-field" class="field">
         <div>
           <label for="description">Description</label>
@@ -50,15 +46,9 @@
         <div>
           <textarea rows="4" cols="100" id="Description" name="description">{{Model.User.Description}}</textarea>
         </div>
-      </div>
-      
-      
-      
+      </div>  
     </div>
-
-
     <div class="field-row">
-
       <div id="timezone-field" class="field">
         <div>
           <label for="Timezone">
@@ -74,11 +64,8 @@
           </select>
         </div>
       </div>
-
     </div>
-
     <div class="field-row">
-
       <div id="licence-field" class="field">
         <div>
           <label for="DefaultLicence">
@@ -97,15 +84,11 @@
           </p>
         </div>
       </div>
-
     </div>
-    
-    
   </fieldset>
   <fieldset>
     <input type="button" value="Save" id="save" />
-    <!--<input type="button" value="Cancel" id="cancel" />-->
-    <a href="/" class="button">Cancel</a>
+    <input type="button" value="Cancel" id="cancel" />
   </fieldset>
 </form>
 </div>

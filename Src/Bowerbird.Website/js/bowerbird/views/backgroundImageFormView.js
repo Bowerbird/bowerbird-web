@@ -26,6 +26,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'models/m
             );
             this.model = options.model;
             this.currentUploadKey = 0;
+            this.uploading = false;
 
             app.vent.on('mediaresourceuploadsuccess', this._onMediaResourceUploadSuccess, this);
             app.vent.on('mediaresourceuploadfailure', this._onMediaResourceUploadFailure, this);
@@ -48,6 +49,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'models/m
         },
 
         _onImageUploadAdd: function (e, data) {
+            this.uploading = true;
             this.$el.find('#background-viewer').empty().append('<img class="progress-indicator" src="/img/loader-small.gif" alt="" style="width: " />');
 
             this.key = app.generateGuid();
@@ -68,9 +70,11 @@ define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'loadimage', 'models/m
 
                 this.$el.find('#background-viewer').empty().append('<img src="' + mediaResource.get('Image').Large.Uri + '" alt="" />');
             }
+            this.uploading = false;
         },
 
         _onMediaResourceUploadFailure: function (key, reason) {
+            this.uploading = false;
         },
 
         onClose: function () {

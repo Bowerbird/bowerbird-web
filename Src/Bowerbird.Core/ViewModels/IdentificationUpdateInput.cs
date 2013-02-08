@@ -14,7 +14,9 @@
 
 using System;
 using System.Collections.Generic;
- 
+using Bowerbird.Core.Internationalisation;
+using Bowerbird.Core.Validators;
+
 namespace Bowerbird.Core.ViewModels
 {
     public class IdentificationUpdateInput
@@ -29,16 +31,22 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        public int Id { get; set; }
+        /// <summary>
+        /// Used when adding an identification at the same time as a new sighting only.
+        /// </summary>
+        public bool NewSighting { get; set; }
+
+        public int? Id { get; set; }
 
         public string SightingId { get; set; }
 
-        public string Comments { get; set; }
+        public string IdentificationComments { get; set; }
 
         /// <summary>
         /// A custom identification consist of all taxa filled out. A non-custom one consists of just Taxonomy, 
         /// which is then used to source the identification from our classification index.
         /// </summary>
+        [IdentificationRequired(ErrorMessageResourceName = "IdentificationRequired", ErrorMessageResourceType = typeof(I18n))]
         public bool IsCustomIdentification { get; set; }
 
         #region Non-custom Identification

@@ -229,7 +229,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string id, ActivityInput activityInput, PagingInput pagingInput)
+        public ActionResult Index(string id, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             string organisationId = VerbosifyId<Organisation>(id);
 
@@ -463,26 +463,34 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult Create(OrganisationCreateInput createInput)
+        public ActionResult Create(OrganisationUpdateInput createInput)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new OrganisationCreateCommand()
+                        {
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            Name = createInput.Name,
+                            Description = createInput.Description,
+                            Website = createInput.Website,
+                            AvatarId = createInput.AvatarId,
+                            BackgroundId = createInput.BackgroundId,
+                            Categories = createInput.Categories
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int) System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new OrganisationCreateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Name = createInput.Name,
-                    Description = createInput.Description,
-                    Website = createInput.Website,
-                    AvatarId = createInput.AvatarId,
-                    BackgroundId = createInput.BackgroundId,
-                    Categories = createInput.Categories
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = createInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "create");
         }
 
         [Transaction]
@@ -502,25 +510,33 @@ namespace Bowerbird.Web.Controllers
                 return HttpUnauthorized();
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new OrganisationUpdateCommand()
+                    {
+                        UserId = _userContext.GetAuthenticatedUserId(),
+                        Id = organisationId,
+                        Name = updateInput.Name,
+                        Description = updateInput.Description,
+                        Website = updateInput.Website,
+                        AvatarId = updateInput.AvatarId,
+                        BackgroundId = updateInput.BackgroundId,
+                        Categories = updateInput.Categories
+                    });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new OrganisationUpdateCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = organisationId,
-                    Name = updateInput.Name,
-                    Description = updateInput.Description,
-                    Website = updateInput.Website,
-                    AvatarId = updateInput.AvatarId,
-                    BackgroundId = updateInput.BackgroundId,
-                    Categories = updateInput.Categories
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Organisation = updateInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "organisations",
+                "update");
         }
 
         [Transaction]

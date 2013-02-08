@@ -1,4 +1,4 @@
-/* Bowerbird V1 - Licensed under MIT 1.1 Public License
+﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
 
  Developers: 
  * Frank Radocaj : frank@radocaj.com
@@ -12,13 +12,14 @@
  
 */
 
-using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Config;
+using System;
 
 namespace Bowerbird.Core.ViewModels
 {
-    public class MemberDeleteInput
+    public class ActivitiesQueryInput
     {
-        #region Members
+        #region Fields
 
         #endregion
 
@@ -28,11 +29,11 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [Required]
-        public string UserId { get; set; }
+        public string Query { get; set; }
 
-        [Required]
-        public string GroupId { get; set; }
+        public DateTime? NewerThan { get; set; }
+
+        public DateTime? OlderThan { get; set; }
 
         #endregion
 

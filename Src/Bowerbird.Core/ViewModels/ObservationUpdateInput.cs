@@ -15,6 +15,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
+using Bowerbird.Core.Validators;
 
 namespace Bowerbird.Core.ViewModels
 {
@@ -32,29 +34,31 @@ namespace Bowerbird.Core.ViewModels
 
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter a title")]
+        public string Key { get; set; }
+
+        [Required(ErrorMessageResourceName = "TitleRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "Please enter the observed on date and time")]
+        [Required(ErrorMessageResourceName = "ObservedOnRequired", ErrorMessageResourceType = typeof(I18n))]
         public DateTime ObservedOn { get; set; }
 
-        [Required]
+        [GeoCoordinatesRequired(ErrorMessageResourceName = "LatLongRequired", ErrorMessageResourceType = typeof(I18n))]
+        [GeoCoordinates(ErrorMessageResourceName = "LatLongInvalid", ErrorMessageResourceType = typeof(I18n))]
         public string Latitude { get; set; }
 
-        [Required]
         public string Longitude { get; set; }
 
         public string Address { get; set; }
 
-        [Required]
         public bool AnonymiseLocation { get; set; }
 
-        [Required(ErrorMessage = "Please select an observation category")]
+        [Required(ErrorMessageResourceName = "CategoryRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Category { get; set; }
 
-        public List<ObservationMediaItem> Media { get; set; }
+        [EnumerableLength(1, ErrorMessageResourceName = "MediaRequired", ErrorMessageResourceType = typeof(I18n))]
+        public IEnumerable<ObservationMediaUpdateInput> Media { get; set; }
 
-        public List<string> ProjectIds { get; set; }
+        public IEnumerable<string> ProjectIds { get; set; }
 
         #endregion
 

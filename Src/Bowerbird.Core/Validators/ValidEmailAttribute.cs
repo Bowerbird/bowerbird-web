@@ -45,9 +45,7 @@ namespace Bowerbird.Core.Validators
 
         #endregion
 
-        #region Methods
-
-        #endregion      
+        #region Methods   
       
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -62,6 +60,8 @@ namespace Bowerbird.Core.Validators
 
             return ValidationResult.Success;
         }
+
+        #endregion
 
     }
 }

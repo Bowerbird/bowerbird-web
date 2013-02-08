@@ -5,6 +5,12 @@
   <form action="/posts/create" method="post"  enctype="multipart/form-data">
     <fieldset>
       <legend class="hidden">News Item Details</legend>
+      {{#Model.Post.Id}}
+      <p>Edit the post by changing the details below.</p>
+      {{/Model.Post.Id}}
+      {{^Model.Post.Id}}
+      <p>Add a post by filling in the details below.</p>
+      {{/Model.Post.Id}}
       <div class="field-row">
         <!--<div class="field avatar-field">
           <div>

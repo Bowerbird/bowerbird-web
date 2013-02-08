@@ -58,7 +58,7 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpPost]
-        public ActionResult Create(CommentCreateInput createInput)
+        public ActionResult Create(CommentUpdateInput createInput)
         {
             if (createInput.ContributionId.Contains("observations/") && !_userContext.HasGroupPermission<Observation>(PermissionNames.CreateComment, createInput.ContributionId))
             {
@@ -79,10 +79,10 @@ namespace Bowerbird.Web.Controllers
                 new CommentCreateCommand()
                 {
                     UserId = _userContext.GetAuthenticatedUserId(),
-                    Comment = createInput.Message,
+                    //Comment = createInput.Message,
                     CommentedOn = DateTime.UtcNow,
                     ContributionId = createInput.ContributionId,
-                    InReplyToCommentId = createInput.ParentCommentId
+                    //InReplyToCommentId = createInput.ParentCommentId
                 });
 
             return JsonSuccess();
@@ -124,30 +124,30 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [Authorize]
         [HttpDelete]
-        public ActionResult Delete(CommentDeleteInput deleteInput)
+        public ActionResult Delete(string id)
         {
-            if (deleteInput.ContributionId.Contains("observations/") && !_userContext.HasGroupPermission<Observation>(deleteInput.ContributionId, PermissionNames.DeleteComment))
-            {
-                return HttpUnauthorized();
-            }
+            //if (deleteInput.ContributionId.Contains("observations/") && !_userContext.HasGroupPermission<Observation>(deleteInput.ContributionId, PermissionNames.DeleteComment))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
-            if (deleteInput.ContributionId.Contains("posts/") && !_userContext.HasGroupPermission<Post>(deleteInput.ContributionId, PermissionNames.DeleteComment))
-            {
-                return HttpUnauthorized();
-            }
+            //if (deleteInput.ContributionId.Contains("posts/") && !_userContext.HasGroupPermission<Post>(deleteInput.ContributionId, PermissionNames.DeleteComment))
+            //{
+            //    return HttpUnauthorized();
+            //}
 
-            if (!ModelState.IsValid)
-            {
-                return JsonFailed();
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return JsonFailed();
+            //}
 
-            _messageBus.Send(
-                new CommentDeleteCommand()
-                {
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    Id = deleteInput.CommentId,
-                    ContributionId = deleteInput.ContributionId
-                });
+            //_messageBus.Send(
+            //    new CommentDeleteCommand()
+            //    {
+            //        UserId = _userContext.GetAuthenticatedUserId(),
+            //        Id = deleteInput.CommentId,
+            //        ContributionId = deleteInput.ContributionId
+            //    });
 
             return JsonSuccess();
         }

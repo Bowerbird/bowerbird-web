@@ -35,7 +35,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             'change input#AnonymiseLocation': '_anonymiseLocationChanged',
             'change #projects-field input:checkbox': '_projectsChanged',
             'change #category-field input:checkbox': '_categoryChanged',
-            'click #location-options-button': '_locationOptionsClicked',
             'click #add-sighting-identification-button': '_showIdentificationForm',
             'click #add-sighting-note-button': '_showSightingNoteForm',
             'click .show-geospatial-form-button': '_showGeospatialForm'
@@ -57,7 +56,6 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             }
 
             this.model.media.on('add', this.onMediaChanged, this);
-            this.model.on('validated', this.onValidation, this);
         },
 
         serializeData: function () {
@@ -65,9 +63,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 Model: {
                     Observation: this.model.toJSON(),
                     CategorySelectList: this.categorySelectList,
-                    ProjectsSelectList: this.projectsSelectList,
-                    Create: this.viewEditMode === 'create',
-                    Update: this.viewEditMode === 'update'
+                    ProjectsSelectList: this.projectsSelectList
                 }
             };
         },
@@ -188,13 +184,10 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             this.model.set('Category', category);
         },
 
-        _locationOptionsClicked: function (e) {
-            this.$el.find('#location-options').toggle();
-        },
-
         _showIdentificationForm: function () {
             if (!this.identification) {
                 this.identification = new Identification();
+                this.identification.on('validated', this.onIdentificationValidation, this);
             }
             var identificationSubFormView = new IdentificationSubFormView({ model: this.identification, categories: this.categories, categorySelectList: this.categorySelectList });
             this.identificationSubFormView = identificationSubFormView;
@@ -204,6 +197,7 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
         _showSightingNoteForm: function () {
             if (!this.sightingNote) {
                 this.sightingNote = new SightingNote();
+                this.sightingNote.on('validated', this.onNoteValidation, this);
             }
             var sightingNoteSubFormView = new SightingNoteSubFormView({ model: this.sightingNote, categories: this.categories, categorySelectList: this.categorySelectList });
             this.sightingNoteSubFormView = sightingNoteSubFormView;
@@ -233,16 +227,24 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 if (this.$el.find('.validation-summary').length == 0) {
                     this.$el.find('.form-details').prepend(ich.ValidationSummary({
                         SummaryMessage: 'Please correct the following before continuing:',
-                        Errors: errors
+                        Errors: errors,
+                        // Due to a bug in mustache.js where you can't reference a parent element in a string array loop, we have to build the HTML here
+                        Error: function () {
+                            return _.map(this.Messages, function (message) {
+                                return '<li class="validation-field-' + this.Field + '">' + message + '</li>';
+                            }, this).join('\n');
+                        }
                     }));
                     this.$el.find('.validation-summary').slideDown();
                 } else {
                     var that = this;
-                    // Remove items
+                    // Remove items that are now valid
                     this.$el.find('.validation-summary li').each(function () {
                         var $li = that.$el.find(this);
                         var found = _.find(errors, function (err) {
-                            return 'validation-field-' + err.Field === $li.attr('class');
+                            return _.find(err.Messages, function (message) {
+                                return 'validation-field-' + err.Field === $li.attr('class') && message === $li.text();
+                            });
                         });
                         if (!found) {
                             $li.slideUp(function () { $(this).remove(); });
@@ -250,24 +252,34 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                     });
 
                     // Add items
+                    var lis = this.$el.find('.validation-summary li');
                     _.each(errors, function (err) {
-                        if (this.$el.find('.validation-field-' + err.Field).length === 0) {
-                            var li = $('<li class="validation-field-' + err.Field + '">' + err.Message + '</li>').css({ display: 'none' });
-                            this.$el.find('.validation-summary ul').append(li);
-                            li.slideDown();
-                        }
+                        _.each(err.Messages, function (message) {
+                            // Only add if the class and text is not found in li list
+                            var found = _.find(lis, function (li) {
+                                var $li = $(li);
+                                return $li.attr('class') === 'validation-field-' + err.Field && $li.text() === message;
+                            });
+
+                            if (!found) {
+                                var linew = $('<li class="validation-field-' + err.Field + '">' + message + '</li>').css({ display: 'none' });
+                                that.$el.find('.validation-summary ul').append(linew);
+                                linew.slideDown();
+                            }
+                        });
                     }, this);
                 }
             }
 
-            //            if (errors.length == 0) {
-            //                //this.$el.find('#save').removeAttr('disabled');
-            //            } else {
-            //                //this.$el.find('#save').attr('disabled', 'disabled');
-            //            }
-
-            this.$el.find('#Title, #Category, #pin-field, .observation-media-items').removeClass('input-validation-error');
-
+            this.$el.find('#Title, #Category, #pin-field, .observation-media-items, #location-coordinates').removeClass('input-validation-error');
+            if (this.identification) {
+                this.identificationRegion.currentView.$el.find('#selected-identification-field #Identification').removeClass('input-validation-error');
+            }
+            if (this.sightingNote) {
+                this.sightingNoteRegion.currentView.$el.find('textarea.note-description, .tagit').removeClass('input-validation-error');
+            }
+            
+            // Observation
             if (_.any(errors, function (item) { return item.Field === 'Title'; })) {
                 this.$el.find('#Title').addClass('input-validation-error');
             }
@@ -280,6 +292,19 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
             if (_.any(errors, function (item) { return item.Field === 'Media'; })) {
                 this.$el.find('.observation-media-items').addClass('input-validation-error');
             }
+            if (_.any(errors, function (item) { return item.Field === 'Latitude'; })) {
+                this.$el.find('#location-coordinates').addClass('input-validation-error');
+            }
+
+            // Identification
+            if (_.any(errors, function (item) { return item.Field === 'IsCustomIdentification'; })) {
+                this.identificationRegion.currentView.$el.find('#selected-identification-field #Identification').addClass('input-validation-error');
+            }
+
+            // Note           
+            if (_.any(errors, function (item) { return item.Field === 'Descriptions'; })) {
+                this.sightingNoteRegion.currentView.$el.find('textarea.note-description, .tagit').addClass('input-validation-error');
+            }
         },
 
         _cancel: function () {
@@ -291,10 +316,9 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 return;
             }
 
-            if (!this.model.isValid(true)) {
-                $('html, body').animate({ scrollTop: 0 }, 'slow');
-                return;
-            }
+            this.$el.find('#save').attr('disabled', 'disabled').val('Saving...');
+
+            var that = this;
 
             if (this.identification) {
                 this.model.setIdentification(this.identification);
@@ -304,11 +328,23 @@ function ($, _, Backbone, app, ich, SightingNote, Identification, LocationFormVi
                 this.model.setSightingNote(this.sightingNote);
             }
 
-            this.model.save();
-            app.showPreviousContentView();
+            this.model.save(null, {
+                success: function (model, response, options) {
+                    that.$el.find('#save').attr('disabled', 'disabled').val('Saved');
+                    that.onValidation(that.model, []);
+                    app.showPreviousContentView();
+                },
+                error: function (model, xhr, options) {
+                    that.$el.find('#save').removeAttr('disabled').val('Save');
+
+                    var data = JSON.parse(xhr.responseText);
+                    that.onValidation(that.model, data.Model.Errors);
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                }
+            });
         }
     });
-     
+
     return ObservationFormView;
 
 });

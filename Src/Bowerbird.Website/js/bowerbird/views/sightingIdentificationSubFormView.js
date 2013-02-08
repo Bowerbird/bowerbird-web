@@ -17,7 +17,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
 
         events: {
             'click #add-identification-button': '_showIdentificationForm',
-            'change #Comments': '_onCommentsChanged'
+            'change #IdentificationComments': '_onCommentsChanged'
         },
 
         initialize: function (options) {
@@ -51,7 +51,7 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
         },
 
         _onCommentsChanged: function (e) {
-            this.model.set('Comments', $(e.currentTarget).val());
+            this.model.set('IdentificationComments', $(e.currentTarget).val());
         },
 
         _showIdentificationForm: function (e) {

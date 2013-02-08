@@ -224,7 +224,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index(string id, ActivityInput activityInput, PagingInput pagingInput)
+        public ActionResult Index(string id, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             string userId = VerbosifyId<User>(id);
 

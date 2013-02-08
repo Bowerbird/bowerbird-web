@@ -67,7 +67,7 @@ namespace Bowerbird.Core.CommandHandlers
                 command.DefaultLicence,
                 command.Timezone);
 
-            var userProject = _documentSession.Load<UserProject>(user.Memberships.Single(x => x.Group.GroupType == "userproject").Group.Id);
+            var userProject = _documentSession.Load<UserProject>(user.Memberships.Single(x => x.Group.GroupType == "userproject" && x.Group.CreatedBy == command.Id).Group.Id);
 
             userProject.UpdateDetails(
                 user,

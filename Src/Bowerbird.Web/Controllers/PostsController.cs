@@ -110,8 +110,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "posts",
-                "create",
-                new Action<dynamic>(x => x.Model.Create = true));
+                "create");
         }
 
         [HttpGet]
@@ -140,8 +139,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "posts",
-                "update",
-                new Action<dynamic>(x => x.Model.Update = true));
+                "update");
         }
 
         [HttpGet]
@@ -167,14 +165,13 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "posts",
-                "delete",
-                new Action<dynamic>(x => x.Model.Delete = true));
+                "delete");
         }
 
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult Create(PostCreateInput createInput)
+        public ActionResult Create(PostUpdateInput createInput)
         {
             var actualGroupId = createInput.GroupType + "/" + createInput.GroupId;
 
@@ -183,26 +180,34 @@ namespace Bowerbird.Web.Controllers
             //    return HttpUnauthorized();
             //}
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
+
+                _messageBus.Send(
+                    new PostCreateCommand()
+                        {
+                            Key = key,
+                            Subject = createInput.Subject,
+                            Message = createInput.Message,
+                            PostType = createInput.PostType,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            GroupId = actualGroupId,
+                            MediaResources = createInput.MediaResources
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Post = createInput;
 
-            _messageBus.Send(
-                new PostCreateCommand() 
-                {
-                    Key = key,
-                    Subject = createInput.Subject,
-                    Message = createInput.Message,
-                    PostType = createInput.PostType,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    GroupId = actualGroupId,
-                    MediaResources = createInput.MediaResources
-                });
-
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "posts",
+                "create");
         }
 
         [Transaction]
@@ -222,23 +227,31 @@ namespace Bowerbird.Web.Controllers
             //    return HttpUnauthorized();
             //}
 
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return JsonFailed();
+                _messageBus.Send(
+                    new PostUpdateCommand
+                        {
+                            Id = postId,
+                            Subject = updateInput.Subject,
+                            Message = updateInput.Message,
+                            PostType = updateInput.PostType,
+                            UserId = _userContext.GetAuthenticatedUserId(),
+                            MediaResources = updateInput.MediaResources
+                        });
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            _messageBus.Send(
-                new PostUpdateCommand
-                {
-                    Id = postId,
-                    Subject = updateInput.Subject,
-                    Message = updateInput.Message,
-                    PostType = updateInput.PostType,
-                    UserId = _userContext.GetAuthenticatedUserId(),
-                    MediaResources = updateInput.MediaResources
-                });
+            dynamic viewModel = new ExpandoObject();
+            viewModel.Post = updateInput;
 
-            return JsonSuccess();
+            return RestfulResult(
+                viewModel,
+                "posts",
+                "update");
         }
 
         [Transaction]

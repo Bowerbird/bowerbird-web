@@ -15,6 +15,7 @@
 */
 
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
 using Bowerbird.Core.Validators;
 using DataAnnotationsExtensions;
 
@@ -32,19 +33,18 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [Required(ErrorMessage = "Please enter your name")]
+        [Required(ErrorMessageResourceName = "UserNameRequired", ErrorMessageResourceType = typeof(I18n))]
+        [StringLength(100, MinimumLength = 2, ErrorMessageResourceName = "NameTooShort", ErrorMessageResourceType = typeof(I18n))]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter your email address")]
-        [Email(ErrorMessage = "Please enter a valid email address")]
-        [UniqueEmail(ErrorMessage = "The email address already exists, please enter another email address")]
+        [Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(I18n))]
+        [Email(ErrorMessageResourceName = "EmailInvalid", ErrorMessageResourceType = typeof(I18n))]
+        [UniqueEmail(ErrorMessageResourceName = "EmailDuplicate", ErrorMessageResourceType = typeof(I18n))]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Please enter a password")]
-        [StringLength(1000, MinimumLength = 6, ErrorMessage = "Passwords must be at least 6 characters in length")]
+        [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(I18n))]
+        [StringLength(100, MinimumLength = 6, ErrorMessageResourceName = "PasswordTooShort", ErrorMessageResourceType = typeof(I18n))]
         public string Password { get; set; }
-
-        public bool RememberMe { get; set; }
 
         #endregion
 

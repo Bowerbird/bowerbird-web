@@ -147,6 +147,7 @@
     <Compile Include="Config\BowerbirdEnvironmentConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdMediaConfigurationSection.cs" />
     <Compile Include="Config\BowerbirdSpeciesConfigurationSection.cs" />
+    <Compile Include="Controllers\I18nController.cs" />
     <Compile Include="Infrastructure\RavenDocumentStoreListener.cs" />
     <Compile Include="Infrastructure\SignalrJsonNetSerializer.cs" />
     <Compile Include="Infrastructure\WebsiteBootstrapper.cs" />

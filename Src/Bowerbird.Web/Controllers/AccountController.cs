@@ -20,6 +20,7 @@ using System.Linq;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
+using Bowerbird.Core.Internationalisation;
 using Bowerbird.Core.Queries;
 using Bowerbird.Core.Services;
 using Bowerbird.Core.ViewModelFactories;
@@ -113,12 +114,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "account",
-                "login",
-                new Action<dynamic>(x =>
-                {
-                    //x.Model.ShowWelcome = user.User.CallsToAction.Contains("welcome");
-                    //x.Model.ShowActivities = true;
-                }));
+                "login");
         }
 
         [HttpPost]
@@ -128,45 +124,98 @@ namespace Bowerbird.Web.Controllers
         {
             Check.RequireNotNull(accountLoginInput, "accountLoginInput");
 
-            User user = null;
+//            User user = null;
 
-            if (ModelState.IsValid &&
-                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password, out user))
-            {
-                _messageBus.Send(
-                    new UserUpdateLastLoginCommand()
-                    {
-                        Email = accountLoginInput.Email
-                    });
+//            if (ModelState.IsValid &&
+//                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password, out user))
+//            {
+//                _messageBus.Send(
+//                    new UserUpdateLastLoginCommand()
+//                    {
+//                        Email = accountLoginInput.Email
+//                    });
                 
-                _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
+//                _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
+
+//#if !JS_COMBINE_MINIFY
+//                DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
+//#endif
+
+//                if(Request.IsAjaxRequest())
+//                {
+//                    dynamic viewModel = new ExpandoObject();
+//                    viewModel.User = _userViewFactory.Make(user, user);
+
+//                    return RestfulResult(
+//                        viewModel,
+//                        string.Empty,
+//                        string.Empty,
+//                        null,
+//                        null);
+//                }
+
+//                return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
+//            }
+
+//            ModelState.AddModelError("", "");
+
+//            ViewBag.AccountLogin = _accountViewModelQuery.MakeAccountLogin(accountLoginInput);
+//            ViewBag.IsStaticLayout = true;
+
+//            return View(Form.Login);
+            User user = null;
+            dynamic viewModel = null;
+
+            if (ModelState.IsValid)
+            {
+                if (AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password, out user))
+                {
+                    _messageBus.Send(
+                        new UserUpdateLastLoginCommand()
+                            {
+                                Email = accountLoginInput.Email
+                            });
+
+                    _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
 
 #if !JS_COMBINE_MINIFY
-                DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
+                    DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
 #endif
 
-                if(Request.IsAjaxRequest())
-                {
-                    dynamic viewModel = new ExpandoObject();
-                    viewModel.User = _userViewFactory.Make(user, user);
+                    if (Request.IsAjaxRequest())
+                    {
+                        viewModel = new ExpandoObject();
+                        viewModel.User = _userViewFactory.Make(user, user);
 
-                    return RestfulResult(
-                        viewModel,
-                        string.Empty,
-                        string.Empty,
-                        null,
-                        null);
+                        return RestfulResult(
+                            viewModel,
+                            "account",
+                            "login");
+                    }
+                    else
+                    {
+                        return RedirectToAction("loggingin", new {returnUrl = accountLoginInput.ReturnUrl});
+                    }
                 }
+                else
+                {
+                    Response.StatusCode = (int)System.Net.HttpStatusCode.Forbidden;
 
-                return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
+                    ModelState.AddModelError("CredentialsInvalid", I18n.CredentialsInvalid);
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            ModelState.AddModelError("", "");
+            viewModel = new ExpandoObject();
+            viewModel.AccountLogin = _accountViewModelQuery.MakeAccountLogin(accountLoginInput);
 
-            ViewBag.AccountLogin = _accountViewModelQuery.MakeAccountLogin(accountLoginInput);
-            ViewBag.IsStaticLayout = true;
-
-            return View(Form.Login);
+            return RestfulResult(
+                viewModel,
+                "account",
+                "login");
         }
 
         [HttpGet]
@@ -213,9 +262,13 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("privateindex", "home");
             }
 
-            ViewBag.IsStaticLayout = true;
+            dynamic viewModel = new ExpandoObject();
+            viewModel.AccountRegister = new AccountRegisterInput();
 
-            return View(Form.Register);
+            return RestfulResult(
+                viewModel,
+                "account",
+                "register");
         }
 
         [HttpPost]
@@ -223,49 +276,101 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         public ActionResult Register(AccountRegisterInput accountRegisterInput)
         {
+            //if (ModelState.IsValid)
+            //{
+            //    _messageBus.Send(
+            //        new UserCreateCommand()
+            //        {
+            //            Name = accountRegisterInput.Name,
+            //            Email = accountRegisterInput.Email,
+            //            Password = accountRegisterInput.Password,
+            //            Timezone = Constants.DefaultTimezone,
+            //            Roles = new[] { "roles/globalmember" }
+            //        });
+
+            //    var user = _documentSession
+            //        .Query<All_Users.Result, All_Users>()
+            //        .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())  // Wait for user to be persisted
+            //        .AsProjection<All_Users.Result>()
+            //        .Where(x => x.Email == accountRegisterInput.Email)
+            //        .First()
+            //        .User;
+
+            //    _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), accountRegisterInput.RememberMe);
+
+            //    // App login
+            //    if (Request.IsAjaxRequest())
+            //    {
+            //        dynamic viewModel = new ExpandoObject();
+            //        viewModel.User = _userViewFactory.Make(user, null);
+
+            //        return RestfulResult(
+            //            viewModel,
+            //            string.Empty,
+            //            string.Empty,
+            //            null,
+            //            null);
+            //    }
+
+            //    return RedirectToAction("loggingin");
+            //}
+
+            //ViewBag.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
+            //ViewBag.IsStaticLayout = true;
+
+            //return View(Form.Register);
+
+            dynamic viewModel = new ExpandoObject();
+
             if (ModelState.IsValid)
             {
                 _messageBus.Send(
                     new UserCreateCommand()
-                    {
-                        Name = accountRegisterInput.Name,
-                        Email = accountRegisterInput.Email,
-                        Password = accountRegisterInput.Password,
-                        Timezone = Constants.DefaultTimezone,
-                        Roles = new[] { "roles/globalmember" }
-                    });
+                        {
+                            Name = accountRegisterInput.Name,
+                            Email = accountRegisterInput.Email,
+                            Password = accountRegisterInput.Password,
+                            Timezone = Constants.DefaultTimezone,
+                            Roles = new[] {"roles/globalmember"}
+                        });
 
                 var user = _documentSession
                     .Query<All_Users.Result, All_Users>()
-                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())  // Wait for user to be persisted
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite()) // Wait for user to be persisted
                     .AsProjection<All_Users.Result>()
                     .Where(x => x.Email == accountRegisterInput.Email)
                     .First()
                     .User;
 
-                _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), accountRegisterInput.RememberMe);
+                _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), true);
 
                 // App login
                 if (Request.IsAjaxRequest())
                 {
-                    dynamic viewModel = new ExpandoObject();
-                    viewModel.User = _userViewFactory.Make(user, null);
+                    viewModel = new ExpandoObject();
+                    viewModel.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
+                    viewModel.User = _userViewFactory.Make(user, null); // Required by API, might be able to remove later
 
                     return RestfulResult(
                         viewModel,
-                        string.Empty,
-                        string.Empty,
-                        null,
-                        null);
+                        "account",
+                        "register");
                 }
-
+                
                 return RedirectToAction("loggingin");
             }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            }
 
-            ViewBag.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
-            ViewBag.IsStaticLayout = true;
+            viewModel = new ExpandoObject();
+            viewModel.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
 
-            return View(Form.Register);
+            return RestfulResult(
+                viewModel,
+                "account",
+                "register");
         }
 
         [HttpGet]
@@ -352,7 +457,7 @@ namespace Bowerbird.Web.Controllers
 
                 return RestfulResult(
                     viewModel,
-                    string.Empty,
+                    "account",
                     string.Empty
                     );
             }
@@ -362,7 +467,7 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Notifications(ActivityInput activityInput, PagingInput pagingInput)
+        public ActionResult Notifications(ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             if (Request.IsAjaxRequest())
             {
@@ -380,7 +485,7 @@ namespace Bowerbird.Web.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult Activity(ActivityInput activityInput, PagingInput pagingInput)
+        public ActionResult Activity(ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             if (Request.IsAjaxRequest())
             {
@@ -402,14 +507,9 @@ namespace Bowerbird.Web.Controllers
         {
             var userId = _userContext.GetAuthenticatedUserId();
 
-            if (!_userContext.HasUserPermission(userId))
-            {
-                return HttpUnauthorized();
-            }
-
             dynamic viewModel = new ExpandoObject();
 
-            var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+            var user = _documentSession.Load<User>(userId);
 
             viewModel.User = _userViewModelQuery.BuildUpdateUser(userId);
             viewModel.TimezoneSelectList = GetTimeZones(null, user.Timezone);
@@ -462,8 +562,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "account",
-                "update",
-                new Action<dynamic>(x => x.Model.Update = true));
+                "update");
         }
 
         [HttpPut]
@@ -485,29 +584,19 @@ namespace Bowerbird.Web.Controllers
                         Timezone = updateInput.Timezone,
                         DefaultLicence = updateInput.DefaultLicence
                     });
-
-                if (Request.IsAjaxRequest())
-                {
-                    return JsonSuccess();
-                }
-
-                return RedirectToAction("index", "home");
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            if (Request.IsAjaxRequest())
-            {
-                return JsonFailed();
-            }
-            
-            ViewBag.Model.User = new
-            {
-                updateInput.AvatarId,
-                updateInput.Description,
-                updateInput.Email,
-                updateInput.Name
-            };
+            dynamic viewModel = new ExpandoObject();
+            viewModel.User = updateInput;
 
-            return View(Form.Update);
+            return RestfulResult(
+                viewModel,
+                "account",
+                "update");
         }
 
         [HttpGet]

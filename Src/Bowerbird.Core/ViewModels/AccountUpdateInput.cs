@@ -13,6 +13,7 @@
 */
 
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
 using Bowerbird.Core.Validators;
 using DataAnnotationsExtensions;
 
@@ -30,12 +31,13 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [Required(ErrorMessage = "Please enter your name")]
+        [Required(ErrorMessageResourceName = "UserNameRequired", ErrorMessageResourceType = typeof(I18n))]
+        [StringLength(100, MinimumLength = 2, ErrorMessageResourceName = "NameTooShort", ErrorMessageResourceType = typeof(I18n))]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter your email address")]
-        [Email(ErrorMessage = "Please enter a valid email address")]
-        [UniqueEmail(ErrorMessage = "The email address already exists, please enter another email address", IgnoreAuthenticatedUserEmail = true)]
+        [Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(I18n))]
+        [Email(ErrorMessageResourceName = "EmailInvalid", ErrorMessageResourceType = typeof(I18n))]
+        [UniqueEmail(IgnoreAuthenticatedUserEmail = true, ErrorMessageResourceName = "EmailDuplicate", ErrorMessageResourceType = typeof(I18n))]
         public string Email { get; set; }
 
         public string Description { get; set; }
@@ -44,10 +46,10 @@ namespace Bowerbird.Core.ViewModels
 
         public string BackgroundId { get; set; }
 
-        [Required(ErrorMessage = "Please enter your preferred timezone")]
+        [Required(ErrorMessageResourceName = "TimezoneRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Timezone { get; set; }
 
-        [Required(ErrorMessage = "Please enter your preferred licencing")]
+        [Required(ErrorMessageResourceName = "DefaultLicenceRequired", ErrorMessageResourceType = typeof(I18n))]
         public string DefaultLicence { get; set; }
 
         #endregion

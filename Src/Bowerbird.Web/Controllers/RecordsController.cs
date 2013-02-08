@@ -181,7 +181,7 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         [HttpPost]
         [Authorize]
-        public ActionResult Create(RecordCreateInput createInput)
+        public ActionResult Create(RecordUpdateInput createInput)
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
@@ -202,7 +202,7 @@ namespace Bowerbird.Web.Controllers
                         Category = createInput.Category,
                         ObservedOn = createInput.ObservedOn,
                         UserId = _userContext.GetAuthenticatedUserId(),
-                        Projects = createInput.ProjectIds
+                        //Projects = createInput.ProjectIds
                     });
 
             return JsonSuccess();

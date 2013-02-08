@@ -7,7 +7,7 @@ using Bowerbird.Core.ViewModels;
 namespace Bowerbird.Core.Validators
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class ValidFileAttribute : ValidationAttribute
+    public class FileAttribute : ValidationAttribute
     {
 
         /// <summary>

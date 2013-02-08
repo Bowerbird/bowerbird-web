@@ -5,6 +5,12 @@
   <form action="/organisations/create" method="post"  enctype="multipart/form-data">
     <fieldset>
       <legend class="hidden">Organisation Details</legend>
+      {{#Model.Organisation.Id}}
+      <p>Edit the organisation by changing the details below.</p>
+      {{/Model.Organisation.Id}}
+      {{^Model.Organisation.Id}}
+      <p>Add an organisation by filling in the details below.</p>
+      {{/Model.Organisation.Id}}
       <div class="field-row">
         <div class="field avatar-field">
           <div>
@@ -84,7 +90,6 @@
           </div>
         </div>
       </div>
-
     </fieldset>
     <fieldset>
       <input type="button" value="Save" id="save" />

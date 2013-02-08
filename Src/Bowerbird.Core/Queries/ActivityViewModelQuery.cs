@@ -80,7 +80,7 @@ namespace Bowerbird.Core.Queries
 
         #region Methods
 
-        public object BuildHomeActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput)
+        public object BuildHomeActivityList(string userId, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
             Check.RequireNotNull(activityInput, "activityInput");
@@ -97,7 +97,7 @@ namespace Bowerbird.Core.Queries
             return Execute(query, activityInput, pagingInput);
         }
 
-        public object BuildUserActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput)
+        public object BuildUserActivityList(string userId, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
             Check.RequireNotNull(activityInput, "activityInput");
@@ -110,7 +110,7 @@ namespace Bowerbird.Core.Queries
             return Execute(query, activityInput, pagingInput);
         }
 
-        public object BuildGroupActivityList(string groupId, ActivityInput activityInput, PagingInput pagingInput)
+        public object BuildGroupActivityList(string groupId, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             Check.RequireNotNullOrWhitespace(groupId, "groupId");
             Check.RequireNotNull(activityInput, "activityInput");
@@ -123,7 +123,7 @@ namespace Bowerbird.Core.Queries
             return Execute(query, activityInput, pagingInput);
         }
 
-        public object BuildNotificationActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput)
+        public object BuildNotificationActivityList(string userId, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
             Check.RequireNotNull(activityInput, "activityInput");
@@ -140,7 +140,7 @@ namespace Bowerbird.Core.Queries
             return Execute(query, activityInput, pagingInput);
         }
 
-        private object Execute(IRavenQueryable<All_Activities.Result> query, ActivityInput activityInput, PagingInput pagingInput)
+        private object Execute(IRavenQueryable<All_Activities.Result> query, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
             if (activityInput.NewerThan.HasValue)
             {

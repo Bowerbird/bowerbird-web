@@ -170,6 +170,8 @@ namespace Bowerbird.Core.DomainModels
             IsCustomIdentification = isCustomIdentification;
             Category = category;
 
+            ((List<TaxonomicRank>)TaxonomicRanks).Clear();
+
             SetTaxonomicRank(kingdom, "kingdom");
             SetTaxonomicRank(phylum, "phylum");
             SetTaxonomicRank(className, "class");

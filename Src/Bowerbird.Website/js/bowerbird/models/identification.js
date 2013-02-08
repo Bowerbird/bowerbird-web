@@ -14,7 +14,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
         defaults: {
             Id: null,
             SightingId: '',
-            Comments: null,
+            IdentificationComments: null,
             RankType: null,
             Name: null,
             AllCommonNames: null,
@@ -48,7 +48,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             if (this.get('IsCustomIdentification') === true) {
                 return this.get('Kingdom') !== '';
             } else {
-                return this.get('Taxonomy') !== '';
+                return this.get('Taxonomy') != null && this.get('Taxonomy') !== '';
             }
         },
 
@@ -70,22 +70,6 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
             this.set('CommonGroupNames', []);
             this.set('CommonNames', []);
             this.set('Synonyms', []);
-        },
-
-        isValid: function (fireEvent) {
-            var isValid = true;
-            var errors = [];
-
-            if (!this.hasTaxonomy()) {
-                errors.push({ Field: 'Taxonomy', Message: 'Please select an identification.' });
-                isValid = false;
-            }
-
-            if (fireEvent === true) {
-                this.trigger('validated', this, errors);
-            }
-
-            return isValid;
         }
 
     });

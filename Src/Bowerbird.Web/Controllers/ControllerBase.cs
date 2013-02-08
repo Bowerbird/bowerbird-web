@@ -159,6 +159,18 @@ namespace Bowerbird.Web.Controllers
                 Response.CacheControl = "no-cache";
             }
 
+            if (!ModelState.IsValid)
+            {
+                newViewModel.Model.Errors = (from field in ModelState
+                                    where field.Value.Errors.Any()
+                                    select new
+                                    {
+                                        Field = field.Key,
+                                        Messages = from error in field.Value.Errors
+                                                   select error.ErrorMessage
+                                    }).ToList();
+            }
+
             // Hamish added 23/11/12 the ajax response for empty view names for app debugging.
             if (Request.IsAjaxRequest() || ((string.IsNullOrEmpty(prerenderedViewName)) && (string.IsNullOrEmpty(htmlViewName))))
             {

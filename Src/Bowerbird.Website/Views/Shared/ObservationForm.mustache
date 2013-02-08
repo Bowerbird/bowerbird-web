@@ -5,16 +5,18 @@
   <form action="/observations" method="post"  enctype="multipart/form-data">
     <fieldset>
       <legend class="hidden">Sighting Details</legend>
-
+      {{#Model.Observation.Id}}
+      <p>Edit the sighting by changing the details below.</p>
+      {{/Model.Observation.Id}}
+      {{^Model.Observation.Id}}
+      <p>Add a sighting by filling in the details below. Additionally, you can identify the sighting and add descriptions and tags.</p>
+      {{/Model.Observation.Id}}
       <div class="field-row media-field-row">
-
         <div id="media-details" class="media-field field">
           <label>
             Media <span>Required</span>
           </label>
-
           <div class="media-view-pane">
-
             <div class="observation-media-items">
               <!--<div class="media-resource-dropzone">
                       <p>Drop files here<p>
@@ -24,18 +26,10 @@
               {{/Model.Observation.Media}}
               {{#Model.Observation.Media}}<div class="observation-media-item-{{MediaResource.Id}} observation-media-item">{{>ObservationMediaItem}}</div>{{/Model.Observation.Media}}
             </div>
-
           </div>
-
-
           <div class="media-add-pane">
             <p>Upload your media files, or import from other websites.</p>
-
-
-            
-            
-            
-            <div tabindex="0" class="button list-button add-media-button sub-menu" id="add-media-button">
+              <div tabindex="0" class="button list-button add-media-button sub-menu" id="add-media-button">
               <span class="list-button-label">Add Media</span>
               <span class="list-button-arrow down-arrow-icon-blue"></span>
               <ul>
@@ -69,19 +63,10 @@
                 </div>
               </div>
             </div>
-
-            <div id="upload-error">
-
-            </div>
-
           </div>
         </div>
-
       </div>
-
       <div class="field-row">
-
-
         <div id="title-field" class="field">
           <div>
             <label for="Title">
@@ -92,10 +77,6 @@
             <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" title="Enter a brief title that describes your sighting" />
           </div>
         </div>
-
-
-
-
         <div id="category-field" class="field">
           <div>
             <label for="Category">
@@ -111,32 +92,17 @@
             </select>
           </div>
         </div>
-
       </div>
-
       <div class="field-row">
-
-
         <div id="location-details">
-
-
-          <!--<p>Enter an address, drag the pin onto the map or enter an exact co-ordinate.</p>-->
           <div id="address-field" class="field">
             <div>
               <label for="Address">Locality/Address</label>
             </div>
             <div>
               <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" title="Enter an address or a descriptive location of where the sighting was made" />
-
-
-
-
-
-
             </div>
           </div>
-
-
           <div id="pin-field" class="field">
             <div>
               <label>Drag Pin</label>
@@ -147,82 +113,26 @@
               </div>
             </div>
           </div>
-
-
-          <button type="button" id="location-options-button">
-            <span>Options</span>
-          </button>
-
-
-
-          <div id="location-options">
-
-
-            <div class="field">
-            <button class="button show-geospatial-form-button">Edit Coordinates</button>
+          <div id="anonymise-location-field" class="field field-checkbox-slider">
+            <div>
+              <label>Hide Location</label>
             </div>
-
-            <!--<div id="latitude-field" class="field">
-              <div>
-                <label for="Latitude">
-                  Latitude <span>Required</span>
+            <div>
+              <div class="checkbox-slider">
+                <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked=""{{/Model.Observation.AnonymiseLocation}} />
+                <label for="AnonymiseLocation">
+                  <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
                 </label>
               </div>
-              <div>
-                <input type="text" id="Latitude" name="latitude" value="{{Model.Observation.Latitude}}" />
-              </div>
             </div>
-
-
-
-            <div id="longitude-field" class="field">
-              <div>
-                <label for="Longitude">
-                  Longitude <span>Required</span>
-                </label>
-              </div>
-              <div>
-                <input type="text" id="Longitude" name="longitude" value="{{Model.Observation.Longitude}}" />
-              </div>
-            </div>-->
-
-
-
-
-            <div id="anonymise-location-field" class="field field-checkbox-slider">
-              <div>
-                <label>Hide Location</label>
-              </div>
-              <div>
-                <div class="checkbox-slider">
-                  <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked=""{{/Model.Observation.AnonymiseLocation}} />
-                  <label for="AnonymiseLocation">
-                    <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
-                  </label>
-                </div>
-              </div>
-            </div>
-
-
-
-
           </div>
-
           <div id="location-map"></div>
-
-
           <div id="location-coordinates">
-            <div>Location</div>
+            <div>Coordinates</div>
             <span id="lat-long">None</span>
+              <button class="button show-geospatial-form-button">Edit Coordinates</button>
           </div>
-
-
         </div>
-
-
-
-
-
         <div id="observedon-field" class="field">
           <div>
             <label for="ObservedOn">
@@ -234,10 +144,6 @@
             <i></i>
           </div>
         </div>
-
-
-
-
         <div id="projects-field" class="field">
           <div>
             <label for="Projects">Projects</label>
@@ -251,60 +157,39 @@
             </select>
           </div>
         </div>
-
-
       </div>
-
     </fieldset>
-
-    {{#Model.Create}}
-
+    {{^Model.Observation.Id}}
     <fieldset class="sighting-identification-fieldset">
       <legend class="hidden">Sighting Identification Details</legend>
-
       <div class="field-row">
-
         <div class="add-sighting-identification-pane">
           <p>Identify the species if you know what it is.</p>
         </div>
-
         <div id="add-sighting-note-field" class="field">
           <div>
             <input type="button" value="Identify" id="add-sighting-identification-button" />
           </div>
         </div>
-
       </div>
-
     </fieldset>
-
-
     <fieldset class="sighting-note-fieldset">
         <legend class="hidden">Sighting Note Details</legend>
-      
       <div class="field-row">
-
         <div class="add-sighting-note-pane">
           <p>Is there something more you'd like to add? Add a detailed description or some tags.</p>
         </div>
-
         <div id="add-sighting-note-field" class="field">
           <div>
             <input type="button" value="Describe" id="add-sighting-note-button" />
           </div>
         </div>
-
       </div>
-      
     </fieldset>
-
-    {{/Model.Create}}
-
+    {{/Model.Observation.Id}}
     <fieldset>
       <input type="button" value="Save" id="save" />
       <input type="button" value="Cancel" id="cancel" />
     </fieldset>
-
   </form>
-
 </div>

@@ -8,17 +8,16 @@
 // SightingNote
 // ------------
 
-define(['jquery', 'underscore', 'backbone', 'models/identification'],
-function ($, _, Backbone, Identification) {
+define(['jquery', 'underscore', 'backbone'],
+function ($, _, Backbone) {
 
     var SightingNote = Backbone.Model.extend({
         defaults: {
             Id: null,
-            IsCustomIdentification: false,
             SightingId: '',
             Descriptions: [],
             Tags: '',
-            Taxonomy: ''
+            NoteComments: ''
         },
 
         url: function () {
@@ -30,12 +29,6 @@ function ($, _, Backbone, Identification) {
         },
 
         idAttribute: 'Id',
-
-        initialize: function (attributes) {
-            if (attributes && attributes.Identification) {
-                this.identification = new Identification(attributes.Identification);
-            }
-        },
 
         addDescription: function (id) {
             var list = this.get('Descriptions');
@@ -53,15 +46,6 @@ function ($, _, Backbone, Identification) {
                 return item;
             });
             this.set('Descriptions', newList);
-        },
-
-        setIdentification: function (identification) {
-            this.identification = identification;
-            var taxonomy = '';
-            if (identification) {
-                taxonomy = identification.get('Taxonomy');
-            }
-            this.set('Taxonomy', taxonomy);
         }
     });
 

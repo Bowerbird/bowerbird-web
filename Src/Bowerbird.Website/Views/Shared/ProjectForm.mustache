@@ -3,6 +3,12 @@
 <form action="/projects/create" method="post"  enctype="multipart/form-data">
   <fieldset>
     <legend class="hidden">Project Details</legend>
+    {{#Model.Project.Id}}
+    <p>Edit the project by changing the details below.</p>
+    {{/Model.Project.Id}}
+    {{^Model.Project.Id}}
+    <p>Add a project by filling in the details below.</p>
+    {{/Model.Project.Id}}
     <div class="field-row">
       <div class="field avatar-field">
         <div>

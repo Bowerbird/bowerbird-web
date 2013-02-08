@@ -63,15 +63,15 @@ namespace Bowerbird.Web.Infrastructure
                 new { controller = "account", action = "notifications" },
                 new { acceptType = new AcceptTypeContstraint("application/json", "text/javascript") });
 
-            //routes.MapRoute(
-            //    "account-login",
-            //    "account/login",
-            //    new { controller = "account", action = "login" });
+            routes.MapRoute(
+                "account-login",
+                "account/login",
+                new { controller = "account", action = "login" });
 
-            //routes.MapRoute(
-            //    "account-register",
-            //    "account/register",
-            //    new { controller = "account", action = "register" });
+            routes.MapRoute(
+                "account-register",
+                "account/register",
+                new { controller = "account", action = "register" });
 
             routes.MapRoute(
                 "favourites-list",
@@ -131,6 +131,11 @@ namespace Bowerbird.Web.Infrastructure
                 "templates",
                 "templates",
                 new { controller = "templates", action = "index" });
+
+            routes.MapRoute(
+                "i18n",
+                "i18n",
+                new { controller = "i18n", action = "index" });
 
             routes.MapRoute(
                 "project-join",

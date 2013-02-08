@@ -13,13 +13,15 @@ define(['jquery', 'underscore', 'backbone', 'app'],
 function ($, _, Backbone, app) {
 
     var HeaderView = Backbone.Marionette.ItemView.extend({
-        
+
         template: 'Header',
 
         events: {
             'click .user-menu-item': 'showMenu',
             'click #explore-menu a': 'selectMenuItem',
             'click .sub-menu .view-your-profile-button': 'selectMenuItem',
+            'click .sub-menu .change-password-button': 'selectMenuItem',
+            'click .sub-menu .account-update-button': 'selectMenuItem',
             'click .login-button': 'selectMenuItem',
             'click .register-button': 'selectMenuItem'
         },
@@ -60,7 +62,7 @@ function ($, _, Backbone, app) {
             this.$el.find('.sub-menu').addClass('active');
             e.stopPropagation();
         },
-        
+
         selectMenuItem: function (e) {
             e.preventDefault();
             app.vent.trigger('close-sub-menus');
@@ -87,7 +89,7 @@ function ($, _, Backbone, app) {
                     var headerView = new HeaderView({ headerType: headerType });
                     app.header.show(headerView);
                 }
-            });
+            }, this);
         });
     });
 

@@ -23,21 +23,21 @@ namespace Bowerbird.Core.Queries
         /// <summary>
         /// Builds user's home page activity list
         /// </summary>
-        object BuildHomeActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput);
+        object BuildHomeActivityList(string userId, ActivitiesQueryInput activityInput, PagingInput pagingInput);
 
         /// <summary>
         /// Builds a user's public activity list
         /// </summary>
-        object BuildUserActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput);
+        object BuildUserActivityList(string userId, ActivitiesQueryInput activityInput, PagingInput pagingInput);
 
         /// <summary>
         /// Builds a group's actvity list
         /// </summary>
-        object BuildGroupActivityList(string groupId, ActivityInput activityInput, PagingInput pagingInput);
+        object BuildGroupActivityList(string groupId, ActivitiesQueryInput activityInput, PagingInput pagingInput);
 
         /// <summary>
         /// Builds a user's notification actvity list
         /// </summary>
-        object BuildNotificationActivityList(string userId, ActivityInput activityInput, PagingInput pagingInput);
+        object BuildNotificationActivityList(string userId, ActivitiesQueryInput activityInput, PagingInput pagingInput);
     }
 }

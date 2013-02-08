@@ -24,6 +24,12 @@
   <form action="/sightingnotes" method="post"  enctype="multipart/form-data">
     <fieldset class="sighting-note-fieldset">
       <legend class="hidden">Sighting Note Details</legend>
+      {{#Model.SightingNote.Id}}
+      <p>Edit the sighting note by changing the details below.</p>
+      {{/Model.SightingNote.Id}}
+      {{^Model.SightingNote.Id}}
+      <p>Add a sighting note by filling in the details below.</p>
+      {{/Model.SightingNote.Id}}
       {{#Model.SightingNote}}
       {{>SightingNoteSubForm}}
       {{/Model.SightingNote}}

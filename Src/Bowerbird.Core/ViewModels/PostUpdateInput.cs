@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
 
 namespace Bowerbird.Core.ViewModels
 {
@@ -35,20 +36,22 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [Required]
         public string Id { get; set; }
 
-        [Required]
+        public string Key { get; set; }
+
         public string GroupId { get; set; }
 
-        [Required]
+        public string GroupType { get; set; }
+
+        [Required(ErrorMessageResourceName = "TitleRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Subject { get; set; }
 
-        [Required]
-        public string Message { get; set; }
-
-        [Required]
+        [Required(ErrorMessageResourceName = "PostTypeRequired", ErrorMessageResourceType = typeof(I18n))]
         public string PostType { get; set; }
+
+        [Required(ErrorMessageResourceName = "MessageRequired", ErrorMessageResourceType = typeof(I18n))]
+        public string Message { get; set; }
 
         public IList<string> MediaResources { get; set; }
 

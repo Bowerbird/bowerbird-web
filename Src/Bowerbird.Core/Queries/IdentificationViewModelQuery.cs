@@ -54,7 +54,7 @@ namespace Bowerbird.Core.Queries
 
         public object BuildUpdateIdentification(string sightingId, int identificationId)
         {
-            var subId = "notes/" + identificationId.ToString();
+            var subId = "identifications/" + identificationId.ToString();
 
             var result = _documentSession
                 .Query<All_Contributions.Result, All_Contributions>()

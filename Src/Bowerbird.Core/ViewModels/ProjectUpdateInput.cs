@@ -14,6 +14,8 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
+using Bowerbird.Core.Validators;
 
 namespace Bowerbird.Core.ViewModels
 {
@@ -29,12 +31,12 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [Required]
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Name { get; set; }
 
+        [Required(ErrorMessageResourceName = "DescriptionRequired", ErrorMessageResourceType = typeof(I18n))]
         public string Description { get; set; }
 
         public string Website { get; set; }
@@ -43,7 +45,7 @@ namespace Bowerbird.Core.ViewModels
 
         public string BackgroundId { get; set; }
 
-        [Required]
+        [EnumerableLength(1, ErrorMessageResourceName = "CategoriesRequired", ErrorMessageResourceType = typeof(I18n))]
         public IEnumerable<string> Categories { get; set; }
 
         #endregion

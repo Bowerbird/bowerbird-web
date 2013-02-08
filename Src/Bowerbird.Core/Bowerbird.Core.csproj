@@ -147,6 +147,11 @@
     <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
     <Compile Include="EventHandlers\UserSessionUpdated.cs" />
+    <Compile Include="Internationalisation\I18n.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>I18n.resx</DependentUpon>
+    </Compile>
     <Compile Include="Indexes\All_CommonNameTaxa.cs" />
     <Compile Include="Queries\AccountViewModelQuery.cs" />
     <Compile Include="Queries\ActivityViewModelQuery.cs" />
@@ -354,15 +359,19 @@
     <Compile Include="DomainModelFactories\MediaFilePathFactory.cs" />
     <Compile Include="Infrastructure\MultipleCommandHandlersFoundException.cs" />
     <Compile Include="DomainModelFactories\ActivityViewFactory.cs" />
+    <Compile Include="Validators\IdentificationRequiredAttribute.cs" />
+    <Compile Include="Validators\DescriptionOrTagRequiredAttribute.cs" />
+    <Compile Include="Validators\GeoCoordinatesRequiredAttribute.cs" />
+    <Compile Include="Validators\EnumerableLengthAttribute.cs" />
     <Compile Include="Validators\HandleModelStateExceptionAttribute.cs" />
-    <Compile Include="Validators\LatLong.cs" />
+    <Compile Include="Validators\GeoCoordinatesAttribute.cs" />
     <Compile Include="Validators\ModelStateException.cs" />
     <Compile Include="Validators\UniqueEmailAttribute.cs" />
     <Compile Include="Validators\ValidEmailAttribute.cs" />
-    <Compile Include="Validators\ValidExternalVideoAttribute.cs" />
-    <Compile Include="Validators\ValidFileAttribute.cs" />
-    <Compile Include="Validators\ValidMediaResourceAttribute.cs" />
-    <Compile Include="Validators\ValidResetPasswordKeyRequestAttribute.cs" />
+    <Compile Include="Validators\VideoProviderAttribute.cs" />
+    <Compile Include="Validators\FileAttribute.cs" />
+    <Compile Include="Validators\MediaResourceUsageAttribute.cs" />
+    <Compile Include="Validators\ResetPasswordKeyAttribute.cs" />
     <Compile Include="ViewModelFactories\GroupViewFactory.cs" />
     <Compile Include="DomainModelFactories\IActivityViewFactory.cs" />
     <Compile Include="ViewModelFactories\IdentificationViewFactory.cs" />
@@ -382,48 +391,25 @@
     <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
     <Compile Include="ViewModels\AccountResetPasswordInput.cs" />
     <Compile Include="ViewModels\AccountUpdateInput.cs" />
-    <Compile Include="ViewModels\ActivityInput.cs" />
-    <Compile Include="ViewModels\ClientUserContext.cs" />
-    <Compile Include="ViewModels\CommentCreateInput.cs" />
-    <Compile Include="ViewModels\CommentDeleteInput.cs" />
+    <Compile Include="ViewModels\ActivitiesQueryInput.cs" />
     <Compile Include="ViewModels\CommentUpdateInput.cs" />
-    <Compile Include="ViewModels\GroupAssociationCreateInput.cs" />
-    <Compile Include="ViewModels\GroupAssociationDeleteInput.cs" />
-    <Compile Include="ViewModels\IdentificationCreateInput.cs" />
     <Compile Include="ViewModels\IdentificationUpdateInput.cs" />
-    <Compile Include="ViewModels\IdInput.cs" />
     <Compile Include="ViewModels\JsonNetResult.cs" />
     <Compile Include="ViewModels\MediaResourceCreateInput.cs" />
-    <Compile Include="ViewModels\MemberCreateInput.cs" />
-    <Compile Include="ViewModels\MemberDeleteInput.cs" />
-    <Compile Include="ViewModels\ObservationCreateInput.cs" />
-    <Compile Include="ViewModels\ObservationMediaItem.cs" />
-    <Compile Include="ViewModels\ObservationNoteUpdateInput.cs" />
+    <Compile Include="ViewModels\ObservationMediaUpdateInput.cs" />
     <Compile Include="ViewModels\ObservationUpdateInput.cs" />
-    <Compile Include="ViewModels\OrganisationCreateInput.cs" />
     <Compile Include="ViewModels\OrganisationsQueryInput.cs" />
     <Compile Include="ViewModels\OrganisationUpdateInput.cs" />
     <Compile Include="ViewModels\PagingInput.cs" />
-    <Compile Include="ViewModels\PostCreateInput.cs" />
     <Compile Include="ViewModels\PostsQueryInput.cs" />
     <Compile Include="ViewModels\PostUpdateInput.cs" />
-    <Compile Include="ViewModels\ProjectCreateInput.cs" />
     <Compile Include="ViewModels\ProjectsQueryInput.cs" />
     <Compile Include="ViewModels\ProjectUpdateInput.cs" />
-    <Compile Include="ViewModels\RecordCreateInput.cs" />
     <Compile Include="ViewModels\RecordUpdateInput.cs" />
-    <Compile Include="ViewModels\ReferenceSpeciesCreateInput.cs" />
-    <Compile Include="ViewModels\ReferenceSpeciesUpdateInput.cs" />
-    <Compile Include="ViewModels\SightingNoteCreateInput.cs" />
     <Compile Include="ViewModels\SightingNoteUpdateInput.cs" />
     <Compile Include="ViewModels\SightingsQueryInput.cs" />
-    <Compile Include="ViewModels\SpeciesCreateInput.cs" />
     <Compile Include="ViewModels\SpeciesQueryInput.cs" />
     <Compile Include="ViewModels\SpeciesUpdateInput.cs" />
-    <Compile Include="ViewModels\StreamSortInput.cs" />
-    <Compile Include="ViewModels\TeamCreateInput.cs" />
-    <Compile Include="ViewModels\TeamProjectCreateInput.cs" />
-    <Compile Include="ViewModels\TeamUpdateInput.cs" />
     <Compile Include="ViewModels\UsersQueryInput.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -432,6 +418,10 @@
   <ItemGroup>
     <EmbeddedResource Include="EmailTemplates\RequestPasswordResetEmail.mustache" />
     <EmbeddedResource Include="EmailTemplates\WelcomeEmail.mustache" />
+    <EmbeddedResource Include="Internationalisation\I18n.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>I18n.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

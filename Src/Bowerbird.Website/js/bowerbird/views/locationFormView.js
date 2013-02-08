@@ -9,8 +9,17 @@
 // ----------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'views/dummyoverlayview', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
-function ($, _, Backbone, app, DummyOverlayView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
+function ($, _, Backbone, app) {
+
+    var DummyOverlayView = function (map) {
+        // Bind this to the map to access MapCanvasProjection
+        this.setMap(map);
+        // MapCanvasProjection is only available after draw has been called.
+        this.draw = function () { };
+    };
+
+    DummyOverlayView.prototype = new google.maps.OverlayView();
 
     var australia = new google.maps.LatLng(-29.191427, 134.472126); // Centre on Australia
 

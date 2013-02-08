@@ -14,7 +14,9 @@
 
 using System;
 using System.Collections.Generic;
- 
+using Bowerbird.Core.Internationalisation;
+using Bowerbird.Core.Validators;
+
 namespace Bowerbird.Core.ViewModels
 {
     public class SightingNoteUpdateInput
@@ -29,55 +31,21 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        public int Id { get; set; }
+        /// <summary>
+        /// Used when adding an note at the same time as a new sighting only.
+        /// </summary>
+        public bool NewSighting { get; set; }
+
+        public int? Id { get; set; }
 
         public string SightingId { get; set; }
 
-        public Dictionary<string,string> Descriptions { get; set; }
+        [DescriptionOrTagRequired(ErrorMessageResourceName = "DescriptionOrTagRequired", ErrorMessageResourceType = typeof(I18n))]
+        public Dictionary<string, string> Descriptions { get; set; }
 
         public string Tags { get; set; }
 
-        public string Comments { get; set; }
-
-        /// <summary>
-        /// A custom identification consist of all taxa filled out. A non-custom one consists of just Taxonomy, 
-        /// which is then used to source the identification from our classification index.
-        /// </summary>
-        public bool IsCustomIdentification { get; set; }
-
-        #region Non-custom Identification
-
-        public string Taxonomy { get; set; }
-
-        #endregion
-
-        #region Custom Identification
-
-        public string Category { get; set; }
-
-        public string Kingdom { get; set; }
-
-        public string Phylum { get; set; }
-
-        public string Class { get; set; }
-
-        public string Order { get; set; }
-
-        public string Family { get; set; }
-
-        public string Genus { get; set; }
-
-        public string Species { get; set; }
-
-        public string Subspecies { get; set; }
-
-        public IEnumerable<string> CommonGroupNames { get; set; }
-
-        public IEnumerable<string> CommonNames { get; set; }
-
-        public IEnumerable<string> Synonyms { get; set; }
-
-        #endregion
+        public string NoteComments { get; set; }
 
         #endregion
 

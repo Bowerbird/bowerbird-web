@@ -24,6 +24,12 @@
   <form action="/identifications" method="post"  enctype="multipart/form-data">
     <fieldset class="sighting-identification-fieldset">
       <legend class="hidden">Identification Details</legend>
+      {{#Model.Identification.Id}}
+      <p>Edit the identification by changing the details below.</p>
+      {{/Model.Identification.Id}}
+      {{^Model.Identification.Id}}
+      <p>Add an identification by filling in the details below.</p>
+      {{/Model.Identification.Id}}
       {{#Model}}
       {{>SightingIdentificationSubForm}}
       {{/Model}}

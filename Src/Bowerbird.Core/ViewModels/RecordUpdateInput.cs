@@ -32,7 +32,6 @@ namespace Bowerbird.Core.ViewModels
 
         public string Id { get; set; }
 
-        [Required]
         public bool AnonymiseLocation { get; set; }
 
         public string Latitude { get; set; }
