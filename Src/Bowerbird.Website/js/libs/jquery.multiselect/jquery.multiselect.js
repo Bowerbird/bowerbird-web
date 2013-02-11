@@ -1,13 +1,14 @@
 define(['jquery'], function (jQuery) {
-    /*
-    // jQuery multiSelect
-    //
-    // Version 1.2.2 beta
-    //
-    // Cory S.N. LaViska
-    // A Beautiful Site (http://abeautifulsite.net/)
-    // 09 September 2009
-    //
+/*
+* jQuery multiSelect
+*
+* Version 1.2.2 beta
+*
+* Cory S.N. LaViska
+* A Beautiful Site (http://abeautifulsite.net/)
+* 09 September 2009
+*/
+    
     // Visit http://abeautifulsite.net/notebook/62 for more information
     //
     // (Amended by Andy Richmond, Letters & Science Deans' Office, University of California, Davis)
@@ -65,7 +66,7 @@ define(['jquery'], function (jQuery) {
     // This plugin is dual-licensed under the GNU General Public License and the MIT License and
     // is copyright 2008 A Beautiful Site, LLC. 
     //	
-    */
+    
     if (jQuery) (function ($) {
 
         // render the html for a single option

@@ -1,4 +1,4 @@
-/*
+/*!
  * jQuery Iframe Transport Plugin 1.3
  * https://github.com/blueimp/jQuery-File-Upload
  *

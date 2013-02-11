@@ -15,8 +15,8 @@ namespace Bowerbird.Core.Validators
 
             if (input != null)
             {
-                if (input.NewSighting ||
-                    (!input.NewSighting && !string.IsNullOrWhiteSpace(input.SightingId)))
+                if (input.NewSightingNote ||
+                    (!input.NewSightingNote && !string.IsNullOrWhiteSpace(input.SightingId)))
                 {
                     if ((input.Descriptions == null ||
                         input.Descriptions.All(x => string.IsNullOrWhiteSpace(x.Value))) &&

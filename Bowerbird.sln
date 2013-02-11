@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{50BF98F5
 	ProjectSection(SolutionItems) = preProject
 		Build\app.build.js = Build\app.build.js
 		Build\build.bat = Build\build.bat
+		Build\Build.proj = Build\Build.proj
 		Build\getting-build-to-work.txt = Build\getting-build-to-work.txt
 		Build\js-build-tasks.bat = Build\js-build-tasks.bat
 		Build\r.js = Build\r.js

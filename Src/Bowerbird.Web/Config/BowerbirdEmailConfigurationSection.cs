@@ -31,19 +31,6 @@ namespace Bowerbird.Web.Config
 
         #region Properties
 
-        [ConfigurationProperty("serverName", DefaultValue = "", IsRequired = true, IsKey = false)]
-        public string ServerName
-        {
-            get
-            {
-                return (string)this["serverName"];
-            }
-            set
-            {
-                this["serverName"] = value;
-            }
-        }
-
         [ConfigurationProperty("adminAccount", DefaultValue = "", IsRequired = true, IsKey = false)]
         public string AdminAccount
         {

@@ -89,9 +89,9 @@ namespace Bowerbird.Web.Services
             return ((BowerbirdEnvironmentConfigurationSection)ConfigurationManager.GetSection("bowerbird/environment")).RootUri;
         }
 
-        public string GetEmailServerName()
+        public string GetEnvironmentStaticContentIncrement()
         {
-            return ((BowerbirdEmailConfigurationSection)ConfigurationManager.GetSection("bowerbird/email")).ServerName;
+            return ((BowerbirdEnvironmentConfigurationSection)ConfigurationManager.GetSection("bowerbird/environment")).StaticContentIncrement;
         }
 
         public string GetMediaRootUri()

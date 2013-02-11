@@ -8,7 +8,7 @@
 // UserListView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/useritemview', 'date'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/useritemview'],
 function ($, _, Backbone, app, ich, UserItemView) {
 
     var UserListView = Backbone.Marionette.CompositeView.extend({

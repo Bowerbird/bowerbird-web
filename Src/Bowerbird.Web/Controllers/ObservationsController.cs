@@ -105,7 +105,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!string.IsNullOrWhiteSpace(projectId))
@@ -114,7 +114,7 @@ namespace Bowerbird.Web.Controllers
 
                 if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, project.Id))
                 {
-                    return HttpUnauthorized(); // TODO: Probably should return a soft user error suggesting user joins project
+                    return new HttpUnauthorizedResult(); // TODO: Probably should return a soft user error suggesting user joins project
                 }
             }
 
@@ -144,7 +144,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             var observation = _documentSession.Load<Observation>(observationId);
@@ -175,7 +175,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             dynamic viewModel = new ExpandoObject();
@@ -195,7 +195,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (ModelState.IsValid)
@@ -224,7 +224,7 @@ namespace Bowerbird.Web.Controllers
                             })
                     });
 
-                if (identificationCreateInput != null)
+                if (identificationCreateInput.NewSightingIdentification)
                 {
                     _messageBus.Send(
                         new IdentificationCreateCommand()
@@ -250,7 +250,7 @@ namespace Bowerbird.Web.Controllers
                             });
                 }
 
-                if (sightingNoteCreateInput != null)
+                if (sightingNoteCreateInput.NewSightingNote)
                 {
                     _messageBus.Send(
                         new SightingNoteCreateCommand()
@@ -292,7 +292,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, observationId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (ModelState.IsValid)
@@ -347,7 +347,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission<Observation>(PermissionNames.UpdateObservation, observationId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)
@@ -372,7 +372,7 @@ namespace Bowerbird.Web.Controllers
             // TODO: Check permission to edit this note
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, id))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             var observationId = VerbosifyId<Observation>(id);
@@ -397,7 +397,7 @@ namespace Bowerbird.Web.Controllers
             // TODO: Check permission to edit this note
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, id))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             var observationId = VerbosifyId<Observation>(id);
@@ -424,7 +424,7 @@ namespace Bowerbird.Web.Controllers
             // TODO: Check permission to edit this note
             //if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSightingNote))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             var observationId = VerbosifyId<Observation>(id);
@@ -449,7 +449,7 @@ namespace Bowerbird.Web.Controllers
             // TODO: Check permission to edit this note
             //if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateSightingNote))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             var observationId = VerbosifyId<Observation>(id);
@@ -476,7 +476,7 @@ namespace Bowerbird.Web.Controllers
         {
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (ModelState.IsValid)
@@ -512,7 +512,7 @@ namespace Bowerbird.Web.Controllers
         {
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, createInput.SightingId))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (ModelState.IsValid)
@@ -561,7 +561,7 @@ namespace Bowerbird.Web.Controllers
             // TODO: Check permission to edit this note
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, updateInput.Id))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (ModelState.IsValid)
@@ -599,7 +599,7 @@ namespace Bowerbird.Web.Controllers
             // TODO: Check permission to edit this note
             //if (!_userContext.HasGroupPermission<Observation>(PermissionNames.CreateSightingNote, updateInput.Id))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (ModelState.IsValid)
@@ -643,22 +643,12 @@ namespace Bowerbird.Web.Controllers
 
         public ActionResult CategoryList()
         {
-            if (Request.IsAjaxRequest())
-            {
-                return RestfulResult(Categories.GetAll(), "", "");
-            }
-
-            return HttpNotFound();
+            return RestfulResult(Categories.GetAll(), "", "");
         }
 
         public ActionResult DescriptionTypes()
         {
-            if (Request.IsAjaxRequest())
-            {
-                return RestfulResult(GetDescriptionTypes(), "", "");
-            }
-
-            return HttpNotFound();
+            return RestfulResult(GetDescriptionTypes(), "", "");
         }
 
         private object GetCategorySelectList(string observationId = "", string category = "")

@@ -54,7 +54,7 @@ namespace Bowerbird.Core.CommandHandlers
 
             var user = _documentSession.Query<User>().Single(x => x.Email == command.Email);
             
-            user.RequestPasswordReset();
+            user.RequestPasswordUpdate(true);
 
             _documentSession.Store(user);
             _documentSession.SaveChanges();

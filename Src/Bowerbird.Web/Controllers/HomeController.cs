@@ -26,6 +26,7 @@ using System;
 using System.Dynamic;
 using Raven.Client;
 using Raven.Client.Linq;
+using StackExchange.Profiling;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -85,30 +86,41 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "home",
-                "publicindex",
-                null);
+                "publicindex");
         }
 
         [HttpGet]
         [Authorize]
         public ActionResult PrivateIndex(ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
-            if (!_userContext.IsUserAuthenticated())
+            var profiler = MiniProfiler.Current;
+
+            using (profiler.Step("Check if user is authenticated"))
             {
-                return RedirectToAction("PublicIndex");
+                if (!_userContext.IsUserAuthenticated())
+                {
+                    return RedirectToAction("PublicIndex");
+                }
             }
 
-            var userResult = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
-                .First();
-
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Activities = _activityViewModelQuery.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
-            viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
-            viewModel.ShowActivities = true;
+
+            using (profiler.Step("Build private index view model"))
+            {
+                var userResult = _documentSession
+                    .Query<All_Users.Result, All_Users>()
+                    .AsProjection<All_Users.Result>()
+                    .Where(x => x.UserId == _userContext.GetAuthenticatedUserId())
+                    .First();
+
+                viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
+                using (profiler.Step("Build timeline items (ActivityViewModelQuery.BuildHomeActivityList)"))
+                {
+                    viewModel.Activities = _activityViewModelQuery.BuildHomeActivityList(_userContext.GetAuthenticatedUserId(), activityInput, pagingInput);
+                }
+                viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
+                viewModel.ShowActivities = true;
+            }
 
             return RestfulResult(
                 viewModel,

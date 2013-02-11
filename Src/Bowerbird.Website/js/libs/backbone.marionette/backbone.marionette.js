@@ -1,10 +1,12 @@
-// Backbone.Marionette v0.7.2
-//
-// Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
-// Distributed Under MIT License
-//
-// Documentation and Full License Available at:
-// http://github.com/derickbailey/backbone.marionette
+/*! 
+* Backbone.Marionette v0.7.2
+*
+* Copyright (C)2011 Derick Bailey, Muted Solutions, LLC
+* Distributed Under MIT License
+*
+* Documentation and Full License Available at:
+* http://github.com/derickbailey/backbone.marionette
+*/
 
 (function (root, factory) {
   if (typeof exports === 'object') {

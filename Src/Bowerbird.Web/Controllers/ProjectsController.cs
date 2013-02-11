@@ -477,7 +477,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission(PermissionNames.UpdateProject, projectId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             var project = _documentSession.Load<Project>(projectId);
@@ -507,7 +507,7 @@ namespace Bowerbird.Web.Controllers
             // BUG: Fix this to check the parent groups' permission
             if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, projectId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             dynamic viewModel = new ExpandoObject();
@@ -564,7 +564,7 @@ namespace Bowerbird.Web.Controllers
             //// TODO: Not sure what this permission check is actually checking???
             //if (!_userContext.HasGroupPermission(PermissionNames.LeaveProject, projectId))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (!ModelState.IsValid)
@@ -630,7 +630,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission<Project>(PermissionNames.UpdateProject, projectId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (ModelState.IsValid)
@@ -677,7 +677,7 @@ namespace Bowerbird.Web.Controllers
             // BUG: Fix this to check the parent groups' permission
             if (!_userContext.HasGroupPermission(PermissionNames.DeleteProject, projectId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)

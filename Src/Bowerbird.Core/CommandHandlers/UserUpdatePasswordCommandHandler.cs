@@ -62,11 +62,6 @@ namespace Bowerbird.Core.CommandHandlers
                     .FirstOrDefault();
             }
 
-            if (!string.IsNullOrWhiteSpace(command.UserId))
-            {
-                user = _documentSession.Load<User>(command.UserId);
-            }
-
             user.UpdatePassword(command.Password);
 
             _documentSession.Store(user);

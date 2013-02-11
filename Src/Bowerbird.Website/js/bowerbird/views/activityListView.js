@@ -9,8 +9,8 @@
 // ----------------
 
 // Shows stream items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/activityitemview', 'date', 'tipsy'],
-function ($, _, Backbone, app, ich, ActivityItemView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/activityitemview', 'moment', 'tipsy'],
+function ($, _, Backbone, app, ich, ActivityItemView, moment) {
 
     var ActivityListView = Backbone.Marionette.CompositeView.extend({
         template: 'ActivityList',
@@ -75,21 +75,21 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
                 .then(function () {
                     itemView.refresh();
                 });
-            
-//            var items = this.collection.pluck('Id');
-//            var index = _.indexOf(items, itemView.model.id);
 
-//            var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
+            //            var items = this.collection.pluck('Id');
+            //            var index = _.indexOf(items, itemView.model.id);
 
-//            itemView.$el.addClass(itemView.model.get('Type') + '-activity-item');
+            //            var $li = collectionView.$el.find('.activity-items > li:eq(' + (index) + ')');
 
-//            if ($li.length === 0) {
-//                collectionView.$el.find('.activity-items').append(itemView.el);
-//            } else {
-//                $li.before(itemView.el);
-//            }
+            //            itemView.$el.addClass(itemView.model.get('Type') + '-activity-item');
 
-//            itemView.refresh();
+            //            if ($li.length === 0) {
+            //                collectionView.$el.find('.activity-items').append(itemView.el);
+            //            } else {
+            //                $li.before(itemView.el);
+            //            }
+
+            //            itemView.refresh();
         },
 
         sortAndAppend: function (collectionView, itemView) {
@@ -143,14 +143,10 @@ function ($, _, Backbone, app, ich, ActivityItemView) {
                 return;
             }
             this.$el.find('.stream-message').remove();
-            var streamItemCreatedDateTime = Date.parseExact(streamItem.get('CreatedDateTime'), 'yyyy-MM-ddTHH:mm:ssZ');
-
-            //log('streamItemCreatedDateTime', streamItemCreatedDateTime);
-            //log('baselineDateTime', this.collection.baselineDateTime);
+            var streamItemCreatedDateTime = moment(streamItem.get('CreatedDateTime'), 'YYYY-MM-DDTHH:mm:ssZ');
 
             // Only show a new items message if the item is newer than what we have already
-            if (streamItemCreatedDateTime.isAfter(this.collection.baselineDateTime)) {
-                log('is after!');
+            if (streamItemCreatedDateTime.isAfter(moment(this.collection.baselineDateTime))) {
                 this.newItemsCount++;
                 this.newStreamItemsCache.push(streamItem);
             }

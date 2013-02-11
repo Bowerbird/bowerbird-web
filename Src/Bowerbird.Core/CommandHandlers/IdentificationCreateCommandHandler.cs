@@ -71,7 +71,7 @@ namespace Bowerbird.Core.CommandHandlers
             {
                 sighting = _documentSession
                     .Query<Observation>()
-                    //.Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
+                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
                     .Where(x => x.Key == command.SightingKey).First();
             }
 

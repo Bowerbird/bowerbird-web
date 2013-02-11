@@ -135,6 +135,9 @@
   <data name="DescriptionRequired" xml:space="preserve">
     <value>Please enter a description.</value>
   </data>
+  <data name="EmailDoesNotExist" xml:space="preserve">
+    <value>The email address does not exist, please enter another email address.</value>
+  </data>
   <data name="EmailDuplicate" xml:space="preserve">
     <value>The email address already exists, please enter another email address.</value>
   </data>
@@ -167,6 +170,9 @@
   </data>
   <data name="ObservedOnRequired" xml:space="preserve">
     <value>Please select the date when the sighting was made.</value>
+  </data>
+  <data name="PasswordKeyInvalid" xml:space="preserve">
+    <value>You do not have permission to change this password. If you requested a password reset, try copying the link from the email you received directly into the address bar of your browser, or request a password reset again.</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Please enter your password.</value>

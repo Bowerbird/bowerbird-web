@@ -148,6 +148,11 @@ namespace Bowerbird.Web.Config
             return _permissionManager.HasGroupPermission<T>(permissionId, GetAuthenticatedUserId(), domainModelId);
         }
 
+        public bool HasRole(string roleId, string groupId)
+        {
+            return _permissionManager.HasRole(this.GetAuthenticatedUserId(), roleId, groupId);
+        }
+
         private void AddCookie(string name, string value, string domain)
         {
             HttpCookie cookie = new HttpCookie(name, value)

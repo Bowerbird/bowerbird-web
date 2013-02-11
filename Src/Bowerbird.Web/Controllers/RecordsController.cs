@@ -96,7 +96,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!string.IsNullOrWhiteSpace(id))
@@ -105,20 +105,20 @@ namespace Bowerbird.Web.Controllers
 
                 if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, project.Id))
                 {
-                    return HttpUnauthorized();
+                    return new HttpUnauthorizedResult();
                 }
             }
 
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Record = _sightingViewModelQuery.BuildCreateRecord(id);
+            viewModel.Create = true;
             //viewModel.Categories = GetCategories();
 
             return RestfulResult(
                 viewModel,
                 "records", 
-                "create", 
-                new Action<dynamic>(x => x.Model.Create = true));
+                "create");
         }
 
         [HttpGet]
@@ -134,7 +134,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.UpdateObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             var record = _sightingViewModelQuery.BuildSighting(recordId);
@@ -142,13 +142,13 @@ namespace Bowerbird.Web.Controllers
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Record = record;
+            viewModel.Update = true;
             //viewModel.Categories = GetCategories(recordId);
 
             return RestfulResult(
                 viewModel,
                 "records",
-                "update", 
-                new Action<dynamic>(x => x.Model.Update = true));
+                "update");
         }
 
         [HttpGet]
@@ -164,7 +164,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeleteObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             dynamic viewModel = new ExpandoObject();
@@ -174,8 +174,7 @@ namespace Bowerbird.Web.Controllers
             return RestfulResult(
                 viewModel,
                 "records",
-                "delete", 
-                new Action<dynamic>(x => x.Model.Delete = true));
+                "delete");
         }
 
         [Transaction]
@@ -185,7 +184,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (!_userContext.HasUserProjectPermission(PermissionNames.CreateObservation))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)
@@ -222,7 +221,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission<Record>(PermissionNames.UpdateObservation, recordId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)
@@ -260,7 +259,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission<Record>(PermissionNames.UpdateObservation, recordId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)

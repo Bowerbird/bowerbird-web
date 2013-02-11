@@ -14,11 +14,14 @@
  
 */
 
+using System.ComponentModel.DataAnnotations;
+using Bowerbird.Core.Internationalisation;
 using Bowerbird.Core.Validators;
+using DataAnnotationsExtensions;
 
 namespace Bowerbird.Core.ViewModels
 {
-    public class AccountResetPasswordInput
+    public class AccountRequestPasswordUpdateInput
     {
         #region Members
 
@@ -30,8 +33,10 @@ namespace Bowerbird.Core.ViewModels
 
         #region Properties
 
-        [ResetPasswordKey(ErrorMessage = "The password reset request is not valid")]
-        public string ResetPasswordKey { get; set; }
+        [Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(I18n))]
+        [Email(ErrorMessageResourceName = "EmailInvalid", ErrorMessageResourceType = typeof(I18n))]
+        [ValidEmail(ErrorMessageResourceName = "EmailDoesNotExist", ErrorMessageResourceType = typeof(I18n))]
+        public string Email { get; set; }
 
         #endregion
 

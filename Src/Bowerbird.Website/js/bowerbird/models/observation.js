@@ -108,14 +108,14 @@ function ($, _, Backbone, ObservationMediaCollection, MediaResource) {
         },
 
         setIdentification: function (identification) {
-            this.set('NewSighting', true); // Forces saving of this id
+            this.set('NewSightingIdentification', true); // Forces saving of this id
             this.set('IdentificationComments', identification.get('IdentificationComments'));
             this.set('IsCustomIdentification', identification.get('IsCustomIdentification'));
             this.set('Taxonomy', identification.get('Taxonomy'));
         },
 
         setSightingNote: function (sightingNote) {
-            this.set('NewSighting', true); // Forces saving of this note
+            this.set('NewSightingNote', true); // Forces saving of this note
             this.set('NoteComments', sightingNote.get('NoteComments'));
             this.set('Descriptions', sightingNote.get('Descriptions'));
             this.set('Tags', sightingNote.get('Tags'));

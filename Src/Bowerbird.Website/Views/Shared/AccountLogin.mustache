@@ -3,7 +3,6 @@
 </h2>
 <div class="form form-small form-details">
   <form action="/account/login" method="post">
-    <!--@Html.ValidationSummary(true, "Sorry, we couldn't verify your email and password.")-->
     <input type="hidden" name="returnUrl" value="{{Model.AccountLogin.ReturnUrl}}" />
     <fieldset>
       <legend class="hidden">Login Details</legend>
@@ -25,7 +24,7 @@
           <div>
             <input type="password" id="Password" name="Password" />
             <p>
-              <a href="/account/requestpasswordreset">I've forgotten my password</a>
+              <a href="/account/requestpasswordupdate">I've forgotten my password</a>
             </p>
           </div>
         </div>

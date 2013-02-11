@@ -72,6 +72,13 @@ namespace Bowerbird.Core.Config
             return user.Memberships.Where(x => ownable.Groups.Any(y => x.Group.Id == y)).SelectMany(x => x.Roles).SelectMany(x => x.Permissions).Any(x => x.Id == "permissions/" + permissionId.ToLower());
         }
 
+        public bool HasRole(string userId, string roleId, string groupId)
+        {
+            var user = _documentSession.Load<User>(userId);
+
+            return user.Memberships.Any(x => x.Group.Id == groupId && x.Roles.Any(y => y.Id == roleId));
+        }
+
         public bool DoesExist<T>(string id)
         {
             return _documentSession.Load<T>(id) != null;

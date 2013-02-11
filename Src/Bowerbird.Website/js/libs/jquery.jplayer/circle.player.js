@@ -1,19 +1,20 @@
 define(['jquery', 'grab', 'transform', 'jplayer'], function (jQuery) {
-    /*
-    * CirclePlayer for the jPlayer Plugin (jQuery)
-    * http://www.jplayer.org
-    *
-    * Copyright (c) 2009 - 2011 Happyworm Ltd
-    * Dual licensed under the MIT and GPL licenses.
-    *  - http://www.opensource.org/licenses/mit-license.php
-    *  - http://www.gnu.org/copyleft/gpl.html
-    *
-    * Version: 1.0.1 (jPlayer 2.0.9)
-    * Date: 30th May 2011
-    *
-    * Author: Mark J Panaghiston @thepag
-    *
-    * CirclePlayer prototype developed by:
+/*!
+* CirclePlayer for the jPlayer Plugin (jQuery)
+* http://www.jplayer.org
+*
+* Copyright (c) 2009 - 2011 Happyworm Ltd
+* Dual licensed under the MIT and GPL licenses.
+*  - http://www.opensource.org/licenses/mit-license.php
+*  - http://www.gnu.org/copyleft/gpl.html
+*
+* Version: 1.0.1 (jPlayer 2.0.9)
+* Date: 30th May 2011
+*
+* Author: Mark J Panaghiston @thepag
+*/
+    
+    /* CirclePlayer prototype developed by:
     * Mark Boas @maboa
     * Silvia Benvenuti @aulentina
     * Jussi Kalliokoski @quinirill

@@ -23,6 +23,7 @@ using Raven.Client;
 using Raven.Client.Linq;
 using Bowerbird.Core.Paging;
 using System.Dynamic;
+using StackExchange.Profiling;
 
 namespace Bowerbird.Core.Queries
 {
@@ -142,6 +143,8 @@ namespace Bowerbird.Core.Queries
 
         private object Execute(IRavenQueryable<All_Activities.Result> query, ActivitiesQueryInput activityInput, PagingInput pagingInput)
         {
+            var profiler = MiniProfiler.Current;
+
             if (activityInput.NewerThan.HasValue)
             {
                 query = query.Where(x => x.CreatedDateTime > activityInput.NewerThan.Value);
@@ -153,128 +156,145 @@ namespace Bowerbird.Core.Queries
 
             RavenQueryStatistics stats;
 
-            var activities = query
-                .Statistics(out stats)
-                .OrderByDescending(x => x.CreatedDateTime)
-                .Skip(pagingInput.GetSkipIndex())
-                .Take(pagingInput.GetPageSize())
-                .As<dynamic>()
-                .ToList();
+            List<dynamic> activities;
+
+            using (profiler.Step("Get top 10 activity list RavenDB query"))
+            {
+                activities = query
+                    .Statistics(out stats)
+                    .OrderByDescending(x => x.CreatedDateTime)
+                    .Skip(pagingInput.GetSkipIndex())
+                    .Take(pagingInput.GetPageSize())
+                    .As<dynamic>()
+                    .ToList();
+            }
+
 
             var contributionIds = activities.SelectMany(x => new[] { x.ContributionId, x.SubContributionId }).Where(x => !string.IsNullOrWhiteSpace(x)).Distinct();
 
-            var contributions = _documentSession
-                .Query<All_Contributions.Result, All_Contributions>()
-                .Where(x => x.ParentContributionId.In(contributionIds))
-                .ToList();
+            List<All_Contributions.Result> contributions;
+
+            using (profiler.Step("Get the 10 contributions RavenDB query"))
+            {
+                contributions = _documentSession
+                    .Query<All_Contributions.Result, All_Contributions>()
+                    .Where(x => x.ParentContributionId.In(contributionIds))
+                    .ToList();
+            }
 
             User authenticatedUser = null;
 
-            if (_userContext.IsUserAuthenticated())
+            using (profiler.Step("Get authenticated user RavenDB query"))
             {
-                authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+                if (_userContext.IsUserAuthenticated())
+                {
+                    authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+                }
             }
 
-            return new PagedList<object>()
+            using (profiler.Step("Build activity list view model"))
             {
-                Page = pagingInput.Page,
-                PageSize = pagingInput.PageSize,
-                TotalResultCount = stats.TotalResults,
-                PagedListItems = activities.Select(x =>
+                return new PagedList<object>()
                 {
-                    dynamic activity = new ExpandoObject();
-
-                    activity.Id = x.Id;
-                    activity.Type = x.Type;
-                    activity.CreatedDateTime = x.CreatedDateTime;
-                    activity.CreatedDateTimeOrder = x.CreatedDateTimeOrder;
-                    activity.Description = x.Description;
-                    activity.User = x.User;
-                    activity.Groups = x.Groups;
-                    activity.ContributionId = x.ContributionId;
-                    activity.SubContributionId = x.SubContributionId;
-
-                    if (x.Type == "sightingadded")
+                    Page = pagingInput.Page,
+                    PageSize = pagingInput.PageSize,
+                    TotalResultCount = stats.TotalResults,
+                    PagedListItems = activities.Select(x =>
                     {
-                        var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && (y.ParentContributionType == "observation" || y.ParentContributionType == "record"));
+                        dynamic activity = new ExpandoObject();
 
-                        if (result == null)
+                        activity.Id = x.Id;
+                        activity.Type = x.Type;
+                        activity.CreatedDateTime = x.CreatedDateTime;
+                        activity.CreatedDateTimeOrder = x.CreatedDateTimeOrder;
+                        activity.Description = x.Description;
+                        activity.User = x.User;
+                        activity.Groups = x.Groups;
+                        activity.ContributionId = x.ContributionId;
+                        activity.SubContributionId = x.SubContributionId;
+
+                        if (x.Type == "sightingadded")
                         {
-                            activity.DeletedActivityItem = MakeDeletedActivityItem("sighting");
-                        }
-                        else
-                        {
-                            activity.ObservationAdded = new
+                            var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && (y.ParentContributionType == "observation" || y.ParentContributionType == "record"));
+
+                            if (result == null)
                             {
-                                Observation = _sightingViewFactory.Make(result.Contribution as Sighting, result.User, result.Groups, authenticatedUser)
-                            };
-                        }
-
-                        //if (x.RecordAdded != null)
-                        //{
-                        //    activity.RecordAdded = new
-                        //        {
-                        //            Record = sighting
-                        //        };
-                        //}
-                    }
-
-                    if (x.Type == "identificationadded")
-                    {
-                        var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && y.SubContributionId == x.SubContributionId && y.SubContributionType == "identification");
-
-                        if (result == null)
-                        {
-                            activity.DeletedActivityItem = MakeDeletedActivityItem("identification");
-                        }
-                        else
-                        {
-                            activity.IdentificationAdded = new
+                                activity.DeletedActivityItem = MakeDeletedActivityItem("sighting");
+                            }
+                            else
                             {
-                                Sighting = _sightingViewFactory.Make(result.ParentContribution as Sighting, result.User, result.Groups, authenticatedUser),
-                                Identification = _identificationViewFactory.Make(result.ParentContribution as Sighting, result.Contribution as IdentificationNew, result.User, authenticatedUser)
-                            };
-                        }
-                    }
+                                activity.ObservationAdded = new
+                                {
+                                    Observation = _sightingViewFactory.Make(result.Contribution as Sighting, result.User, result.Groups, authenticatedUser)
+                                };
+                            }
 
-                    if (x.Type == "sightingnoteadded")
-                    {
-                        var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && y.SubContributionId == x.SubContributionId && y.SubContributionType == "note");
-
-                        if (result == null)
-                        {
-                            activity.DeletedActivityItem = MakeDeletedActivityItem("note");
+                            //if (x.RecordAdded != null)
+                            //{
+                            //    activity.RecordAdded = new
+                            //        {
+                            //            Record = sighting
+                            //        };
+                            //}
                         }
-                        else
+
+                        if (x.Type == "identificationadded")
                         {
-                            activity.SightingNoteAdded = new
+                            var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && y.SubContributionId == x.SubContributionId && y.SubContributionType == "identification");
+
+                            if (result == null)
                             {
-                                Sighting = _sightingViewFactory.Make(result.ParentContribution as Sighting, result.User, result.Groups, authenticatedUser),
-                                SightingNote = _sightingNoteViewFactory.Make(result.ParentContribution as Sighting, result.Contribution as SightingNote, result.User, authenticatedUser)
-                            };
-                        }
-                    }
-
-                    if (x.Type == "postadded")
-                    {
-                        var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && y.ParentContributionType == "post");
-
-                        if (result == null)
-                        {
-                            activity.DeletedActivityItem = MakeDeletedActivityItem("news item");
-                        }
-                        else
-                        {
-                            activity.PostAdded = new
+                                activity.DeletedActivityItem = MakeDeletedActivityItem("identification");
+                            }
+                            else
                             {
-                                Post = _postViewFactory.Make(result.Contribution as Post, result.User, result.Groups.First(), authenticatedUser)
-                            };
+                                activity.IdentificationAdded = new
+                                {
+                                    Sighting = _sightingViewFactory.Make(result.ParentContribution as Sighting, result.User, result.Groups, authenticatedUser),
+                                    Identification = _identificationViewFactory.Make(result.ParentContribution as Sighting, result.Contribution as IdentificationNew, result.User, authenticatedUser)
+                                };
+                            }
                         }
-                    }
 
-                    return activity;
-                })
-            };
+                        if (x.Type == "sightingnoteadded")
+                        {
+                            var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && y.SubContributionId == x.SubContributionId && y.SubContributionType == "note");
+
+                            if (result == null)
+                            {
+                                activity.DeletedActivityItem = MakeDeletedActivityItem("note");
+                            }
+                            else
+                            {
+                                activity.SightingNoteAdded = new
+                                {
+                                    Sighting = _sightingViewFactory.Make(result.ParentContribution as Sighting, result.User, result.Groups, authenticatedUser),
+                                    SightingNote = _sightingNoteViewFactory.Make(result.ParentContribution as Sighting, result.Contribution as SightingNote, result.User, authenticatedUser)
+                                };
+                            }
+                        }
+
+                        if (x.Type == "postadded")
+                        {
+                            var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && y.ParentContributionType == "post");
+
+                            if (result == null)
+                            {
+                                activity.DeletedActivityItem = MakeDeletedActivityItem("news item");
+                            }
+                            else
+                            {
+                                activity.PostAdded = new
+                                {
+                                    Post = _postViewFactory.Make(result.Contribution as Post, result.User, result.Groups.First(), authenticatedUser)
+                                };
+                            }
+                        }
+
+                        return activity;
+                    })
+                };
+            }
         }
 
         private object MakeDeletedActivityItem(string type)

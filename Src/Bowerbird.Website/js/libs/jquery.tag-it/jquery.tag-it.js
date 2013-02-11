@@ -1,15 +1,16 @@
 define(['jquery', 'jqueryui/widget'], function ($) {
 
-    /*
-    * jQuery UI Tag-it!
-    *
-    * @version v2.0 (06/2011)
-    *
-    * Copyright 2011, Levy Carneiro Jr.
-    * Released under the MIT license.
-    * http://aehlke.github.com/tag-it/LICENSE
-    *
-    * Homepage:
+/*!
+* jQuery UI Tag-it!
+*
+* @version v2.0 (06/2011)
+*
+* Copyright 2011, Levy Carneiro Jr.
+* Released under the MIT license.
+* http://aehlke.github.com/tag-it/LICENSE
+*/
+    
+    /* Homepage:
     *   http://aehlke.github.com/tag-it/
     *
     * Authors:

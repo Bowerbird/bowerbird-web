@@ -25,7 +25,6 @@ require.config({
         ich: '../libs/icanhaz/icanhaz', // Mustache templates cache and renderer
         jqueryui: '../libs/jqueryui',
         datepicker: '../libs/bootstrap/bootstrap-datepicker',
-        date: '../libs/date/date',
         multiselect: '../libs/jquery.multiselect/jquery.multiselect',
         loadimage: '../libs/jquery.fileupload/load-image',
         fileupload: '../libs/jquery.fileupload/jquery.fileupload',

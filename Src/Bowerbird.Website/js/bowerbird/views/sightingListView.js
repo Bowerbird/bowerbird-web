@@ -9,7 +9,7 @@
 // ----------------
 
 // Shows sighting items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview', 'date'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview'],
 function ($, _, Backbone, app, ich, SightingDetailsView) {
 
     var SightingListView = Backbone.Marionette.CompositeView.extend({

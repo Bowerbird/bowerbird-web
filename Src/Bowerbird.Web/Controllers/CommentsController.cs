@@ -62,12 +62,12 @@ namespace Bowerbird.Web.Controllers
         {
             if (createInput.ContributionId.Contains("observations/") && !_userContext.HasGroupPermission<Observation>(PermissionNames.CreateComment, createInput.ContributionId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (createInput.ContributionId.Contains("posts/") && !_userContext.HasGroupPermission<Post>(PermissionNames.CreateComment, createInput.ContributionId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)
@@ -95,12 +95,12 @@ namespace Bowerbird.Web.Controllers
         {
             if (updateInput.ContributionId.Contains("observations/") && !_userContext.HasGroupPermission<Observation>(updateInput.ContributionId, PermissionNames.UpdateComment))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (updateInput.ContributionId.Contains("posts/") && !_userContext.HasGroupPermission<Post>(updateInput.ContributionId, PermissionNames.UpdateComment))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)
@@ -128,12 +128,12 @@ namespace Bowerbird.Web.Controllers
         {
             //if (deleteInput.ContributionId.Contains("observations/") && !_userContext.HasGroupPermission<Observation>(deleteInput.ContributionId, PermissionNames.DeleteComment))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             //if (deleteInput.ContributionId.Contains("posts/") && !_userContext.HasGroupPermission<Post>(deleteInput.ContributionId, PermissionNames.DeleteComment))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             //if (!ModelState.IsValid)

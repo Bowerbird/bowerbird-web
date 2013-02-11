@@ -8,7 +8,7 @@
 // OrganisationListView
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/organisationitemview', 'date'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/organisationitemview'],
 function ($, _, Backbone, app, ich, OrganisationItemView) {
 
     var OrganisationListView = Backbone.Marionette.CompositeView.extend({

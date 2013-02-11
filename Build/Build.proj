@@ -4,7 +4,7 @@
   <UsingTask TaskName="Microsoft.Build.Tasks.XmlPoke" AssemblyName="Microsoft.Build.Tasks.v4.0, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
   <PropertyGroup>
     <SolutionRoot>$(MSBuildProjectDirectory)\..</SolutionRoot>
-    <ProjectRoot>$(SolutionRoot)\Src\bowerbird.Website</ProjectRoot>
+    <ProjectRoot>$(SolutionRoot)\Src\Bowerbird.Website</ProjectRoot>
     <ArtifactsDir>$(SolutionRoot)\Release</ArtifactsDir>
     <CurrentBuildDateStamp>$([System.DateTime]::Now.ToString("yyyyMMdd"))</CurrentBuildDateStamp>
     <CurrentBuildTimeStamp>$([System.DateTime]::Now.ToString("hhmm"))</CurrentBuildTimeStamp>
@@ -33,15 +33,15 @@
                   $(ProjectRoot)\**\*.csproj;
                   $(ProjectRoot)\*.csproj.user;">
     </PackageFiles>
-    <MediaFiles Include="$(ProjectRoot)\media\testdata\**\*.*">
-    </MediaFiles>
-    <ConfigFiles Include="$(ProjectRoot)\web.config" >
+    <!--<MediaFiles Include="$(ProjectRoot)\media\testdata\**\*.*">
+    </MediaFiles>-->
+    <ConfigFiles Include="$(ProjectRoot)\Web.config" >
     </ConfigFiles>
   </ItemGroup>
   <Target Name="UpdateWebConfig"  Condition=" '$(CurrentBuildDateStamp)' != '' ">
       <XmlPoke Namespaces="&lt;Namespace Prefix='msb' Uri='http://schemas.microsoft.com/developer/msbuild/2003'/&gt;"
           XmlInputPath="$(WebConfig)"
-          Query="//add[@key='StaticContentIncrement']/@value"
+          Query="//add[@key='staticContentIncrement']/@value"
           Value="$(CurrentBuildDateStamp)-$(CurrentBuildTimeStamp)" />
     </Target>
   <Target Name="CreateOutputDir">
@@ -51,7 +51,7 @@
     <MakeDir Directories="$(CurrentBuildDir)" />
   </Target>
   <Target Name="BuildMediaDirectories">
-    <MakeDir Directories="$(CurrentBuildDir)\media\0" />
+    <MakeDir Directories="$(CurrentBuildDir)\media" />
   </Target>
   <Target Name="ConfigSettingsMessages">
     <Message Text="Configuration is $(Configuration)" />

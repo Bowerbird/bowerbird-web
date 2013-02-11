@@ -15,8 +15,8 @@ namespace Bowerbird.Core.Validators
 
             if (input != null)
             {
-                if (input.NewSighting || 
-                    (!input.NewSighting && !string.IsNullOrWhiteSpace(input.SightingId)))
+                if (input.NewSightingIdentification || 
+                    (!input.NewSightingIdentification && !string.IsNullOrWhiteSpace(input.SightingId)))
                 {
                     if (input.IsCustomIdentification)
                     {

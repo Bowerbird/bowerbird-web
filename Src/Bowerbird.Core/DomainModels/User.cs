@@ -256,11 +256,11 @@ namespace Bowerbird.Core.DomainModels
             return this;
         }
 
-        public User RequestPasswordReset()
+        public User RequestPasswordUpdate(bool sendEmail)
         {
             ResetPasswordKey = Guid.NewGuid().ToString();
 
-            ApplyEvent(new RequestPasswordResetEvent(this, this));
+            ApplyEvent(new RequestPasswordUpdate(this, this, sendEmail));
 
             return this;
         }

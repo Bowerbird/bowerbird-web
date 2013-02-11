@@ -1,11 +1,10 @@
 ﻿<header class="{{#Model.HomeHeader}}home{{/Model.HomeHeader}}{{^Model.HomeHeader}}default{{/Model.HomeHeader}}-header">
   <div>
-
     {{#Model.HomeHeader}}
     <div class="banner">
       <div class="slogan">
         <h1>
-          <img src="/img/logo2.svg" alt="" />
+          <img src="/img/logo.svg" alt="" />
         </h1>
         <p>
           A place to share and discuss Australia’s biodiversity.
@@ -20,7 +19,7 @@
     {{^Model.HomeHeader}}
     <h1>
       <a href="/">
-        <img src="/img/logo2.svg" alt="" />
+        <img src="/img/logo.svg" alt="" />
       </a>
     </h1>
     {{/Model.HomeHeader}}
@@ -29,14 +28,12 @@
       <ul>
         {{#Model.AuthenticatedUser}}
         <li class="user-menu-item">
-          <!--<span class="small-icon user-icon">-->
           <span class="user-avatar">
             {{#User.Avatar}}
             {{>MediaSquare100}}
             {{/User.Avatar}}
           </span>
           <span class="user-name">{{Model.AuthenticatedUser.User.Name}}</span>
-
           <div class="sub-menu-button sub-menu">
             <span class="arrow-icon down-arrow-icon"></span>
             <ul>
@@ -45,7 +42,7 @@
               </li>
               <li class="divider"></li>
               <li>
-                <a href="/account/changepassword" class="change-password-button">Change Password</a>
+                <a href="/account/updatepassword" class="change-password-button">Edit Password</a>
               </li>
               <li>
                 <a href="/account/update" class="account-update-button">Edit Account Details</a>
@@ -68,7 +65,7 @@
         {{/Model.AuthenticatedUser}}
       </ul>
     </nav>
-
+    
     <h2 class="hidden">Explore</h2>
     <nav id="explore-menu">
       <ul>

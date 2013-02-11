@@ -139,7 +139,7 @@
     <Content Include="img\icons.png" />
     <Content Include="img\loader-large.gif" />
     <Content Include="img\loader-small.gif" />
-    <Content Include="img\logo2.svg" />
+    <Content Include="img\logo.svg" />
     <Content Include="img\map-pin-shadow.png" />
     <Content Include="img\map-pin.png" />
     <Content Include="img\nc.svg" />
@@ -181,9 +181,13 @@
     <Content Include="js\bowerbird\geospatial.js" />
     <Content Include="js\bowerbird\models\authenticatedUser.js" />
     <Content Include="js\bowerbird\models\accountUpdate.js" />
+    <Content Include="js\bowerbird\models\accountUpdatePassword.js" />
+    <Content Include="js\bowerbird\models\accountRequestPasswordUpdate.js" />
     <Content Include="js\bowerbird\models\register.js" />
     <Content Include="js\bowerbird\models\login.js" />
     <Content Include="js\bowerbird\models\userProject.js" />
+    <Content Include="js\bowerbird\views\accountUpdatePasswordFormView.js" />
+    <Content Include="js\bowerbird\views\accountRequestPasswordUpdateFormView.js" />
     <Content Include="js\bowerbird\views\geospatialFormView.js" />
     <Content Include="js\bowerbird\views\sidebarUserProjectItemView.js" />
     <Content Include="js\bowerbird\views\userItemView.js" />
@@ -295,7 +299,6 @@
     <Content Include="js\bowerbird\views\activityListView.js" />
     <Content Include="js\libs\backbone.queryparams\backbone.queryparams.js" />
     <Content Include="js\libs\bootstrap\bootstrap-datepicker.js" />
-    <Content Include="js\libs\date\date.js" />
     <Content Include="js\libs\jquery.animateprogress\jquery.animate-progress.js" />
     <Content Include="js\libs\jquery.carousel\jquery.carousel.js" />
     <Content Include="js\libs\jquery.carousel\jquery.touchswipe.js" />
@@ -342,16 +345,13 @@
     <Content Include="js\libs\require\require.js" />
     <Content Include="js\libs\require\text.js" />
     <Content Include="js\libs\underscore\underscore.js" />
-    <Content Include="js\libs\youtube\player.js" />
     <Content Include="js\main.js" />
     <Content Include="Views\Posts\Create.mustache" />
     <Content Include="Views\Posts\Update.mustache" />
     <Content Include="Views\Home\About.mustache" />
     <Content Include="Views\Account\LogoutSuccess.mustache" />
-    <Content Include="Views\Account\ResetPassword.mustache" />
     <Content Include="Views\Account\Register.mustache" />
-    <Content Include="Views\Account\RequestPasswordReset.mustache" />
-    <Content Include="Views\Account\RequestPasswordResetSuccess.mustache" />
+    <Content Include="Views\Account\RequestPasswordUpdate.mustache" />
     <Content Include="Views\Account\Login.mustache" />
     <Content Include="Views\Home\PublicIndex.mustache" />
     <Content Include="Views\Home\PrivateIndex.mustache" />
@@ -678,12 +678,19 @@
     <Content Include="Views\Shared\GeospatialForm.mustache" />
     <Content Include="Views\Shared\ValidationSummary.mustache" />
     <Content Include="Views\Observations\UpdateIdentification.mustache" />
+    <Content Include="Views\Account\UpdatePassword.mustache" />
     <None Include="Views\Shared\BowerbirdAbout.mustache" />
     <None Include="Views\Shared\BowerbirdBlog.mustache" />
     <None Include="Views\Shared\BowerbirdDeveloper.mustache" />
     <None Include="Views\Shared\BowerbirdPrivacy.mustache" />
     <None Include="Views\Shared\BowerbirdResources.mustache" />
     <None Include="Views\Shared\BowerbirdTerms.mustache" />
+    <Content Include="Views\Shared\AccountUpdatePasswordForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\AccountRequestPasswordUpdateForm.mustache">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />

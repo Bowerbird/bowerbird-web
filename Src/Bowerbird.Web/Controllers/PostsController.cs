@@ -99,7 +99,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission(PermissionNames.CreatePost, actualGroupId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             dynamic viewModel = new ExpandoObject();
@@ -126,7 +126,7 @@ namespace Bowerbird.Web.Controllers
 
             //if (!_userContext.HasUserProjectPermission(PermissionNames.UpdatePost))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             var post = _documentSession.Load<Post>(postId);
@@ -155,7 +155,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasUserProjectPermission(PermissionNames.DeletePost))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             dynamic viewModel = new ExpandoObject();
@@ -177,7 +177,7 @@ namespace Bowerbird.Web.Controllers
 
             //if (!_userContext.HasUserProjectPermission(PermissionNames.CreatePost))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (ModelState.IsValid)
@@ -224,7 +224,7 @@ namespace Bowerbird.Web.Controllers
 
             //if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, postId))
             //{
-            //    return HttpUnauthorized();
+            //    return new HttpUnauthorizedResult();
             //}
 
             if (ModelState.IsValid)
@@ -268,7 +268,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!_userContext.HasGroupPermission<Post>(PermissionNames.UpdatePost, postId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)

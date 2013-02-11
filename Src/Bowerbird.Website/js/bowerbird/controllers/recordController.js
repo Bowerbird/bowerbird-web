@@ -9,7 +9,7 @@
 // RecordController & RecordRouter
 // -------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'views/recordformview', 'models/record', 'queryparams'],
+define(['jquery', 'underscore', 'backbone', 'app', 'views/recordformview', 'models/record'],
 function ($, _, Backbone, app, RecordFormView, Record) {
 
     var RecordRouter = Backbone.Marionette.AppRouter.extend({

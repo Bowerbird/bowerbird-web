@@ -11,6 +11,8 @@
 define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'noext!/i18n'], function ($, _, Backbone, ich, app, i18n) {
 
     var AccountRegisterView = Backbone.Marionette.Layout.extend({
+        viewType: 'form',
+
         className: 'register single',
 
         template: 'AccountRegister',
@@ -19,12 +21,11 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'noext!/i18n'], functi
             'click #register': '_register',
             'change #Name': '_contentChanged',
             'change #Email': '_contentChanged',
-            'change #Password': '_contentChanged'
+            'change #Password': '_contentChanged',
+            'click a': 'showItem'
         },
 
         initialize: function () {
-            log('i18n', i18n);
-            this.model.on('validated', this.onValidation, this);
         },
 
         serializeData: function () {
@@ -45,6 +46,12 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app', 'noext!/i18n'], functi
         },
 
         _showDetails: function () {
+        },
+
+        showItem: function (e) {
+            e.preventDefault();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            return false;
         },
 
         onValidation: function (obs, errors) {

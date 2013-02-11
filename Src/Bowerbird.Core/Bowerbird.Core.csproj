@@ -56,6 +56,9 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\..\packages\CommonServiceLocator.1.0\lib\NET35\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="MiniProfiler">
+      <HintPath>..\..\packages\MiniProfiler.2.0.2\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject">
       <HintPath>..\..\packages\Ninject.3.0.1.10\lib\net40\Ninject.dll</HintPath>
     </Reference>
@@ -153,9 +156,7 @@
       <DependentUpon>I18n.resx</DependentUpon>
     </Compile>
     <Compile Include="Indexes\All_CommonNameTaxa.cs" />
-    <Compile Include="Queries\AccountViewModelQuery.cs" />
     <Compile Include="Queries\ActivityViewModelQuery.cs" />
-    <Compile Include="Queries\IAccountViewModelQuery.cs" />
     <Compile Include="Queries\IActivityViewModelQuery.cs" />
     <Compile Include="Queries\IdentificationViewModelQuery.cs" />
     <Compile Include="Queries\IIdentificationViewModelQuery.cs" />
@@ -326,7 +327,7 @@
     <Compile Include="DomainModels\User.cs" />
     <Compile Include="Events\IDomainEvent.cs" />
     <Compile Include="EventHandlers\IEventHandler.cs" />
-    <Compile Include="Events\RequestPasswordResetEvent.cs" />
+    <Compile Include="Events\RequestPasswordUpdateEvent.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Utilities\DateTimeExtensions.cs" />
     <Compile Include="DomainModels\SightingGroup.cs" />
@@ -371,7 +372,7 @@
     <Compile Include="Validators\VideoProviderAttribute.cs" />
     <Compile Include="Validators\FileAttribute.cs" />
     <Compile Include="Validators\MediaResourceUsageAttribute.cs" />
-    <Compile Include="Validators\ResetPasswordKeyAttribute.cs" />
+    <Compile Include="Validators\PasswordKeyAttribute.cs" />
     <Compile Include="ViewModelFactories\GroupViewFactory.cs" />
     <Compile Include="DomainModelFactories\IActivityViewFactory.cs" />
     <Compile Include="ViewModelFactories\IdentificationViewFactory.cs" />
@@ -385,11 +386,10 @@
     <Compile Include="ViewModelFactories\SightingNoteViewFactory.cs" />
     <Compile Include="ViewModelFactories\SightingViewFactory.cs" />
     <Compile Include="ViewModelFactories\UserViewFactory.cs" />
-    <Compile Include="ViewModels\AccountChangePasswordInput.cs" />
+    <Compile Include="ViewModels\AccountUpdatePasswordInput.cs" />
     <Compile Include="ViewModels\AccountLoginInput.cs" />
     <Compile Include="ViewModels\AccountRegisterInput.cs" />
-    <Compile Include="ViewModels\AccountRequestPasswordResetInput.cs" />
-    <Compile Include="ViewModels\AccountResetPasswordInput.cs" />
+    <Compile Include="ViewModels\AccountRequestPasswordUpdateInput.cs" />
     <Compile Include="ViewModels\AccountUpdateInput.cs" />
     <Compile Include="ViewModels\ActivitiesQueryInput.cs" />
     <Compile Include="ViewModels\CommentUpdateInput.cs" />

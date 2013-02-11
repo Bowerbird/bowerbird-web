@@ -44,6 +44,19 @@ namespace Bowerbird.Web.Config
             }
         }
 
+        [ConfigurationProperty("staticContentIncrement", DefaultValue = "", IsRequired = true, IsKey = false)]
+        public string StaticContentIncrement
+        {
+            get
+            {
+                return (string)this["staticContentIncrement"];
+            }
+            set
+            {
+                this["staticContentIncrement"] = value;
+            }
+        }
+
         #endregion
 
         #region Methods

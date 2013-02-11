@@ -1,5 +1,5 @@
 define(['jquery', 'moment'], function (jQuery, moment) {
-    /* ===========================================================
+    /*! ===========================================================
     * bootstrap-datepicker.js v1.3.0
     * http://twitter.github.com/bootstrap/javascript.html#datepicker
     * ===========================================================

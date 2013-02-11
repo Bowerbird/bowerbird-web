@@ -8,7 +8,7 @@
 // ProjectListView
 // ---------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/projectitemview', 'date'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/projectitemview'],
 function ($, _, Backbone, app, ich, ProjectItemView) {
 
     var ProjectListView = Backbone.Marionette.CompositeView.extend({

@@ -520,6 +520,7 @@ article
 {
     background-color: #f9f9f9;
     float: left;
+    width: 100%;
 }
 #modal-dialog .form form
 {
@@ -997,6 +998,9 @@ ul.tagit.input-validation-error
     width: 100%;
     display: none;
     color: #fff;
+}
+.validation-summary.success {
+    background-color: rgb(80, 163, 74);
 }
 .validation-summary ul {
   margin: 0 1em;

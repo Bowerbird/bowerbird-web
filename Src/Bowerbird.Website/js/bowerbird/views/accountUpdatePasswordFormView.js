@@ -5,35 +5,32 @@
 /// <reference path="../../libs/backbone/backbone.js" />
 /// <reference path="../../libs/backbone.marionette/backbone.marionette.js" />
 
-// AccountLoginView
-// ----------------
+// AccountUpdatePasswordFormView
+// -----------------------------
 
-define(['jquery', 'underscore', 'backbone', 'ich', 'app'], function ($, _, Backbone, ich, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'ich'],
+function ($, _, Backbone, app, ich) {
+    var AccountUpdatePasswordFormView = Backbone.Marionette.Layout.extend({
 
-    var AccountLoginView = Backbone.Marionette.Layout.extend({
         viewType: 'form',
 
-        className: 'login single',
+        className: 'update-password single',
 
-        template: 'AccountLogin',
+        template: 'AccountUpdatePasswordForm',
 
         events: {
-            'click #login': '_login',
-            'change #Email': '_contentChanged',
-            'change #Password': '_contentChanged',
-            'change #RememberMe': '_rememberMeChanged',
-            'click a': 'showItem'
+            'click #cancel': '_cancel',
+            'click #save': '_save',
+            'change input#NewPassword': '_contentChanged'
         },
 
         initialize: function (options) {
-            this.model.on('validated', this.onValidation, this);
+            this.errors = options.errors;
         },
 
         serializeData: function () {
             return {
-                Model: {
-                    AccountLogin: this.model.toJSON()
-                }
+                Model: {}
             };
         },
 
@@ -47,12 +44,18 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app'], function ($, _, Backb
         },
 
         _showDetails: function () {
+            // In the case the user has come to this page with an invalid key that has been bootstrapped in, we immediately
+            // show the invalid key error
+            if (this.errors) {
+                this.onValidation(this.model, this.errors);
+            }
         },
 
-        showItem: function (e) {
-            e.preventDefault();
-            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
-            return false;
+        _contentChanged: function (e) {
+            var target = $(e.currentTarget);
+            var data = {};
+            data[target.attr('id')] = target.attr('value');
+            this.model.set(data);
         },
 
         onValidation: function (obs, errors) {
@@ -62,7 +65,7 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app'], function ($, _, Backb
 
             if (errors.length > 0) {
                 if (this.$el.find('.validation-summary').length == 0) {
-                    this.$el.find('.form').prepend(ich.ValidationSummary({
+                    this.$el.find('.form-details').prepend(ich.ValidationSummary({
                         SummaryMessage: 'Please correct the following before continuing:',
                         Errors: errors,
                         // Due to a bug in mustache.js where you can't reference a parent element in a string array loop, we have to build the HTML here
@@ -108,42 +111,35 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app'], function ($, _, Backb
                 }
             }
 
-            this.$el.find('#Email, #Password').removeClass('input-validation-error');
+            this.$el.find('#NewPassword').removeClass('input-validation-error');
 
-            if (_.any(errors, function (item) { return item.Field === 'Email'; })) {
-                this.$el.find('#Email').addClass('input-validation-error');
-            }
-            if (_.any(errors, function (item) { return item.Field === 'Password'; })) {
-                this.$el.find('#Password').addClass('input-validation-error');
+            if (_.any(errors, function (item) { return item.Field === 'NewPassword'; })) {
+                this.$el.find('#NewPassword').addClass('input-validation-error');
             }
         },
 
-        _contentChanged: function (e) {
-            var target = $(e.currentTarget);
-            var data = {};
-            data[target.attr('id')] = target.attr('value');
-            this.model.set(data);
+        _cancel: function (e) {
+            e.preventDefault();
+            app.showPreviousContentView();
+            return false;
         },
 
-        _rememberMeChanged: function (e) {
-            this.model.set('RememberMe', e.currentTarget.checked);
-        },
-
-        _login: function (e) {
+        _save: function (e) {
             e.preventDefault();
 
-            this.$el.find('#login').attr('disabled', 'disabled').val('Authenticating...');
+            this.$el.find('#save').attr('disabled', 'disabled').val('Saving...');
 
             var that = this;
 
             this.model.save(null, {
                 success: function (model, response, options) {
-                    that.$el.find('#login').attr('disabled', 'disabled').val('Loading...');
+                    that.$el.find('#save').attr('disabled', 'disabled').val('Saved');
                     that.onValidation(that.model, []);
-                    window.location.replace(that.model.get('ReturnUrl'));
+
+                    app.showPreviousContentView();
                 },
                 error: function (model, xhr, options) {
-                    that.$el.find('#login').removeAttr('disabled').val('Login');
+                    that.$el.find('#save').removeAttr('disabled').val('Save');
 
                     var data = JSON.parse(xhr.responseText);
                     that.onValidation(that.model, data.Model.Errors);
@@ -155,6 +151,5 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app'], function ($, _, Backb
         }
     });
 
-    return AccountLoginView;
-
-}); 
+    return AccountUpdatePasswordFormView;
+});

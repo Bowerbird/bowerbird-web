@@ -18,7 +18,7 @@ using Bowerbird.Core.DomainModels;
 
 namespace Bowerbird.Core.Events
 {
-    public class RequestPasswordResetEvent : DomainEventBase
+    public class RequestPasswordUpdate : DomainEventBase
     {
 
         #region Members
@@ -27,18 +27,22 @@ namespace Bowerbird.Core.Events
 
         #region Constructors
 
-        public RequestPasswordResetEvent(
+        public RequestPasswordUpdate(
             User user,
-            DomainModel sender)
+            DomainModel sender,
+            bool sendEmail)
             : base(
             user,
             sender)
         {
+            SendEmail = sendEmail;
         }
 
         #endregion
 
         #region Properties
+
+        public bool SendEmail { get; private set; }
 
         #endregion
 

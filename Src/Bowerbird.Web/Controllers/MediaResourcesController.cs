@@ -73,7 +73,7 @@ namespace Bowerbird.Web.Controllers
         {
             if (!_userContext.HasGroupPermission(PermissionNames.CreateObservation, Constants.AppRootId))
             {
-                return HttpUnauthorized();
+                return new HttpUnauthorizedResult();
             }
 
             if (!ModelState.IsValid)

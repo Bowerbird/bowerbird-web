@@ -294,9 +294,9 @@ namespace Bowerbird.Web.Infrastructure
                 new { httpMethod = new HttpMethodConstraint("PUT") });
 
             routes.MapRoute(
-                "account-resetpassword",
-                "account/resetpassword/{resetpasswordkey}",
-                new { controller = "account", action = "resetpassword", resetpasswordkey = UrlParameter.Optional });
+                "account-updatepassword",
+                "account/updatepassword/{key}",
+                new {controller = "account", action = "updatepassword", key = UrlParameter.Optional });
 
             // Load up restful controllers and create routes based on method name conventions
             RegisterRestfulControllerRouteConventions(routes);

@@ -22,7 +22,7 @@ namespace Bowerbird.Core.Config
 
         string GetEnvironmentRootUri();
 
-        string GetEmailServerName();
+        string GetEnvironmentStaticContentIncrement();
 
         string GetMediaRootUri();
 

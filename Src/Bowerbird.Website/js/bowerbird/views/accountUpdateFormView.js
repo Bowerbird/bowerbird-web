@@ -14,7 +14,7 @@ function ($, _, Backbone, app, ich, loadImage, EditAvatarView, licences) {
 
         viewType: 'form',
 
-        className: 'form form-medium single user-form',
+        className: 'user-form single',
 
         template: 'AccountUpdateForm',
 

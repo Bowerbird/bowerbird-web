@@ -1,16 +1,16 @@
 define(['jquery', 'touchswipe'], function (jQuery) {
-    /*
-    *	jQuery carouFredSel 6.0.5
-    *	Demo's and documentation:
-    *	caroufredsel.frebsite.nl
-    *
-    *	Copyright (c) 2012 Fred Heusschen
-    *	www.frebsite.nl
-    *
-    *	Dual licensed under the MIT and GPL licenses.
-    *	http://en.wikipedia.org/wiki/MIT_License
-    *	http://en.wikipedia.org/wiki/GNU_General_Public_License
-    */
+/*!
+*	jQuery carouFredSel 6.0.5
+*	Demo's and documentation:
+*	caroufredsel.frebsite.nl
+*
+*	Copyright (c) 2012 Fred Heusschen
+*	www.frebsite.nl
+*
+*	Dual licensed under the MIT and GPL licenses.
+*	http://en.wikipedia.org/wiki/MIT_License
+*	http://en.wikipedia.org/wiki/GNU_General_Public_License
+*/
 
 
     (function ($) {

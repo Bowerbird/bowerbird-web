@@ -1,10 +1,11 @@
 ﻿define(['jquery'], function ($) {
     
-// tipsy, facebook style tooltips for jquery
-// version 1.0.0a
-// (c) 2008-2010 jason frame [jason@onehackoranother.com]
-// released under the MIT license
-
+/* tipsy, facebook style tooltips for jquery
+* version 1.0.0a
+* (c) 2008-2010 jason frame [jason@onehackoranother.com]
+* released under the MIT license
+*/
+    
 (function ($) {
 
     function maybeCall(thing, ctx) {

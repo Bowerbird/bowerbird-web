@@ -13,12 +13,10 @@
 using System.Linq;
 using System.Dynamic;
 using System.Web.Mvc;
-using Microsoft.Practices.ServiceLocation;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.Queries;
 using Bowerbird.Core.ViewModels;
-using System;
-using Bowerbird.Core.Services;
+using Ninject;
 
 namespace Bowerbird.Web.Controllers
 {
@@ -34,88 +32,35 @@ namespace Bowerbird.Web.Controllers
 
         #region Properties
 
+        [Inject]
+        public IUserContext UserContext { get; set; }
+
+        [Inject]
+        public IUserViewModelQuery UserViewModelQuery { get; set; }
+
+        [Inject]
+        public IConfigSettings ConfigSettings { get; set; }
+
         #endregion
 
         #region Methods
 
-        protected override void OnActionExecuted(ActionExecutedContext filterContext)
-        {
-            if (filterContext.Result is ViewResult)
-            {
-                ((ViewResult)filterContext.Result).MasterName = "_Layout";
-
-                var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
-
-                ViewBag.Ver = System.Configuration.ConfigurationManager.AppSettings["StaticContentIncrement"];
-
-                if (userContext.IsUserAuthenticated())
-                {
-                    var userViewModelQuery = ServiceLocator.Current.GetInstance<IUserViewModelQuery>();
-                    ViewBag.Model.AuthenticatedUser = userViewModelQuery.BuildAuthenticatedUser(userContext.GetAuthenticatedUserId());
-                }
-
-                ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag);
-
-#if JS_COMBINE_MINIFY
-                ViewBag.JavascriptSource = "main-min.js";
-#elif JS_COMBINE_VERBOSE
-                ViewBag.JavascriptSource = "main-combined.js";
-#else
-                ViewBag.JavascriptSource = "main.js";
-#endif
-
-#if DEBUG
-                //ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
-#endif
-            }
-
-            base.OnActionExecuted(filterContext);
-        }
-
-        protected HttpUnauthorizedResult HttpUnauthorized()
-        {
-            return new HttpUnauthorizedResult();
-        }
-
-        protected ActionResult JsonSuccess(string action = "")
+        protected ActionResult JsonSuccess()
         {
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Success = true;
 
-            if (!string.IsNullOrEmpty(action))
-            {
-                viewModel.Action = action;
-            }
-
-            return RestfulResult(
-                viewModel,
-                null,
-                null);
+            return RestfulResult(viewModel, null, null);
         }
 
-        protected ActionResult JsonFailed(string action = "")
+        protected ActionResult JsonFailed()
         {
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Success = false;
 
-            if (!string.IsNullOrEmpty(action))
-            {
-                viewModel.Action = action;
-            }
-
-            return RestfulResult(
-                viewModel,
-                null,
-                null);
-        }
-
-        protected void DebugToClient(dynamic output)
-        {
-            var debugger = ServiceLocator.Current.GetInstance<IBackChannelService>();
-
-            debugger.DebugToClient(output);
+            return RestfulResult(viewModel, null, null);
         }
 
         protected string VerbosifyId<T>(string id)
@@ -143,17 +88,16 @@ namespace Bowerbird.Web.Controllers
             return string.Format("{0}/{1}", name, id);
         }
 
-        protected ActionResult RestfulResult(dynamic viewModel, string prerenderedViewName, string htmlViewName, Action<dynamic> htmlViewTask = null, Action<dynamic> jsonViewTask = null)
+        protected ActionResult RestfulResult(dynamic viewModel, string prerenderedViewName, string htmlViewName)
         {
             ActionResult actionResult = null;
 
-            dynamic newViewModel = new ExpandoObject();
-            newViewModel.Model = new ExpandoObject();
-            newViewModel.Model = viewModel; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
+            ViewBag.Model = new ExpandoObject();
+            ViewBag.Model = viewModel; // Wrap the model in a "Model" property to make it work on both client & server Mustache templates
 
             // Stupid IE aggressively caches all requests, even *AJAX* requests. So, we have to bust out of the caching 
             // for IE using this rudimentary browser sniffing. It does the job. 'Nuff said.
-            if (Request.UserAgent.ToLower().Contains("msie"))
+            if (!string.IsNullOrWhiteSpace(Request.UserAgent) && Request.UserAgent.ToLower().Contains("msie"))
             {
                 Response.Expires = -1;
                 Response.CacheControl = "no-cache";
@@ -161,7 +105,7 @@ namespace Bowerbird.Web.Controllers
 
             if (!ModelState.IsValid)
             {
-                newViewModel.Model.Errors = (from field in ModelState
+                ViewBag.Model.Errors = (from field in ModelState
                                     where field.Value.Errors.Any()
                                     select new
                                     {
@@ -171,32 +115,47 @@ namespace Bowerbird.Web.Controllers
                                     }).ToList();
             }
 
-            // Hamish added 23/11/12 the ajax response for empty view names for app debugging.
-            if (Request.IsAjaxRequest() || ((string.IsNullOrEmpty(prerenderedViewName)) && (string.IsNullOrEmpty(htmlViewName))))
+            if (Request.IsAjaxRequest())
             {
-                if (jsonViewTask != null)
-                {
-                    jsonViewTask(newViewModel);
-                }
-                actionResult = new JsonNetResult(newViewModel);
+                actionResult = new JsonNetResult(new { ViewBag.Model });
             }
             else
             {
                 // Add the prerendered view name that will be used by the client side JS to render bootstrapped data
-                if (!string.IsNullOrWhiteSpace(prerenderedViewName))
+                ViewBag.Model.PrerenderedView = prerenderedViewName ?? string.Empty;
+
+                //var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
+
+                ViewBag.Model.Ver = ConfigSettings.GetEnvironmentStaticContentIncrement();// System.Configuration.ConfigurationManager.AppSettings["StaticContentIncrement"];
+
+                if (UserContext.IsUserAuthenticated())
                 {
-                    newViewModel.Model.PrerenderedView = prerenderedViewName;
+                    //var userViewModelQuery = ServiceLocator.Current.GetInstance<IUserViewModelQuery>();
+                    ViewBag.Model.AuthenticatedUser = UserViewModelQuery.BuildAuthenticatedUser(UserContext.GetAuthenticatedUserId());
                 }
 
-                // Perform any additional html view tasks on the model
-                if (htmlViewTask != null)
+                ViewBag.BootstrappedJson = Raven.Imports.Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag);
+
+#if JS_COMBINE_MINIFY
+                ViewBag.JavascriptSource = "main-min.js";
+#elif JS_COMBINE_VERBOSE
+                ViewBag.JavascriptSource = "main-combined.js";
+#else
+                ViewBag.JavascriptSource = "main.js";
+#endif
+
+                #region Profiling
+
+                //ViewBag.RavenProfiler = Raven.Client.MvcIntegration.RavenProfiler.CurrentRequestSessions().ToString();
+                
+                if (StackExchange.Profiling.MiniProfiler.Current != null && UserContext.IsUserAuthenticated() && UserContext.HasRole("roles/" + RoleNames.GlobalAdministrator, Constants.AppRootId))
                 {
-                    htmlViewTask(newViewModel);
+                    ViewBag.MiniProfiler = StackExchange.Profiling.MiniProfiler.RenderIncludes().ToHtmlString();
                 }
 
-                ViewBag.Model = newViewModel.Model;
+                #endregion Profiling
 
-                actionResult = View(htmlViewName);
+                actionResult = View(htmlViewName, "_Layout");
             }
 
             return actionResult;

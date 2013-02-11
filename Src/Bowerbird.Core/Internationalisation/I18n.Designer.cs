@@ -115,6 +115,15 @@ namespace Bowerbird.Core.Internationalisation {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The email address does not exist, please enter another email address..
+        /// </summary>
+        public static string EmailDoesNotExist {
+            get {
+                return ResourceManager.GetString("EmailDoesNotExist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email address already exists, please enter another email address..
         /// </summary>
         public static string EmailDuplicate {
@@ -210,6 +219,15 @@ namespace Bowerbird.Core.Internationalisation {
         public static string ObservedOnRequired {
             get {
                 return ResourceManager.GetString("ObservedOnRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You do not have permission to change this password. If you requested a password reset, try copying the link from the email you received directly into the address bar of your browser, or request a password reset again..
+        /// </summary>
+        public static string PasswordKeyInvalid {
+            get {
+                return ResourceManager.GetString("PasswordKeyInvalid", resourceCulture);
             }
         }
         

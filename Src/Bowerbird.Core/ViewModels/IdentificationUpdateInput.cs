@@ -34,7 +34,7 @@ namespace Bowerbird.Core.ViewModels
         /// <summary>
         /// Used when adding an identification at the same time as a new sighting only.
         /// </summary>
-        public bool NewSighting { get; set; }
+        public bool NewSightingIdentification { get; set; }
 
         public int? Id { get; set; }
 

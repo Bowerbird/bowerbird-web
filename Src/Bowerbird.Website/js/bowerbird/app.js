@@ -236,8 +236,8 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                 }
             });
 
-            $.connection.hub.error(function () {
-                log('ERROR: SignalR Hub blew up!');
+            $.connection.hub.error(function (stuff) {
+                log('ERROR: SignalR Hub blew up!', stuff);
 
                 reconnectToHub();
             });

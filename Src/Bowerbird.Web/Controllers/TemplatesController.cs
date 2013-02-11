@@ -47,6 +47,7 @@ namespace Bowerbird.Web.Controllers
         #region Methods
 
         [HttpGet]
+        [OutputCache(Duration = 86400)]
         public ActionResult Index()
         {
             var templates = LoadSharedMustacheTemplates();

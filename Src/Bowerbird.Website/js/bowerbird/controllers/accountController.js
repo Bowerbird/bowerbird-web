@@ -8,15 +8,20 @@
 // AccountController & AccountRouter
 // ---------------------------------
 
-define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'models/accountupdate', 'models/login', 'models/register', 'views/accountloginview', 'views/accountregisterview',
-    'views/accountupdateformview'],
-function ($, _, Backbone, app, User, AccountUpdate, Login, Register, AccountLoginView, AccountRegisterView, AccountUpdateFormView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'models/user', 'models/accountupdate', 'models/accountupdatepassword', 'models/accountrequestpasswordupdate', 'models/login',
+        'models/register', 'views/accountloginview', 'views/accountregisterview',
+        'views/accountupdateformview', 'views/accountupdatepasswordformview', 'views/accountrequestpasswordupdateformview'],
+function ($, _, Backbone, app, User, AccountUpdate, AccountUpdatePassword, AccountRequestPasswordUpdate, Login, Register, AccountLoginView, AccountRegisterView,
+    AccountUpdateFormView, AccountUpdatePasswordFormView, AccountRequestPasswordUpdateFormView) {
 
     var AccountRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             'account/login': 'showLogin',
             'account/register': 'showRegister',
-            'account/update': 'showUserUpdateForm'
+            'account/update': 'showUserUpdateForm',
+            'account/updatepassword/:key': 'showPasswordUpdateForm',
+            'account/updatepassword': 'showPasswordUpdateForm',
+            'account/requestpasswordupdate': 'showRequestPasswordUpdateForm'
         }
     });
 
@@ -189,6 +194,52 @@ function ($, _, Backbone, app, User, AccountUpdate, Login, Register, AccountLogi
 
                     var accountUpdateFormView = new AccountUpdateFormView(options);
                     app.showContentView('Edit Account Details', accountUpdateFormView, 'account');
+                }
+            });
+        }
+
+    };
+
+    AccountController.showPasswordUpdateForm = function (key) {
+        log('....................................');
+        var options = {};
+        if (app.isPrerenderingView('account')) {
+            options['el'] = '.update-password';
+            options.model = new AccountUpdatePassword(app.prerenderedView.data.AccountUpdatePassword);
+            options.errors = app.prerenderedView.data.Errors;
+
+            var accountUpdatePasswordFormView = new AccountUpdatePasswordFormView(options);
+            app.showContentView('Edit Password', accountUpdatePasswordFormView, 'account');
+        } else {
+            var accountUpdatePassword = new AccountUpdatePassword();
+            accountUpdatePassword.fetch({
+                success: function (model, data) {
+                    options.model = model;
+
+                    var accountUpdatePasswordFormView = new AccountUpdatePasswordFormView(options);
+                    app.showContentView('Edit Password', accountUpdatePasswordFormView, 'account');
+                }
+            });
+        }
+
+    };
+
+    AccountController.showRequestPasswordUpdateForm = function () {
+        var options = {};
+        if (app.isPrerenderingView('account')) {
+            options['el'] = '.request-password-update';
+            options.model = new AccountRequestPasswordUpdate(app.prerenderedView.data.AccountUpdatePassword);
+
+            var accountRequestPasswordUpdateFormView = new AccountRequestPasswordUpdateFormView(options);
+            app.showContentView('Request Password Reset', accountRequestPasswordUpdateFormView, 'account');
+        } else {
+            var accountRequestPasswordUpdate = new AccountRequestPasswordUpdate();
+            accountRequestPasswordUpdate.fetch({
+                success: function (model, data) {
+                    options.model = model;
+
+                    var accountRequestPasswordUpdateFormView = new AccountRequestPasswordUpdateFormView(options);
+                    app.showContentView('Request Password Reset', accountRequestPasswordUpdateFormView, 'account');
                 }
             });
         }

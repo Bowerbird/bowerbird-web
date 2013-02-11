@@ -9,7 +9,7 @@
 // ------------
 
 // Shows post items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/postdetailsview', 'date'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/postdetailsview'],
 function ($, _, Backbone, app, ich, PostDetailsView) {
 
     var PostListView = Backbone.Marionette.CompositeView.extend({

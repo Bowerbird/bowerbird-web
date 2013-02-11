@@ -24,10 +24,10 @@ using Raven.Client;
 namespace Bowerbird.Core.Validators
 {
     /// <summary>
-    /// Checks whether specified reset password key exists
+    /// Checks whether specified change password key exists
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public class ResetPasswordKeyAttribute : ValidationAttribute
+    public class PasswordKeyAttribute : ValidationAttribute
     {
             
         #region Members
@@ -50,6 +50,11 @@ namespace Bowerbird.Core.Validators
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string resetPasswordKey = string.IsNullOrEmpty(value as string) ? string.Empty : value as string;
+
+            if (string.IsNullOrWhiteSpace(resetPasswordKey))
+            {
+                return new ValidationResult(ErrorMessageString);
+            }
 
             if (DocumentSession
                     .Query<User>()

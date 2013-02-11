@@ -43,7 +43,6 @@ namespace Bowerbird.Web.Controllers
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
-        private readonly IAccountViewModelQuery _accountViewModelQuery;
         private readonly IUserViewModelQuery _userViewModelQuery;
         private readonly IUserViewFactory _userViewFactory;
         private readonly IActivityViewModelQuery _activityViewModelQuery;
@@ -58,7 +57,6 @@ namespace Bowerbird.Web.Controllers
             IMessageBus messageBus,
             IUserContext userContext,
             IDocumentSession documentSession,
-            IAccountViewModelQuery accountViewModelQuery,
             IUserViewModelQuery userViewModelQuery,
             IActivityViewModelQuery activityViewModelQuery,
             IUserViewFactory userViewFactory,
@@ -69,7 +67,6 @@ namespace Bowerbird.Web.Controllers
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(accountViewModelQuery, "accountViewModelQuery");
             Check.RequireNotNull(userViewModelQuery, "userViewModelQuery");
             Check.RequireNotNull(activityViewModelQuery, "activityViewModelQuery");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
@@ -79,7 +76,6 @@ namespace Bowerbird.Web.Controllers
             _messageBus = messageBus;
             _userContext = userContext;
             _documentSession = documentSession;
-            _accountViewModelQuery = accountViewModelQuery;
             _userViewModelQuery = userViewModelQuery;
             _activityViewModelQuery = activityViewModelQuery;
             _userViewFactory = userViewFactory;
@@ -103,14 +99,13 @@ namespace Bowerbird.Web.Controllers
                 return RedirectToAction("privateindex", "home");
             }
 
-            //ViewBag.AccountLogin = _accountViewModelQuery.MakeAccountLogin(returnUrl);
-            //ViewBag.IsStaticLayout = true;
-
-            //return View(Form.Login);
-
             dynamic viewModel = new ExpandoObject();
-            viewModel.AccountLogin = _accountViewModelQuery.MakeAccountLogin(returnUrl);
-
+            viewModel.AccountLogin = new
+                {
+                    Email = _userContext.HasEmailCookieValue() ? _userContext.GetEmailCookieValue() : string.Empty,
+                    ReturnUrl = returnUrl
+                };
+                
             return RestfulResult(
                 viewModel,
                 "account",
@@ -164,7 +159,7 @@ namespace Bowerbird.Web.Controllers
 
 //            return View(Form.Login);
             User user = null;
-            dynamic viewModel = null;
+            dynamic viewModel = new ExpandoObject();
 
             if (ModelState.IsValid)
             {
@@ -178,13 +173,8 @@ namespace Bowerbird.Web.Controllers
 
                     _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
 
-#if !JS_COMBINE_MINIFY
-                    DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
-#endif
-
                     if (Request.IsAjaxRequest())
                     {
-                        viewModel = new ExpandoObject();
                         viewModel.User = _userViewFactory.Make(user, user);
 
                         return RestfulResult(
@@ -209,8 +199,7 @@ namespace Bowerbird.Web.Controllers
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            viewModel = new ExpandoObject();
-            viewModel.AccountLogin = _accountViewModelQuery.MakeAccountLogin(accountLoginInput);
+            viewModel.AccountLogin = accountLoginInput;
 
             return RestfulResult(
                 viewModel,
@@ -249,9 +238,13 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult LogoutSuccess()
         {
-            ViewBag.IsStaticLayout = true;
+            dynamic viewModel = new ExpandoObject();
+            viewModel.AccountLogout = new object();
 
-            return View(Form.LogoutSuccess);
+            return RestfulResult(
+                viewModel,
+                "account",
+                "logoutsuccess");
         }
 
         [HttpGet]
@@ -347,8 +340,7 @@ namespace Bowerbird.Web.Controllers
                 // App login
                 if (Request.IsAjaxRequest())
                 {
-                    viewModel = new ExpandoObject();
-                    viewModel.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
+                    viewModel.AccountRegister = accountRegisterInput;
                     viewModel.User = _userViewFactory.Make(user, null); // Required by API, might be able to remove later
 
                     return RestfulResult(
@@ -364,86 +356,12 @@ namespace Bowerbird.Web.Controllers
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            viewModel = new ExpandoObject();
-            viewModel.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
+            viewModel.AccountRegister = accountRegisterInput;
 
             return RestfulResult(
                 viewModel,
                 "account",
                 "register");
-        }
-
-        [HttpGet]
-        public ActionResult RequestPasswordReset()
-        {
-            ViewBag.IsStaticLayout = true;
-
-            return View(Form.RequestPasswordReset);
-        }
-
-        [HttpPost]
-        [Transaction]
-        public ActionResult RequestPasswordReset(AccountRequestPasswordResetInput accountRequestPasswordResetInput)
-        {
-            if (ModelState.IsValid)
-            {
-                _messageBus.Send(
-                    new UserRequestPasswordResetCommand()
-                    {
-                        Email = accountRequestPasswordResetInput.Email
-                    });
-
-                return RedirectToAction("requestpasswordresetsuccess", "account");
-            }
-
-            ViewBag.RequestPasswordReset = _accountViewModelQuery.MakeAccountRequestPasswordReset(accountRequestPasswordResetInput);
-            ViewBag.IsStaticLayout = true;
-
-            return View(Form.RequestPasswordReset);
-        }
-
-        [HttpGet]
-        public ActionResult RequestPasswordResetSuccess()
-        {
-            return View(Form.RequestPasswordResetSuccess);
-        }
-
-        [HttpGet]
-        public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput)
-        {
-            ViewBag.RequestPasswordResetSuccess = _accountViewModelQuery.MakeAccountResetPassword(accountResetPasswordInput);
-            ViewBag.IsStaticLayout = true;
-
-            return View(Form.ResetPassword);
-        }
-
-        [HttpPost]
-        [Transaction]
-        public ActionResult ResetPassword(AccountResetPasswordInput accountResetPasswordInput, AccountChangePasswordInput accountChangePasswordInput)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = _documentSession
-                    .Query<User>()
-                    .Where(x => x.ResetPasswordKey == accountResetPasswordInput.ResetPasswordKey)
-                    .FirstOrDefault();
-
-                _messageBus.Send(
-                    new UserUpdatePasswordCommand()
-                    {
-                        UserId = user.Id,
-                        Password = accountChangePasswordInput.Password
-                    });
-
-                _userContext.SignUserIn(user.Id, user.Email, false);
-
-                return RedirectToAction("privateindex", "home");
-            }
-
-            ViewBag.ResetPassword = _accountViewModelQuery.MakeAccountResetPassword(accountResetPasswordInput);
-            ViewBag.IsStaticLayout = true;
-
-            return View(Form.ResetPassword);
         }
 
         [HttpGet]
@@ -458,8 +376,7 @@ namespace Bowerbird.Web.Controllers
                 return RestfulResult(
                     viewModel,
                     "account",
-                    string.Empty
-                    );
+                    "profile");
             }
 
             return HttpNotFound();
@@ -600,52 +517,136 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public ActionResult ChangePassword()
+        public ActionResult UpdatePassword(AccountUpdatePasswordKeyInput accountUpdatePasswordKeyInput)
         {
-            var userId = _userContext.GetAuthenticatedUserId();
+            // This action is used for both logged in users changing their passwords, as well as
+            // non-authenticated users wanting to reset their passwords, having obtained a key (which 
+            // is emailed to them)
+            dynamic viewModel = new ExpandoObject();
 
-            if (!_userContext.HasUserPermission(userId))
+            if (_userContext.IsUserAuthenticated())
             {
-                return HttpUnauthorized();
+                // User is authenticated, generate a key so that they can save their password
+                var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
+                user.RequestPasswordUpdate(false);
+                _documentSession.Store(user);
+                _documentSession.SaveChanges();
+
+                accountUpdatePasswordKeyInput.Key = user.ResetPasswordKey;
+                ModelState.Clear();
+            }
+            else
+            {
+                if (!ModelState.IsValid)
+                {
+                    Response.StatusCode = (int) System.Net.HttpStatusCode.BadRequest;
+                }
             }
 
-            var viewModel = new {};
+            viewModel.AccountUpdatePassword = accountUpdatePasswordKeyInput;
 
             return RestfulResult(
                 viewModel,
                 "account",
-                "changepassword");
+                "updatepassword");
         }
 
         [HttpPost]
-        [Authorize]
         [Transaction]
-        public ActionResult ChangePassword(AccountChangePasswordInput accountChangePasswordInput)
+        public ActionResult UpdatePassword(AccountUpdatePasswordInput accountUpdatePasswordInput)
         {
+            // This action is used for both logged in users changing their passwords, as well as
+            // non-authenticated users wanting to reset their passwords, having obtained a key (which 
+            // is emailed to them)
+            dynamic viewModel = new ExpandoObject();
+
             if (ModelState.IsValid)
             {
                 _messageBus.Send(
                     new UserUpdatePasswordCommand()
-                    {
-                        UserId = _userContext.GetAuthenticatedUserId(),
-                        Password = accountChangePasswordInput.Password
-                    });
+                        {
+                            ResetPasswordKey = accountUpdatePasswordInput.Key,
+                            Password = accountUpdatePasswordInput.NewPassword
+                        });
 
-                if(Request.IsAjaxRequest())
+                if (Request.IsAjaxRequest())
                 {
-                    return JsonSuccess();
+                    viewModel.AccountUpdatePassword = new {};
+
+                    return RestfulResult(
+                        viewModel,
+                        "account",
+                        "updatepassword");
                 }
-
-                return RedirectToAction("index", "home");
+                else
+                {
+                    return Redirect("/");
+                }
             }
-
-            if (Request.IsAjaxRequest())
+            else
             {
-                return JsonFailed();
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 
-            return View(Form.ChangePassword);
+            viewModel.AccountUpdatePassword = accountUpdatePasswordInput;
+
+            return RestfulResult(
+                viewModel,
+                "account",
+                "updatepassword");
+        }
+
+        [HttpGet]
+        public ActionResult RequestPasswordUpdate()
+        {
+            dynamic viewModel = new ExpandoObject();
+            viewModel.RequestPasswordReset = new { };
+
+            return RestfulResult(
+                viewModel,
+                "account",
+                "requestpasswordupdate");
+        }
+
+        [HttpPost]
+        [Transaction]
+        public ActionResult RequestPasswordUpdate(AccountRequestPasswordUpdateInput accountRequestPasswordUpdateInput)
+        {
+            dynamic viewModel = new ExpandoObject();
+
+            if (ModelState.IsValid)
+            {
+                _messageBus.Send(
+                    new UserRequestPasswordResetCommand()
+                        {
+                            Email = accountRequestPasswordUpdateInput.Email
+                        });
+
+                if (Request.IsAjaxRequest())
+                {
+                    viewModel.AccountRequestPasswordUpdate = accountRequestPasswordUpdateInput;
+
+                    return RestfulResult(
+                        viewModel,
+                        "account",
+                        "requestpasswordupdate");
+                }
+                else
+                {
+                    return Redirect("/");
+                }
+            }
+            else
+            {
+                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            }
+
+            viewModel.AccountRequestPasswordUpdate = accountRequestPasswordUpdateInput;
+
+            return RestfulResult(
+                viewModel,
+                "account",
+                "requestpasswordupdate");
         }
 
         [HttpPost]
@@ -653,19 +654,19 @@ namespace Bowerbird.Web.Controllers
         [Transaction]
         public ActionResult CloseCallToAction(string name)
         {
-            if (Request.IsAjaxRequest())
-            {
-                _messageBus.Send(
-                    new UserUpdateCallToActionCommand()
-                    {
-                        UserId = _userContext.GetAuthenticatedUserId(),
-                        Name = name
-                    });
+            _messageBus.Send(
+                new UserUpdateCallToActionCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    Name = name
+                });
 
-                return JsonSuccess();
-            }
+            dynamic viewModel = new ExpandoObject();
 
-            return HttpNotFound();
+            return RestfulResult(
+                viewModel,
+                "account",
+                "closecalltoaction");
         }
 
         private bool AreCredentialsValid(string email, string password, out User user)
@@ -698,21 +699,28 @@ namespace Bowerbird.Web.Controllers
             if (score < -1)
                 score = -1;
 
+            _messageBus.Send(
+                new VoteUpdateCommand()
+                {
+                    UserId = _userContext.GetAuthenticatedUserId(),
+                    ContributionId = contributionType + "/" + id,
+                    Score = score,
+                    SubContributionId = !string.IsNullOrWhiteSpace(subContributionType) ? subContributionType + "/" + subId : null
+                });
+
             if (Request.IsAjaxRequest())
             {
-                _messageBus.Send(
-                    new VoteUpdateCommand()
-                    {
-                        UserId = _userContext.GetAuthenticatedUserId(),
-                        ContributionId = contributionType + "/" + id,
-                        Score = score,
-                        SubContributionId = !string.IsNullOrWhiteSpace(subContributionType) ? subContributionType + "/" + subId : null
-                    });
+                dynamic viewModel = new ExpandoObject();
 
-                return JsonSuccess();
+                return RestfulResult(
+                    viewModel,
+                    "account",
+                    "updatevote");
             }
-
-            return HttpNotFound();
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         [Transaction]
@@ -734,7 +742,19 @@ namespace Bowerbird.Web.Controllers
                     SightingId = observationId
                 });
 
-            return JsonSuccess();
+            if (Request.IsAjaxRequest())
+            {
+                dynamic viewModel = new ExpandoObject();
+
+                return RestfulResult(
+                    viewModel,
+                    "account",
+                    "updatefavourite");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         [Transaction]
@@ -756,7 +776,19 @@ namespace Bowerbird.Web.Controllers
                     FolloweeUserId = userId
                 });
 
-            return JsonSuccess();
+            if (Request.IsAjaxRequest())
+            {
+                dynamic viewModel = new ExpandoObject();
+
+                return RestfulResult(
+                    viewModel,
+                    "account",
+                    "updatefollowuser");
+            }
+            else
+            {
+                return Redirect("/");
+            }
         }
 
         private object GetTimeZones(string countryCode, string existingTimezone)

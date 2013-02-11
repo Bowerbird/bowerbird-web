@@ -23,7 +23,7 @@ using Bowerbird.Core.Utilities;
 
 namespace Bowerbird.Core.EventHandlers
 {
-    public class SendRequestPasswordResetEmail : IEventHandler<RequestPasswordResetEvent>
+    public class SendRequestPasswordResetEmail : IEventHandler<RequestPasswordUpdate>
     {
             
         #region Members
@@ -54,18 +54,21 @@ namespace Bowerbird.Core.EventHandlers
 
         #region Methods
 
-        public void Handle(RequestPasswordResetEvent requestPasswordResetEvent)
+        public void Handle(RequestPasswordUpdate requestPasswordUpdate)
         {
-            Check.RequireNotNull(requestPasswordResetEvent, "requestPasswordResetEvent");
+            Check.RequireNotNull(requestPasswordUpdate, "requestPasswordUpdate");
 
-            var message = Email
-                .From(_configSettings.GetEmailAdminAccount(), "Bowerbird")
-                .To(requestPasswordResetEvent.User.Email)
-                .Subject("Bowerbird password reset request")
-                .UsingTemplate("RequestPasswordResetEmail", new { requestPasswordResetEvent.User.Name, ResetUri = string.Format(_configSettings.GetEnvironmentRootUri() + _configSettings.GetEmailResetPasswordRelativeUri(), requestPasswordResetEvent.User.ResetPasswordKey) })
-                .Message;
+            if (requestPasswordUpdate.SendEmail)
+            {
+                var message = Email
+                    .From(_configSettings.GetEmailAdminAccount(), "Bowerbird")
+                    .To(requestPasswordUpdate.User.Email)
+                    .Subject("Reset your BowerBird password")
+                    .UsingTemplate("RequestPasswordResetEmail", new { requestPasswordUpdate.User.Name, ResetUri = string.Format(_configSettings.GetEnvironmentRootUri() + _configSettings.GetEmailResetPasswordRelativeUri(), requestPasswordUpdate.User.ResetPasswordKey) })
+                    .Message;
 
-            _emailService.SendMailMessage(message);
+                _emailService.SendMailMessage(message);
+            }
         }
 
         #endregion

@@ -65,5 +65,10 @@ namespace Bowerbird.Core.Config
         /// <param name="permissionId">The permission name to find</param>
         /// <param name="domainModelId">The domain model to check for permission</param>
         bool HasGroupPermission<T>(string permissionId, string domainModelId) where T : IOwnable;
+
+        /// <summary>
+        /// Determine if user has the specified role in the specified group
+        /// </summary>
+        bool HasRole(string roleId, string groupId);
     }
 }

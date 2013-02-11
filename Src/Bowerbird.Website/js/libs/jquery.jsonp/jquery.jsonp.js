@@ -1,5 +1,5 @@
 define(['jquery'], function ($) {
-/*
+/*!
  * jQuery JSONP Core Plugin 2.3.1 (2012-05-16)
  *
  * https://github.com/jaubourg/jquery-jsonp
