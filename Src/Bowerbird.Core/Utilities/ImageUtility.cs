@@ -23,7 +23,7 @@ using System.Text;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DomainModelFactories;
-using NLog;
+//using NLog;
 using Encoder = System.Drawing.Imaging.Encoder;
 
 namespace Bowerbird.Core.Utilities
@@ -33,7 +33,7 @@ namespace Bowerbird.Core.Utilities
 
         #region Fields
 
-        private Logger _logger = LogManager.GetLogger("ImageUtility");
+        //private Logger _logger = LogManager.GetLogger("ImageUtility");
 
         private Bitmap _sourceImage;
         private Bitmap _newImage;
@@ -96,7 +96,7 @@ namespace Bowerbird.Core.Utilities
             }
             catch (Exception exception)
             {
-                _logger.ErrorException("Error saving image to file", exception);
+                //_logger.ErrorException("Error saving image to file", exception);
 
                 if (_newImage != null)
                 {
@@ -358,7 +358,7 @@ namespace Bowerbird.Core.Utilities
             }
             catch (Exception ex)
             {
-                _logger.ErrorException("Error extracting EXIF data from image", ex);
+                //_logger.ErrorException("Error extracting EXIF data from image", ex);
 
                 // Error occurred, EXIF may be in inconsistent state, clear it out
                 exifData.Clear();

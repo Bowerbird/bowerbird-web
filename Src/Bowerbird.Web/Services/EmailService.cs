@@ -65,7 +65,8 @@ namespace Bowerbird.Web.Services
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.EmailServiceStatus)
+            // HC added when hit on first time load - appRoot was null
+            if (appRoot != null && appRoot.EmailServiceStatus)
             {
                 smtpClient.SendAsync(mailMessage, null);
             }

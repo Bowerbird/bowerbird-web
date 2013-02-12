@@ -18,7 +18,7 @@ using System.Text;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
-using NLog;
+//using NLog;
 using Raven.Client;
 using System.Threading;
 using System.IO;
@@ -30,7 +30,7 @@ namespace Bowerbird.Core.Config
     {
         #region Members
 
-        private Logger _logger = LogManager.GetLogger("SetupSystem");
+        //private Logger _logger = LogManager.GetLogger("SetupSystem");
         private const int _testImportLimit = 300; // In test mode, the max number of species to import per kingdom
 
 #if DEBUG
@@ -121,7 +121,7 @@ namespace Bowerbird.Core.Config
             }
             catch (Exception exception)
             {
-                _logger.ErrorException("Could not setup system", exception);
+                //_logger.ErrorException("Could not setup system", exception);
 
                 throw;
             }
@@ -424,17 +424,21 @@ namespace Bowerbird.Core.Config
             {
                 if (speciesRecord.Count() < 8)
                 {
+                    /*
                     _logger.Log(LogLevel.Error, 
                                 "Record could not be imported, less than 8 columns encountered: {0}",
                                 string.Join("|", speciesRecord));
+                     */
                     return;
                 }
 
                 if (speciesRecord.Count() < 8)
                 {
+                    /*
                     _logger.Log(LogLevel.Error,
                                 "Record could not be imported, less than 8 columns encountered: {0}",
                                 string.Join("|", speciesRecord));
+                     */
                     return;
                 }
 
@@ -566,7 +570,7 @@ namespace Bowerbird.Core.Config
             }
             catch (Exception ex)
             {
-                _logger.ErrorException("Record could not be imported, unknown error: " + string.Join("|", speciesRecord), ex);
+                //_logger.ErrorException("Record could not be imported, unknown error: " + string.Join("|", speciesRecord), ex);
             }
         }
 
