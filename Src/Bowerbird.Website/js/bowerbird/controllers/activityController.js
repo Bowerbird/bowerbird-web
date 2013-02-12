@@ -14,7 +14,7 @@ function ($, _, Backbone, app, Activity) {
     var ActivityRouter = function (options) {
         this.hub = options.groupHub;
 
-        this.hub.newActivity = newActivity;
+        this.hub.client.newActivity = newActivity;
     };
 
     var ActivityController = {};

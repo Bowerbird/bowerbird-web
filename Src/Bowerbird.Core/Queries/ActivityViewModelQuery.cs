@@ -170,7 +170,12 @@ namespace Bowerbird.Core.Queries
             }
 
 
-            var contributionIds = activities.SelectMany(x => new[] { x.ContributionId, x.SubContributionId }).Where(x => !string.IsNullOrWhiteSpace(x)).Distinct();
+            var contributionIds = activities
+                .SelectMany(x => new[] { x.ContributionId, x.SubContributionId })
+                .Where(x => !string.IsNullOrWhiteSpace(x))
+                .Cast<string>()
+                .Distinct()
+                .ToList();
 
             List<All_Contributions.Result> contributions;
 
@@ -178,6 +183,7 @@ namespace Bowerbird.Core.Queries
             {
                 contributions = _documentSession
                     .Query<All_Contributions.Result, All_Contributions>()
+                    .AsProjection<All_Contributions.Result>()
                     .Where(x => x.ParentContributionId.In(contributionIds))
                     .ToList();
             }

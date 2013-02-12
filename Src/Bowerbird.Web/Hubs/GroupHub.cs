@@ -10,14 +10,10 @@
  
 */
 
-using System;
 using System.Linq;
-using System.Threading.Tasks;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
-using Bowerbird.Web.Services;
+using Microsoft.AspNet.SignalR;
 using Raven.Client.Linq;
-using SignalR.Hubs;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
 using Bowerbird.Core.ViewModelFactories;

@@ -18,6 +18,9 @@ using System.Web;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Services;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Infrastructure;
+using Microsoft.AspNet.SignalR.Json;
 using Microsoft.Practices.ServiceLocation;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Factory;
@@ -25,7 +28,6 @@ using Ninject.Extensions.NamedScope;
 using Ninject.Modules;
 using Ninject.Web.Common;
 using Raven.Client;
-using SignalR;
 
 namespace Bowerbird.Web.Infrastructure
 {
@@ -59,7 +61,7 @@ namespace Bowerbird.Web.Infrastructure
             Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
             Bind<IConnectionManager>().ToMethod(x => GlobalHost.ConnectionManager);
             Bind<IMediaServiceFactory>().ToFactory();
-            Bind<IJsonSerializer>().To<SignalrJsonNetSerializer>();
+            //Bind<IJsonSerializer>().To<SignalrJsonNetSerializer>();
 
             // Thread scope
             // HACK: Experimental loading of chat components into new async thread
@@ -91,7 +93,7 @@ namespace Bowerbird.Web.Infrastructure
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>()
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>()
                     .Excluding<Bowerbird.Core.EventHandlers.ChatUpdated>()
-                    .Excluding<SignalrJsonNetSerializer>()
+                    //.Excluding<SignalrJsonNetSerializer>()
                     .BindAllInterfaces();
 
                     //x

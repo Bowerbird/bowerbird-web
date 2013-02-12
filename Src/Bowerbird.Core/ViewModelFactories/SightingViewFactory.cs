@@ -17,7 +17,7 @@ namespace Bowerbird.Core.ViewModelFactories
 
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
-        private readonly ISightingNoteViewFactory _sightingNoteViewFactory;
+        private readonly IMediaResourceViewFactory _mediaResourceViewFactory;
         private readonly IUserContext _userContext;
 
         #endregion
@@ -27,17 +27,17 @@ namespace Bowerbird.Core.ViewModelFactories
         public SightingViewFactory(
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
-            ISightingNoteViewFactory sightingNoteViewFactory,
+            IMediaResourceViewFactory mediaResourceViewFactory,
             IUserContext userContext)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
-            Check.RequireNotNull(sightingNoteViewFactory, "sightingNoteViewFactory");
+            Check.RequireNotNull(mediaResourceViewFactory, "mediaResourceViewFactory");
             Check.RequireNotNull(userContext, "userContext");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
-            _sightingNoteViewFactory = sightingNoteViewFactory;
+            _mediaResourceViewFactory = mediaResourceViewFactory;
             _userContext = userContext;
         }
 
@@ -117,13 +117,24 @@ namespace Bowerbird.Core.ViewModelFactories
 
                 viewModel.Title = observation.Title;
                 viewModel.Address = observation.Address;
-                viewModel.Media = observation.Media;
-                viewModel.PrimaryMedia = observation.PrimaryMedia;
+                viewModel.Media = observation.Media.Select(MakeObservationMedia);
+                viewModel.PrimaryMedia = MakeObservationMedia(observation.PrimaryMedia);
                 viewModel.MediaCount = observation.Media.Count();
                 viewModel.ShowMediaThumbnails = observation.Media.Count() > 1;
             }
 
             return viewModel;
+        }
+
+        private object MakeObservationMedia(ObservationMedia observationMedia)
+        {
+            return new
+            {
+                observationMedia.Description,
+                observationMedia.IsPrimaryMedia,
+                observationMedia.Licence,
+                MediaResource = _mediaResourceViewFactory.Make(observationMedia.MediaResource)
+            };
         }
 
         #endregion  

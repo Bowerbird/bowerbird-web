@@ -373,6 +373,8 @@
     <Compile Include="Validators\FileAttribute.cs" />
     <Compile Include="Validators\MediaResourceUsageAttribute.cs" />
     <Compile Include="Validators\PasswordKeyAttribute.cs" />
+    <Compile Include="ViewModelFactories\MediaResourceViewFactory.cs" />
+    <Compile Include="ViewModelFactories\IMediaResourceViewFactory.cs" />
     <Compile Include="ViewModelFactories\GroupViewFactory.cs" />
     <Compile Include="DomainModelFactories\IActivityViewFactory.cs" />
     <Compile Include="ViewModelFactories\IdentificationViewFactory.cs" />

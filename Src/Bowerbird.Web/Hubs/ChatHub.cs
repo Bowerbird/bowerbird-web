@@ -16,7 +16,7 @@ using System;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -160,7 +160,7 @@ namespace Bowerbird.Web.Hubs
         public void Typing(string chatId, bool isTyping)
         {
             // Notify all users of typing status
-            Clients["chat-" + chatId].userIsTyping(
+            Clients.Group("chat-" + chatId).userIsTyping(
                 new
                 {
                     ChatId = chatId,

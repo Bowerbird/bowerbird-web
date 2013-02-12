@@ -11,9 +11,11 @@
  * Atlas of Living Australia
  
 */
-				
+
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using Bowerbird.Core.DomainModels.DenormalisedReferences;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -44,4 +46,37 @@ namespace Bowerbird.Core.DomainModels
             return true;
         }
     }
+
+    //public abstract class MediaResourceFile
+    //{
+    //}
+
+    //public class OriginalImageMediaResourceFile : MediaResourceFile
+    //{
+    //    public string MimeType { get; set; }
+    //    public string Filename { get; set; }
+    //    public string Size { get; set; }
+    //    public string ExifData { get; set; }
+    //    public string Uri { get; set; }
+    //}
+
+    //public class OriginalVideoMediaResourceFile : MediaResourceFile
+    //{
+    //    public string Provider { get; set; }
+    //    public string VideoId { get; set; }
+    //    public object ProviderData { get; set; }
+    //}
+
+    //public class OriginalAudioMediaResourceFile : MediaResourceFile
+    //{
+    //    public string MimeType { get; set; }
+    //}
+
+    //public class DerivedMediaResourceFile : MediaResourceFile
+    //{
+    //    public string Key { get; set; }
+    //    public string Uri { get; set; }
+    //    public int Width { get; set; }
+    //    public int Height { get; set; }
+    //}
 }

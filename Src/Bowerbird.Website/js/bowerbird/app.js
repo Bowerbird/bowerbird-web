@@ -11,7 +11,7 @@
 
 // Initialises the app, but does not start rendering. That is done 
 // when app.start() is called
-define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/organisationcollection', 'collections/userprojectcollection', 'collections/activitycollection', 'collections/chatcollection', 'marionette', 'signalr'],
+define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'models/user', 'collections/usercollection', 'collections/projectcollection', 'collections/organisationcollection', 'collections/userprojectcollection', 'collections/activitycollection', 'collections/chatcollection'],
 function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectCollection, OrganisationCollection, UserProjectCollection, ActivityCollection, ChatCollection) {
     // Create an instance of the app
     var app = new Backbone.Marionette.Application();
@@ -217,24 +217,26 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
             }
 
             // initialise the hub connection
-            $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
+            $.connection.hub.logging = true;
+            
+            //$.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
+            $.connection.hub.start({}, function () {
+                    // Keep the client id
+                    app.clientId = $.signalR.hub.id;
+                    log('browser connected via signalr as ' + app.clientId);
 
-                // Keep the client id
-                app.clientId = $.signalR.hub.id;
-                log('browser connected via signalr as ' + app.clientId);
-
-                // Subscribe authenticated user to all their groups
-                if (app.authenticatedUser) {
-                    $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
-                        .done(function () {
-                            log('Added user to hub');
-                            app.onlineUsers.add(app.authenticatedUser.user);
-                        })
-                        .fail(function (e) {
-                            log('could not register client with hub', e);
-                        });
-                }
-            });
+                    // Subscribe authenticated user to all their groups
+                    if (app.authenticatedUser) {
+                        $.connection.userHub.server.registerUserClient(app.authenticatedUser.user.id)
+                            .done(function () {
+                                log('Added user to hub');
+                                app.onlineUsers.add(app.authenticatedUser.user);
+                            })
+                            .fail(function (e) {
+                                log('could not register client with hub', e);
+                            });
+                    }
+                });
 
             $.connection.hub.error(function (stuff) {
                 log('ERROR: SignalR Hub blew up!', stuff);
@@ -269,14 +271,15 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
     var reconnectToHub = function () {
         $.connection.hub.stop();
         log('Doing a Hub Re-Connect');
-        $.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
+        //$.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
+        $.connection.hub.start().done(function () {
             // Keep the client id
             app.clientId = $.signalR.hub.id;
             log('browser re-connected via signalr as ' + app.clientId);
 
             // Subscribe authenticated user to all their groups
             if (app.authenticatedUser) {
-                $.connection.userHub.registerUserClient(app.authenticatedUser.user.id)
+                $.connection.userHub.server.registerUserClient(app.authenticatedUser.user.id)
                         .done(function () {
                             log('Added user to hub');
                             app.onlineUsers.add(app.authenticatedUser.user);

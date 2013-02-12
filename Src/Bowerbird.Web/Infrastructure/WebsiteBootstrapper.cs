@@ -12,6 +12,7 @@
  
 */
 
+using Microsoft.AspNet.SignalR;
 using Microsoft.Practices.ServiceLocation;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -19,7 +20,6 @@ using Bowerbird.Core.Config;
 using Nustache.Mvc;
 using Raven.Client.MvcIntegration;
 using Raven.Client;
-using SignalR;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.WebsiteBootstrapper), "PostStart", Order = 2)]
 
@@ -33,7 +33,7 @@ namespace Bowerbird.Web.Infrastructure
 
             ViewEngines.Engines.Add(new NustacheViewEngine());
 
-            RouteTable.Routes.MapHubs();
+            RouteTable.Routes.MapHubs(new HubConfiguration {EnableJavaScriptProxies = false});
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
 

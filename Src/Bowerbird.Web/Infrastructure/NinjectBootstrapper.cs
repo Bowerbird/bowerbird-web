@@ -13,15 +13,15 @@
 */
 
 using System;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
 using Microsoft.Practices.ServiceLocation;
-using SignalR;
 using System.Web;
 using NinjectAdapter;
 
-[assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.NinjectBootstrapper), "PreStart")]
+[assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.NinjectBootstrapper), "PreStart", Order = 1)]
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.NinjectBootstrapper), "PostStart", Order = 1)]
 [assembly: WebActivator.ApplicationShutdownMethodAttribute(typeof(Bowerbird.Web.Infrastructure.NinjectBootstrapper), "Stop")]
 

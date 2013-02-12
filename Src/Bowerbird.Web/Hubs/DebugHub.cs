@@ -11,7 +11,7 @@
 */
 
 using System.Threading.Tasks;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
 
 namespace Bowerbird.Web.Hubs
 {
@@ -35,7 +35,7 @@ namespace Bowerbird.Web.Hubs
         {
             Groups.Add(Context.ConnectionId, "debugger");
 
-            Caller.debugToClient("Connected to debug hub with: " + Context.ConnectionId);
+            Clients.Caller.debugToClient("Connected to debug hub with: " + Context.ConnectionId);
         }
 
         //public Task Disconnect()

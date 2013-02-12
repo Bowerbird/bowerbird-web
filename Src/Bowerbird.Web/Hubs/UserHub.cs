@@ -16,7 +16,7 @@ using System;
 using System.Dynamic;
 using System.Threading.Tasks;
 using Bowerbird.Core.Services;
-using SignalR.Hubs;
+using Microsoft.AspNet.SignalR;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
 using Raven.Client.Linq;
@@ -101,7 +101,7 @@ namespace Bowerbird.Web.Hubs
 #if !JS_COMBINE_MINIFY
             _backChannelService.DebugToClient("SERVER onlineUsers:");
             _backChannelService.DebugToClient(onlineUsers);
-#endif
+#endif  
 */
             //return response;
 

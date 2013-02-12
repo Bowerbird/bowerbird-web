@@ -107,6 +107,30 @@ namespace Bowerbird.Core.DomainModels
             }
         }
 
+        public string MediaResourceType
+        {
+            get
+            {
+                return _properties["MediaResourceType"].ToString();
+            }
+        }
+
+        public IDictionary<string, string> Metadata
+        {
+            get
+            {
+                return (IDictionary<string, string>)_properties["Metadata"];
+            }
+            set
+            {
+                if (!_properties.ContainsKey("Metadata"))
+                {
+                    _properties.Add("Metadata", new Dictionary<string, string>());
+                }
+                _properties["Metadata"] = value;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -170,6 +194,99 @@ namespace Bowerbird.Core.DomainModels
 
             return file;
         }
+
+        //public MediaResourceFile AddDerivedFile(
+        //    string storedRepresentation,
+        //    string uri,
+        //    int width,
+        //    int height)
+        //{
+        //    var file = new DerivedMediaResourceFile()
+        //        {
+        //            Uri = uri,
+        //            Width = width,
+        //            Height = height
+        //        };
+
+        //    var field = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_properties["MediaResourceType"].ToString());
+        //    if (((IDictionary<string, MediaResourceFile>)_properties[field]).ContainsKey(storedRepresentation))
+        //    {
+        //        ((IDictionary<string, MediaResourceFile>)_properties[field]).Remove(storedRepresentation);
+        //    }
+
+        //    ((IDictionary<string, MediaResourceFile>)_properties[field]).Add(storedRepresentation, file);
+
+        //    return file;
+        //}
+
+        //public MediaResourceFile AddOriginalImageFile(
+        //    string mimeType,
+        //    string filename,
+        //    string size,
+        //    string exifData,
+        //    string uri)
+        //{
+        //    var file = new OriginalImageMediaResourceFile()
+        //    {
+        //        MimeType = mimeType,
+        //        Filename = filename,
+        //        Size = size,
+        //        ExifData = exifData,
+        //        Uri = uri
+        //    };
+
+        //    var field = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_properties["MediaResourceType"].ToString());
+        //    if (((IDictionary<string, MediaResourceFile>)_properties[field]).ContainsKey("Original"))
+        //    {
+        //        ((IDictionary<string, MediaResourceFile>)_properties[field]).Remove("Original");
+        //    }
+
+        //    ((IDictionary<string, MediaResourceFile>)_properties[field]).Add("Original", file);
+
+        //    return file;
+        //}
+
+        //public MediaResourceFile AddOriginalVideoFile(
+        //    string provider,
+        //    string videoId,
+        //    object providerData)
+        //{
+        //    var file = new OriginalVideoMediaResourceFile()
+        //    {
+        //        Provider = provider,
+        //        VideoId = videoId,
+        //        ProviderData = providerData
+        //    };
+
+        //    var field = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_properties["MediaResourceType"].ToString());
+        //    if (((IDictionary<string, MediaResourceFile>)_properties[field]).ContainsKey("Original"))
+        //    {
+        //        ((IDictionary<string, MediaResourceFile>)_properties[field]).Remove("Original");
+        //    }
+
+        //    ((IDictionary<string, MediaResourceFile>)_properties[field]).Add("Original", file);
+
+        //    return file;
+        //}
+
+        //public MediaResourceFile AddOriginalAudioFile(
+        //    string mimeType)
+        //{
+        //    var file = new OriginalAudioMediaResourceFile()
+        //    {
+        //        MimeType = mimeType,
+        //    };
+
+        //    var field = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(_properties["MediaResourceType"].ToString());
+        //    if (((IDictionary<string, MediaResourceFile>)_properties[field]).ContainsKey("Original"))
+        //    {
+        //        ((IDictionary<string, MediaResourceFile>)_properties[field]).Remove("Original");
+        //    }
+
+        //    ((IDictionary<string, MediaResourceFile>)_properties[field]).Add("Original", file);
+
+        //    return file;
+        //}
 
         #endregion
     }

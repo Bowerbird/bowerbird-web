@@ -33,8 +33,6 @@
                   $(ProjectRoot)\**\*.csproj;
                   $(ProjectRoot)\*.csproj.user;">
     </PackageFiles>
-    <!--<MediaFiles Include="$(ProjectRoot)\media\testdata\**\*.*">
-    </MediaFiles>-->
     <ConfigFiles Include="$(ProjectRoot)\Web.config" >
     </ConfigFiles>
   </ItemGroup>
@@ -64,7 +62,6 @@
   </Target>
   <Target Name="CopyFilesToReleaseDir">
     <Copy SourceFiles="@(PackageFiles)" DestinationFiles="@(PackageFiles->'$(CurrentBuildDir)\%(RecursiveDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(MediaFiles)" DestinationFiles="@(MediaFiles->'$(CurrentBuildDir)\media\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(ConfigFiles)" DestinationFiles="$(CurrentBuildDir)\web.config" />
   </Target>
   <Target Name="ZipUpReleaseFiles">
