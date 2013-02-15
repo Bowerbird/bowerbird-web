@@ -15,10 +15,10 @@ The Technology Stack
 * UI: CSS3, JQuery, Backbone, Underscore & Mustache
 * Server to Client: signalR
 
-Issues
-======
-These instructions have been tested on a blank slate Dell laptop circa 2008 model and have worked. Make sure you read and follow them carefully and they should work for you too.
-If you have any issues or feature requests or improvements for this document, submit them to https://github.com/Bowerbird/bowerbird-web/issues
+
+Development
+===========
+If you are interested in developing or deploying the BowerBird platform, [Read the Wiki](https://github.com/Bowerbird/bowerbird-web/wiki)
 
 
 Have Fun!
