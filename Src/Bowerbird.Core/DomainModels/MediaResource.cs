@@ -14,11 +14,9 @@
 				
 using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels.DenormalisedReferences;
-using System.Globalization;
 
 namespace Bowerbird.Core.DomainModels
 {
@@ -26,31 +24,25 @@ namespace Bowerbird.Core.DomainModels
     {
         #region Members
 
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        private IDictionary<string, string> _metadata;
+
+        [Raven.Imports.Newtonsoft.Json.JsonIgnore]
+        private IDictionary<string, MediaResourceFile> _files;
+        
+        #endregion
+
+        #region Properties
+
         public string Id { get; set; }
 
         public string Key { get; set; }
 
-        private DenormalisedUserReference CreatedByUser { get; set; }
+        public DenormalisedUserReference CreatedByUser { get; set; }
 
         public string MediaResourceType { get; set; }
 
         public DateTime UploadedOn { get; set; }
-
-        private IDictionary<string, string> _metadata; 
-        public IDictionary<string, string> Metadata
-        {
-            get { return _metadata ?? (_metadata = new Dictionary<string, string>()); }
-
-            set { _metadata = value; }
-        }
-
-        private IDictionary<string, MediaResourceFile> _files;
-        public IDictionary<string, MediaResourceFile> Files
-        {
-            get { return _files ?? (_files = new Dictionary<string, MediaResourceFile>()); }
-
-            set { _files = value; }
-        } 
 
         #endregion
 
@@ -58,6 +50,7 @@ namespace Bowerbird.Core.DomainModels
 
         protected MediaResource()
         {
+            InitMembers();
         }
 
         public MediaResource (
@@ -83,25 +76,34 @@ namespace Bowerbird.Core.DomainModels
             Id = "mediaresources/";
             MediaResourceType = mediaResourceType;
             UploadedOn = uploadedOn;
-            Metadata = metadata;
+            _metadata = metadata;
 
             if (createdByUser != null) CreatedByUser = createdByUser;
             if (!string.IsNullOrEmpty(key)) Key = key;
+
+            InitMembers();
         }
 
         #endregion
 
         #region Methods
 
+        private void InitMembers()
+        {
+            _metadata = new Dictionary<string, string>();
+
+            _files = new Dictionary<string, MediaResourceFile>();
+        }
+
         public MediaResource AddMetadata(string key, string value)
         {
-            if (Metadata.ContainsKey(key))
+            if (_metadata.ContainsKey(key))
             {
-                Metadata[key] = value;
+                _metadata[key] = value;
             }
             else
             {
-                Metadata.Add(key, value);
+                _metadata.Add(key, value);
             }
 
             return this;
@@ -119,12 +121,12 @@ namespace Bowerbird.Core.DomainModels
             file.Width = width;
             file.Height = height;
 
-            if(Files.Keys.Contains(storedRepresentation))
+            if(_files.Keys.Contains(storedRepresentation))
             {
-                Files.Remove(storedRepresentation);
+                _files.Remove(storedRepresentation);
             }
 
-            Files.Add(storedRepresentation, file);
+            _files.Add(storedRepresentation, file);
 
             return file;
         }
