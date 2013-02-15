@@ -22,6 +22,132 @@ using System.Globalization;
 
 namespace Bowerbird.Core.DomainModels
 {
+    public class MediaResource
+    {
+        #region Members
+
+        public string Id { get; set; }
+
+        public string Key { get; set; }
+
+        private DenormalisedUserReference CreatedByUser { get; set; }
+
+        public string MediaResourceType { get; set; }
+
+        public DateTime UploadedOn { get; set; }
+
+        private IDictionary<string, string> _metadata; 
+        public IDictionary<string, string> Metadata
+        {
+            get { return _metadata ?? (_metadata = new Dictionary<string, string>()); }
+
+            set { _metadata = value; }
+        }
+
+        private IDictionary<string, MediaResourceFile> _files;
+        public IDictionary<string, MediaResourceFile> Files
+        {
+            get { return _files ?? (_files = new Dictionary<string, MediaResourceFile>()); }
+
+            set { _files = value; }
+        } 
+
+        #endregion
+
+        #region Constructors
+
+        protected MediaResource()
+        {
+        }
+
+        public MediaResource (
+            string mediaResourceType,
+            User createdByUser,
+            DateTime uploadedOn,
+            string key,
+            IDictionary<string, string> metadata)
+            : base()
+        {
+            Check.RequireNotNullOrWhitespace(mediaResourceType, "mediaResourceType");
+            Check.RequireNotNullOrWhitespace(key, "key");
+            Check.RequireNotNull(metadata, "metadata");
+
+            if (mediaResourceType != Constants.MediaResourceTypes.Image &&
+                mediaResourceType == Constants.MediaResourceTypes.Video &&
+                mediaResourceType == Constants.MediaResourceTypes.Audio &&
+                mediaResourceType == Constants.MediaResourceTypes.Document)
+            {
+                throw new ArgumentException(string.Format("The specified mediaResourceType '{0}' is not recognised.", mediaResourceType));
+            }
+
+            Id = "mediaresources/";
+            MediaResourceType = mediaResourceType;
+            UploadedOn = uploadedOn;
+            Metadata = metadata;
+
+            if (createdByUser != null) CreatedByUser = createdByUser;
+            if (!string.IsNullOrEmpty(key)) Key = key;
+        }
+
+        #endregion
+
+        #region Methods
+
+        public MediaResource AddMetadata(string key, string value)
+        {
+            if (Metadata.ContainsKey(key))
+            {
+                Metadata[key] = value;
+            }
+            else
+            {
+                Metadata.Add(key, value);
+            }
+
+            return this;
+        }
+
+        public MediaResourceFile AddFile(
+            string storedRepresentation,
+            string uri,
+            int width,
+            int height)
+        {
+            MediaResourceFile file = FileByMediaType(storedRepresentation);
+
+            file.Uri = uri;
+            file.Width = width;
+            file.Height = height;
+
+            if(Files.Keys.Contains(storedRepresentation))
+            {
+                Files.Remove(storedRepresentation);
+            }
+
+            Files.Add(storedRepresentation, file);
+
+            return file;
+        }
+
+        private MediaResourceFile FileByMediaType(string mediaType)
+        {
+            switch (mediaType.ToLower())
+            {
+                case "image":
+                    return new OriginalImageMediaResourceFile();
+                case "video":
+                    return new OriginalVideoMediaResourceFile();
+                case "audio":
+                    return new OriginalAudioMediaResourceFile();
+                default:
+                    return new DerivedMediaResourceFile();
+            }
+        }
+
+        #endregion
+    }
+
+    /*
     public class MediaResource : DynamicObject
     {
         #region Members
@@ -290,4 +416,5 @@ namespace Bowerbird.Core.DomainModels
 
         #endregion
     }
+    */
 }
