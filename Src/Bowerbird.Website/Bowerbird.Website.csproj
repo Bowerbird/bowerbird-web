@@ -314,7 +314,6 @@
     <Content Include="js\libs\jquery.visualize\jquery.visualize.js" />
     <Content Include="js\libs\jquery.jsonp\jquery.jsonp.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />
-    <None Include="js\libs\jquery.signalr\jquery.signalr.js.OLD" />
     <Content Include="js\libs\jquery.tag-it\jquery.tag-it.js" />
     <Content Include="js\libs\jquery.timeago\jquery.timeago.js" />
     <Content Include="js\libs\jquery.tipsy\jquery.tipsy.js" />

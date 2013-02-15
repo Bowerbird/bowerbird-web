@@ -221,7 +221,7 @@ namespace Bowerbird.Core.Queries
 
                         if (x.Type == "sightingadded")
                         {
-                            var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && (y.ParentContributionType == "observation" || y.ParentContributionType == "record"));
+                            var result = contributions.FirstOrDefault(y => y.ParentContributionId == x.ContributionId && (y.ParentContributionType == "observation" || y.ParentContributionType == "record") && y.SubContributionType == null);
 
                             if (result == null)
                             {

@@ -65,7 +65,7 @@ namespace Bowerbird.Web.Services
 
             var appRoot = _documentSession.Load<AppRoot>(Constants.AppRootId);
 
-            if (appRoot.EmailServiceStatus)
+            if (appRoot != null && appRoot.EmailServiceStatus)
             {
                 smtpClient.SendAsync(mailMessage, null);
             }
