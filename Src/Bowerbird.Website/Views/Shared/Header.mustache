@@ -11,8 +11,23 @@
         </p>
         <a href="/account/register" class="button">Join BowerBird</a>
       </div>
-      <div class="feature-image">
+      <!--<div class="feature-image">
         <img src="/img/spider.jpg" alt="" />
+      </div>-->
+      <div id="header-carousel">
+        <ul>
+          {{#Model.Sightings.PagedListItems}}
+          <li>
+            <div>
+              <a href="/{{Id}}">
+                {{#PrimaryMedia.MediaResource}}
+                {{>MediaConstrained600}}
+                {{/PrimaryMedia.MediaResource}}
+              </a>
+            </div>
+          </li>
+          {{/Model.Sightings.PagedListItems}}
+        </ul>
       </div>
     </div>
     {{/Model.HomeHeader}}

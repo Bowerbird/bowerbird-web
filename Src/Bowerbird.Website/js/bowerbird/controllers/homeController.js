@@ -7,15 +7,21 @@
 
 // HomeController & HomeRouter
 // ---------------------------
-define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/postcollection', 'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview', 'views/favouritesview'],
-function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityCollection, HomePublicView, HomePrivateView, FavouritesView) {
+define(['jquery', 'underscore', 'backbone', 'app', 'collections/sightingcollection', 'collections/postcollection',
+        'collections/activitycollection', 'views/homepublicview', 'views/homeprivateview',
+        'views/favouritesview', 'views/homegenericview'],
+function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityCollection, HomePublicView,
+    HomePrivateView, FavouritesView, HomeGenericView) {
     var HomeRouter = Backbone.Marionette.AppRouter.extend({
         appRoutes: {
             '': 'showHome',
             'home/sightings*': 'showSightings',
             'home/posts*': 'showPosts',
             'timeline': 'showAllBowerbirdActivity',
-            'favourites': 'showFavourites'
+            'favourites': 'showFavourites',
+            'about': 'showAbout',
+            'terms': 'showTerms',
+            'privacy': 'showPrivacy'
         }
     });
 
@@ -44,7 +50,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
             .done(function (model) {
                 if (app.content.currentView instanceof HomePrivateView) {
                     var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
-                    activityCollection.setPageInfo(model.Activities);                    
+                    activityCollection.setPageInfo(model.Activities);
                     app.content.currentView.showActivity(activityCollection);
                 } else {
                     var homeView;
@@ -65,7 +71,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
                     app.showContentView('', homeView, 'home', function () {
                         if (app.authenticatedUser) {
                             var activityCollection = new ActivityCollection(model.Activities.PagedListItems);
-                            activityCollection.setPageInfo(model.Activities);                            
+                            activityCollection.setPageInfo(model.Activities);
                             homeView.showActivity(activityCollection);
                         }
                     });
@@ -82,7 +88,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
-                        viewType: model.Query.View, 
+                        viewType: model.Query.View,
                         sortBy: model.Query.Sort,
                         category: model.Query.Category,
                         needsId: model.Query.NeedsId,
@@ -162,7 +168,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
             .done(function (model) {
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
-                        id: 'favourites',
+                        subId: 'favourites',
                         page: model.Query.page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
@@ -188,6 +194,39 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
                 app.showContentView('Favourites', favouritesView, 'favourites', function () {
                 });
             });
+    };
+
+    HomeController.showAbout = function () {
+        var options = {};
+        if (app.isPrerenderingView('home')) {
+            options['el'] = '.about';
+        }
+        var homeGenericView = new HomeGenericView(options);
+
+        app.showContentView('About', homeGenericView, 'home', function () {
+        });
+    };
+
+    HomeController.showPrivacy = function () {
+        var options = {};
+        if (app.isPrerenderingView('home')) {
+            options['el'] = '.privacy';
+        }
+        var homeGenericView = new HomeGenericView(options);
+
+        app.showContentView('Privacy', homeGenericView, 'home', function () {
+        });
+    };
+
+    HomeController.showTerms = function () {
+        var options = {};
+        if (app.isPrerenderingView('home')) {
+            options['el'] = '.terms';
+        }
+        var homeGenericView = new HomeGenericView(options);
+
+        app.showContentView('Terms', homeGenericView, 'home', function () {
+        });
     };
 
     app.addInitializer(function () {

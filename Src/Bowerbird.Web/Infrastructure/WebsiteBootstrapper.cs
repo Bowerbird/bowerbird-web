@@ -13,13 +13,9 @@
 */
 
 using Microsoft.AspNet.SignalR;
-using Microsoft.Practices.ServiceLocation;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Bowerbird.Core.Config;
 using Nustache.Mvc;
-using Raven.Client.MvcIntegration;
-using Raven.Client;
 
 [assembly: WebActivator.PostApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.WebsiteBootstrapper), "PostStart", Order = 2)]
 
@@ -36,10 +32,6 @@ namespace Bowerbird.Web.Infrastructure
             RouteTable.Routes.MapHubs(new HubConfiguration {EnableJavaScriptProxies = false});
 
             RouteRegistrar.RegisterRoutesTo(RouteTable.Routes);
-
-            ServiceLocator.Current.GetInstance<ISystemStateManager>().SetupSystem(true);
-
-            //RavenProfiler.InitializeFor(ServiceLocator.Current.GetInstance<IDocumentStore>());
         }
     }
 }

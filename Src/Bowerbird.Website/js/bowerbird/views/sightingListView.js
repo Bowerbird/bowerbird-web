@@ -50,8 +50,9 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         serializeData: function () {
             return {
                 Model: {
+                    IsFavourites: this.collection.subId === 'favourites',
                     Query: {
-                        Id: this.collection.subId,
+                        Id: this.collection.subId === 'favourites' ? null : this.collection.subId,
                         Page: this.collection.pageSize,
                         PageSize: this.collection.page,
                         View: this.collection.viewType,

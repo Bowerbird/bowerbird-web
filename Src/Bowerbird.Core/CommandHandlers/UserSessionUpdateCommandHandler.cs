@@ -63,6 +63,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.UpdateSessionLatestActivity(command.ConnectionId, command.LatestHeartbeat, command.LatestActivity);
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion

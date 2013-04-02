@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Bowerbird.Core.CommandHandlers;
@@ -6,27 +6,24 @@ using Bowerbird.Core.Commands;
 using Bowerbird.Core.EventHandlers;
 using Bowerbird.Core.Events;
 using Bowerbird.Core.Infrastructure;
-using Microsoft.Practices.ServiceLocation;
+using Ninject;
 using ReflectionMagic;
 
 namespace Bowerbird.Web.Infrastructure
 {
     public class MessageBus : IMessageBus
     {
-        private readonly IServiceLocator _serviceLocator;
-        //private readonly ILoggingService _loggingService;
+        private readonly IKernel _ninjectKernel;
 
         public MessageBus(
-            IServiceLocator serviceLocator)
-            //ILoggingService loggingService)
+            IKernel ninjectKernel)
         {
-            _serviceLocator = serviceLocator;
-            //_loggingService = loggingService;
+            _ninjectKernel = ninjectKernel;
         }
 
         public void Send<T>(T command) where T : ICommand
         {
-            var handler = _serviceLocator.GetAllInstances<ICommandHandler<T>>();
+            var handler = _ninjectKernel.GetAll<ICommandHandler<T>>();
 
             if (handler == null || !handler.Any())
             {
@@ -38,13 +35,31 @@ namespace Bowerbird.Web.Infrastructure
                 throw new MultipleCommandHandlersFoundException(typeof(T));
             }
 
-            //_loggingService.Debug(string.Format("Sending Command: {0}", command.GetType().Name));
+            Debug.WriteLine(string.Format("Calling commandhandler synchronously: {0}", handler.GetType().Name));
             handler.First().Handle(command);
+        }
+
+        public TResult Send<TCommand, TResult>(TCommand command) where TCommand : ICommand
+        {
+            var handler = _ninjectKernel.GetAll<ICommandHandler<TCommand, TResult>>();
+
+            if (handler == null || !handler.Any())
+            {
+                throw new CommandHandlerNotFoundException(typeof(TCommand));
+            }
+
+            if (handler.Count() != 1)
+            {
+                throw new MultipleCommandHandlersFoundException(typeof(TCommand));
+            }
+
+            Debug.WriteLine(string.Format("Calling commandhandler synchronously: {0}", handler.GetType().Name));
+            return handler.First().HandleReturn(command);
         }
 
         public void SendAsync<T>(T command) where T : ICommand
         {
-            var handler = _serviceLocator.GetAllInstances<ICommandHandler<T>>();
+            var handler = _ninjectKernel.GetAll<ICommandHandler<T>>();
 
             if (handler == null || !handler.Any())
             {
@@ -56,7 +71,7 @@ namespace Bowerbird.Web.Infrastructure
                 throw new MultipleCommandHandlersFoundException(typeof(T));
             }
 
-            //_loggingService.Debug(string.Format("Sending Async Command: {0}", command.GetType().Name));
+            Debug.WriteLine(string.Format("Calling commandhandler asynchronously: {0}", handler.GetType().Name));
             Task.Factory.StartNew(state =>
                 {
                     //using (IActivationBlock activation = kernel.BeginBlock())
@@ -71,12 +86,11 @@ namespace Bowerbird.Web.Infrastructure
         {
             var type = typeof(IEventHandler<>).MakeGenericType(domainEvent.GetType());
 
-            var handlers = _serviceLocator.GetAllInstances(type);
-            //var handlers = _serviceLocator.GetAllInstances<IEventHandler<T>>();
+            var handlers = _ninjectKernel.GetAll(type);
 
             foreach (var handler in handlers)
             {
-                //_loggingService.Debug(string.Format("Publishing Event: {0}", @event.GetType()));
+                Debug.WriteLine(string.Format("Calling eventhandler synchronously: {0}", handler.GetType().Name));
                 handler.AsDynamic().Handle(domainEvent);
             }
         }
@@ -85,13 +99,13 @@ namespace Bowerbird.Web.Infrastructure
         {
             var type = typeof(IEventHandler<>).MakeGenericType(domainEvent.GetType());
 
-            var handlers = _serviceLocator.GetAllInstances(type);
+            var handlers = _ninjectKernel.GetAll(type);
 
             foreach (var handler in handlers)
             {
                 var asyncHandler = handler;
 
-                //_loggingService.Debug(string.Format("Publishing Async Event: {0}", @event.GetType().Name));
+                Debug.WriteLine(string.Format("Calling eventhandler asynchronously: {0}", handler.GetType().Name));
                 Task.Factory.StartNew(state => asyncHandler.AsDynamic().Handle(domainEvent), domainEvent.GetType().Name, TaskCreationOptions.LongRunning);
             }
         }

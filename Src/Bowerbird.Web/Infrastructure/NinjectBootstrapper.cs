@@ -13,13 +13,12 @@
 */
 
 using System;
+using Bowerbird.Core.Config;
 using Microsoft.AspNet.SignalR;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
-using Microsoft.Practices.ServiceLocation;
 using System.Web;
-using NinjectAdapter;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.NinjectBootstrapper), "PreStart", Order = 1)]
 [assembly: WebActivator.PreApplicationStartMethod(typeof(Bowerbird.Web.Infrastructure.NinjectBootstrapper), "PostStart", Order = 1)]
@@ -40,9 +39,9 @@ namespace Bowerbird.Web.Infrastructure
 
         public static void PostStart()
         {
-            ServiceLocator.SetLocatorProvider(() => new NinjectServiceLocator(_ninjectBootstrapper.Kernel));
-
             GlobalHost.DependencyResolver = new SignalrNinjectDependencyResolver(_ninjectBootstrapper.Kernel);
+
+            _ninjectBootstrapper.Kernel.Get<ISystemStateManager>().SetupSystem();
         }
 
         public static void Stop()

@@ -80,8 +80,16 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult PublicIndex()
         {
+            var sightingQueryInput = new SightingsQueryInput
+                {
+                    Sort = "popular",
+                    Page = 1,
+                    PageSize = 20
+                };
+
             dynamic viewModel = new ExpandoObject();
             viewModel.HomeHeader = true;
+            viewModel.Sightings = viewModel.Sightings = _sightingViewModelQuery.BuildSightingList(sightingQueryInput);
             
             return RestfulResult(
                 viewModel,
@@ -155,7 +163,8 @@ namespace Bowerbird.Web.Controllers
                 (queryInput.Sort.ToLower() != "newest" &&
                 queryInput.Sort.ToLower() != "oldest" &&
                 queryInput.Sort.ToLower() != "a-z" && 
-                queryInput.Sort.ToLower() != "z-a"))
+                queryInput.Sort.ToLower() != "z-a") &&
+                queryInput.Sort.ToLower() != "popular")
             {
                 queryInput.Sort = "newest";
             }
@@ -333,6 +342,7 @@ namespace Bowerbird.Web.Controllers
             viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
             viewModel.Sightings = _sightingViewModelQuery.BuildGroupSightingList(userResult.User.UserProject.Id, queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
+            viewModel.IsFavourites = true;
             viewModel.Query = new
             {
                 queryInput.Page,
@@ -348,7 +358,6 @@ namespace Bowerbird.Web.Controllers
                 IsDetailsView = queryInput.View == "details",
                 IsMapView = queryInput.View == "map"
             };
-            viewModel.ShowUserWelcome = userResult.User.CallsToAction.Contains("user-welcome");
             viewModel.ShowSightings = true;
             viewModel.FieldSelectList = new[]
                 {
@@ -395,22 +404,9 @@ namespace Bowerbird.Web.Controllers
         #region Static Content Methods
 
         [HttpGet]
-        public ActionResult Blog()
-        {
-            dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
-
-            return RestfulResult(
-                viewModel,
-                "home",
-                "blog");
-        }
-
-        [HttpGet]
         public ActionResult Privacy()
         {
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
 
             return RestfulResult(
                 viewModel,
@@ -422,7 +418,6 @@ namespace Bowerbird.Web.Controllers
         public ActionResult Terms()
         {
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
 
             return RestfulResult(
                 viewModel,
@@ -434,36 +429,11 @@ namespace Bowerbird.Web.Controllers
         public ActionResult About()
         {
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
 
             return RestfulResult(
                 viewModel,
                 "home",
                 "about");
-        }
-
-        [HttpGet]
-        public ActionResult Resources()
-        {
-            dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
-
-            return RestfulResult(
-                viewModel,
-                "home",
-                "resources");
-        }
-
-        [HttpGet]
-        public ActionResult Developer()
-        {
-            dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
-
-            return RestfulResult(
-                viewModel,
-                "home",
-                "developer");
         }
 
         #endregion

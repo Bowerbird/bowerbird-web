@@ -149,7 +149,7 @@ namespace Bowerbird.Web.Services
             metadata.Add("VideoId", videoId);
             metadata.Add("Description", (string)data["entry"]["media$group"]["media$description"]["$t"]);
             metadata.Add("Duration", (string)data["entry"]["media$group"]["yt$duration"]["seconds"]);
-            metadata.Add("Created", ((DateTime)data["entry"]["media$group"]["yt$uploaded"]["$t"]).ToString(Constants.ISO8601DateTimeFormat));
+            metadata.Add("Created", ((string)data["entry"]["media$group"]["yt$uploaded"]["$t"]));
 
             return metadata;
         }

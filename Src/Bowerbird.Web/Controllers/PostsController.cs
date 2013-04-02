@@ -168,7 +168,6 @@ namespace Bowerbird.Web.Controllers
                 "delete");
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult Create(PostUpdateInput createInput)
@@ -210,7 +209,6 @@ namespace Bowerbird.Web.Controllers
                 "create");
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult Update(PostUpdateInput updateInput)
@@ -254,7 +252,6 @@ namespace Bowerbird.Web.Controllers
                 "update");
         }
 
-        [Transaction]
         [HttpDelete]
         [Authorize]
         public ActionResult Delete(string id)

@@ -62,6 +62,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.RemoveSession(command.Connectionid);
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion

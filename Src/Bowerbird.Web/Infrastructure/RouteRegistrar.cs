@@ -116,6 +116,24 @@ namespace Bowerbird.Web.Infrastructure
                 new { httpMethod = new HttpMethodConstraint("GET") });
 
             routes.MapRoute(
+                "home-about",
+                "about",
+                new { controller = "home", action = "about" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "home-privacy",
+                "privacy",
+                new { controller = "home", action = "privacy" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
+                "home-terms",
+                "terms",
+                new { controller = "home", action = "terms" },
+                new { httpMethod = new HttpMethodConstraint("GET") });
+
+            routes.MapRoute(
                 "home-sightings",
                 "home/sightings",
                 new { controller = "home", action = "sightings" },

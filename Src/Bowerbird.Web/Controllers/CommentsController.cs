@@ -55,7 +55,6 @@ namespace Bowerbird.Web.Controllers
 
         #region Methods
 
-        [Transaction]
         [Authorize]
         [HttpPost]
         public ActionResult Create(CommentUpdateInput createInput)
@@ -88,7 +87,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [Authorize]
         [HttpPut]
         public ActionResult Update(CommentUpdateInput updateInput)
@@ -121,7 +119,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [Authorize]
         [HttpDelete]
         public ActionResult Delete(string id)

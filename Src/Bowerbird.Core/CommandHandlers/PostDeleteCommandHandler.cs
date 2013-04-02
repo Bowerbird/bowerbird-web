@@ -49,8 +49,8 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Post>(command.Id));
-            _documentSession.SaveChanges();
+            //_documentSession.Delete(_documentSession.Load<Post>(command.Id));
+            //_documentSession.SaveChanges();
         }
 
         #endregion

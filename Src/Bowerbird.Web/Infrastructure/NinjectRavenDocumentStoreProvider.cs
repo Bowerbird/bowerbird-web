@@ -21,7 +21,6 @@ using Ninject.Activation;
 using Raven.Client.Extensions;
 using Raven.Client.Indexes;
 using Bowerbird.Core.Indexes;
-using Raven.Imports.Newtonsoft.Json;
 using Bowerbird.Core.Config;
 
 namespace Bowerbird.Web.Infrastructure
@@ -83,10 +82,10 @@ namespace Bowerbird.Web.Infrastructure
 
             // Set type name handling to avoid Raven serialising type info into Activity documents. We load Activities straight out of the 
             // db and send the to the UI. They need to be clean from the outset. 
-            documentStore.Conventions.CustomizeJsonSerializer = serializer =>
-            {
-                serializer.TypeNameHandling = TypeNameHandling.None;
-            };
+            //documentStore.Conventions.CustomizeJsonSerializer = serializer =>
+            //{
+            //    serializer.TypeNameHandling = TypeNameHandling.None;
+            //};
 
             documentStore.RegisterListener(_ravenDocumentStoreListener);
 

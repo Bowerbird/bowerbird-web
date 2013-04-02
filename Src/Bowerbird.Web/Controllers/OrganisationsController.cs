@@ -397,7 +397,6 @@ namespace Bowerbird.Web.Controllers
                 "delete");
         }
 
-        [Transaction]
         [Authorize]
         [HttpPost]
         public ActionResult UpdateMember(string id)
@@ -426,7 +425,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [Authorize]
         [HttpDelete]
         public ActionResult DeleteMember(string id)
@@ -460,7 +458,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult Create(OrganisationUpdateInput createInput)
@@ -493,7 +490,6 @@ namespace Bowerbird.Web.Controllers
                 "create");
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult Update(OrganisationUpdateInput updateInput)
@@ -539,7 +535,6 @@ namespace Bowerbird.Web.Controllers
                 "update");
         }
 
-        [Transaction]
         [HttpDelete]
         [Authorize]
         public ActionResult Delete(string id)

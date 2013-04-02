@@ -9,7 +9,7 @@
 // ----------
 
 // The app's header
-define(['jquery', 'underscore', 'backbone', 'app'],
+define(['jquery', 'underscore', 'backbone', 'app', 'carousel'],
 function ($, _, Backbone, app) {
 
     var HeaderView = Backbone.Marionette.ItemView.extend({
@@ -23,7 +23,8 @@ function ($, _, Backbone, app) {
             'click .sub-menu .change-password-button': 'selectMenuItem',
             'click .sub-menu .account-update-button': 'selectMenuItem',
             'click .login-button': 'selectMenuItem',
-            'click .register-button': 'selectMenuItem'
+            'click .register-button': 'selectMenuItem',
+            'click .banner a': 'selectMenuItem'
         },
 
         initialize: function (options) {
@@ -55,6 +56,67 @@ function ($, _, Backbone, app) {
         },
 
         _showDetails: function () {
+            var dur = 1000;
+            var pDur = 3000;
+            var that = this;
+
+            this.carousel = this.$el.find('#header-carousel ul').carouFredSel({
+                width: "50%",
+                height: '27em',
+                items: {
+                    visible: 1,
+                    width: '640px',
+                    height: '480px'
+                },
+                direction: "up",
+                auto: {
+                    fx: 'fade',
+                    easing: 'linear',
+                    duration: dur,
+                    timeoutDuration: pDur,
+                    onBefore: function (data) {
+                        that.animate(data.items.visible, pDur + (dur * 3));
+                    },
+                    onAfter: function (data) {
+                        data.items.old.find('img').stop().css({
+                            width: 640,
+                            height: 480,
+                            marginTop: 0,
+                            marginLeft: 0
+                        });
+                    }
+                },
+
+                onCreate: function (data) {
+                    that.animate(data.items, pDur + (dur * 2));
+                }
+            });
+
+            log('dhdhdhdhddh', this.carousel);
+        },
+
+        animate: function (item, dur) {
+            var obj = {
+                width: 800,
+                height: 600
+            };
+            switch (Math.ceil(Math.random() * 2)) {
+                case 1:
+                    obj.marginTop = 0;
+                    break;
+                case 2:
+                    obj.marginTop = -120;
+                    break;
+            }
+            switch (Math.ceil(Math.random() * 2)) {
+                case 1:
+                    obj.marginLeft = 0;
+                    break;
+                case 2:
+                    obj.marginLeft = -200;
+                    break;
+            }
+            item.find('img').animate(obj, dur, 'linear');
         },
 
         showMenu: function (e) {
@@ -68,6 +130,10 @@ function ($, _, Backbone, app) {
             app.vent.trigger('close-sub-menus');
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
+        },
+
+        beforeClose: function () {
+            this.carousel.stop(true);
         }
     });
 
@@ -76,7 +142,7 @@ function ($, _, Backbone, app) {
             // Bootstrap header on initial load from server
             if (app.isPrerendering()) {
                 var headerType = app.isPrerendering('home') && app.authenticatedUser == null ? 'home' : 'default';
-                var headerView = new HeaderView({ el: 'header', headerType: headerType });
+                var headerView = new HeaderView({ el: $('header'), headerType: headerType });
                 app.header.attachView(headerView);
                 headerView.showBootstrappedDetails();
             }

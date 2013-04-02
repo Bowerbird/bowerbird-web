@@ -83,8 +83,9 @@ footer
 {
     background-color: rgb(234, 234, 234);
     box-shadow: 0 1px 1px 0 rgb(168, 168, 168) inset;
+    height: 62px;
+    white-space: nowrap;
     clear: both;
-    height: 200px;
 }
 header > div,
 footer > div
@@ -96,7 +97,7 @@ footer > div
 article
 {
     /*height: 100%;*/
-    margin: 0 auto -200px;
+    margin: 0 auto 0px;
     max-width: 1200px;
     min-height: 100%;
 }
@@ -1321,6 +1322,7 @@ ul.tagit.input-validation-error
     width: 100%;
     display: block;
     margin-top: 15px;
+    outline: none;
 }
 .form .add-media-button ul {
     width: 100%;
@@ -2418,6 +2420,28 @@ header.home-header p {
     margin-top: 24px;
     text-shadow: 0 2px 0 rgb(255, 255, 255);
 }
+header.home-header #header-carousel {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 27em;
+    overflow: hidden;
+    background-color: rgb(119, 119, 119);
+}
+header.home-header #header-carousel li {
+	position: relative;
+    list-style: none;
+    display: block;
+    float: left;
+    width: 100%;
+    height: 27em;
+}
+header.home-header #header-carousel li img {
+    width: auto;
+    height: 100%;
+}
+
+
 header.default-header {
     position: fixed;
     top: 0;
@@ -2451,6 +2475,35 @@ header .user-avatar
     height: 30px;
     vertical-align: top;
     width: 30px;
+}
+footer > div {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4px 0 0 0; 
+}
+footer ul {
+    display: inline-block;
+    list-style: none outside none;
+    margin-left: 20px;
+    margin-top: 14px;
+    vertical-align: top;
+}
+footer li {
+    display: inline-block;
+    margin-right: 23px;
+}
+footer ul a {
+    color: rgb(119, 119, 119);
+    font-size: 0.84em;
+    font-weight: 500;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgb(255, 255, 255);
+}
+footer .ala {
+    display: inline-block;   
+}
+footer img {
+    width: 64px;
 }
 #explore-menu > ul > li
 {
@@ -3580,7 +3633,6 @@ li.chat-message .message-text
     background-color: #fff;
     border-radius: 4px;
     display: block;
-    height: 13em;
     width: 100%;
     border-radius: 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
@@ -3622,7 +3674,6 @@ li.chat-message .message-text
 {
     display: block;
     height: 100%;
-    width: 100%;
 }
 .home-public .home-why .carousel .carousel-button
 {
@@ -3631,7 +3682,7 @@ li.chat-message .message-text
     height: 100%;
     position: absolute;
     background-color: silver;
-    opacity: 0.2;
+    opacity: 0;
     cursor: pointer;
     
     -webkit-transition: opacity 1s ease;
@@ -3735,7 +3786,7 @@ li.chat-message .message-text
 .home-public .home-how .carousel
 {
     display: block;
-    height: 77px;
+    height: 92px;
     overflow: hidden;
     position: relative;
     width: auto;
@@ -3747,7 +3798,7 @@ li.chat-message .message-text
 .home-public .home-how .carousel li {
     display: block;
     float: left;
-    height: 79px;
+    height: 92px;
     list-style: none outside none;
     padding: 7px;
     width: 114px;
@@ -3758,7 +3809,10 @@ li.chat-message .message-text
     border-radius: 4px;
     box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
     width: 104px;
-    height: 69px;
+    height: 78px;
+}
+.home-public .home-how .carousel li img {
+    border-radius: 4px;
 }
 .home-public .home-how .button {
     display: inline-block;
@@ -3770,11 +3824,86 @@ li.chat-message .message-text
     padding: 5px 30px;
 }
 
-
-
-
-
-
+.about .details,
+.terms .details,
+.privacy .details
+{
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
+    padding: 1em;
+}
+.about .details p,
+.about .details li,
+.terms .details p,
+.terms .details li,
+.privacy .details p,
+.privacy .details li
+{
+    color: rgb(34, 34, 34);
+    font-size: 0.9em;
+    line-height: 1.5em;
+}
+.about .details p,
+.terms .details p,
+.privacy .details p
+{
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.about .details h2,
+.terms .details h2,
+.privacy .details h2
+{
+    font-size: 1.2em;
+    line-height: 1.2em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    color: rgb(68, 68, 68);
+}
+.about .details h3,
+.terms .details h3,
+.privacy .details h3
+{
+    font-size: 1em;
+    line-height: 1.2em;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    color: rgb(68, 68, 68);
+}
+.about .details li,
+.terms .details li,
+.privacy .details li
+{
+    margin-left: 2em;
+}
+.about .details a,
+.terms .details a,
+.privacy .details a
+{
+    color: rgb(27, 131, 235);
+}
+.about .details strong,
+.terms .details strong,
+.privacy .details strong
+{
+    color: rgb(34, 34, 34);
+}
+.about .details blockquote {
+    color: rgb(34, 34, 34);
+    font-size: 1.5em;
+    font-style: italic;
+    margin: 1em 6em;
+    text-align: right;
+}
+.about .details blockquote span 
+{
+    color: rgb(119, 119, 119);
+    display: block;
+    font-size: 0.6em;
+    font-style: normal;
+    text-align: right;
+}
 
 .tipsy {
     font-size: 0.68em;
@@ -3897,12 +4026,6 @@ ul.tagit input[type="text"] {
     border: none;
     box-shadow: none;
 }
-
-/* HC Added for Static Content from footer links */
-div.bowerbird-static-content { }
-#footer { width: 100%; overflow: hidden; }
-#footer ul { list-style: none; position: relative; float: left; display: block; left: 50%; }
-#footer ul li { position: relative; float: left; display: block; right: 50%; }
 
 /***** Chart styles *****/
 /*plugin styles*/

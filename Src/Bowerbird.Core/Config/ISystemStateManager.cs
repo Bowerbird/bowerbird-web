@@ -2,7 +2,7 @@
 {
     public interface ISystemStateManager
     {
-        void SetupSystem(bool setupTestData);
+        void SetupSystem();
         void SwitchServicesOff();
         void SwitchServicesOn();
 

@@ -23,7 +23,11 @@ function ($, _, Backbone, PaginatedCollection, Sighting, moment) {
             PaginatedCollection.prototype.initialize.apply(this, arguments);
 
             if (options.subId) {
-                this.baseUrl = '/' + options.subId + '/sightings';
+                if (options.subId === 'favourites') {
+                    this.baseUrl = '/favourites';
+                } else {
+                    this.baseUrl = '/' + options.subId + '/sightings';
+                }
                 this.subId = options.subId;
             }
 

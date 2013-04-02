@@ -357,6 +357,7 @@ function ($, _, Backbone, app, MediaResource, ObservationMediaItemFormView, Vide
                 });
 
                 that.model.addMedia(upload.get('mediaResource'), '', app.authenticatedUser.defaultLicence);
+
             }), 1000);
         },
 

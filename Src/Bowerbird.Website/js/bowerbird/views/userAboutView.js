@@ -13,7 +13,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'visualize'], function ($, _,
     var ProjectAboutView = Backbone.Marionette.ItemView.extend({
         //className: 'project-about',
 
-        template: 'ProjectAbout',
+        template: 'UserAbout',
 
         initialize: function (options) {
             _.bindAll(this, 'refresh');

@@ -215,8 +215,9 @@ namespace Bowerbird.Core.Queries
                 case "z-a":
                     query = query.AddOrder(x => x.SightingSortTitle, true);
                     break;
-                //case "popular": // Most popular
-                // break;
+                case "popular":
+                    query = query.AddOrder(x => x.SightingVoteCount, true);
+                    break;
                 //case "active": // Having most activity
                 // break;
                 //case "needsid": // Needs an identification

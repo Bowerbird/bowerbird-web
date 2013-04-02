@@ -55,36 +55,32 @@ namespace Bowerbird.Core.DomainModelFactories
 
         public MediaResource MakeDefaultAvatarImage(AvatarDefaultType avatarType)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, null, DateTime.UtcNow, Guid.NewGuid().ToString(), new Dictionary<string, string>());
+            var mediaResource = new ImageMediaResource(Constants.MediaResourceTypes.Image, null, DateTime.UtcNow, Guid.NewGuid().ToString(), null);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
             string avatarTypeName = avatarType.ToString().ToLower();
             string uriFormat = "/img/{0}-Square{1}.jpg";
  
-            dynamic original = mediaResource.AddFile("Original", string.Format(uriFormat, avatarTypeName, 400), 400, 400);
-            original.MimeType = Constants.ImageMimeTypes.Jpeg;
-
-            mediaResource.AddFile("Square50", string.Format(uriFormat, avatarTypeName, 100), 100, 100);
-            mediaResource.AddFile("Square100", string.Format(uriFormat, avatarTypeName, 200), 200, 200);
-            mediaResource.AddFile("Square200", string.Format(uriFormat, avatarTypeName, 400), 400, 400);
+            mediaResource.Image.Original = MakeOriginalImageFile(Constants.ImageMimeTypes.Jpeg, string.Format(uriFormat, avatarTypeName, 400), 400, 400, null, null, null);
+            mediaResource.Image.Square50 = MakeDerivedMediaResourceFile(string.Format(uriFormat, avatarTypeName, 100), 100, 100);
+            mediaResource.Image.Square100 = MakeDerivedMediaResourceFile(string.Format(uriFormat, avatarTypeName, 200), 200, 200);
+            mediaResource.Image.Square200 = MakeDerivedMediaResourceFile(string.Format(uriFormat, avatarTypeName, 400), 400, 400);
 
             return mediaResource;
         }
 
         public MediaResource MakeDefaultBackgroundImage(string type)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, null, DateTime.UtcNow, Guid.NewGuid().ToString(), new Dictionary<string, string>());
+            var mediaResource = new ImageMediaResource(Constants.MediaResourceTypes.Image, null, DateTime.UtcNow, Guid.NewGuid().ToString(), null);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
             string uriFormat = "/img/{0}-background-{1}.png";
 
-            dynamic original = mediaResource.AddFile("Original", string.Format(uriFormat, type, "large"), 1024, 200);
-            original.MimeType = Constants.ImageMimeTypes.Png;
-
-            mediaResource.AddFile("Small", string.Format(uriFormat, type, "small"), 512, 100);
-            mediaResource.AddFile("Large", string.Format(uriFormat, type, "large"), 1024, 200);
+            mediaResource.Image.Original = MakeOriginalImageFile(Constants.ImageMimeTypes.Png, string.Format(uriFormat, type, "large"), 1024, 200, null, null, null);
+            mediaResource.Image.Small = MakeDerivedMediaResourceFile(string.Format(uriFormat, type, "small"), 512, 100);
+            mediaResource.Image.Large = MakeDerivedMediaResourceFile(string.Format(uriFormat, type, "large"), 1024, 200);
 
             return mediaResource;
         }
@@ -98,16 +94,14 @@ namespace Bowerbird.Core.DomainModelFactories
             string originalImageMimeType,
             List<ImageCreationTask> imageCreationTasks)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, new Dictionary<string, string>());
+            var mediaResource = new ImageMediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, null);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
-            dynamic original = AddImageFile(mediaResource, "Original", originalImageMimeType, originalImageDimensions, null, imageCreationTasks);
-            original.MimeType = originalImageMimeType;
-
-            AddImageFile(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(100), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(200), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(400), ImageResizeMode.Crop, imageCreationTasks);
+            mediaResource.Image.Original = MakeOriginalImageFile(originalImageMimeType, MakeUri(mediaResource, "Original", originalImageMimeType), originalImageDimensions.Width, originalImageDimensions.Height, null, originalFileName, null);
+            mediaResource.Image.Square50 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(100).Width, ImageDimensions.MakeSquare(100).Height, imageCreationTasks, "Square50", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Square100 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(200).Width, ImageDimensions.MakeSquare(200).Height, imageCreationTasks, "Square100", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Square200 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(400).Width, ImageDimensions.MakeSquare(400).Height, imageCreationTasks, "Square200", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
 
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
@@ -124,15 +118,13 @@ namespace Bowerbird.Core.DomainModelFactories
             string originalImageMimeType,
             List<ImageCreationTask> imageCreationTasks)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, new Dictionary<string, string>());
+            var mediaResource = new ImageMediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, null);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
-            dynamic original = AddImageFile(mediaResource, "Original", originalImageMimeType, originalImageDimensions, null, imageCreationTasks);
-            original.MimeType = originalImageMimeType;
-
-            AddImageFile(mediaResource, "Small", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(512, 100), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Large", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(1024, 200), ImageResizeMode.Crop, imageCreationTasks);
+            mediaResource.Image.Original = MakeOriginalImageFile(originalImageMimeType, MakeUri(mediaResource, "Original", originalImageMimeType), originalImageDimensions.Width, originalImageDimensions.Height, null, originalFileName, null);
+            mediaResource.Image.Small = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Small", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeRectangle(512, 100).Width, ImageDimensions.MakeRectangle(512, 100).Height, imageCreationTasks, "Small", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Large = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Large", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeRectangle(1024, 200).Width, ImageDimensions.MakeRectangle(1024, 200).Height, imageCreationTasks, "Large", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
 
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
@@ -152,25 +144,20 @@ namespace Bowerbird.Core.DomainModelFactories
             Dictionary<string, string> metadata,
             List<ImageCreationTask> imageCreationTasks)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, metadata);
+            var mediaResource = new ImageMediaResource(Constants.MediaResourceTypes.Image, createdByUser, createdOn, key, metadata);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
-            dynamic original = AddImageFile(mediaResource, "Original", originalImageMimeType, originalImageDimensions, null, imageCreationTasks);
-            original.MimeType = originalImageMimeType;
-            original.Filename = originalFileName;
-            original.Size = originalSize;
-            original.ExifData = originalExifData;
-
-            AddImageFile(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(50), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(100), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(200), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Constrained240", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(320, 240), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Constrained480", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(640, 480), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Constrained600", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeRectangle(800, 600), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Full640", Constants.ImageMimeTypes.Jpeg, originalImageDimensions.ResizeWithTargetDimensions(640, 640), ImageResizeMode.Normal, imageCreationTasks);
-            AddImageFile(mediaResource, "Full800", Constants.ImageMimeTypes.Jpeg, originalImageDimensions.ResizeWithTargetDimensions(800, 800), ImageResizeMode.Normal, imageCreationTasks);
-            AddImageFile(mediaResource, "Full1024", Constants.ImageMimeTypes.Jpeg, originalImageDimensions.ResizeWithTargetDimensions(1024, 1024), ImageResizeMode.Normal, imageCreationTasks);
+            mediaResource.Image.Original = MakeOriginalImageFile(originalImageMimeType, MakeUri(mediaResource, "Original", originalImageMimeType), originalImageDimensions.Width, originalImageDimensions.Height, originalExifData, originalFileName, originalSize);
+            mediaResource.Image.Square50 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(100).Width, ImageDimensions.MakeSquare(100).Height, imageCreationTasks, "Square50", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Square100 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(200).Width, ImageDimensions.MakeSquare(200).Height, imageCreationTasks, "Square100", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Square200 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(400).Width, ImageDimensions.MakeSquare(400).Height, imageCreationTasks, "Square200", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Constrained240 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Constrained240", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeRectangle(320, 240).Width, ImageDimensions.MakeRectangle(320, 240).Height, imageCreationTasks, "Constrained240", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Constrained480 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Constrained480", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeRectangle(640, 480).Width, ImageDimensions.MakeRectangle(640, 480).Height, imageCreationTasks, "Constrained480", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Constrained600 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Constrained600", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeRectangle(800, 600).Width, ImageDimensions.MakeRectangle(800, 600).Height, imageCreationTasks, "Constrained600", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Full640 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Full640", Constants.ImageMimeTypes.Jpeg), originalImageDimensions.ResizeWithTargetDimensions(640, 640).Width, originalImageDimensions.ResizeWithTargetDimensions(640, 640).Height, imageCreationTasks, "Full640", ImageResizeMode.Normal, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Full800 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Full800", Constants.ImageMimeTypes.Jpeg), originalImageDimensions.ResizeWithTargetDimensions(800, 800).Width, originalImageDimensions.ResizeWithTargetDimensions(800, 800).Height, imageCreationTasks, "Full800", ImageResizeMode.Normal, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Image.Full1024 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Full1024", Constants.ImageMimeTypes.Jpeg), originalImageDimensions.ResizeWithTargetDimensions(1024, 1024).Width, originalImageDimensions.ResizeWithTargetDimensions(1024, 1024).Height, imageCreationTasks, "Full1024", ImageResizeMode.Normal, Constants.ImageMimeTypes.Jpeg);
 
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
@@ -193,22 +180,9 @@ namespace Bowerbird.Core.DomainModelFactories
             Dictionary<string, string> metadata,
             List<ImageCreationTask> imageCreationTasks)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Video, createdByUser, createdOn, key, metadata);
+            var mediaResource = new VideoMediaResource(Constants.MediaResourceTypes.Video, createdByUser, createdOn, key, metadata);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
-
-            dynamic originalImage = AddImageFile(mediaResource, "OriginalImage", originalThumbnailMimeType, originalThumbnailDimensions, null, imageCreationTasks);
-            originalImage.MimeType = originalThumbnailMimeType;
-            originalImage.Uri = originalThumbnailUri;
-
-            AddImageFile(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(50), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(100), ImageResizeMode.Crop, imageCreationTasks);
-            AddImageFile(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg, ImageDimensions.MakeSquare(200), ImageResizeMode.Crop, imageCreationTasks);
-
-            dynamic original = mediaResource.AddFile("Original", uri, originalVideoDimensions.Width, originalVideoDimensions.Height);
-            original.ProviderData = provider;
-            original.VideoId = videoId;
-            original.ProviderData = providerData;
 
             var constrained240Dimensions = originalVideoDimensions.ResizeWithTargetDimensions(320, 240);
             var constrained480Dimensions = originalVideoDimensions.ResizeWithTargetDimensions(640, 480);
@@ -217,12 +191,17 @@ namespace Bowerbird.Core.DomainModelFactories
             var full800Dimensions = originalVideoDimensions.ResizeWithTargetDimensions(800, 800);
             var full1024Dimensions = originalVideoDimensions.ResizeWithTargetDimensions(1024, 1024);
 
-            mediaResource.AddFile("Constrained240", uri, constrained240Dimensions.Width, constrained240Dimensions.Height);
-            mediaResource.AddFile("Constrained480", uri, constrained480Dimensions.Width, constrained480Dimensions.Height);
-            mediaResource.AddFile("Constrained600", uri, constrained600Dimensions.Width, constrained600Dimensions.Height);
-            mediaResource.AddFile("Full640", uri, full640Dimensions.Width, full640Dimensions.Height);
-            mediaResource.AddFile("Full800", uri, full800Dimensions.Width, full800Dimensions.Height);
-            mediaResource.AddFile("Full1024", uri, full1024Dimensions.Width, full1024Dimensions.Height);
+            mediaResource.Video.Original = MakeOriginalVideoFile(provider, videoId, providerData, originalVideoDimensions.Width, originalVideoDimensions.Height, uri);
+            mediaResource.Video.OriginalImage = MakeOriginalImageFile(originalThumbnailMimeType, originalThumbnailUri, originalThumbnailDimensions.Width, originalThumbnailDimensions.Height, null, null, null);
+            mediaResource.Video.Square50 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square50", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(100).Width, ImageDimensions.MakeSquare(100).Height, imageCreationTasks, "Square50", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Square100 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square100", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(200).Width, ImageDimensions.MakeSquare(200).Height, imageCreationTasks, "Square100", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Square200 = MakeDerivedMediaResourceFile(MakeUri(mediaResource, "Square200", Constants.ImageMimeTypes.Jpeg), ImageDimensions.MakeSquare(400).Width, ImageDimensions.MakeSquare(400).Height, imageCreationTasks, "Square200", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Constrained240 = MakeDerivedMediaResourceFile(uri, constrained240Dimensions.Width, constrained240Dimensions.Height, imageCreationTasks, "Constrained240", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Constrained480 = MakeDerivedMediaResourceFile(uri, constrained480Dimensions.Width, constrained480Dimensions.Height, imageCreationTasks, "Constrained480", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Constrained600 = MakeDerivedMediaResourceFile(uri, constrained600Dimensions.Width, constrained600Dimensions.Height, imageCreationTasks, "Constrained600", ImageResizeMode.Crop, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Full640 = MakeDerivedMediaResourceFile(uri, full640Dimensions.Width, full640Dimensions.Height, imageCreationTasks, "Full640", ImageResizeMode.Normal, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Full800 = MakeDerivedMediaResourceFile(uri, full800Dimensions.Width, full800Dimensions.Height, imageCreationTasks, "Full800", ImageResizeMode.Normal, Constants.ImageMimeTypes.Jpeg);
+            mediaResource.Video.Full1024 = MakeDerivedMediaResourceFile(uri, full1024Dimensions.Width, full1024Dimensions.Height, imageCreationTasks, "Full1024", ImageResizeMode.Normal, Constants.ImageMimeTypes.Jpeg);
 
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
@@ -239,26 +218,23 @@ namespace Bowerbird.Core.DomainModelFactories
             string standardMimeType,
             Dictionary<string, string> metadata)
         {
-            var mediaResource = new MediaResource(Constants.MediaResourceTypes.Audio, createdByUser, createdOn, key, metadata);
+            var mediaResource = new AudioMediaResource(Constants.MediaResourceTypes.Audio, createdByUser, createdOn, key, metadata);
             _documentSession.Store(mediaResource);
             _documentSession.SaveChanges();
 
             var avatarUri = @"/img/audio-avatar.png";
-
             var audioFileUri = _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, "Original", MediaTypeUtility.GetStandardExtensionForMimeType(standardMimeType));
 
-            dynamic original = mediaResource.AddFile("Original", audioFileUri, 400, 400);
-            original.MimeType = Constants.ImageMimeTypes.Png;
-
-            mediaResource.AddFile("Square50", avatarUri, 50, 50);
-            mediaResource.AddFile("Square100", avatarUri, 100, 100);
-            mediaResource.AddFile("Square200", avatarUri, 200, 200);
-            mediaResource.AddFile("Constrained240", audioFileUri, 320, 240);
-            mediaResource.AddFile("Constrained480", audioFileUri, 640, 480);
-            mediaResource.AddFile("Constrained600", audioFileUri, 800, 600);
-            mediaResource.AddFile("Full640", audioFileUri, 640, 480);
-            mediaResource.AddFile("Full800", audioFileUri, 800, 600);
-            mediaResource.AddFile("Full1024", audioFileUri, 1024, 768);
+            mediaResource.Audio.Original = MakeOriginalAudioFile(standardMimeType);
+            mediaResource.Audio.Square50 = MakeDerivedMediaResourceFile(avatarUri, ImageDimensions.MakeSquare(100).Width, ImageDimensions.MakeSquare(100).Height);
+            mediaResource.Audio.Square100 = MakeDerivedMediaResourceFile(avatarUri, ImageDimensions.MakeSquare(200).Width, ImageDimensions.MakeSquare(200).Height);
+            mediaResource.Audio.Square200 = MakeDerivedMediaResourceFile(avatarUri, ImageDimensions.MakeSquare(400).Width, ImageDimensions.MakeSquare(400).Height);
+            mediaResource.Audio.Constrained240 = MakeDerivedMediaResourceFile(audioFileUri, 100, 100);
+            mediaResource.Audio.Constrained480 = MakeDerivedMediaResourceFile(audioFileUri, 200, 200);
+            mediaResource.Audio.Constrained600 = MakeDerivedMediaResourceFile(audioFileUri, 400, 400);
+            mediaResource.Audio.Full640 = MakeDerivedMediaResourceFile(audioFileUri, 640, 480);
+            mediaResource.Audio.Full800 = MakeDerivedMediaResourceFile(audioFileUri, 800, 600);
+            mediaResource.Audio.Full1024 = MakeDerivedMediaResourceFile(audioFileUri, 1024, 768);
 
             return mediaResource;
         }
@@ -268,28 +244,87 @@ namespace Bowerbird.Core.DomainModelFactories
             throw new NotImplementedException();
         }
 
-        private MediaResourceFile AddImageFile(
-            MediaResource mediaResource,
-            string storedRepresentation,
-            string mimeType,
-            ImageDimensions imageDimensions,
-            ImageResizeMode? imageResizeMode,
-            List<ImageCreationTask> imageCreationTasks)
+        private string MakeUri(MediaResource mediaResource, string storedRepresentation, string mimeType)
         {
-            var file = mediaResource.AddFile(
-                storedRepresentation,
-                _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, storedRepresentation, MediaTypeUtility.GetStandardExtensionForMimeType(mimeType)),
-                imageDimensions.Width,
-                imageDimensions.Height);
+            return _mediaFilePathFactory.MakeRelativeMediaFileUri(mediaResource.Id, storedRepresentation, MediaTypeUtility.GetStandardExtensionForMimeType(mimeType));
+        }
 
-            imageCreationTasks.Add(new ImageCreationTask
+        public OriginalImageMediaResourceFile MakeOriginalImageFile(
+            string mimeType,
+            string uri,
+            int width,
+            int height,
+            IDictionary<string, object> exifData,
+            string filename,
+            long? size)
+        {
+            return new OriginalImageMediaResourceFile()
             {
-                File = file,
-                StoredRepresentation = storedRepresentation,
-                DetermineBestOrientation = false, 
-                ImageResizeMode = imageResizeMode,
+                MimeType = mimeType,
+                Filename = filename,
+                Width = width,
+                Height = height,
+                ExifData = exifData,
+                Uri = uri,
+                Size = size
+            };
+        }
+
+        public OriginalVideoMediaResourceFile MakeOriginalVideoFile(
+            string provider,
+            string videoId,
+            object providerData,
+            int width,
+            int height,
+            string uri)
+        {
+            return new OriginalVideoMediaResourceFile()
+                {
+                    Provider = provider,
+                    VideoId = videoId,
+                    ProviderData = providerData,
+                    Width = width,
+                    Height = height,
+                    Uri = uri
+                };
+        }
+
+        public OriginalAudioMediaResourceFile MakeOriginalAudioFile(
+            string mimeType)
+        {
+            return new OriginalAudioMediaResourceFile()
+            {
                 MimeType = mimeType
-            });
+            };
+        }
+
+        public DerivedMediaResourceFile MakeDerivedMediaResourceFile(
+            string uri,
+            int width,
+            int height,
+            List<ImageCreationTask> imageCreationTasks = null,
+            string storedRepresentation = null,
+            ImageResizeMode? imageResizeMode = null,
+            string mimeType = null)
+        {
+            var file = new DerivedMediaResourceFile()
+            {
+                Uri = uri,
+                Height = height,
+                Width = width
+            };
+
+            if (imageCreationTasks != null)
+            {
+                imageCreationTasks.Add(new ImageCreationTask
+                    {
+                        File = file,
+                        StoredRepresentation = storedRepresentation,
+                        DetermineBestOrientation = false,
+                        ImageResizeMode = imageResizeMode,
+                        MimeType = mimeType
+                    });
+            }
 
             return file;
         }

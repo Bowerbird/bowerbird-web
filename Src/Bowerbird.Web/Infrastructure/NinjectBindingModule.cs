@@ -14,14 +14,13 @@
  
 */
 
-using System.Web;
+using System.Diagnostics;
 using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
+using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.Services;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Infrastructure;
-using Microsoft.AspNet.SignalR.Json;
-using Microsoft.Practices.ServiceLocation;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Factory;
 using Ninject.Extensions.NamedScope;
@@ -55,21 +54,20 @@ namespace Bowerbird.Web.Infrastructure
             Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
 
             // Request scope
-            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope().OnActivation((x) => System.Diagnostics.Debug.WriteLine("HTTP Request Document Session instantiated."));
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope().OnActivation((x) => Debug.WriteLine("HTTP Request Document Session instantiated."));
 
             // Transient scope
-            Bind<IServiceLocator>().ToMethod(x => ServiceLocator.Current);
             Bind<IConnectionManager>().ToMethod(x => GlobalHost.ConnectionManager);
             Bind<IMediaServiceFactory>().ToFactory();
-            //Bind<IJsonSerializer>().To<SignalrJsonNetSerializer>();
+            Bind<IMessageBus>().ToProvider<NinjectMessageBusProvider>();
 
             // Thread scope
             // HACK: Experimental loading of chat components into new async thread
-            Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatCreateCommandHandler>().OnActivation((x) => System.Diagnostics.Debug.WriteLine("ChatCreateCommandHandler instantiated.")).DefinesNamedScope("ASYNC");
+            Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatCreateCommandHandler>().OnActivation((x) => Debug.WriteLine("ChatCreateCommandHandler instantiated.")).DefinesNamedScope("ASYNC");
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatUpdateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatUpdateCommandHandler>().DefinesNamedScope("ASYNC");
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatDeleteCommand>>().To<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>().DefinesNamedScope("ASYNC");
             Bind<Bowerbird.Core.CommandHandlers.ICommandHandler<Bowerbird.Core.Commands.ChatMessageCreateCommand>>().To<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>().DefinesNamedScope("ASYNC");
-            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().WhenAnyAnchestorNamed("ASYNC").InTransientScope().OnActivation((x) => System.Diagnostics.Debug.WriteLine("Async Document Session instantiated."));
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().WhenAnyAnchestorNamed("ASYNC").InTransientScope().OnActivation((x) => Debug.WriteLine("Async Document Session instantiated."));
 
             //Bind<IEventHandlerFactory>().ToFactory().DefinesNamedScope("ASYNC");
 
@@ -79,7 +77,7 @@ namespace Bowerbird.Web.Infrastructure
                 typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.DomainModelCreatedEvent<Bowerbird.Core.DomainModels.ChatMessage>>),
                 typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.UserJoinedChatEvent>),
                 typeof(Bowerbird.Core.EventHandlers.IEventHandler<Bowerbird.Core.Events.UserExitedChatEvent>))
-                .To<Bowerbird.Core.EventHandlers.ChatUpdated>().OnActivation((x) => System.Diagnostics.Debug.WriteLine("ChatUpdated instantiated.")).DefinesNamedScope("ASYNC");
+                .To<Bowerbird.Core.EventHandlers.ChatUpdated>().OnActivation((x) => Debug.WriteLine("ChatUpdated instantiated.")).DefinesNamedScope("ASYNC");
 
             // Convention based mappings
             Kernel.Bind(x => 
@@ -93,7 +91,7 @@ namespace Bowerbird.Web.Infrastructure
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>()
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>()
                     .Excluding<Bowerbird.Core.EventHandlers.ChatUpdated>()
-                    //.Excluding<SignalrJsonNetSerializer>()
+                    .Excluding<MessageBus>()
                     .BindAllInterfaces();
 
                     //x

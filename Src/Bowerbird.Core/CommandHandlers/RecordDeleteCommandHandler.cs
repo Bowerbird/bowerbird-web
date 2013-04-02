@@ -47,9 +47,9 @@ namespace Bowerbird.Core.CommandHandlers
 
         public void Handle(RecordDeleteCommand command)
         {
-            Check.RequireNotNull(command, "command");
+            //Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Record>(command.Id));
+            //_documentSession.Delete(_documentSession.Load<Record>(command.Id));
         }
 
         #endregion

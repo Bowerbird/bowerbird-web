@@ -4,6 +4,6 @@ namespace Bowerbird.Core.ViewModelFactories
 {
     public interface IMediaResourceViewFactory
     {
-        object Make(dynamic mediaResource);
+        object Make(MediaResource mediaResource);
     }
 }

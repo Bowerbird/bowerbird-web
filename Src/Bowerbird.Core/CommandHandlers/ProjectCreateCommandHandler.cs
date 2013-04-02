@@ -73,15 +73,12 @@ namespace Bowerbird.Core.CommandHandlers
                 DateTime.UtcNow,
                 parentGroup);
             _documentSession.Store(project); // Store project, get a real Id
-
+            
             // Add administrator membership to creating user
             user.UpdateMembership(
                 user,
                 project,
-                _documentSession
-                    .Query<Role>()
-                    .Where(x => x.Id.In("roles/projectadministrator", "roles/projectmember"))
-                    .ToList());
+                _documentSession.Load<Role>(new[] { "roles/projectadministrator", "roles/projectmember" }));
             _documentSession.Store(user);
 
             _documentSession.SaveChanges();

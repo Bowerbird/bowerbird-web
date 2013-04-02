@@ -92,6 +92,7 @@ namespace Bowerbird.Core.CommandHandlers
                         x.IsPrimaryMedia)));
 
             _documentSession.Store(observation);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

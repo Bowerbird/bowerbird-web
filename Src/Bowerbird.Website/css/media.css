@@ -18,6 +18,10 @@
         padding-top: 3.9em;
         position: relative;
     }
+    footer > div {
+        padding-left: 1.2%;
+        padding-right: 1.2%;
+    }
 }
 /* @media screen and (min-width: 480px) */
 @media screen and (min-width: 30em) 
@@ -72,9 +76,10 @@
         padding-top: 3.9em;
         width: 68.4%;
     }
-    footer
+    footer > div
     {
-        clear: both;
+        padding-left: 2.2%;
+        padding-right: 2.2%;
     }
 }
 /* @media screen and (min-width: 768px) */

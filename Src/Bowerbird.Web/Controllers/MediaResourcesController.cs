@@ -67,7 +67,6 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [Transaction]
         [ValidateInput(false)]
         public ActionResult Create(MediaResourceCreateInput mediaResourceCreateInput)
         {

@@ -124,13 +124,10 @@ namespace Bowerbird.Web.Controllers
                 // Add the prerendered view name that will be used by the client side JS to render bootstrapped data
                 ViewBag.Model.PrerenderedView = prerenderedViewName ?? string.Empty;
 
-                //var userContext = ServiceLocator.Current.GetInstance<IUserContext>();
-
-                ViewBag.Model.Ver = ConfigSettings.GetEnvironmentStaticContentIncrement();// System.Configuration.ConfigurationManager.AppSettings["StaticContentIncrement"];
+                ViewBag.Model.Ver = ConfigSettings.GetEnvironmentStaticContentIncrement();
 
                 if (UserContext.IsUserAuthenticated())
                 {
-                    //var userViewModelQuery = ServiceLocator.Current.GetInstance<IUserViewModelQuery>();
                     ViewBag.Model.AuthenticatedUser = UserViewModelQuery.BuildAuthenticatedUser(UserContext.GetAuthenticatedUserId());
                 }
 

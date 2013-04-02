@@ -64,10 +64,10 @@ namespace Bowerbird.Core.CommandHandlers
 
             if (GetMediaService(command).Save(command, createdByUser, out failureReason, out mediaResource))
             {
-                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
-
                 _documentSession.Store(mediaResource);
                 _documentSession.SaveChanges();
+
+                _messageBus.Publish(new DomainModelCreatedEvent<MediaResource>(mediaResource, createdByUser, mediaResource));
             }
             else
             {

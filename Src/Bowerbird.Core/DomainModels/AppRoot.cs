@@ -39,19 +39,17 @@ namespace Bowerbird.Core.DomainModels
         /// Special constructor for setup of inital app root object in RavenDB during system setup
         /// </summary>
         internal AppRoot(
-            DateTime systemSetupDate,
-            IDictionary<string, string> categories)
+            DateTime systemSetupDate)
             : base()
         {
-            Check.RequireNotNull(categories, "categories");
-
             InitMembers();
 
             Id = Constants.AppRootId;
             SystemSetupDate = systemSetupDate;
-            //Categories = categories.Select(x => new Category(x.Key, x.Value));
             base.Name = "Bowerbird";
             base.CreatedDateTime = DateTime.UtcNow;
+
+            PerformSpeciesDataUpdate = true; // Set this to true so that initial species load is performed
         }
 
         #endregion
@@ -81,6 +79,8 @@ namespace Bowerbird.Core.DomainModels
 
         public bool AudioServiceStatus { get; private set; }
 
+        public bool PerformSpeciesDataUpdate { get; private set; }
+
         #endregion
 
         #region Methods
@@ -94,6 +94,14 @@ namespace Bowerbird.Core.DomainModels
             VimeoVideoServiceStatus = false;
             DocumentServiceStatus = false;
             AudioServiceStatus = false;
+
+            PerformSpeciesDataUpdate = false;
+        }
+
+        public AppRoot SetPerformSpeciesDataUpdate(bool performSpeciesDataUpdate)
+        {
+            PerformSpeciesDataUpdate = performSpeciesDataUpdate;
+            return this;
         }
 
         // Special method for setup of inital app root object in RavenDB during system setup

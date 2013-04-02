@@ -13,10 +13,14 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
 
     var HomePublicView = Backbone.Marionette.Layout.extend({
         viewType: 'detail',
-        
+
         className: 'home-public single',
 
         template: 'HomePublicIndex',
+
+        events: {
+            'click .home-how a': 'showItem'
+        },
 
         initialize: function () {
             _.bindAll(this, 'showHowWhyItem');
@@ -34,7 +38,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
         _showDetails: function () {
             var that = this;
 
-            $(".home-why .carousel ul").carouFredSel({
+            this.whyCarousel = $(".home-why .carousel ul").carouFredSel({
                 width: "100%",
                 height: '27em',
                 items: {
@@ -69,7 +73,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
                 swipe: true
             });
 
-            $(".home-how .carousel ul").carouFredSel({
+            this.howCarousel = $(".home-how .carousel ul").carouFredSel({
                 width: '100%',
                 items: {
                     width: 110,
@@ -86,12 +90,24 @@ define(['jquery', 'underscore', 'backbone', 'app', 'carousel', 'touchswipe'], fu
                     pauseOnHover: "immediate"
                 }
             });
+
         },
 
         showHowWhyItem: function (data) {
             this.$el.find('.home-why .current-caption').fadeOut(function () {
                 $(this).empty().html($(data.items['new']).find('.caption').clone()).fadeIn();
             });
+        },
+
+        showItem: function (e) {
+            e.preventDefault();
+            Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
+            return false;
+        },
+
+        beforeClose: function () {
+            this.whyCarousel.stop(true);
+            this.howCarousel.stop(true);
         }
     });
 

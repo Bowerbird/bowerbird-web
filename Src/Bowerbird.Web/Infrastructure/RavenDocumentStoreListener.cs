@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Bowerbird.Core.DesignByContract;
+﻿using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
-using Bowerbird.Core.Services;
-using Microsoft.Practices.ServiceLocation;
 using Raven.Client.Listeners;
 using Raven.Json.Linq;
 

@@ -7,6 +7,8 @@ namespace Bowerbird.Core.Infrastructure
     {
         void Send<T>(T command) where T : ICommand;
 
+        TOutput Send<TInput, TOutput>(TInput command) where TInput : ICommand;
+
         void SendAsync<T>(T command) where T : ICommand;
 
         void Publish<T>(T @event) where T : IDomainEvent;

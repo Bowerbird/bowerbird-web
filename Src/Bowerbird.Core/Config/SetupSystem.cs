@@ -75,8 +75,6 @@ namespace Bowerbird.Core.Config
 
         #region Properties
 
-        private AppRoot TheAppRoot { get; set; }
-
         private List<Permission> Permissions2 { get; set; }
         
         private List<Role> Roles { get; set; }
@@ -91,33 +89,24 @@ namespace Bowerbird.Core.Config
         {
             try
             {
-                Permissions2 = new List<Permission>();
-                Roles = new List<Role>();
-                Users = new List<User>();
+                AppRoot appRoot;
 
-                // Create the AppRoot to be used before the actual app root is created
-                AddAppRoot();
+                using (var documentSession = CreateSession())
+                {
+                    appRoot = documentSession.Load<AppRoot>(Constants.AppRootId);
+                }
 
-                // Wait for indexing to finish so that we have access to AppRoot doc
-                WaitForIndexingToFinish();
+                // Only do setup if AppRoot object doesn't exist yet
+                if (appRoot == null)
+                {
+                    appRoot = AddCoreData();
+                }
 
-                // Add permissions
-                AddPermissions();
-
-                // Add roles
-                AddRoles();
-
-                // Add system admins
-                AddAdminUsers();
-
-                // Wait for indexing to finish so that we have can turn on all services
-                WaitForIndexingToFinish();
-
-                // Enable all services
-                _systemStateManager.SwitchServicesOn();
-
-                // Add species data
-                AddAllSpecies();
+                // Only do species data update if required
+                if (appRoot.PerformSpeciesDataUpdate)
+                {
+                    AddAllSpecies(appRoot);
+                } 
             }
             catch (Exception exception)
             {
@@ -125,6 +114,36 @@ namespace Bowerbird.Core.Config
 
                 throw;
             }
+        }
+
+        private AppRoot AddCoreData()
+        {
+            Permissions2 = new List<Permission>();
+            Roles = new List<Role>();
+            Users = new List<User>();
+
+            // Create the AppRoot to be used before the actual app root is created
+            var appRoot = AddAppRoot();
+
+            // Wait for indexing to finish so that we have access to AppRoot doc
+            WaitForIndexingToFinish();
+
+            // Add permissions
+            AddPermissions();
+
+            // Add roles
+            AddRoles();
+
+            // Add system admins
+            AddAdminUsers(appRoot);
+
+            // Wait for indexing to finish so that we have can turn on all services
+            WaitForIndexingToFinish();
+
+            // Enable all services
+            _systemStateManager.SwitchServicesOn();
+
+            return appRoot;
         }
 
         private void WaitForIndexingToFinish()
@@ -135,29 +154,18 @@ namespace Bowerbird.Core.Config
             }
         }
 
-        private void AddAppRoot()
+        private AppRoot AddAppRoot()
         {
             using (var documentSession = CreateSession())
             {
-                var categories = new Dictionary<string, string>
-                    {
-                        {"Amphibians", "Animalia: Chordata: Amphibia"},
-                        {"Birds", "Animalia: Chordata: Aves"},
-                        {"Fishes", "Animalia: Chordata"},
-                        {"Fungi & Lichens", "Fungi"},
-                        {"Invertebrates", "Animalia"},
-                        {"Mammals", "Animalia: Chordata: Mammalia"},
-                        {"Others", ""},
-                        {"Plants", "Plantae"},
-                        {"Reptiles", "Animalia: Chordata: Reptilia"}
-                    };
-
                 // Create the AppRoot without user
-                TheAppRoot = new AppRoot(DateTime.UtcNow, categories);
-                documentSession.Store(TheAppRoot);
+                var appRoot = new AppRoot(DateTime.UtcNow);
+                documentSession.Store(appRoot);
 
                 // Save the approot to be available for all subsequent setup
                 documentSession.SaveChanges();
+
+                return appRoot;
             }
         }
 
@@ -282,25 +290,25 @@ namespace Bowerbird.Core.Config
             Roles.Add(role);
         }
 
-        private void AddAdminUsers()
+        private void AddAdminUsers(AppRoot appRoot)
         {
             using (var documentSession = CreateSession())
             {
-                AddUser("password", "frank@radocaj.com", "Frank Radocaj", documentSession, "globaladministrator", "globalmember");
+                AddUser(appRoot, "password", "frank@radocaj.com", "Frank Radocaj", documentSession, "globaladministrator", "globalmember");
 
-                AddUser("password", "hcrittenden@museum.vic.gov.au", "Hamish Crittenden", documentSession, "globaladministrator", "globalmember");
+                AddUser(appRoot, "password", "hcrittenden@museum.vic.gov.au", "Hamish Crittenden", documentSession, "globaladministrator", "globalmember");
 
-                AddUser("password", "kwalker@museum.vic.gov.au", "Ken Walker", documentSession, "globaladministrator", "globalmember");
+                AddUser(appRoot, "password", "kwalker@museum.vic.gov.au", "Ken Walker", documentSession, "globaladministrator", "globalmember");
 
                 // Set the user now that we have one
-                TheAppRoot.SetCreatedByUser(Users.First());
-                documentSession.Store(TheAppRoot);
+                appRoot.SetCreatedByUser(Users.First());
+                documentSession.Store(appRoot);
 
                 documentSession.SaveChanges();
             }
         }
 
-        private void AddUser(string password, string email, string name, IDocumentSession documentSession, params string[] roleIds)
+        private void AddUser(AppRoot appRoot, string password, string email, string name, IDocumentSession documentSession, params string[] roleIds)
         {
             var defaultAvatarImage = _mediaResourceFactory.MakeDefaultAvatarImage(AvatarDefaultType.User);
             var defaultBackgroundImage = _mediaResourceFactory.MakeDefaultBackgroundImage("user");
@@ -310,11 +318,11 @@ namespace Bowerbird.Core.Config
             documentSession.Store(user);
 
             user.UpdateMembership(user,
-                TheAppRoot,
+                appRoot,
                 Roles.Where(x => roleIds.Any(y => x.Id == "roles/" + y)));
             documentSession.Store(user);
 
-            var userProject = new UserProject(user, name, string.Empty, string.Empty, defaultAvatarImage, defaultBackgroundImage, DateTime.UtcNow, TheAppRoot);
+            var userProject = new UserProject(user, name, string.Empty, string.Empty, defaultAvatarImage, defaultBackgroundImage, DateTime.UtcNow, appRoot);
             documentSession.Store(userProject);
 
             user.UpdateMembership(
@@ -323,7 +331,7 @@ namespace Bowerbird.Core.Config
                 Roles.Where(x => x.Id == "roles/userprojectadministrator" || x.Id == "roles/userprojectmember"));
             documentSession.Store(user);
 
-            var favourites = new Favourites(user, DateTime.UtcNow, TheAppRoot);
+            var favourites = new Favourites(user, DateTime.UtcNow, appRoot);
             documentSession.Store(favourites);
 
             user.UpdateMembership(
@@ -345,8 +353,15 @@ namespace Bowerbird.Core.Config
             //_commandProcessor.Process<UserCreateCommand, User>(command, x => Users.Add(x));
         }
 
-        private void AddAllSpecies()
+        private void AddAllSpecies(AppRoot appRoot)
         {
+            using (var docSession = CreateSession())
+            {
+                appRoot.SetPerformSpeciesDataUpdate(false);
+                docSession.Store(appRoot);
+                docSession.SaveChanges();
+            }
+
             var fileList = Directory.GetFiles(Path.Combine(_configSettings.GetEnvironmentRootPath(), _configSettings.GetSpeciesRelativePath()));
 
             foreach (var file in fileList.Where(x => !Path.GetFileName(x).StartsWith("UTF8-")))

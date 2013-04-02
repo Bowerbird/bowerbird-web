@@ -269,7 +269,7 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult Members(string id, UsersQueryInput queryInput)
+        public ActionResult  Members(string id, UsersQueryInput queryInput)
         {
             string projectId = VerbosifyId<Project>(id);
 
@@ -520,7 +520,6 @@ namespace Bowerbird.Web.Controllers
                 "delete");
         }
 
-        [Transaction]
         [Authorize]
         [HttpPost]
         public ActionResult UpdateMember(string id)
@@ -549,7 +548,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [Authorize]
         [HttpDelete]
         public ActionResult DeleteMember(string id)
@@ -583,7 +581,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult Create(ProjectUpdateInput createInput)
@@ -616,7 +613,6 @@ namespace Bowerbird.Web.Controllers
                 "create");
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult Update(ProjectUpdateInput updateInput)
@@ -662,7 +658,6 @@ namespace Bowerbird.Web.Controllers
                 "update");
         }
 
-        [Transaction]
         [HttpDelete]
         [Authorize]
         public ActionResult Delete(string id)

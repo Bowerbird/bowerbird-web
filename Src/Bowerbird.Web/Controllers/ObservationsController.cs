@@ -188,7 +188,6 @@ namespace Bowerbird.Web.Controllers
                 "delete");
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult Create(ObservationUpdateInput createInput, IdentificationUpdateInput identificationCreateInput, SightingNoteUpdateInput sightingNoteCreateInput)
@@ -198,11 +197,13 @@ namespace Bowerbird.Web.Controllers
                 return new HttpUnauthorizedResult();
             }
 
+            Observation observation = null;
+
             if (ModelState.IsValid)
             {
                 var key = string.IsNullOrWhiteSpace(createInput.Key) ? Guid.NewGuid().ToString() : createInput.Key;
 
-                _messageBus.Send(new ObservationCreateCommand()
+                observation = _messageBus.Send<ObservationCreateCommand, Observation>(new ObservationCreateCommand()
                     {
                         Key = key,
                         Title = createInput.Title,
@@ -229,8 +230,7 @@ namespace Bowerbird.Web.Controllers
                     _messageBus.Send(
                         new IdentificationCreateCommand()
                             {
-                                SightingKey = key,
-                                // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                                SightingId = observation.Id,
                                 UserId = _userContext.GetAuthenticatedUserId(),
                                 Comments = identificationCreateInput.IdentificationComments ?? string.Empty,
                                 IsCustomIdentification = identificationCreateInput.IsCustomIdentification,
@@ -255,8 +255,7 @@ namespace Bowerbird.Web.Controllers
                     _messageBus.Send(
                         new SightingNoteCreateCommand()
                             {
-                                SightingKey = key,
-                                // We assign this note via the sighting key, rather than Id because we don't have the sighting id yet.
+                                SightingId = observation.Id,
                                 UserId = _userContext.GetAuthenticatedUserId(),
                                 Descriptions = sightingNoteCreateInput.Descriptions ?? new Dictionary<string, string>(),
                                 Tags = sightingNoteCreateInput.Tags ?? string.Empty,
@@ -270,7 +269,30 @@ namespace Bowerbird.Web.Controllers
             }
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.Observation = createInput;
+            viewModel.Observation = new
+                {
+                    Id = observation != null ? observation.Id : createInput.Id,
+                    createInput.Address,
+                    createInput.AnonymiseLocation,
+                    createInput.Category,
+                    createInput.Key,
+                    createInput.Latitude,
+                    createInput.Longitude,
+                    createInput.Media,
+                    createInput.ObservedOn,
+                    createInput.ProjectIds,
+                    createInput.Title
+                };
+
+            if (identificationCreateInput.NewSightingIdentification)
+            {
+                viewModel.Identification = identificationCreateInput;
+            }
+
+            if (sightingNoteCreateInput.NewSightingNote)
+            {
+                viewModel.SightingNote = sightingNoteCreateInput;
+            }
 
             return RestfulResult(
                 viewModel,
@@ -278,7 +300,6 @@ namespace Bowerbird.Web.Controllers
                 "create");
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult Update(ObservationUpdateInput updateInput)
@@ -333,7 +354,6 @@ namespace Bowerbird.Web.Controllers
                 "update");
         }
 
-        [Transaction]
         [HttpDelete]
         [Authorize]
         public ActionResult Delete(string id)
@@ -469,7 +489,6 @@ namespace Bowerbird.Web.Controllers
                 "updatenote");
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult CreateNote(SightingNoteUpdateInput createInput)
@@ -505,7 +524,6 @@ namespace Bowerbird.Web.Controllers
                 "createnote");
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult CreateIdentification(IdentificationUpdateInput createInput)
@@ -553,7 +571,6 @@ namespace Bowerbird.Web.Controllers
                 "createidentification");
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult UpdateNote(SightingNoteUpdateInput updateInput)
@@ -591,7 +608,6 @@ namespace Bowerbird.Web.Controllers
                 "updatenote");
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult UpdateIdentification(IdentificationUpdateInput updateInput)

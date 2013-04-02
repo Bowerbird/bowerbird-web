@@ -91,14 +91,14 @@ namespace Bowerbird.Core.EventHandlers
             {
                 activity.ObservationAdded = new
                 {
-                    Observation = _sightingViewFactory.Make(sighting, domainEvent.User, projects, domainEvent.User)
+                    Observation = _sightingViewFactory.Make(sighting, domainEvent.User, projects, null)
                 };
             }
             else
             {
                 activity.RecordAdded = new
                 {
-                    Record = _sightingViewFactory.Make(sighting, domainEvent.User, projects, domainEvent.User)
+                    Record = _sightingViewFactory.Make(sighting, domainEvent.User, projects, null)
                 };
             }
 

@@ -63,6 +63,7 @@ namespace Bowerbird.Core.CommandHandlers
             user.UpdateLastLoggedIn();
 
             _documentSession.Store(user);
+            _documentSession.SaveChanges();
         }
 
         #endregion      

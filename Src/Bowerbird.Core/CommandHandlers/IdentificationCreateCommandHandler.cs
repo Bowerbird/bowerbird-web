@@ -61,19 +61,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            Sighting sighting;
-
-            if (!string.IsNullOrWhiteSpace(command.SightingId))
-            {
-                sighting = _documentSession.Load<dynamic>(command.SightingId) as Sighting;
-            } 
-            else 
-            {
-                sighting = _documentSession
-                    .Query<Observation>()
-                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())
-                    .Where(x => x.Key == command.SightingKey).First();
-            }
+            var sighting = _documentSession.Load<dynamic>(command.SightingId) as Sighting;
 
             if (!string.IsNullOrWhiteSpace(command.Taxonomy))
             {

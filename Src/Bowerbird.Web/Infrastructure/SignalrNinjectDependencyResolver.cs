@@ -37,7 +37,7 @@ namespace Bowerbird.Web.Infrastructure
 
         public override object GetService(Type serviceType)
         {
-            if (typeof(IConnection).Assembly == serviceType.Assembly)// && serviceType != typeof(IJsonSerializer)) // Push DI for SignalR types to base
+            if (typeof(IConnection).Assembly == serviceType.Assembly) // Push DI for SignalR types to base
             {
                 return base.GetService(serviceType);
             }
@@ -49,7 +49,7 @@ namespace Bowerbird.Web.Infrastructure
 
         public override IEnumerable<object> GetServices(Type serviceType)
         {
-            if (typeof(IConnection).Assembly == serviceType.Assembly)// && serviceType != typeof(IJsonSerializer)) // Push DI for SignalR types to base
+            if (typeof(IConnection).Assembly == serviceType.Assembly) // Push DI for SignalR types to base
             {
                 return base.GetServices(serviceType);
             }

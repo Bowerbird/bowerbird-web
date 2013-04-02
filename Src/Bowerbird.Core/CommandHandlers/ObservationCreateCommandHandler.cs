@@ -23,7 +23,7 @@ using Raven.Client.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class ObservationCreateCommandHandler : ICommandHandler<ObservationCreateCommand>
+    public class ObservationCreateCommandHandler : ICommandHandler<ObservationCreateCommand, Observation>
     {
 
         #region Members
@@ -50,7 +50,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods 
 
-        public void Handle(ObservationCreateCommand command)
+        public Observation HandleReturn(ObservationCreateCommand command)
         {
             Check.RequireNotNull(command, "command");
 
@@ -112,6 +112,8 @@ namespace Bowerbird.Core.CommandHandlers
 
             _documentSession.Store(observation);
             _documentSession.SaveChanges();
+
+            return observation;
         }
 
         #endregion      

@@ -43,6 +43,7 @@ namespace Bowerbird.Core.Indexes
             public object[] SightingAllFields { get; set; }
             public object[] SightingTaxonomicRanks { get; set; }
             public string SightingSortTitle { get; set; }
+            public int? SightingVoteCount { get; set; }
 
             // Posts
             public string PostTitle { get; set; }
@@ -128,6 +129,7 @@ namespace Bowerbird.Core.Indexes
                                                         {
                                                             observation.Identifications.SelectMany(x => x.TaxonomicRanks.Select(y => y.Name))  
                                                         },
+                                                    SightingVoteCount = observation.Votes.Sum(x => x.Score),
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
                                                     PostAllFields = new object[] {},
@@ -162,6 +164,7 @@ namespace Bowerbird.Core.Indexes
                                                   {
                                                       record.Identifications.SelectMany(x => x.TaxonomicRanks.Select(y => y.Name))
                                                   },
+                                              SightingVoteCount = record.Votes.Sum(x => x.Score),
                                               PostTitle = (string)null,
                                               PostMessage = (string)null,
                                               PostAllFields = new object[] { },
@@ -188,6 +191,7 @@ namespace Bowerbird.Core.Indexes
                                       SightingIdentificationCount = (object)null,
                                       SightingAllFields = new object[] { },
                                       SightingTaxonomicRanks = new object[] {},
+                                      SightingVoteCount = (object)null,
                                       PostTitle = post.Subject,
                                       PostMessage = post.Message,
                                       PostAllFields = new object[]
@@ -219,6 +223,7 @@ namespace Bowerbird.Core.Indexes
                                                     SightingIdentificationCount = (object)null,
                                                     SightingAllFields = new object[] { },
                                                     SightingTaxonomicRanks = new object[] { },
+                                                    SightingVoteCount = (object)null,
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
                                                     PostAllFields = new object[] { },
@@ -246,6 +251,7 @@ namespace Bowerbird.Core.Indexes
                                           SightingIdentificationCount = (object)null,
                                           SightingAllFields = new object[] { },
                                           SightingTaxonomicRanks = new object[] { },
+                                          SightingVoteCount = (object)null,
                                           PostTitle = (string)null,
                                           PostMessage = (string)null,
                                           PostAllFields = new object[] { },
@@ -273,6 +279,7 @@ namespace Bowerbird.Core.Indexes
                                                     SightingIdentificationCount = (object)null,
                                                     SightingAllFields = new object[] { },
                                                     SightingTaxonomicRanks = new object[] { },
+                                                    SightingVoteCount = (object)null,
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
                                                     PostAllFields = new object[] { },
@@ -300,6 +307,7 @@ namespace Bowerbird.Core.Indexes
                                           SightingIdentificationCount = (object)null,
                                           SightingAllFields = new object[] { },
                                           SightingTaxonomicRanks = new object[] { },
+                                          SightingVoteCount = (object)null,
                                           PostTitle = (string)null,
                                           PostMessage = (string)null,
                                           PostAllFields = new object[] { },
@@ -327,6 +335,7 @@ namespace Bowerbird.Core.Indexes
                                                     SightingIdentificationCount = (object)null,
                                                     SightingAllFields = new object[] { },
                                                     SightingTaxonomicRanks = new object[] { },
+                                                    SightingVoteCount = (object)null,
                                                     PostTitle = (string)null,
                                                     PostMessage = (string)null,
                                                     PostAllFields = new object[] { },
@@ -354,6 +363,7 @@ namespace Bowerbird.Core.Indexes
                                           SightingIdentificationCount = (object)null,
                                           SightingAllFields = new object[] { },
                                           SightingTaxonomicRanks = new object[] { },
+                                          SightingVoteCount = (object)null,
                                           PostTitle = (string)null,
                                           PostMessage = (string)null,
                                           PostAllFields = new object[] { },
@@ -381,6 +391,7 @@ namespace Bowerbird.Core.Indexes
                                                         SightingIdentificationCount = (object)null,
                                                         SightingAllFields = new object[] { },
                                                         SightingTaxonomicRanks = new object[] { },
+                                                        SightingVoteCount = (object)null,
                                                         PostTitle = (string)null,
                                                         PostMessage = (string)null,
                                                         PostAllFields = new object[] { },
@@ -408,6 +419,7 @@ namespace Bowerbird.Core.Indexes
                                               SightingIdentificationCount = (object)null,
                                               SightingAllFields = new object[] { },
                                               SightingTaxonomicRanks = new object[] { },
+                                              SightingVoteCount = (object)null,
                                               PostTitle = (string)null,
                                               PostMessage = (string)null,
                                               PostAllFields = new object[] { },
@@ -435,6 +447,7 @@ namespace Bowerbird.Core.Indexes
                                         SightingIdentificationCount = g.Select(x => x.SightingIdentificationCount).Where(x => x != null).FirstOrDefault(),
                                         SightingAllFields = g.SelectMany(x => x.SightingAllFields),
                                         SightingTaxonomicRanks = g.SelectMany(x => x.SightingTaxonomicRanks),
+                                        SightingVoteCount = g.Select(x => x.SightingVoteCount).Where(x => x != null).FirstOrDefault(),
                                         PostTitle = g.Select(x => x.PostTitle).Where(x => x != null).FirstOrDefault(),
                                         PostMessage = g.Select(x => x.PostMessage).Where(x => x != null).FirstOrDefault(),
                                         PostAllFields = g.SelectMany(x => x.PostAllFields),
@@ -478,11 +491,19 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.SightingIdentificationCount, FieldStorage.No);
             Store(x => x.SightingAllFields, FieldStorage.No);
             Store(x => x.SightingTaxonomicRanks, FieldStorage.No);
+            Store(x => x.SightingVoteCount, FieldStorage.No);
             Store(x => x.PostTitle, FieldStorage.No);
             Store(x => x.PostMessage, FieldStorage.No);
             Store(x => x.PostAllFields, FieldStorage.No);
             Store(x => x.SightingSortTitle, FieldStorage.Yes);
             Store(x => x.PostSortTitle, FieldStorage.Yes);
+
+            Index(x => x.ParentContributionId, FieldIndexing.Analyzed);
+            Index(x => x.SubContributionId, FieldIndexing.Analyzed);
+            Index(x => x.ParentContributionType, FieldIndexing.Analyzed);
+            Index(x => x.SubContributionType, FieldIndexing.Analyzed);
+            //Index(x => x.UserId, FieldIndexing.Analyzed);
+            //Index(x => x.GroupIds, FieldIndexing.Analyzed);
 
             Index(x => x.SightingTitle, FieldIndexing.Analyzed);
             Index(x => x.SightingTags, FieldIndexing.Analyzed);

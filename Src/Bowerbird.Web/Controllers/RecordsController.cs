@@ -177,7 +177,6 @@ namespace Bowerbird.Web.Controllers
                 "delete");
         }
 
-        [Transaction]
         [HttpPost]
         [Authorize]
         public ActionResult Create(RecordUpdateInput createInput)
@@ -207,7 +206,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [HttpPut]
         [Authorize]
         public ActionResult Update(RecordUpdateInput updateInput)
@@ -245,7 +243,6 @@ namespace Bowerbird.Web.Controllers
             return JsonSuccess();
         }
 
-        [Transaction]
         [HttpDelete]
         [Authorize]
         public ActionResult Delete(string id)

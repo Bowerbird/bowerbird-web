@@ -49,7 +49,7 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            _documentSession.Delete(_documentSession.Load<Observation>(command.Id));
+            //_documentSession.Delete(_documentSession.Load<Observation>(command.Id));
         }
 
         #endregion

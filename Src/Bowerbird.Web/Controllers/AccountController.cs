@@ -114,50 +114,8 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [Transaction]
         public ActionResult Login(AccountLoginInput accountLoginInput)
         {
-            Check.RequireNotNull(accountLoginInput, "accountLoginInput");
-
-//            User user = null;
-
-//            if (ModelState.IsValid &&
-//                AreCredentialsValid(accountLoginInput.Email, accountLoginInput.Password, out user))
-//            {
-//                _messageBus.Send(
-//                    new UserUpdateLastLoginCommand()
-//                    {
-//                        Email = accountLoginInput.Email
-//                    });
-                
-//                _userContext.SignUserIn(user.Id, user.Email, accountLoginInput.RememberMe);
-
-//#if !JS_COMBINE_MINIFY
-//                DebugToClient("SERVER: Logged In Successfully as " + accountLoginInput.Email);
-//#endif
-
-//                if(Request.IsAjaxRequest())
-//                {
-//                    dynamic viewModel = new ExpandoObject();
-//                    viewModel.User = _userViewFactory.Make(user, user);
-
-//                    return RestfulResult(
-//                        viewModel,
-//                        string.Empty,
-//                        string.Empty,
-//                        null,
-//                        null);
-//                }
-
-//                return RedirectToAction("loggingin", new { returnUrl = accountLoginInput.ReturnUrl });
-//            }
-
-//            ModelState.AddModelError("", "");
-
-//            ViewBag.AccountLogin = _accountViewModelQuery.MakeAccountLogin(accountLoginInput);
-//            ViewBag.IsStaticLayout = true;
-
-//            return View(Form.Login);
             User user = null;
             dynamic viewModel = new ExpandoObject();
 
@@ -232,19 +190,7 @@ namespace Bowerbird.Web.Controllers
             // Even though we have signed out via FormsAuthentication, the session still contains the User.Identity until the 
             // HTTP response is fully written. In order for the User.Identity to be properly cleared, we have to do a full HTTP redirect 
             // rather than simply showing of the View in this action.
-            return RedirectToAction("logoutsuccess");
-        }
-
-        [HttpGet]
-        public ActionResult LogoutSuccess()
-        {
-            dynamic viewModel = new ExpandoObject();
-            viewModel.AccountLogout = new object();
-
-            return RestfulResult(
-                viewModel,
-                "account",
-                "logoutsuccess");
+            return RedirectToAction("publicindex", "home");
         }
 
         [HttpGet]
@@ -266,53 +212,8 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
-        [Transaction]
         public ActionResult Register(AccountRegisterInput accountRegisterInput)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _messageBus.Send(
-            //        new UserCreateCommand()
-            //        {
-            //            Name = accountRegisterInput.Name,
-            //            Email = accountRegisterInput.Email,
-            //            Password = accountRegisterInput.Password,
-            //            Timezone = Constants.DefaultTimezone,
-            //            Roles = new[] { "roles/globalmember" }
-            //        });
-
-            //    var user = _documentSession
-            //        .Query<All_Users.Result, All_Users>()
-            //        .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite())  // Wait for user to be persisted
-            //        .AsProjection<All_Users.Result>()
-            //        .Where(x => x.Email == accountRegisterInput.Email)
-            //        .First()
-            //        .User;
-
-            //    _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), accountRegisterInput.RememberMe);
-
-            //    // App login
-            //    if (Request.IsAjaxRequest())
-            //    {
-            //        dynamic viewModel = new ExpandoObject();
-            //        viewModel.User = _userViewFactory.Make(user, null);
-
-            //        return RestfulResult(
-            //            viewModel,
-            //            string.Empty,
-            //            string.Empty,
-            //            null,
-            //            null);
-            //    }
-
-            //    return RedirectToAction("loggingin");
-            //}
-
-            //ViewBag.AccountRegister = _accountViewModelQuery.MakeAccountRegister(accountRegisterInput);
-            //ViewBag.IsStaticLayout = true;
-
-            //return View(Form.Register);
-
             dynamic viewModel = new ExpandoObject();
 
             if (ModelState.IsValid)
@@ -484,7 +385,6 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPut]
         [Authorize]
-        [Transaction]
         public ActionResult Update(AccountUpdateInput updateInput)
         {
             if (ModelState.IsValid)
@@ -552,7 +452,6 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpPost]
-        [Transaction]
         public ActionResult UpdatePassword(AccountUpdatePasswordInput accountUpdatePasswordInput)
         {
             // This action is used for both logged in users changing their passwords, as well as
@@ -609,7 +508,6 @@ namespace Bowerbird.Web.Controllers
         }
 
         [HttpPost]
-        [Transaction]
         public ActionResult RequestPasswordUpdate(AccountRequestPasswordUpdateInput accountRequestPasswordUpdateInput)
         {
             dynamic viewModel = new ExpandoObject();
@@ -651,7 +549,6 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [Transaction]
         public ActionResult CloseCallToAction(string name)
         {
             _messageBus.Send(
@@ -690,7 +587,6 @@ namespace Bowerbird.Web.Controllers
 
         [HttpPost]
         [Authorize]
-        [Transaction]
         public ActionResult UpdateVote(string id, string subId, string contributionType, string subContributionType, int score)
         {
             if (score > 1)
@@ -723,7 +619,6 @@ namespace Bowerbird.Web.Controllers
             }
         }
 
-        [Transaction]
         [Authorize]
         [HttpPost]
         public ActionResult UpdateFavourite(string id)
@@ -757,7 +652,6 @@ namespace Bowerbird.Web.Controllers
             }
         }
 
-        [Transaction]
         [Authorize]
         [HttpPost]
         public ActionResult UpdateFollowUser(string id)

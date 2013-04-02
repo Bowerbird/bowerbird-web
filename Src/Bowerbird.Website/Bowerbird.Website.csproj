@@ -27,39 +27,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Test|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Bowerbird.Website.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Stage|AnyCPU'">
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <CodeAnalysisLogFile>bin\Bowerbird.Website.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
-    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
-    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
-    <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Prod|AnyCPU'">
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -76,6 +43,7 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugProd|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -97,9 +65,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="RouteDebugger">
-      <HintPath>..\..\packages\routedebugger.2.1.4.0\lib\net40\RouteDebugger.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Web.WebPages" />
@@ -188,6 +153,7 @@
     <Content Include="js\bowerbird\models\userProject.js" />
     <Content Include="js\bowerbird\views\accountUpdatePasswordFormView.js" />
     <Content Include="js\bowerbird\views\accountRequestPasswordUpdateFormView.js" />
+    <Content Include="js\bowerbird\views\homeGenericView.js" />
     <Content Include="js\bowerbird\views\geospatialFormView.js" />
     <Content Include="js\bowerbird\views\sidebarUserProjectItemView.js" />
     <Content Include="js\bowerbird\views\userItemView.js" />
@@ -349,7 +315,6 @@
     <Content Include="Views\Posts\Create.mustache" />
     <Content Include="Views\Posts\Update.mustache" />
     <Content Include="Views\Home\About.mustache" />
-    <Content Include="Views\Account\LogoutSuccess.mustache" />
     <Content Include="Views\Account\Register.mustache" />
     <Content Include="Views\Account\RequestPasswordUpdate.mustache" />
     <Content Include="Views\Account\Login.mustache" />
@@ -679,12 +644,11 @@
     <Content Include="Views\Shared\ValidationSummary.mustache" />
     <Content Include="Views\Observations\UpdateIdentification.mustache" />
     <Content Include="Views\Account\UpdatePassword.mustache" />
-    <None Include="Views\Shared\BowerbirdAbout.mustache" />
-    <None Include="Views\Shared\BowerbirdBlog.mustache" />
-    <None Include="Views\Shared\BowerbirdDeveloper.mustache" />
-    <None Include="Views\Shared\BowerbirdPrivacy.mustache" />
-    <None Include="Views\Shared\BowerbirdResources.mustache" />
-    <None Include="Views\Shared\BowerbirdTerms.mustache" />
+    <None Include="Views\Home\Privacy.mustache" />
+    <None Include="Views\Home\Terms.mustache" />
+    <None Include="Views\Shared\HomeAbout.mustache" />
+    <None Include="Views\Shared\HomePrivacy.mustache" />
+    <None Include="Views\Shared\HomeTerms.mustache" />
     <Content Include="Views\Shared\AccountUpdatePasswordForm.mustache">
       <SubType>Designer</SubType>
     </Content>

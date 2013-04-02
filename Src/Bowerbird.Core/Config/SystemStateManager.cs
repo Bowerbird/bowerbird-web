@@ -63,14 +63,10 @@ namespace Bowerbird.Core.Config
 
         #region Methods
 
-        public void SetupSystem(bool doSetupTestData)
+        public void SetupSystem()
         {
-            var appRoot = LoadAppRoot();
-            if (appRoot == null)
-            {
-                SetupSystem setupSystem = new SetupSystem(this, _configSettings, _mediaResourceFactory, _messageBus, _documentStore);
-                setupSystem.Execute();
-            }
+            SetupSystem setupSystem = new SetupSystem(this, _configSettings, _mediaResourceFactory, _messageBus, _documentStore);
+            setupSystem.Execute();
         }
 
         public void SwitchServicesOff()
