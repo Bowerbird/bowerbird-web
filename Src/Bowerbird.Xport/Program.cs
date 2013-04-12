@@ -4,7 +4,7 @@ using System.Dynamic;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using Bowerbird.Core.DesignByContract;
+using Newtonsoft.Json;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
@@ -34,7 +34,7 @@ namespace Bowerbird.Xport
 
         public static void Crawl()
         {
-            var dataCrawler = new DataCrawler();
+            new DataCrawler();
         }
 
         private DataCrawler()
@@ -90,8 +90,7 @@ namespace Bowerbird.Xport
                     .Skip(sightingsQueryInput.GetSkipIndex())
                     .Take(sightingsQueryInput.GetPageSize())
                     .ToList()
-                    .Select(
-                        x => Transformer.MakeSighting(x.Contribution as Sighting, x.User, x.Groups, null))
+                    .Select(x => Transformer.MakeSighting(x.Contribution as Sighting, x.User, x.Groups, null))
                     .ToPagedList(
                         sightingsQueryInput.GetPage(),
                         sightingsQueryInput.GetPageSize(),
@@ -103,6 +102,57 @@ namespace Bowerbird.Xport
 
                 return result;
             }
+        }
+    }
+
+    /// <summary>
+    /// File creation and saving object
+    /// </summary>
+    internal class DumpFile
+    {
+        private readonly string _pathToFile;
+
+        public DumpFile()
+        {
+            _pathToFile = string.Format(
+                "{0}/BowerbirdExport-{1}.txt",
+                new ConfigSettings().GetEnvironmentRootPath(),
+                DateTime.UtcNow.ToShortDateString()
+                );
+        }
+
+        public void SavePagedObjects(PagedList<object> items)
+        {
+            using (StreamWriter writer = File.AppendText(_pathToFile))
+            {
+                foreach (var item in items.PagedListItems)
+                {
+                    // Absolutely no idea what this is going to spew out....
+                    writer.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
+                }
+                writer.Flush();
+            }
+        }
+    }
+
+    /// <summary>
+    /// App.Config property reader
+    /// </summary>
+    internal class ConfigSettings
+    {
+        public string GetEnvironmentRootPath()
+        {
+            return ConfigurationManager.AppSettings["dumpFolder"];
+        }
+
+        public string GetDatabaseUrl()
+        {
+            return ConfigurationManager.AppSettings["ravenInstanceUrl"];
+        }
+
+        public string GetDatabaseName()
+        {
+            return ConfigurationManager.AppSettings["databaseName"];
         }
     }
 
@@ -122,27 +172,13 @@ namespace Bowerbird.Xport
             viewModel.Longitude = sighting.Longitude;
             viewModel.Category = sighting.Category;
             viewModel.AnonymiseLocation = sighting.AnonymiseLocation;
-            viewModel.Projects = projects.Where(x => x.GroupType == "project").Select(y => MakeGroup(y, authenticatedUser));
-            viewModel.User = MakeUser(user, authenticatedUser);
+            viewModel.User = MakeUser(user);
             viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMM yyyy");
             viewModel.CreatedOnDescription = sighting.CreatedOn.ToString("d MMM yyyy");
-            viewModel.CommentCount = sighting.Discussion.CommentCount;
-            viewModel.ProjectCount = projects.Count(x => x.GroupType == "project");
             viewModel.NoteCount = sighting.Notes.Count();
             viewModel.IdentificationCount = sighting.Identifications.Count();
             viewModel.FavouritesCount = sighting.Groups.Count(x => x.Group.GroupType == "favourites");
             viewModel.TotalVoteScore = sighting.Votes.Sum(x => x.Score);
-
-            // Current user-specific properties
-            if (authenticatedUser != null)
-            {
-                var userId = authenticatedUser.Id;
-                var favouritesId = authenticatedUser.Memberships.Single(x => x.Group.GroupType == "favourites").Group.Id;
-
-                viewModel.UserVoteScore = sighting.Votes.Any(x => x.User.Id == userId) ? sighting.Votes.Single(x => x.User.Id == userId).Score : 0;
-                viewModel.UserFavourite = sighting.Groups.Any(x => x.Group.Id == favouritesId);
-                viewModel.IsOwner = sighting.User.Id == authenticatedUser.Id;
-            }
 
             if (sighting is Observation)
             {
@@ -159,123 +195,17 @@ namespace Bowerbird.Xport
             return viewModel;
         }
 
-        public static object MakeUser(User user, User authenticatedUser, bool fullDetails = false, int? sightingCount = 0, IEnumerable<Observation> sampleObservations = null, int? followerCount = 0)
+        private static object MakeUser(User user)
         {
-            Check.RequireNotNull(user, "user");
-
             dynamic viewModel = new ExpandoObject();
 
             viewModel.Id = user.Id;
             viewModel.Avatar = user.Avatar;
             viewModel.Name = user.Name;
-            viewModel.LatestActivity = user.SessionLatestActivity;
-            viewModel.LatestHeartbeat = user.SessionLatestHeartbeat;
-
-            if (fullDetails)
-            {
-                viewModel.Joined = user.Joined.ToString("d MMM yyyy");
-                viewModel.Description = user.Description;
-                viewModel.ProjectCount = user.Memberships.Where(x => x.Group.GroupType == "project").Count();
-                viewModel.OrganisationCount = user.Memberships.Where(x => x.Group.GroupType == "organisation").Count();
-                viewModel.SightingCount = sightingCount;
-
-                if (sampleObservations != null)
-                {
-                    viewModel.SampleObservations = sampleObservations.Select(x =>
-                                                                    new
-                                                                    {
-                                                                        x.Id,
-                                                                        Media = x.PrimaryMedia
-                                                                    });
-                }
-                else
-                {
-                    viewModel.SampleObservations = new object[] { };
-                }
-
-                viewModel.FollowingCount = user.FollowingUsers.Count();
-                viewModel.FollowerCount = followerCount;
-
-                if (authenticatedUser != null)
-                {
-                    if (authenticatedUser.Id == user.Id)
-                    {
-                        viewModel.IsFollowing = false;
-                        viewModel.IsFollowed = false;
-                    }
-                    else
-                    {
-                        viewModel.IsFollowing = authenticatedUser.Memberships.Any(x => x.Group.GroupType == "userproject" && x.Group.Id == user.UserProject.Id);
-                        viewModel.IsFollowed = user.Memberships.Any(x => x.Group.GroupType == "userproject" && x.Group.Id == authenticatedUser.UserProject.Id);
-                    }
-                }
-            }
-
             return viewModel;
         }
 
-        public static object MakeGroup(Group group, User authenticatedUser, bool fullDetails = false, int sightingCount = 0, int userCount = 0, int postCount = 0, IEnumerable<Observation> sampleObservations = null)
-        {
-            Check.RequireNotNull(group, "group");
-
-            dynamic viewModel = new ExpandoObject();
-
-            viewModel.Id = group.Id;
-            viewModel.Name = group.Name;
-            viewModel.GroupType = group.GroupType;
-
-            if (group is IPublicGroup)
-            {
-                viewModel.Avatar = ((IPublicGroup)group).Avatar;
-                viewModel.CreatedBy = group.User.Id;
-            }
-
-            if (fullDetails)
-            {
-                viewModel.Created = group.CreatedDateTime.ToString("d MMM yyyy");
-                viewModel.CreatedDateTimeOrder = group.CreatedDateTime.ToString("yyyyMMddHHmmss");
-
-                if (group is IPublicGroup)
-                {
-                    viewModel.Background = ((IPublicGroup)group).Background;
-                    viewModel.Website = ((IPublicGroup)group).Website;
-                    viewModel.Description = ((IPublicGroup)group).Description;
-                    viewModel.UserCount = userCount;
-                    viewModel.PostCount = postCount;
-                }
-                if (group is Project)
-                {
-                    viewModel.SightingCount = sightingCount;
-                    viewModel.Categories = ((Project)group).Categories;
-                    if (sampleObservations != null)
-                    {
-                        viewModel.SampleObservations = sampleObservations.Select(x =>
-                                                                        new
-                                                                        {
-                                                                            x.Id,
-                                                                            Media = x.PrimaryMedia
-                                                                        });
-                    }
-                    else
-                    {
-                        viewModel.SampleObservations = new object[] { };
-                    }
-                }
-                if (group is Organisation)
-                {
-                    viewModel.Categories = ((Organisation)group).Categories;
-                }
-
-                if (authenticatedUser != null)
-                {
-                    viewModel.IsMember = authenticatedUser.Memberships.Any(x => x.Group.Id == group.Id);
-                }
-            }
-
-            return viewModel;
-        }
-
-        public static object MakeObservationMedia(ObservationMedia observationMedia)
+        private static object MakeObservationMedia(ObservationMedia observationMedia)
         {
             return new
             {
@@ -286,7 +216,7 @@ namespace Bowerbird.Xport
             };
         }
 
-        public static object MakeMediaResource(MediaResource mediaResource)
+        private static object MakeMediaResource(MediaResource mediaResource)
         {
             dynamic viewModel = new ExpandoObject();
 
@@ -408,7 +338,7 @@ namespace Bowerbird.Xport
             return viewModel;
         }
 
-        public static object MakeDerivedFile(DerivedMediaResourceFile derivedMediaResourceFile)
+        private static object MakeDerivedFile(DerivedMediaResourceFile derivedMediaResourceFile)
         {
             return new
             {
@@ -419,54 +349,4 @@ namespace Bowerbird.Xport
         }
     }
 
-    /// <summary>
-    /// File creation and saving object
-    /// </summary>
-    internal class DumpFile
-    {
-        private readonly string _pathToFile;
-
-        public DumpFile()
-        {
-            _pathToFile = string.Format(
-                "{0}/BowerbirdExport-{1}.txt",
-                new ConfigSettings().GetEnvironmentRootPath(),
-                DateTime.UtcNow.ToShortDateString()
-                );
-        }
-
-        public void SavePagedObjects(PagedList<object> items)
-        {
-            using (StreamWriter writer = File.AppendText(_pathToFile))
-            {
-                foreach (var item in items.PagedListItems)
-                {
-                    // Absolutely no idea what this is going to spew out....
-                    writer.WriteLine(item.ToString());
-                }
-                writer.Flush();
-            }
-        }
-    }
-
-    /// <summary>
-    /// App.Config property reader
-    /// </summary>
-    internal class ConfigSettings
-    {
-        public string GetEnvironmentRootPath()
-        {
-            return ConfigurationManager.AppSettings["dumpFolder"];
-        }
-
-        public string GetDatabaseUrl()
-        {
-            return ConfigurationManager.AppSettings["ravenInstanceUrl"];
-        }
-
-        public string GetDatabaseName()
-        {
-            return ConfigurationManager.AppSettings["databaseName"];
-        }
-    }
 }
