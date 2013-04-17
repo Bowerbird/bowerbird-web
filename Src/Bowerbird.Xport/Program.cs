@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Text;
 using System.Configuration;
 using System.Dynamic;
+using System.Security.Cryptography;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
@@ -61,14 +64,12 @@ namespace Bowerbird.Xport
             }
         }
 
-        private PagedList<object> RunQuery(SightingsQueryInput sightingsQueryInput)
+        private PagedList<string> RunQuery(SightingsQueryInput sightingsQueryInput)
         {
-            var config = new ConfigSettings();
-
             var documentStore = new DocumentStore
                                     {
-                                        ConnectionStringName = config.GetDatabaseUrl(),
-                                        DefaultDatabase = config.GetDatabaseName()
+                                        ConnectionStringName = ConfigSettings.Singleton().GetDatabaseUrl ( ) ,
+                                        DefaultDatabase = ConfigSettings.Singleton ( ).GetDatabaseName ( )
                                     };
 
             using (var session = documentStore.OpenSession())
@@ -81,7 +82,7 @@ namespace Bowerbird.Xport
                                                             "SubContributionId", "ParentContributionType",
                                                             "SubContributionType", "UserId", "Observation", "Record",
                                                             "Post", "User")
-                    .WhereIn("ParentContributionType", new[] {"observation", "record"})
+                    .WhereIn("ParentContributionType", new[] {"observation"})
                     .AndAlso()
                     .WhereEquals("SubContributionType", null);
 
@@ -89,7 +90,7 @@ namespace Bowerbird.Xport
                     .Skip(sightingsQueryInput.GetSkipIndex())
                     .Take(sightingsQueryInput.GetPageSize())
                     .ToList()
-                    .Select(x => Transformer.MakeSighting(x.Contribution as Sighting, x.User))
+                    .Select(x => Transformer.MakeSighting(x.Contribution as Observation, x.User))
                     .ToPagedList(
                         sightingsQueryInput.GetPage(),
                         sightingsQueryInput.GetPageSize(),
@@ -115,19 +116,18 @@ namespace Bowerbird.Xport
         {
             _pathToFile = string.Format(
                 "{0}/BowerbirdExport-{1}.txt",
-                new ConfigSettings().GetEnvironmentRootPath(),
+                ConfigSettings.Singleton().GetEnvironmentRootPath(),
                 DateTime.UtcNow.ToShortDateString()
                 );
         }
 
-        public void SavePagedObjects(PagedList<object> items)
+        public void SavePagedObjects(PagedList<string> items)
         {
             using (StreamWriter writer = File.AppendText(_pathToFile))
             {
                 foreach (var item in items.PagedListItems)
                 {
-                    // Absolutely no idea what this is going to spew out....
-                    writer.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
+                    writer.WriteLine(item);
                 }
                 writer.Flush();
             }
@@ -139,19 +139,56 @@ namespace Bowerbird.Xport
     /// </summary>
     internal class ConfigSettings
     {
+        private string _dumpFolder;
+        private string _ravenInstanceUrl;
+        private string _databaseName;
+        private string _siteUrl;
+        private string _delimiter;
+        private static ConfigSettings _singleton;
+
+        public static ConfigSettings Singleton ( )
+        {
+            if ( _singleton == null )
+            {
+                _singleton = new ConfigSettings ( );
+            }
+
+            return _singleton;
+        }
+
         public string GetEnvironmentRootPath()
         {
-            return ConfigurationManager.AppSettings["dumpFolder"];
+            if ( string.IsNullOrEmpty ( _dumpFolder ) ) _dumpFolder = ConfigurationManager.AppSettings [ "dumpFolder" ];
+
+            return _dumpFolder;
         }
 
         public string GetDatabaseUrl()
         {
-            return ConfigurationManager.AppSettings["ravenInstanceUrl"];
+            if ( string.IsNullOrEmpty ( _ravenInstanceUrl ) ) _ravenInstanceUrl = ConfigurationManager.AppSettings [ "ravenInstanceUrl" ];
+
+            return _ravenInstanceUrl;
         }
 
         public string GetDatabaseName()
         {
-            return ConfigurationManager.AppSettings["databaseName"];
+            if ( string.IsNullOrEmpty ( _databaseName ) ) _databaseName = ConfigurationManager.AppSettings [ "databaseName" ];
+
+            return _databaseName;
+        }
+
+        public string GetUriToSite ( )
+        {
+            if ( string.IsNullOrEmpty ( _siteUrl ) ) _siteUrl = ConfigurationManager.AppSettings [ "siteUrl" ];
+
+            return _siteUrl;
+        }
+
+        public string GetDelimiter ( )
+        {
+            if ( string.IsNullOrEmpty ( _delimiter ) ) _delimiter = ConfigurationManager.AppSettings [ "delimiter" ];
+
+            return _delimiter;
         }
     }
 
@@ -160,115 +197,39 @@ namespace Bowerbird.Xport
     /// </summary>
     internal class Transformer
     {
-        public static object MakeSighting(Sighting sighting, User user)
+        public static string MakeSighting(Observation observation, User user)
         {
-            dynamic viewModel = new ExpandoObject();
+            StringBuilder str = new StringBuilder ( );
 
-            viewModel.Id = sighting.Id;
-            viewModel.CreatedOn = sighting.CreatedOn;
-            viewModel.ObservedOn = sighting.ObservedOn;
-            viewModel.Latitude = sighting.Latitude;
-            viewModel.Longitude = sighting.Longitude;
-            viewModel.Category = sighting.Category;
-            viewModel.AnonymiseLocation = sighting.AnonymiseLocation;
-            viewModel.User = MakeUser(user);
-            viewModel.ObservedOnDescription = sighting.ObservedOn.ToString("d MMM yyyy");
-            viewModel.CreatedOnDescription = sighting.CreatedOn.ToString("d MMM yyyy");
-            viewModel.NoteCount = sighting.Notes.Count();
-            viewModel.IdentificationCount = sighting.Identifications.Count();
-            viewModel.FavouritesCount = sighting.Groups.Count(x => x.Group.GroupType == "favourites");
-            viewModel.TotalVoteScore = sighting.Votes.Sum(x => x.Score);
+            var delimiter = ConfigSettings.Singleton ( ).GetDelimiter ( );
 
-            if (sighting is Observation)
-            {
-                var observation = sighting as Observation;
+            var identification = observation
+                .Identifications
+                .OrderByDescending(y => y.Votes.Count())
+                .ThenByDescending(y => y.CreatedOn)
+                .FirstOrDefault();
 
-                viewModel.Title = observation.Title;
-                viewModel.Address = observation.Address;
-                viewModel.Media = observation.Media.Select(MakeObservationMedia);
-                viewModel.PrimaryMedia = MakeObservationMedia(observation.PrimaryMedia);
-                viewModel.MediaCount = observation.Media.Count();
-                viewModel.ShowMediaThumbnails = observation.Media.Count() > 1;
-            }
+            var mediaResource = observation.PrimaryMedia.MediaResource is ImageMediaResource ? observation.PrimaryMedia.MediaResource as ImageMediaResource: null;
 
-            return viewModel;
-        }
+            str.Append ( string.Format ( "{0}{1}" , ConfigSettings.Singleton ( ).GetUriToSite ( ) , observation.Id ) )
+                .Append ( delimiter )
+                .Append ( observation.Title )
+                .Append ( delimiter )
+                .Append ( observation.ObservedOn.ToShortDateString ( ) )
+                .Append ( delimiter )
+                .Append ( observation.Latitude )
+                .Append ( delimiter )
+                .Append ( observation.Longitude )
+                .Append ( delimiter )
+                .Append ( identification.Taxonomy )
+                .Append ( delimiter )
+                .Append ( user.Name )
+                .Append ( delimiter )
+                .Append ( mediaResource != null ? mediaResource.Image.Original.Uri : "No Image" )
+                .Append ( delimiter )
+                .Append ( mediaResource != null ? observation.PrimaryMedia.Licence : "No Image" );
 
-        private static object MakeUser(User user)
-        {
-            dynamic viewModel = new ExpandoObject();
-
-            viewModel.Id = user.Id;
-            viewModel.Name = user.Name;
-
-            return viewModel;
-        }
-
-        private static object MakeObservationMedia(ObservationMedia observationMedia)
-        {
-            return new
-            {
-                observationMedia.Description,
-                observationMedia.IsPrimaryMedia,
-                observationMedia.Licence,
-                MediaResource = MakeMediaResource(observationMedia.MediaResource)
-            };
-        }
-
-        private static object MakeMediaResource(MediaResource mediaResource)
-        {
-            dynamic viewModel = new ExpandoObject();
-
-            viewModel.Id = mediaResource.Id;
-            viewModel.MediaResourceType = mediaResource.MediaResourceType;
-            viewModel.UploadedOn = mediaResource.UploadedOn;
-
-            viewModel.User = new
-            {
-                mediaResource.CreatedByUser.Name
-            };
-
-            if (mediaResource is ImageMediaResource)
-            {
-                var imageMediaResource = mediaResource as ImageMediaResource;
-                viewModel.Image = new ExpandoObject();
-
-                if (imageMediaResource.Image.Original != null)
-                {
-                    viewModel.Image.Original = new
-                    {
-                        imageMediaResource.Image.Original.Uri
-                    };
-                }
-            }
-            if (mediaResource is VideoMediaResource)
-            {
-                var videoMediaResource = mediaResource as VideoMediaResource;
-                viewModel.Video = new ExpandoObject();
-
-                if (videoMediaResource.Video.Original != null)
-                {
-                    viewModel.Video.Original = new
-                    {
-                        videoMediaResource.Video.Original.Uri
-                    };
-                }
-            }
-            if (mediaResource is AudioMediaResource)
-            {
-                var audioMediaResource = mediaResource as AudioMediaResource;
-                viewModel.Audio = new ExpandoObject();
-
-                if (audioMediaResource.Audio.Original != null)
-                {
-                    viewModel.Audio.Original = new
-                    {
-                        audioMediaResource.Audio.Original.MimeType
-                    };
-                }
-            }
-
-            return viewModel;
+            return str.ToString ( );
         }
     }
 }
