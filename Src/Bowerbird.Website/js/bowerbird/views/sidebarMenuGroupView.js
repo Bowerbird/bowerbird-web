@@ -8,7 +8,7 @@
 // SidebarMenuGroupView
 // --------------------
 
-define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, app) {
+define(['jquery', 'underscore', 'backbone', 'app', 'tinyscroller'], function ($, _, Backbone, app) {
 
     var SidebarMenuGroupView = Backbone.Marionette.CompositeView.extend({
         className: 'menu-group',
@@ -29,6 +29,11 @@ define(['jquery', 'underscore', 'backbone', 'app'], function ($, _, Backbone, ap
             if (this.collection.length > 0) {
                 this.$el.show();
             }
+
+            var that = this;
+            $(function () {
+                that.$el.find('.scrollbar-container').tinyscrollbar();
+            });
         },
 
         appendHtml: function (collectionView, itemView) {

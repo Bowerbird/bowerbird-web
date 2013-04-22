@@ -450,7 +450,7 @@ article
 {
     background-color: #FFFFFF;
     border-radius: 2px;
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 7px 12px 2px rgba(0, 0, 0, 0.5);
     display: none;
     left: 24px;
     position: relative;
@@ -682,16 +682,16 @@ ul.tagit.input-validation-error
 {
     background-color: rgb(105, 163, 221);
     border: 1px solid rgb(83, 120, 156);
-    border-radius: 2px;
-    color: #FFFFFF;
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.25), 0 -1px 0 0 rgba(0, 0, 0, 0.4) inset;
+    color: rgb(255, 255, 255);
+    font-family: "open sans",sans-serif;
     font-size: 0.99em;
     font-weight: 600;
-    padding: 3px 18px;
-    text-shadow: #133A68 0 -1px 0;
     margin-right: 15px;
-    font-family: "open sans",sans-serif;
-    /*box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.2) inset;*/
+    padding: 3px 18px;
     text-decoration: none;
+    text-shadow: 0 -1px 0 rgb(19, 58, 104);
 }
 .form input[type=submit]:hover,
 .form input[type=button]:hover,
@@ -715,7 +715,7 @@ ul.tagit.input-validation-error
 .button:active,
 .button.active
 {
-    box-shadow: 0 2px 1px 0 rgba(0, 0, 0, 0.5) inset;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.5) inset;
 }
 .form input[disabled=disabled],
 .form input[disabled=disabled]:active,
@@ -2642,11 +2642,13 @@ header.default-header #search-menu input[type=text]:focus
 }
 #sidebar #action-menu
 {
-    border-radius: 2px;
+    border-radius: 2px 2px 2px 2px;
     clear: both;
     display: inline-block;
     margin-bottom: 18px;
-    width: 100%;  
+    padding-left: 2px;
+    padding-right: 2px;
+    width: 100%;
 }
 #sidebar #action-menu > ul > li
 {
@@ -2654,11 +2656,11 @@ header.default-header #search-menu input[type=text]:focus
     float: left;
     list-style-type: none;
     margin-right: 2%;
-    width: 29%;
+    width: 23%;
 }
 #sidebar #action-menu > ul > li.new-observation-option-button
 {
-    width: 38%;
+    width: 50%;
 }
 #sidebar #action-menu > ul > li.new-organisation-option-button
 {
@@ -2667,7 +2669,7 @@ header.default-header #search-menu input[type=text]:focus
 #sidebar #action-menu .button
 {
     display: block;
-    height: 50px;
+    height: 60px;
     margin: 0;
     padding: 0;
 }
@@ -2676,22 +2678,22 @@ header.default-header #search-menu input[type=text]:focus
     background-repeat: no-repeat;
     background-size: 625% auto;
     display: block;
-    margin: 5px auto 0;
+    margin: 8px auto 0;
     text-indent: -99999px;
+    white-space: nowrap;
 }
-#sidebar #action-menu .new-observation-button 
+#sidebar #action-menu .new-observation-button.button > span 
 {
-    border-bottom-right-radius: 0;
-    border-right: 0 none;
-    border-top-right-radius: 0;
-    float: left;
-    width: 75%;
+    line-height: 48px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5px;
 }
 #sidebar #action-menu .new-observation-button span
 {
     background-position: -1px -1px;
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
 }
 #sidebar #action-menu .more-button 
 {
@@ -2737,14 +2739,77 @@ header.default-header #search-menu input[type=text]:focus
 }
 #sidebar #action-menu .new-organisation-button span
 {
-    background-position: -208px -1px;
+    background-position: -209px -1px;
     height: 40px;
     width: 40px;
+}
+#sidebar .menu-groups {
+    bottom: 0;
+    position: absolute;
+    top: 185px;
+    width: 100%;
+}
+#sidebar .menu-groups > div {
+    bottom: 0;
+    position: absolute;
+    top: 53px; 
+}
+#sidebar .menu-groups .menu-groups-tabs {
+    display: block;
+    height: 56px;
+    list-style: none outside none;
+    overflow: hidden;
+    padding-left: 2px;
+    padding-right: 2px;
+    white-space: nowrap;
+    width: 100%;
+}
+#sidebar .menu-groups .menu-groups-tabs li {
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 2px 2px 2px 2px;
+    color: rgb(68, 68, 68);
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    font-size: 0.7em;
+    font-weight: 600;
+    margin-bottom: 7px;
+    margin-right: 2%;
+    margin-top: 22px;
+    position: relative;
+    text-align: center;
+}
+#sidebar .menu-groups .menu-groups-tabs li.menu-projects-tab 
+{
+    width: 27%;
+}
+#sidebar .menu-groups .menu-groups-tabs li.menu-userprojects-tab 
+{
+    width: 24%;
+}
+#sidebar .menu-groups .menu-groups-tabs li.menu-organisations-tab 
+{
+    margin-right: 0;
+    width: 45%;
+}
+#sidebar .menu-groups .menu-groups-tabs li:hover,
+#sidebar .menu-groups .menu-groups-tabs li.active:hover {
+    background-color: rgb(27, 131, 235);
+    border-color: rgb(27, 131, 235);
+    color: rgb(255, 255, 255);
+    text-shadow: 0 -1px 0 gray;
+}
+#sidebar .menu-groups .menu-groups-tabs li.active {
+    background-color: rgb(135, 144, 154);
+    border: 1px solid rgb(135, 144, 154);
+    color: rgb(255, 255, 255);
+    text-shadow: 0 -1px 0 rgb(85, 85, 85);
 }
 #sidebar .menu-group
 {
     margin-bottom: 2px;
     display: none;
+    height: 100%;
 }
 #sidebar #default-menu-group {
     display: block;
@@ -2758,9 +2823,16 @@ header.default-header #search-menu input[type=text]:focus
     line-height: 3em;
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
-#sidebar .menu-group > ul
+#sidebar .menu-group > ul {
+    margin-left: 2px;
+    margin-right: 2px;    
+}
+#sidebar .menu-group > ul,
+#sidebar #project-menu-group-list,
+#sidebar #organisation-menu-group-list,
+#sidebar #userproject-menu-group-list
 {
-    border-radius: 2px;
+    border-radius: 2px 2px 2px 2px;
     box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
 }
 #sidebar .menu-group-item
@@ -2825,22 +2897,32 @@ header.default-header #search-menu input[type=text]:focus
     font-size: 0.945em;
     font-weight: 600;
 }
-#sidebar .menu-group-item a > div p span
+#sidebar .menu-group-item a > div p span,
+#sidebar .menu-groups-tabs li span
 {
-    background-color: rgb(27, 131, 235);
-    border: 1px solid rgb(255, 255, 255);
-    border-radius: 4px 4px 4px 4px;
+    background-color: rgb(0, 168, 45);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.4);
     color: white;
     display: inline-block;
-    font-size: 13px;
     font-weight: 600;
-    height: 21px;
-    left: -7px;
-    line-height: 18px;
     padding: 0 2px;
     position: absolute;
-    text-align: right;
-    top: 15px;
+    text-align: center;
+}
+#sidebar .menu-group-item a > div p span
+{
+    font-size: 0.7em;
+    left: -2px;
+    line-height: 1.3em;
+    top: -2px;
+}
+#sidebar .menu-groups-tabs li span {
+    font-size: 0.7em;
+    left: -3px;
+    line-height: 1.3em;
+    text-transform: uppercase;
+    top: -3px;
 }
 /*
 *
@@ -2866,7 +2948,7 @@ header.default-header #search-menu input[type=text]:focus
 {
     color: rgb(68, 68, 68);
     display: block;
-    font-size: 1em;
+    font-size: 0.9375em;
     font-weight: 600;
     letter-spacing: -0.02em;
     line-height: 3em;
@@ -4060,3 +4142,54 @@ ul.tagit input[type="text"] {
 .visualize-labels-y li span.label { right: 100%; margin-right: 5px; display: block; width: 100px; text-align: right; }
 .visualize-labels-y li span.line { border-top-width: 1px; width: 100%; }
 .visualize-bar .visualize-labels-x li span.label { width: 100%; text-align: center; }
+
+
+/* tinyscroller */
+.scrollbar-container      
+{
+    clear: both;
+    height: 100%;
+    
+}
+.scrollbar-container .viewport      
+{
+    height: 210px;
+    overflow: hidden;
+    position: relative;
+    
+
+    height: 100%;
+}
+.scrollbar-container .overview {
+    left: 0;
+    list-style: none outside none;
+    padding: 2px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.scrollbar-container .thumb .end,
+.scrollbar-container .thumb { background-color: rgb(169, 169, 169); }
+.scrollbar-container .scrollbar { position: relative; float: right; width: 15px;visibility: hidden; }
+.scrollbar-container .track 
+{ 
+    background-color: rgb(231, 231, 231);
+    border-radius: 2px 2px 2px 2px;
+    height: 100%;
+    padding: 0 1px;
+    position: relative;
+    width: 7px;
+}
+.scrollbar-container .thumb {
+    border-radius: 2px 2px 2px 2px;
+    cursor: pointer;
+    height: 20px;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 7px;
+}
+.scrollbar-container .thumb .end { overflow: hidden; height: 5px; width: 7px; }
+.scrollbar-container .disable{ display: none; }
+.noSelect { user-select: none; -o-user-select: none; -moz-user-select: none; -khtml-user-select: none; -webkit-user-select: none; }
+.scrollbar-container:hover .scrollbar { visibility: visible; }

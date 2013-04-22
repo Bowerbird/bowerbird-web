@@ -32,6 +32,7 @@ namespace Bowerbird.Core.EventHandlers
 
         private readonly IDocumentSession _documentSession;
         private readonly IGroupViewFactory _groupViewFactory;
+        private readonly IUserViewFactory _userViewFactory;
         private readonly IBackChannelService _backChannelService;
 
         #endregion
@@ -41,15 +42,18 @@ namespace Bowerbird.Core.EventHandlers
         public ActivityUserJoinedGroup(
             IDocumentSession documentSession,
             IGroupViewFactory groupViewFactory,
+            IUserViewFactory userViewFactory,
             IBackChannelService backChannelService
             )
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(backChannelService, "backChannelService");
 
             _documentSession = documentSession;
             _groupViewFactory = groupViewFactory;
+            _userViewFactory = userViewFactory;
             _backChannelService = backChannelService;
         }
 
@@ -90,11 +94,12 @@ namespace Bowerbird.Core.EventHandlers
 
             activity.UserJoinedGroup = new
             {
-                User = newMember,
+                User = _userViewFactory.Make(newMember, null),
                 Group = groupViewModel
             };
 
             _documentSession.Store(activity);
+            _documentSession.SaveChanges();
         }
 
         #endregion

@@ -126,6 +126,7 @@
     article section#sidebar {
         position: fixed;
         top: 4.6em;
+        bottom: 65px;
     }
 }
 /* @media screen and (min-width: 1200px) */

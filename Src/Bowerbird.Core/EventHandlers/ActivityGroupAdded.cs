@@ -100,6 +100,7 @@ namespace Bowerbird.Core.EventHandlers
                 };
 
                 _documentSession.Store(activity);
+                _documentSession.SaveChanges();
                 _backChannelService.SendActivityToGroupChannel(activity);
             }
         }

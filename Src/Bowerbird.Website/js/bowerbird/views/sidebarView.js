@@ -33,7 +33,8 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             'click #default-menu-group .sub-menu a': 'selectMenuItem',
             'click #action-menu a': 'selectMenuItem',
             'click #default-menu-group .menu-group-item > a': 'selectMenuItem',
-            'click .more-button': 'showMoreMenu'
+            'click .more-button': 'showMoreMenu',
+            'click .menu-groups-tabs li': 'showMenuGroup'
         },
 
         onRender: function () {
@@ -51,9 +52,13 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             sidebarUserProjectMenuGroupView.itemView = SidebarUserProjectItemView;
             this.userProjectsMenu.show(sidebarUserProjectMenuGroupView);
 
+            this.currentMenuGroupView = sidebarProjectMenuGroupView;
+
             this.$el.find('#action-menu a').not('.new-observation-button').tipsy({ gravity: 'n', html: true });
             this.$el.find('.new-observation-button').tipsy({ gravity: 'nw', html: true });
             this.$el.find('#default-menu-group .sub-menu a').tipsy({ gravity: 'w' });
+
+            app.vent.on('newactivity:sightingadded newactivity:postadded newactivity:sightingnoteadded', this.onNewActivityReceived, this);
         },
 
         serializeData: function () {
@@ -87,6 +92,42 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
             app.vent.trigger('close-sub-menus');
             Backbone.history.navigate($(e.currentTarget).attr('href'), { trigger: true });
             return false;
+        },
+
+        showMenuGroup: function (e) {
+            e.preventDefault();
+            var menu = $(e.currentTarget).data('menu');
+            this.$el.find('.menu-groups-tabs li').removeClass('active');
+            $(e.currentTarget).addClass('active');
+
+            this.$el.find('.menu-groups > div').hide();
+            this.$el.find('.' + menu).show();
+
+            var scrollbar = this.$el.find('.' + menu).find('.scrollbar-container');
+            scrollbar.tinyscrollbar_update();
+
+            $(e.currentTarget).find('span').remove();
+
+            return false;
+        },
+
+        onNewActivityReceived: function (activity) {
+            _.each(activity.get('Groups'), function (group) {
+                if (group.Id.toLowerCase().indexOf('projects/', 0) == 0 && this.$el.find('.menu-projects-tab.active').length == 0) {
+                    this.showActivityBadge('.menu-projects-tab');
+                }
+                if (group.Id.toLowerCase().indexOf('userprojects/', 0) == 0 && this.$el.find('.menu-userprojects-tab.active').length == 0) {
+                    this.showActivityBadge('.menu-userprojects-tab');
+                }
+                if (group.Id.toLowerCase().indexOf('organisations/', 0) == 0 && this.$el.find('.menu-organisations-tab.active').length == 0) {
+                    this.showActivityBadge('.menu-organisations-tab');
+                }
+            },
+            this);
+        },
+
+        showActivityBadge: function (tab) {
+            this.$el.find(tab).append('<span title="New Items">New</span>');
         }
     });
 

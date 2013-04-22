@@ -140,6 +140,9 @@ define(['jquery', 'underscore', 'backbone', 'ich', 'app'], function ($, _, Backb
                 success: function (model, response, options) {
                     that.$el.find('#login').attr('disabled', 'disabled').val('Loading...');
                     that.onValidation(that.model, []);
+                    if (that.model.get('ReturnUrl') === '') {
+                        that.model.set('ReturnUrl', '/');
+                    }
                     window.location.replace(that.model.get('ReturnUrl'));
                 },
                 error: function (model, xhr, options) {

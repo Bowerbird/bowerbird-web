@@ -76,6 +76,33 @@ function ($, _, Backbone, ich, app, UserProject) {
         showMenu: function (e) {
             app.vent.trigger('close-sub-menus');
             $(e.currentTarget).addClass('active');
+
+            var offsetFromTopOfViewport = $(e.currentTarget).offset().top - $(window).scrollTop();
+            var offsetFromLeftOfViewport = ($(e.currentTarget).offset().left - $(window).scrollLeft()) + 25; // 25 = position popup away from arrow
+            var windowHeight = $(window).height();
+            var $popup = $(e.currentTarget).find('ul');
+            var popupHeight = $popup.height();
+
+            log('popupHeight', popupHeight);
+            log('windowHeight', windowHeight);
+            log('offsetFromTopOfViewport', offsetFromTopOfViewport);
+
+            // if popup is being cut off at bottom of viewport, bring it back up into view
+            if (offsetFromTopOfViewport + popupHeight > windowHeight) {
+                offsetFromTopOfViewport = windowHeight - popupHeight;
+            }
+
+            // if the popup is still too low (ie low enough to be blocked by collapsed chat window, bring it up further
+            var chatOverhang = (offsetFromTopOfViewport + popupHeight) - (windowHeight - 50);
+            if (chatOverhang > 0) {
+                offsetFromTopOfViewport = offsetFromTopOfViewport - chatOverhang;
+            }
+
+            $popup.css({
+                position: 'fixed',
+                top: offsetFromTopOfViewport + 'px',
+                left: offsetFromLeftOfViewport + 'px'
+            });
             e.stopPropagation();
         },
 

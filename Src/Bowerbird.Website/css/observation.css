@@ -649,7 +649,9 @@
     border-color: #ED8200;
     text-shadow: 0 -1px 0 #b46300;
 }
-#project-explore-welcome {
+#project-explore-welcome,
+#organisation-explore-welcome
+ {
     margin-bottom: 2%;
 }
 
@@ -1244,6 +1246,9 @@ OBSERVATION FULL DETAILS
     margin-right: 2%;
     padding: 4px;
     width: 69px;
+}
+.comment-panel {
+    display: none;
 }
 .edit-panel
 {

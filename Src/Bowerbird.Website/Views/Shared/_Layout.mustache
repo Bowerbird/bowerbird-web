@@ -15,6 +15,22 @@
     <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" />
   </head>
   <body>
+
+
+    <script type="text/javascript">
+      // Outdated browser check
+      var $buoop = {vs:{i:8,f:12,o:10.6,s:4,n:9}}
+      $buoop.ol = window.onload;
+      window.onload=function(){
+      try {if ($buoop.ol) $buoop.ol();}catch (e) {}
+      var e = document.createElement("script");
+      e.setAttribute("type", "text/javascript");
+      e.setAttribute("src", "http://browser-update.org/update.js");
+      document.body.appendChild(e);
+      }
+    </script>
+
+
     <div id="header">
       {{>Header}}
     </div>

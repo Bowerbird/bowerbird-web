@@ -54,12 +54,13 @@ namespace Bowerbird.Web.Infrastructure
             Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
 
             // Request scope
-            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope().OnActivation((x) => Debug.WriteLine("HTTP Request Document Session instantiated."));
+            //Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope().OnActivation((x) => Debug.WriteLine("HTTP Request Document Session instantiated."));
 
             // Transient scope
             Bind<IConnectionManager>().ToMethod(x => GlobalHost.ConnectionManager);
             Bind<IMediaServiceFactory>().ToFactory();
             Bind<IMessageBus>().ToProvider<NinjectMessageBusProvider>();
+            Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>();
 
             // Thread scope
             // HACK: Experimental loading of chat components into new async thread

@@ -55,7 +55,7 @@ namespace Bowerbird.Web.Infrastructure
             routes.MapRoute(
                 "home-publicindex",
                 "",
-                new {controller = "home", action = "publicindex"});
+                new { controller = "home", action = "publicindex" });
 
             routes.MapRoute(
                 "account-notifications",

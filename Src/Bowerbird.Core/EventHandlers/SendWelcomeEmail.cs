@@ -58,14 +58,14 @@ namespace Bowerbird.Core.EventHandlers
         {
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
-            var message = Email
-                .From("noreply@bowerbird.org.au", "Bowerbird")
-                .To(userCreatedEvent.DomainModel.Email)
-                .Subject("Welcome to BowerBird")
-                .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.Name })
-                .Message;
+            //var message = Email
+            //    .From("noreply@bowerbird.org.au", "Bowerbird")
+            //    .To(userCreatedEvent.DomainModel.Email)
+            //    .Subject("Welcome to BowerBird")
+            //    .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.Name })
+            //    .Message;
 
-            _emailService.SendMailMessage(message);
+            //_emailService.SendMailMessage(message);
         }
 
         #endregion      

@@ -95,6 +95,11 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
             $('#sidebar').css('width', $('header.default-header h1').width() + 'px');
             $('#sidebar').css('left', $('header.default-header h1').offset().left + 'px');
+            $('#sidebar .scrollbar-container').css('width', ($('header.default-header h1').width() + 15) + 'px');
+            $('#sidebar .scrollbar-container .viewport').css('width', $('header.default-header h1').width() + 'px');
+
+            //var scrollbars = this.$el.find('#sidebar .scrollbar-container');
+            //scrollbars.tinyscrollbar_update();
         }
     };
 
@@ -218,16 +223,16 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
 
             // initialise the hub connection
             $.connection.hub.logging = true;
-            
+
             //$.connection.hub.start({ transport: ['webSockets', 'longPolling'] }, function () {
             $.connection.hub.start({}, function () {
-                    // Keep the client id
-                    app.clientId = $.signalR.hub.id;
-                    log('browser connected via signalr as ' + app.clientId);
+                // Keep the client id
+                app.clientId = $.signalR.hub.id;
+                log('browser connected via signalr as ' + app.clientId);
 
-                    // Subscribe authenticated user to all their groups
-                    if (app.authenticatedUser) {
-                        $.connection.userHub.server.registerUserClient(app.authenticatedUser.user.id)
+                // Subscribe authenticated user to all their groups
+                if (app.authenticatedUser) {
+                    $.connection.userHub.server.registerUserClient(app.authenticatedUser.user.id)
                             .done(function () {
                                 log('Added user to hub');
                                 app.onlineUsers.add(app.authenticatedUser.user);
@@ -235,8 +240,8 @@ function ($, _, Backbone, ich, bootstrapData, User, UserCollection, ProjectColle
                             .fail(function (e) {
                                 log('could not register client with hub', e);
                             });
-                    }
-                });
+                }
+            });
 
             $.connection.hub.error(function (stuff) {
                 log('ERROR: SignalR Hub blew up!', stuff);

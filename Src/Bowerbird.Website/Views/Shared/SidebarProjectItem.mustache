@@ -28,11 +28,11 @@
       </li>
       {{#IsMember}}
       <li class="new-section">
-        <a href="/observations/create?projectid={{Id}}" title="Add a sighting that contains images, videos and/or audio to this project">Add Full Sighting</a>
+        <a href="/observations/create?projectid={{Id}}" title="Add a sighting to this project">Add Sighting</a>
       </li>
-      <li>
+      <!--<li>
         <a href="/records/create?projectid={{Id}}" title="Add a sighting that consists of a location alone to this project">Add Simple Sighting</a>
-      </li>
+      </li>-->
       {{/IsMember}}
       {{#IsAdministrator}}
       <li>

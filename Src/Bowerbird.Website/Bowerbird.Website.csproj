@@ -277,6 +277,7 @@
     <Content Include="js\libs\jquery.jplayer\jquery.jplayer.js" />
     <Content Include="js\libs\jquery.jplayer\jquery.transform.js" />
     <Content Include="js\libs\jquery.signalr\jquery.signalr.js" />
+    <Content Include="js\libs\jquery.tinyscroller\jquery.tinyscroller.js" />
     <Content Include="js\libs\jquery.visualize\jquery.visualize.js" />
     <Content Include="js\libs\jquery.jsonp\jquery.jsonp.js" />
     <Content Include="js\libs\jquery.multiselect\jquery.multiselect.js" />

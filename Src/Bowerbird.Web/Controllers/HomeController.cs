@@ -340,7 +340,7 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelQuery.BuildUser(_userContext.GetAuthenticatedUserId());
-            viewModel.Sightings = _sightingViewModelQuery.BuildGroupSightingList(userResult.User.UserProject.Id, queryInput);
+            viewModel.Sightings = _sightingViewModelQuery.BuildGroupSightingList(userResult.User.Favourites.Id, queryInput);
             viewModel.CategorySelectList = Categories.GetSelectList(queryInput.Category);
             viewModel.IsFavourites = true;
             viewModel.Query = new

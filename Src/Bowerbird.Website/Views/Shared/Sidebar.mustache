@@ -1,8 +1,8 @@
 ﻿<div id="action-menu">
   <ul>
       <li class="new-observation-option-button">
-        <a href="/observations/create" class="button new-observation-button" title="<b>Add a new sighting</b> <br />A sighting contains an images, videos and/or audio, as well as location."><span>Add Sighting</span></a>
-        <div class="button more-button sub-menu-button sub-menu"><span>More options</span>
+        <a href="/observations/create" class="button new-observation-button" title="<b>Add a new sighting</b> <br />A sighting is an observation of an animal/organism/plant. Add images, videos and/or audio, as well as where and when the sighting was made."><span>Add Sighting</span></a>
+        <!--<div class="button more-button sub-menu-button sub-menu"><span>More options</span>
         <ul>
           <li>
             <a href="/observations/create">Add Full Sighting
@@ -15,9 +15,9 @@
             </a>
           </li>
         </ul>
-      </div>        
+      </div> -->       
       </li>
-      <li class="more-options-button"></li>
+      <!--<li class="more-options-button"></li>-->
       <li class="new-project-option-button"><a href="/projects/create" class="button new-project-button" title="<b>Start a new project</b> <br /> A project is a place to add sightings and allow other users to join and add sightings too."><span>Add Project</span></a></li>
       <li class="new-organisation-option-button"><a href="/organisations/create" class="button new-organisation-button" title="<b>Add your organisation</b> <br /> An organisation is a way for your club, group, etc to have a presence in BowerBird. It allows you to communicate to your members and support your members' projects."><span>Add Organsation</span></a></li>
   </ul>
@@ -46,6 +46,13 @@
       <li class="menu-group-item"><a href="/favourites" class="user-favourites"><div class="avatar"><img alt="" src="/img/favourites.png" /></div><div><p>Favourites</p></div></a></li>
   </ul>
 </div>
-<div class="menu-projects"></div>
-<div class="menu-organisations"></div>
-<div class="menu-userprojects"></div>
+<div class="menu-groups">
+  <ul class="menu-groups-tabs">
+    <li class="menu-projects-tab active" data-menu="menu-projects">Projects</li>
+    <li class="menu-userprojects-tab" data-menu="menu-userprojects">People</li>
+    <li class="menu-organisations-tab" data-menu="menu-organisations">Organisations</li>
+  </ul>
+  <div class="menu-projects"></div>
+  <div class="menu-userprojects" style="display:none;"></div>
+  <div class="menu-organisations" style="display:none;"></div>
+</div>
