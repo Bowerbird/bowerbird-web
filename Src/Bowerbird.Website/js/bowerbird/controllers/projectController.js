@@ -101,7 +101,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     { 
                         subId: project.id,
-                        page: model.Query.page,
+                        page: model.Query.Page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
                         viewType: model.Query.View,
@@ -136,7 +136,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
             var postCollection = new PostCollection(model.Posts.PagedListItems,
                 {
                     subId: project.id,
-                    page: model.Query.page,
+                    page: model.Query.Page,
                     pageSize: model.Query.PageSize,
                     total: model.Posts.TotalResultCount,
                     sortBy: model.Query.Sort,
@@ -167,7 +167,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
             var userCollection = new UserCollection(model.Users.PagedListItems, 
             {
                 subId: project.id,
-                page: model.Query.page,
+                page: model.Query.Page,
                 pageSize: model.Query.PageSize,
                 total: model.Users.TotalResultCount,
                 viewType: model.Query.View, 
@@ -233,7 +233,7 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
         .done(function (model) {
             var projectCollection = new ProjectCollection(model.Projects.PagedListItems,
                 {
-                    page: model.Query.page,
+                    page: model.Query.Page,
                     pageSize: model.Query.PageSize,
                     total: model.Projects.TotalResultCount,
                     viewType: model.Query.View,

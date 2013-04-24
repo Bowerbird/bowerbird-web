@@ -478,7 +478,8 @@
 
 /******* Project about *******/
 .project-about .about,
-.organisation-about .about{
+.organisation-about .about,
+.user-about .about {
     background-color: rgb(255, 255, 255);
     border-radius: 2px 2px 2px 2px;
     box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
@@ -487,7 +488,8 @@
     width: 100%;
 }
 .project-about h4,
-.organisation-about h4 {
+.organisation-about h4,
+.user-about h4 {
     color: rgb(68, 68, 68);
     font-size: 0.875em;
     font-weight: 600;
@@ -495,13 +497,15 @@
     text-shadow: 0 1px 0 rgb(255, 255, 255);
 }
 .project-description,
-.organisation-description {
+.organisation-description,
+.user-description {
     font-size: 0.875em;
     line-height: 1.5em;
     padding: 0 1em;
 }
 .project-info,
-.organisation-info {
+.organisation-info,
+.user-info {
     font-size: 0.875em;
     line-height: 1.5em;
     padding: 1em 0 1em 1em;
@@ -511,7 +515,10 @@
 .project-info #activity-chart .visualize .visualize-title,
 .organisation-info #created,
 .organisation-info #website,
-.organisation-info #activity-chart .visualize .visualize-title {
+.organisation-info #activity-chart .visualize .visualize-title,
+.user-info #created,
+.user-info #website,
+.user-info #activity-chart .visualize .visualize-title {
     color: rgb(68, 68, 68);
     font-size: 0.975em;
     font-weight: 600;
@@ -520,7 +527,9 @@
 .project-info #created span,
 .project-info #website span,
 .organisation-info #created span,
-.organisation-info #website span 
+.organisation-info #website span,
+.user-info #created span,
+.user-info #website span 
 {
     display: block;
     font-weight: 500;
@@ -550,29 +559,36 @@
 .project-info #website span a:visited,
 .organisation-info #website span a,
 .organisation-info #website span a:active,
-.organisation-info #website span a:visited 
+.organisation-info #website span a:visited,
+.user-info #website span a,
+.user-info #website span a:active,
+.user-info #website span a:visited 
 {
     color: rgb(34, 34, 34);
 }
 .project-info #website span a:hover,
-.organisation-info #website span a:hover
+.organisation-info #website span a:hover,
+.user-info #website span a:hover
 {
     color: rgb(27, 131, 235);
 }
 .project-info #activity-chart,
-.organisation-info #activity-chart 
+.organisation-info #activity-chart,
+.user-info #activity-chart 
 {
     margin-bottom: 41px;
     margin-top: 27px;
     padding: 2%;
 }
 .project-info #activity-chart table,
-.organisation-info #activity-chart table 
+.organisation-info #activity-chart table,
+.user-info #activity-chart table 
 {
     display: none;
 }
 .project-info #activity-chart .visualize .visualize-info,
-.organisation-info #activity-chart .visualize .visualize-info 
+.organisation-info #activity-chart .visualize .visualize-info,
+.user-info #activity-chart .visualize .visualize-info 
 {
     background: none repeat scroll 0 0 transparent;
     border: medium none;
@@ -586,7 +602,8 @@
     top: -23px;
 }
 .project-info #activity-chart .visualize ul.visualize-key,
-.organisation-info #activity-chart .visualize ul.visualize-key 
+.organisation-info #activity-chart .visualize ul.visualize-key,
+.user-info #activity-chart .visualize ul.visualize-key 
 {
     display: block;
     font-size: 0.95em;
@@ -596,20 +613,23 @@
     top: 237px;
 }
 .project-info #activity-chart .visualize-labels-x .label,
-.organisation-info #activity-chart .visualize-labels-x .label 
+.organisation-info #activity-chart .visualize-labels-x .label,
+.user-info #activity-chart .visualize-labels-x .label 
 {
     font-size: 0.8em;
     line-height: 1em;
     text-align: center;
 }
 .project-info #activity-chart .visualize-labels-y .label,
-.organisation-info #activity-chart .visualize-labels-y .label
+.organisation-info #activity-chart .visualize-labels-y .label,
+.user-info #activity-chart .visualize-labels-y .label
 {
     font-size: 0.8em;
     line-height: 1em;
 }
 .project-info #activity-chart .visualize-labels-y li span.line,
-.organisation-info #activity-chart .visualize-labels-y li span.line 
+.organisation-info #activity-chart .visualize-labels-y li span.line,
+.user-info #activity-chart .visualize-labels-y li span.line 
 {
     border-style: dotted;
 }

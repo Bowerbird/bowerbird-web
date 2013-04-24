@@ -45,6 +45,7 @@ require.config({
         tagging: '../libs/jquery.tag-it/jquery.tag-it',
         visualize: '../libs/jquery.visualize/jquery.visualize',
         tinyscroller: '../libs/jquery.tinyscroller/jquery.tinyscroller',
+        infinitescroll: '../libs/jquery.infinite-scroll/jquery.infinite-scroll',
         moment: '../libs/moment/moment',
         i18n: 'noext!/i18n'
     }

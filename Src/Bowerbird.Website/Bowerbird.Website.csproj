@@ -271,6 +271,7 @@
     <Content Include="js\libs\jquery.fileupload\jquery.fileupload.js" />
     <Content Include="js\libs\jquery.fileupload\jquery.iframe-transport.js" />
     <Content Include="js\libs\jquery.fileupload\load-image.js" />
+    <Content Include="js\libs\jquery.infinite-scroll\jquery.infinite-scroll.js" />
     <Content Include="js\libs\jquery.jplayer\circle.player.js" />
     <Content Include="js\libs\jquery.jplayer\jplayer.swf" />
     <Content Include="js\libs\jquery.jplayer\jquery.grab.js" />

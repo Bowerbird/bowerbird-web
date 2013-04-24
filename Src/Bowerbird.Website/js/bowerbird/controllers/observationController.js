@@ -187,7 +187,7 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
             .done(function (model) {
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
-                        page: model.Query.page,
+                        page: model.Query.Page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
                         viewType: model.Query.View,

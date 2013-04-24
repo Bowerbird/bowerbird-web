@@ -8,7 +8,7 @@
 // ActivityCollection
 // ------------------
 
-define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/activity', 'models/user', 'models/project'], function ($, _, Backbone, PaginatedCollection, Activity, User, Project) {
+define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', 'models/activity', 'models/user', 'models/project', 'models/organisation'], function ($, _, Backbone, PaginatedCollection, Activity, User, Project, Organisation) {
 
     var padDateTime = function (val) {
         if (val < 10) {
@@ -81,8 +81,7 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
                 options.success = this.onSuccessWithAddFix;
             }
             if (this.groupOrUser) {
-                //if (this.groupOrUser instanceof Organisation || this.groupOrUser instanceof Team || this.groupOrUser instanceof Project) {
-                if (this.groupOrUser instanceof Project) {
+                if (this.groupOrUser instanceof Project || this.groupOrUser instanceof Organisation) {
                     options.data.groupId = this.groupOrUser.id;
                 } else if (this.groupOrUser instanceof User) {
                     options.data.userId = this.groupOrUser.id;
@@ -106,6 +105,27 @@ define(['jquery', 'underscore', 'backbone', 'collections/paginatedcollection', '
             response.each(function (item, index) {
                 self.trigger('add', item, self, { Index: index });
             });
+        },
+
+        searchUrl: function (includePagination, pageNumber) {
+            // Eg: http://localhost:65061/?page=2&pageSize=10&olderThan=2013-04-24T04%3A43%3A08Z
+            
+            var url = this.baseUrl;
+
+            var urlBits = [];
+
+            urlBits.push('olderthan=' + this.baselineDateTime.getFullYear() + '-' + padDateTime(this.baselineDateTime.getMonth() + 1) + '-' + padDateTime(this.baselineDateTime.getDate()) + 'T' + padDateTime(this.baselineDateTime.getHours()) + ':' + padDateTime(this.baselineDateTime.getMinutes()) + ':' + padDateTime(this.baselineDateTime.getSeconds()) + 'Z');
+
+            if (includePagination) {
+                urlBits.push('pagesize=10');
+                urlBits.push('page=' + pageNumber);
+            }
+
+            if (urlBits.length > 0) {
+                url = url + '?' + urlBits.join('&');
+            }
+
+            return url;
         }
     });
 

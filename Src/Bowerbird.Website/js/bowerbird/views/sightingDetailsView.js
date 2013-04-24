@@ -131,7 +131,7 @@ function ($, _, Backbone, ich, app, moment, Voter) {
             // Resize video and audio in observations
             if (this.currentObservationMedia) {
                 var newWidth = (600 / 800) * this.$el.find('.preview').width();
-                this.$el.find('.preview .video-media, .preview .video-media > iframe, .preview .audio-media.media-constrained-600, .preview .image-media').height(newWidth + 'px');
+                this.$el.find('.preview .video-media, .preview .video-media > iframe, .preview .audio-media.media-constrained-600').height(newWidth + 'px');
             }
 
             if (this.showLocation) {

@@ -9,7 +9,7 @@
 // ----------------
 
 // Shows sighting items for selected user/group
-define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview'],
+define(['jquery', 'underscore', 'backbone', 'app', 'ich', 'views/sightingdetailsview', 'infinitescroll'],
 function ($, _, Backbone, app, ich, SightingDetailsView) {
 
     var SightingListView = Backbone.Marionette.CompositeView.extend({
@@ -53,8 +53,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
                     IsFavourites: this.collection.subId === 'favourites',
                     Query: {
                         Id: this.collection.subId === 'favourites' ? null : this.collection.subId,
-                        Page: this.collection.pageSize,
-                        PageSize: this.collection.page,
+                        Page: this.collection.page,
+                        PageSize: this.collection.pageSize,
                         View: this.collection.viewType,
                         Sort: this.collection.sortByType
                     }
@@ -98,6 +98,8 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
 
             this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
 
+            this.enableInfiniteScroll();
+
             this.refresh();
         },
 
@@ -127,6 +129,45 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
             _.each(this.children, function (childView) {
                 childView.refresh();
             });
+        },
+
+        enableInfiniteScroll: function () {
+            // Infinite scroll
+            var that = this;
+            this.$el.find('.sighting-list').infinitescroll({
+                navSelector: '.stream-load-more', // selector for the paged navigation (it will be hidden)
+                nextSelector: ".next-page", // selector for the NEXT link (to page 2)
+                itemSelector: '.sighting-item', // selector for all items you'll retrieve                
+                dataType: 'json',
+                appendCallback: false,
+                binder: $(window), // used to cache the selector for the element that will be scrolling
+                maxPage: that.collection.total > 0 ? (Math.floor(that.collection.total / that.collection.pageSize)) + 1 : 0, // Total number of navigable pages
+                animate: false,
+                pixelsFromNavToBottom: 30,
+                path: function (currentPage) {
+                    //return that.buildPagingUrl(true);
+                    return that.collection.searchUrl(true, currentPage);
+                },
+                loading: {
+                    msg: $(ich.StreamLoading()),
+                    speed: 1
+                }
+            }, function (json, opts) {
+                // Get current page
+                //var page = opts.state.currPage;
+
+                for (var x = 0; x < json.Model.Sightings.PagedListItems.length; x++) {
+                    that.collection.add(json.Model.Sightings.PagedListItems[x]);
+                }
+
+                var maxPage = that.collection.total > 0 ? (Math.floor(that.collection.total / that.collection.pageSize)) + 1 : 0;
+                if (json.Model.Sightings.Page === maxPage) {
+                    that.$el.find('.sighting-list').append('<div class="no-more-items">You\'ve reached the end. Time to add some more sightings!</div>');
+                    opts.state.isDone = true;
+                }
+            });
+
+            this.$el.find('.stream-load-more').hide();
         },
 
         buildItemView: function (item, ItemView) {
@@ -208,8 +249,18 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
                 this.$el.find('.sighting-list').append(ich.StreamMessage());
             }
             if (collection.pageInfo().next) {
-                this.$el.find('.sighting-list').append(ich.StreamLoadMore());
+                var pagingInfo = {
+                    NextUrl: this.collection.searchUrl(true, this.collection.page + 1)
+                };
+
+                if (this.collection.page > 1) {
+                    pagingInfo['PreviousUrl'] = this.collection.searchUrl(true, this.collection.page - 1);
+                }
+
+                this.$el.find('.sighting-list').append(ich.StreamLoadMore(pagingInfo));
             }
+
+            this.enableInfiniteScroll();
         },
 
         onDetailsTabClicked: function (e) {
@@ -261,18 +312,23 @@ function ($, _, Backbone, app, ich, SightingDetailsView) {
         },
 
         clearListAnPrepareShowLoading: function () {
-            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading').remove();
+            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading, .no-more-items').remove();
             this.$el.find('.sighting-items').empty();
+            this.$el.find('.sighting-list').infinitescroll('destroy');
         },
 
         showLoading: function () {
-            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
+            this.$el.find('.stream-message, .stream-load-new, .stream-load-more, .no-more-items').remove();
             this.$el.find('.sighting-items, .tab-bar-right').hide();
             this.onLoadingStart();
         },
 
         showHideSearch: function () {
             this.trigger('toggle-search');
+        },
+
+        beforeClose: function () {
+            this.$el.find('.sighting-list').infinitescroll('destroy');
         }
     });
 

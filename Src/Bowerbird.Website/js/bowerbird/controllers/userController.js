@@ -158,7 +158,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
             var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                 {
                     subId: user.id,
-                    page: model.Query.page,
+                    page: model.Query.Page,
                     pageSize: model.Query.PageSize,
                     total: model.Sightings.TotalResultCount,
                     viewType: model.Query.View,
@@ -189,6 +189,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
     UserController.showAbout = function (id) {
         $.when(getModel('/users/' + id + '/about'))
         .done(function (model) {
+            log('show model', model);
             var user = new User(model.User);
 
             if (app.content.currentView instanceof UserDetailsView && app.content.currentView.model.id === user.id) {
@@ -213,7 +214,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
         .done(function (model) {
             var userCollection = new UserCollection(model.Users.PagedListItems,
                 {
-                    page: model.Query.page,
+                    page: model.Query.Page,
                     pageSize: model.Query.PageSize,
                     total: model.Users.TotalResultCount,
                     viewType: model.Query.View,

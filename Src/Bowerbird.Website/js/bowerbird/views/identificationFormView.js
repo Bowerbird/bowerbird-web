@@ -48,6 +48,8 @@ function ($, _, Backbone, app, ich, Identification) {
         onRender: function () {
             var that = this;
 
+            $('body').css('overflow-y', 'hidden');
+
             $.ajax({
                 url: '/species?query=' + this.model.get('Taxonomy') + '&field=allranks&pagesize=50'
             }).done(function (data) {
@@ -294,10 +296,12 @@ function ($, _, Backbone, app, ich, Identification) {
         },
 
         _cancel: function () {
+            $('body').css('overflow-y', 'scroll');
             this.remove();
         },
 
         _done: function () {
+            $('body').css('overflow-y', 'scroll');
             this.trigger('identificationdone', this.model);
             this.remove();
         }

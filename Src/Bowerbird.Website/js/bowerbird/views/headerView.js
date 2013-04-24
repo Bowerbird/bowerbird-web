@@ -91,8 +91,6 @@ function ($, _, Backbone, app) {
                     that.animate(data.items, pDur + (dur * 2));
                 }
             });
-
-            log('dhdhdhdhddh', this.carousel);
         },
 
         animate: function (item, dur) {

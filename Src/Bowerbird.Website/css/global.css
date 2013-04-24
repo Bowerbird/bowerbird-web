@@ -76,22 +76,22 @@ body
     overflow-y: scroll;
 }
 header {
-    background-color: rgb(255, 255, 255);
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
 }
 footer
 {
-    background-color: rgb(234, 234, 234);
-    box-shadow: 0 1px 1px 0 rgb(168, 168, 168) inset;
-    height: 62px;
-    white-space: nowrap;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25) inset;
     clear: both;
+    height: 122px;
+    white-space: nowrap;
 }
 header > div,
 footer > div
 {
-    max-width: 1200px;
     margin: 0 auto;
+    max-width: 1200px;
+    padding-top: 6px;
     position: relative;
 }
 article
@@ -2368,6 +2368,7 @@ a.multiSelect i
 */
 header.home-header {
     height: 34.75em;
+    background-color: rgb(255, 255, 255);
 }
 header.home-header > div {
     margin-bottom: 0;
@@ -2421,12 +2422,14 @@ header.home-header p {
     text-shadow: 0 2px 0 rgb(255, 255, 255);
 }
 header.home-header #header-carousel {
+    background-color: rgb(119, 119, 119);
+    border-bottom-right-radius: 4px;
+    border-top-right-radius: 4px;
     display: block;
     float: left;
-    width: 50%;
     height: 27em;
     overflow: hidden;
-    background-color: rgb(119, 119, 119);
+    width: 50%;
 }
 header.home-header #header-carousel li {
 	position: relative;
@@ -2443,12 +2446,13 @@ header.home-header #header-carousel li img {
 
 
 header.default-header {
-    position: fixed;
-    top: 0;
+    height: 3.9em;
     left: 0;
+    position: fixed;
     right: 0;
-    height: 3.1em;
+    top: 0;
     z-index: 10;
+    background-color: rgba(255, 255, 255, 0.9);
 }
 header.default-header h1 a
 {
@@ -2479,31 +2483,47 @@ header .user-avatar
 footer > div {
     margin-left: auto;
     margin-right: auto;
-    padding: 4px 0 0 0; 
+    padding: 4px 0 0 0;
+    text-align: right; 
 }
 footer ul {
     display: inline-block;
+    float: right;
     list-style: none outside none;
-    margin-left: 20px;
     margin-top: 14px;
     vertical-align: top;
 }
+footer ul.links 
+{
+    float: right;
+}
+footer ul.sponsors 
+{
+    float: left;
+}
+footer ul.sponsors li {
+    color: rgb(136, 136, 136);
+    font-size: 0.55em;
+    margin-right: 22px;
+    text-align: center;
+    text-transform: uppercase;
+}
 footer li {
     display: inline-block;
-    margin-right: 23px;
 }
-footer ul a {
+footer ul.links a {
     color: rgb(119, 119, 119);
     font-size: 0.84em;
     font-weight: 500;
     text-decoration: none;
     text-shadow: 0 1px 1px rgb(255, 255, 255);
 }
-footer .ala {
-    display: inline-block;   
+footer ul.links a {
+    padding: 0 10px;
 }
 footer img {
-    width: 64px;
+    height: 50px;
+    display: block;
 }
 #explore-menu > ul > li
 {
@@ -2527,7 +2547,7 @@ footer img {
     max-width: 250px;
     position: absolute;
     right: 0;
-    top: 10px;
+    top: 16px;
 }
 header.home-header #account-menu {
     font-size: 1.2em;
@@ -2669,7 +2689,7 @@ header.default-header #search-menu input[type=text]:focus
 #sidebar #action-menu .button
 {
     display: block;
-    height: 60px;
+    height: 54px;
     margin: 0;
     padding: 0;
 }
@@ -2678,7 +2698,7 @@ header.default-header #search-menu input[type=text]:focus
     background-repeat: no-repeat;
     background-size: 625% auto;
     display: block;
-    margin: 8px auto 0;
+    margin: 6px auto 0;
     text-indent: -99999px;
     white-space: nowrap;
 }
@@ -2687,7 +2707,7 @@ header.default-header #search-menu input[type=text]:focus
     line-height: 48px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5px;
+    margin-top: 2px;
 }
 #sidebar #action-menu .new-observation-button span
 {
@@ -2746,7 +2766,7 @@ header.default-header #search-menu input[type=text]:focus
 #sidebar .menu-groups {
     bottom: 0;
     position: absolute;
-    top: 185px;
+    top: 177px;
     width: 100%;
 }
 #sidebar .menu-groups > div {
@@ -2813,6 +2833,7 @@ header.default-header #search-menu input[type=text]:focus
 }
 #sidebar #default-menu-group {
     display: block;
+    height: auto;
 }
 #sidebar .menu-group-title
 {
@@ -2942,7 +2963,7 @@ header.default-header #search-menu input[type=text]:focus
 #content {
     float: left;
     width: 100%;
-    padding-bottom: 2%;
+    padding-bottom: 6%;
 }
 #content > div > h2
 {
@@ -3494,7 +3515,7 @@ li.chat-message .message-text
     left: 50%;
     margin-left: -290px;
     position: fixed;
-    top: 18%;
+    top: 7%;
     width: 580px;
 }
 .video-form .field .video-preview
@@ -3923,7 +3944,7 @@ li.chat-message .message-text
 .privacy .details li
 {
     color: rgb(34, 34, 34);
-    font-size: 0.9em;
+    font-size: 0.85em;
     line-height: 1.5em;
 }
 .about .details p,
@@ -3937,21 +3958,24 @@ li.chat-message .message-text
 .terms .details h2,
 .privacy .details h2
 {
-    font-size: 1.2em;
+    color: rgb(68, 68, 68);
+    font-size: 1.5em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
     line-height: 1.2em;
     margin-bottom: 1em;
     margin-top: 1em;
-    color: rgb(68, 68, 68);
 }
 .about .details h3,
 .terms .details h3,
 .privacy .details h3
 {
-    font-size: 1em;
+    color: rgb(68, 68, 68);
+    font-size: 1.1em;
+    font-weight: 600;
     line-height: 1.2em;
     margin-bottom: 1em;
     margin-top: 1em;
-    color: rgb(68, 68, 68);
 }
 .about .details li,
 .terms .details li,
@@ -3969,10 +3993,9 @@ li.chat-message .message-text
 .terms .details strong,
 .privacy .details strong
 {
-    color: rgb(34, 34, 34);
+    color: rgb(68, 68, 68);
 }
 .about .details blockquote {
-    color: rgb(34, 34, 34);
     font-size: 1.5em;
     font-style: italic;
     margin: 1em 6em;

@@ -102,7 +102,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
                 var postCollection = new PostCollection(model.Posts.PagedListItems,
                     { 
                         subId: organisation.id,
-                        page: model.Query.page,
+                        page: model.Query.Page,
                         pageSize: model.Query.PageSize,
                         total: model.Posts.TotalResultCount,
                         sortBy: model.Query.Sort,
@@ -133,7 +133,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
             var userCollection = new UserCollection(model.Users.PagedListItems,
                 {
                     subId: organisation.id,
-                    page: model.Query.page,
+                    page: model.Query.Page,
                     pageSize: model.Query.PageSize,
                     total: model.Users.TotalResultCount,
                     viewType: model.Query.View, 
@@ -197,7 +197,7 @@ function ($, _, Backbone, app, Organisation, OrganisationCollection, ActivityCol
         .done(function (model) {
             var organisationCollection = new OrganisationCollection(model.Organisations.PagedListItems,
                 {
-                    page: model.Query.page,
+                    page: model.Query.Page,
                     pageSize: model.Query.PageSize,
                     total: model.Organisations.TotalResultCount,
                     viewType: model.Query.View,

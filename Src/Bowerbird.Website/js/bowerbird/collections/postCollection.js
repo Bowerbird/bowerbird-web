@@ -97,7 +97,7 @@ function ($, _, Backbone, PaginatedCollection, Post, moment) {
             return this.query !== '';
         },
 
-        searchUrl: function () {
+        searchUrl: function (includePagination, pageNumber) {
             var url = this.baseUrl;
 
             var urlBits = [];
@@ -111,6 +111,11 @@ function ($, _, Backbone, PaginatedCollection, Post, moment) {
                 if (this.field !== '') {
                     urlBits.push('field=' + this.field);
                 }
+            }
+
+            if (includePagination) {
+                urlBits.push('pagesize=' + this.pageSize);
+                urlBits.push('page=' + pageNumber);
             }
 
             if (urlBits.length > 0) {

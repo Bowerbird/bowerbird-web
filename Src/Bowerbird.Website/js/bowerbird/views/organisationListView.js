@@ -47,12 +47,7 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
         },
 
         onShow: function () {
-            this.refresh();
-        },
-
-        onRender: function () {
             this._showDetails();
-            this.refresh();
         },
 
         showBootstrappedDetails: function () {
@@ -65,7 +60,6 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
                 this.storeChild(childView);
             }, this);
             this._showDetails();
-            this.refresh();
         },
 
         _showDetails: function () {
@@ -92,6 +86,10 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
             });
 
             this.collection.on('criteria-changed', this.clearListAnPrepareShowLoading);
+
+            this.enableInfiniteScroll();
+
+            this.refresh();
         },
 
         changeSortLabel: function (value) {
@@ -133,6 +131,45 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
             return view;
         },
 
+        enableInfiniteScroll: function () {
+            // Infinite scroll
+            var that = this;
+            this.$el.find('.organisation-list').infinitescroll({
+                navSelector: '.stream-load-more', // selector for the paged navigation (it will be hidden)
+                nextSelector: ".next-page", // selector for the NEXT link (to page 2)
+                itemSelector: '.organisation-item', // selector for all items you'll retrieve                
+                dataType: 'json',
+                appendCallback: false,
+                binder: $(window), // used to cache the selector for the element that will be scrolling
+                maxPage: that.collection.total > 0 ? (Math.floor(that.collection.total / that.collection.pageSize)) + 1 : 0, // Total number of navigable pages
+                animate: false,
+                pixelsFromNavToBottom: 30,
+                path: function (currentPage) {
+                    //return that.buildPagingUrl(true);
+                    return that.collection.searchUrl(true, currentPage);
+                },
+                loading: {
+                    msg: $(ich.StreamLoading()),
+                    speed: 1
+                }
+            }, function (json, opts) {
+                // Get current page
+                //var page = opts.state.currPage;
+
+                for (var x = 0; x < json.Model.Organisations.PagedListItems.length; x++) {
+                    that.collection.add(json.Model.Organisations.PagedListItems[x]);
+                }
+
+                var maxPage = that.collection.total > 0 ? (Math.floor(that.collection.total / that.collection.pageSize)) + 1 : 0;
+                if (json.Model.Organisations.Page === maxPage) {
+                    that.$el.find('.organisation-list').append('<div class="no-more-items">Hooray! You\'ve reached the end of the list.</div>');
+                    opts.state.isDone = true;
+                }
+            });
+
+            this.$el.find('.stream-load-more').hide();
+        },
+
         appendHtml: function (collectionView, itemView) {
             var items = this.collection.pluck('Id');
             var index = _.indexOf(items, itemView.model.id);
@@ -170,8 +207,18 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
                 this.$el.find('.organisation-list').append(ich.StreamMessage());
             }
             if (collection.pageInfo().next) {
-                this.$el.find('.organisation-list').append(ich.StreamLoadMore());
+                var pagingInfo = {
+                    NextUrl: this.collection.searchUrl(true, this.collection.page + 1)
+                };
+
+                if (this.collection.page > 1) {
+                    pagingInfo['PreviousUrl'] = this.collection.searchUrl(true, this.collection.page - 1);
+                }
+
+                this.$el.find('.organisation-list').append(ich.StreamLoadMore(pagingInfo));
             }
+
+            this.enableInfiniteScroll();
         },
 
         showSortMenu: function (e) {
@@ -192,12 +239,12 @@ function ($, _, Backbone, app, ich, OrganisationItemView) {
         },
 
         clearListAnPrepareShowLoading: function () {
-            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading').remove();
+            this.$el.find('.stream-message, .stream-load-more, .stream-load-new, .stream-loading, .no-more-items').remove();
             this.$el.find('.organisation-items').empty();
         },
 
         showLoading: function () {
-            this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();
+            this.$el.find('.stream-message, .stream-load-new, .stream-load-more, .no-more-items').remove();
             this.$el.find('.organisation-items').hide();
         },
 

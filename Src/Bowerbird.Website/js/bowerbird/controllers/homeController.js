@@ -85,7 +85,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
                         subId: 'home',
-                        page: model.Query.page,
+                        page: model.Query.Page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
                         viewType: model.Query.View,
@@ -127,7 +127,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
                 var postCollection = new PostCollection(model.Posts.PagedListItems,
                     {
                         subId: 'home',
-                        page: model.Query.page,
+                        page: model.Query.Page,
                         pageSize: model.Query.PageSize,
                         total: model.Posts.TotalResultCount,
                         viewType: model.Query.View,
@@ -169,7 +169,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
                         subId: 'favourites',
-                        page: model.Query.page,
+                        page: model.Query.Page,
                         pageSize: model.Query.PageSize,
                         total: model.Sightings.TotalResultCount,
                         viewType: model.Query.View,
@@ -203,7 +203,7 @@ function ($, _, Backbone, app, SightingCollection, PostCollection, ActivityColle
         }
         var homeGenericView = new HomeGenericView(options);
 
-        app.showContentView('About', homeGenericView, 'home', function () {
+        app.showContentView('About BowerBird', homeGenericView, 'home', function () {
         });
     };
 

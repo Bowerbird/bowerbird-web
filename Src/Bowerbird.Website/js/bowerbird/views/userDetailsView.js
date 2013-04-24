@@ -148,7 +148,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, UserAboutView
             }
         },
 
-        showAbout: function (userAdministrators, activityTimeseries) {
+        showAbout: function (activityTimeseries) {
             this.switchTabHighlight('about');
 
             var options = {
@@ -159,7 +159,6 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, UserAboutView
                 options['el'] = '.list > div';
             }
 
-            options.userAdministrators = userAdministrators;
             options.activityTimeseries = activityTimeseries;
 
             var userAboutView = new UserAboutView(options);

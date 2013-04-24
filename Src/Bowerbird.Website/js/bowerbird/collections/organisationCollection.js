@@ -117,7 +117,7 @@ function ($, _, Backbone, PaginatedCollection, Organisation) {
                 this.query !== '';
         },
 
-        searchUrl: function () {
+        searchUrl: function (includePagination, pageNumber) {
             var url = this.baseUrl;
 
             var urlBits = [];
@@ -135,6 +135,11 @@ function ($, _, Backbone, PaginatedCollection, Organisation) {
 
             if (this.category !== '') {
                 urlBits.push('category=' + encodeURIComponent(this.category));
+            }
+
+            if (includePagination) {
+                urlBits.push('pagesize=' + this.pageSize);
+                urlBits.push('page=' + pageNumber);
             }
 
             if (urlBits.length > 0) {

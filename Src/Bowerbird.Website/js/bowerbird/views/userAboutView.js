@@ -17,18 +17,16 @@ define(['jquery', 'underscore', 'backbone', 'app', 'visualize'], function ($, _,
 
         initialize: function (options) {
             _.bindAll(this, 'refresh');
-            this.projectAdministrators = options.projectAdministrators;
             this.activityTimeseries = options.activityTimeseries;
         },
 
         serializeData: function () {
             return {
                 Model: {
-                    Project: this.model.toJSON(),
+                    User: this.model.toJSON(),
                     UserCountDescription: this.model.get('UserCount') === 1 ? 'Member' : 'Members',
                     SightingCountDescription: this.model.get('SightingCount') === 1 ? 'Sighting' : 'Sightings',
                     PostCountDescription: this.model.get('PostCount') === 1 ? 'Post' : 'Posts',
-                    ProjectAdministrators: this.projectAdministrators,
                     ActivityTimeseries: this.activityTimeseries
                 }
             };
@@ -67,7 +65,7 @@ define(['jquery', 'underscore', 'backbone', 'app', 'visualize'], function ($, _,
                 .appendTo('#activity-chart #chart-area')
                 .trigger('visualizeRefresh');
         },
-        
+
         showLoading: function () {
             //var that = this;
             //this.$el.find('.stream-message, .stream-load-new, .stream-load-more').remove();

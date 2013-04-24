@@ -67,7 +67,7 @@ namespace Bowerbird.Core.Queries
 
         #region Methods
 
-        public object BuildUser(string userId)
+        public object BuildUser(string userId, bool fullDetails = false)
         {
             Check.RequireNotNullOrWhitespace(userId, "userId");
 
@@ -78,7 +78,7 @@ namespace Bowerbird.Core.Queries
                 authenticatedUser = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
             }
 
-            return _userViewFactory.Make(_documentSession.Load<User>(userId), authenticatedUser);
+            return _userViewFactory.Make(_documentSession.Load<User>(userId), authenticatedUser, fullDetails);
         }
 
         public object BuildUpdateUser(string userId)

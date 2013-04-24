@@ -44,7 +44,7 @@ function ($, _, Backbone, ich, app, UserProject) {
             app.vent.on('newactivity:' + this.model.id + ':sightingadded newactivity:' + this.model.id + ':postadded newactivity:' + this.model.id + ':sightingnoteadded', this.onNewActivityReceived, this);
 
             if (app.authenticatedUser) {
-                log('chat.....................', this.model.get('CreatedBy'), app.onlineUsers.get(this.model.get('CreatedBy')));
+                //log('chat', this.model.get('CreatedBy'), app.onlineUsers.get(this.model.get('CreatedBy')));
 
                 app.onlineUsers.on('add', function (item) {
                     if (item.id === that.model.get('CreatedBy')) {

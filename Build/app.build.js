@@ -34,6 +34,7 @@
         tagging: '../libs/jquery.tag-it/jquery.tag-it',
         visualize: '../libs/jquery.visualize/jquery.visualize',
         tinyscroller: '../libs/jquery.tinyscroller/jquery.tinyscroller',
+        infinitescroll: '../libs/jquery.infinite-scroll/jquery.infinite-scroll',
         moment: '../libs/moment/moment',
         'bootstrap-data': 'empty:',
         '/templates': 'empty:',

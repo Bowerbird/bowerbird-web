@@ -204,9 +204,9 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, PostListView,
             this.$el.find('.tab-button').removeClass('selected');
             this.$el.find('.' + tab + '-tab-button').addClass('selected');
 
-            if (tab === 'activities' && this.search.currentView) {
-                this.search.currentView.$el.hide();
-            }
+//            if (tab === 'activities' && this.search.currentView) {
+//                this.search.currentView.$el.hide();
+//            }
         },
 
         toggleSearchPanel: function () {

@@ -36,7 +36,7 @@
     </div>
     {{/Model.Observation.IdentificationCount}}
     <div class="add-identification">
-      <a href="#" class="button add-identification-button">Identify This Sighting</a>
+      <a href="/{{Model.Observation.Id}}/identifications/create" class="button add-identification-button">Identify This Sighting</a>
     </div>
   </div>
   <div class="sighting-notes">
@@ -57,7 +57,7 @@
     </div>
     {{/Model.Observation.NoteCount}}
     <div class="add-sighting-note">
-      <a href="#" class="button add-sighting-note-button">Describe This Sighting</a>
+      <a href="/{{Model.Observation.Id}}/notes/create" class="button add-sighting-note-button">Describe This Sighting</a>
     </div>
   </div>
 </div>

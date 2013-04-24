@@ -209,7 +209,7 @@ namespace Bowerbird.Web.Controllers
                 .First();
 
             dynamic viewModel = new ExpandoObject();
-            viewModel.User = _userViewModelQuery.BuildUser(userId);
+            viewModel.User = _userViewModelQuery.BuildUser(userId, true);
             viewModel.ShowAbout = true;
             //viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<UserPro>(PermissionNames.CreateObservation, userId) : false;
             viewModel.SightingCountDescription = "Sighting" + (userResult.SightingCount == 1 ? string.Empty : "s");
@@ -241,7 +241,8 @@ namespace Bowerbird.Web.Controllers
 
             dynamic viewModel = new ExpandoObject();
             viewModel.User = _userViewModelQuery.BuildUser(userId);
-            viewModel.Activities = _activityViewModelQuery.BuildGroupActivityList(userResult.User.UserProject.Id, activityInput, pagingInput);
+            //viewModel.Activities = _activityViewModelQuery.BuildGroupActivityList(userResult.User.UserProject.Id, activityInput, pagingInput);
+            viewModel.Activities = _activityViewModelQuery.BuildUserActivityList(userResult.User.Id, activityInput, pagingInput);
             //viewModel.IsMember = _userContext.IsUserAuthenticated() ? _userContext.HasGroupPermission<Project>(PermissionNames.CreateObservation, projectId) : false;
             viewModel.SightingCountDescription = "Sighting" + (userResult.SightingCount == 1 ? string.Empty : "s");
             viewModel.ProjectCountDescription = "Project" + (userResult.Projects.Count() == 1 ? string.Empty : "s");

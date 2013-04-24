@@ -19,7 +19,7 @@ namespace Bowerbird.Core.Queries
 {
     public interface IUserViewModelQuery : IQuery
     {
-        object BuildUser(string userId);
+        object BuildUser(string userId, bool fullDetails = false);
 
         object BuildUpdateUser(string userId);
 

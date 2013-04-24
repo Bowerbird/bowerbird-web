@@ -67,7 +67,6 @@ function ($, _, Backbone, app, ich, Identification, SightingDetailsView, Identif
 
         _onIdentificationDone: function (identification) {
             log('identification done', identification);
-
             this.model.set(identification.attributes);
         },
 
