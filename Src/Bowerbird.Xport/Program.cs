@@ -215,6 +215,21 @@ namespace Bowerbird.Xport
 
             var mediaResource = observation.Media.First(x => x.MediaResource.MediaResourceType == "image").MediaResource as ImageMediaResource;
 
+            var genus = string.Empty;
+            var subgenus = string.Empty;
+
+            var genusBits = identification.TryGetRankName("genus").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (genusBits.Any())
+            {
+                genus = genusBits[0];
+
+                if (genusBits.Count() > 1)
+                {
+                    subgenus = genusBits[1];
+                }
+            }
+
             str.Append ( string.Format ( "{0}/{1}" , ConfigSettings.Singleton ( ).GetUriToSite ( ) , observation.Id ) )
                 .Append ( delimiter )
                 .Append ( observation.Title )
@@ -235,9 +250,9 @@ namespace Bowerbird.Xport
                 .Append(delimiter)
                 .Append(identification.TryGetRankName("family"))
                 .Append(delimiter)
-                .Append(identification.TryGetRankName("genus"))
+                .Append(genus)
                 .Append(delimiter)
-                .Append(identification.TryGetRankName("genus"))
+                .Append(subgenus)
                 .Append(delimiter)
                 .Append(identification.TryGetRankName("species"))
                 .Append(delimiter)

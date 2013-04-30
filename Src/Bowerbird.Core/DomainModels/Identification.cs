@@ -139,6 +139,18 @@ namespace Bowerbird.Core.DomainModels
             {
                 return TaxonomicRanks.Single(x => x.Type == rankType).Name;
             }
+
+            // Special case for infra-rank subgenus. We store subgenus together with genus, so check for genus, then return the second part.
+            if (rankType == "subgenus" && TaxonomicRanks.Any(x => x.Type == "genus"))
+            {
+                var genus = TryGetRankName("genus");
+                var genusBits = genus.Split(new[] {" "}, StringSplitOptions.RemoveEmptyEntries);
+                if (genusBits.Count() > 1)
+                {
+                    return genusBits[1];
+                }
+            }
+
             return string.Empty;
         }
 
