@@ -12,8 +12,7 @@ define(['jquery', 'underscore', 'backbone'], function ($, _, Backbone) {
 
     var Avatar = Backbone.Model.extend({
         defaults: {
-            AltTag: 0,
-            UrlToImage: '/img/image-upload.png'
+            AltTag: 0
         },
 
         idAttribute: 'Id'

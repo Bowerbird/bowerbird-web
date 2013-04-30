@@ -47,21 +47,21 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
             });
     };
 
-//    var showRecordForm = function (uri) {
-//        $.when(getModel(uri, 'records'))
-//        .done(function (model) {
-//            var record = new Record(model.Record);
+    //    var showRecordForm = function (uri) {
+    //        $.when(getModel(uri, 'records'))
+    //        .done(function (model) {
+    //            var record = new Record(model.Record);
 
-//            var options = { model: record, categorySelectList: model.CategorySelectList, categories: model.Categories, projectsSelectList: model.ProjectsSelectList };
+    //            var options = { model: record, categorySelectList: model.CategorySelectList, categories: model.Categories, projectsSelectList: model.ProjectsSelectList };
 
-//            if (app.isPrerenderingView('observations')) {
-//                options['el'] = '.observation-form';
-//            }
+    //            if (app.isPrerenderingView('observations')) {
+    //                options['el'] = '.observation-form';
+    //            }
 
-//            var observationFormView = new ObservationFormView(options);
-//            app.showContentView('Edit Sighting', observationFormView, 'observations');
-//        });
-//    };
+    //            var observationFormView = new ObservationFormView(options);
+    //            app.showContentView('Edit Sighting', observationFormView, 'observations');
+    //        });
+    //    };
 
     var showSightingIdentificationForm = function (uri) {
         $.when(getModel(uri, 'identifications'))
@@ -109,6 +109,16 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
         return deferred.promise();
     };
 
+    var getParam = function (params, name, defaultVal) {
+        if (params) {
+            if (params[name]) {
+                return params[name];
+            }
+        }
+
+        return defaultVal;
+    };
+
     // Public API
     // ----------
 
@@ -127,9 +137,9 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
                 var sightingNotes = new SightingNoteCollection(model.Observation.Notes);
 
                 var options = {
-                     model: observation,
-                     identifications: identifications,
-                     sightingNotes: sightingNotes
+                    model: observation,
+                    identifications: identifications,
+                    sightingNotes: sightingNotes
                 };
 
                 if (app.isPrerenderingView('observations')) {
@@ -183,7 +193,11 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
     };
 
     ObservationController.showSightingExplore = function (params) {
-        $.when(getModel('/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+        var url = '/sightings?view=' + getParam(params, 'view', 'thumbnails') + '&sort=' + getParam(params, 'sort', 'newest') +
+            '&query=' + getParam(params, 'query', '') + '&category=' + getParam(params, 'category', '') + '&taxonomy=' + getParam(params, 'taxonomy', '') +
+            '&needsid=' + getParam(params, 'needsid', false) + '&field=' + getParam(params, 'field', '');
+
+        $.when(getModel(url))
             .done(function (model) {
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
                     {
@@ -200,9 +214,9 @@ function ($, _, Backbone, app, Observation, Sighting, Identification, SightingNo
                     });
 
                 var options = {
-                     sightingCollection: sightingCollection,
-                     categorySelectList: model.CategorySelectList,
-                     fieldSelectList: model.FieldSelectList
+                    sightingCollection: sightingCollection,
+                    categorySelectList: model.CategorySelectList,
+                    fieldSelectList: model.FieldSelectList
                 };
                 if (app.isPrerenderingView('sightings')) {
                     options['el'] = '.sightings';

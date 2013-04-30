@@ -119,6 +119,16 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
         app.vent.trigger('mediaresourceuploadfailure', key, reason);
     };
 
+    var getParam = function (params, name, defaultVal) {
+        if (params) {
+            if (params[name]) {
+                return params[name];
+            }
+        }
+
+        return defaultVal;
+    };
+
     // Public API
     // ----------
 
@@ -140,7 +150,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
                 } else {
                     var options = { model: user };
                     if (app.isPrerenderingView('users')) {
-                        options['el'] = '.user';
+                        options['el'] = '#content > .user';
                     }
                     var userDetailsView = new UserDetailsView(options);
 
@@ -152,7 +162,11 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
     };
 
     UserController.showSightings = function (id, params) {
-        $.when(getModel('/users/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+        var url = '/users/' + id + '/sightings?view=' + getParam(params, 'view', 'thumbnails') + '&sort=' + getParam(params, 'sort', 'newest') +
+            '&query=' + getParam(params, 'query', '') + '&category=' + getParam(params, 'category', '') + '&taxonomy=' + getParam(params, 'taxonomy', '') +
+            '&needsid=' + getParam(params, 'needsid', false) + '&field=' + getParam(params, 'field', '');
+
+        $.when(getModel(url))
         .done(function (model) {
             var user = new User(model.User);
             var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
@@ -175,10 +189,10 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
             } else {
                 var options = { model: user };
                 if (app.isPrerenderingView('users')) {
-                    options['el'] = '.user';
+                    options['el'] = '#content > .user';
                 }
                 var userDetailsView = new UserDetailsView(options);
-
+                var count = 0;
                 app.showContentView(user.get('Name'), userDetailsView, 'users', function () {
                     userDetailsView.showSightings(sightingCollection, model.CategorySelectList, model.FieldSelectList);
                 });
@@ -197,7 +211,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
             } else {
                 var options = { model: user };
                 if (app.isPrerenderingView('users')) {
-                    options['el'] = '.user';
+                    options['el'] = '#content > .user';
                 }
                 var userDetailsView = new UserDetailsView(options);
 
@@ -233,7 +247,7 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
             }
 
             if (app.isPrerenderingView('users')) {
-                options['el'] = '.users';
+                options['el'] = '#content > .users';
             }
             var userExploreView = new UserExploreView(options);
 

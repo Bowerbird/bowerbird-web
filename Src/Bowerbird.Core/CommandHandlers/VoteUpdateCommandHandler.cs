@@ -54,14 +54,12 @@ namespace Bowerbird.Core.CommandHandlers
         {
             Check.RequireNotNull(command, "command");
 
-            IVotable votable;
+            var contribs = _documentSession
+                .Query<All_Contributions.Result, All_Contributions>()
+                .Where(x => x.ParentContributionId == command.ContributionId)
+                .ToList();
 
-            votable = _documentSession
-                         .Query<All_Contributions.Result, All_Contributions>()
-                         .Where(x => x.ParentContributionId == command.ContributionId)
-                         .ToList()
-                         .First()
-                         .Contribution as IVotable;
+            var votable = contribs.First(x => x.Contribution is IVotable).Contribution as IVotable;
 
             votable.UpdateVote(
                 command.Score,

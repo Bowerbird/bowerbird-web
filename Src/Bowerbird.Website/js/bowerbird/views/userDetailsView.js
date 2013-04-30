@@ -108,6 +108,7 @@ function ($, _, Backbone, app, ActivityListView, SightingListView, UserAboutView
         },
 
         showSightings: function (sightingCollection, categorySelectList, fieldSelectList) {
+            
             this.switchTabHighlight('sightings');
 
             var options = {

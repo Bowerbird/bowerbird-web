@@ -112,22 +112,26 @@ function ($, _, Backbone, app, SidebarMenuGroupView, SidebarProjectItemView, Sid
         },
 
         onNewActivityReceived: function (activity) {
-            _.each(activity.get('Groups'), function (group) {
-                if (group.Id.toLowerCase().indexOf('projects/', 0) == 0 && this.$el.find('.menu-projects-tab.active').length == 0) {
-                    this.showActivityBadge('.menu-projects-tab');
-                }
-                if (group.Id.toLowerCase().indexOf('userprojects/', 0) == 0 && this.$el.find('.menu-userprojects-tab.active').length == 0) {
-                    this.showActivityBadge('.menu-userprojects-tab');
-                }
-                if (group.Id.toLowerCase().indexOf('organisations/', 0) == 0 && this.$el.find('.menu-organisations-tab.active').length == 0) {
-                    this.showActivityBadge('.menu-organisations-tab');
-                }
-            },
-            this);
+            if (app.authenticatedUser.user.id != activity.get('User').Id) {
+                _.each(activity.get('Groups'), function(group) {
+                    if (group.Id.toLowerCase().indexOf('projects/', 0) == 0 && this.$el.find('.menu-projects-tab.active').length == 0) {
+                        this.showActivityBadge('.menu-projects-tab');
+                    }
+                    if (this.$el.find('.menu-userprojects-tab.active').length == 0) {
+                        this.showActivityBadge('.menu-userprojects-tab');
+                    }
+                    if (group.Id.toLowerCase().indexOf('organisations/', 0) == 0 && this.$el.find('.menu-organisations-tab.active').length == 0) {
+                        this.showActivityBadge('.menu-organisations-tab');
+                    }
+                },
+                    this);
+            }
         },
 
         showActivityBadge: function (tab) {
-            this.$el.find(tab).append('<span title="New Items">New</span>');
+            if (this.$el.find(tab + ' span').length == 0) { // Ensure badge is not already added
+                this.$el.find(tab).append('<span title="New Items">New</span>');
+            }
         }
     });
 

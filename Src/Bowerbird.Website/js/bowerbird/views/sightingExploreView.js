@@ -112,7 +112,7 @@ function ($, _, Backbone, app, SightingListView, SightingSearchPanelView) {
             var that = this;
 
             this.list.currentView.on('toggle-search', this.toggleSearchPanel);
-
+            
             if (this.sightingCollection.hasSearchCriteria()) {
                 this.$el.find('.search-bar').slideDown();
             }

@@ -61,6 +61,16 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
             });
     };
 
+    var getParam = function (params, name, defaultVal) {
+        if (params) {
+            if (params[name]) {
+                return params[name];
+            }
+        }
+
+        return defaultVal;
+    };
+
     // Public API
     // ----------
 
@@ -95,7 +105,11 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
     };
 
     ProjectController.showSightings = function (id, params) {
-        $.when(getModel('/projects/' + id + '/sightings?view=' + (params && params.view ? params.view : 'thumbnails') + '&sort=' + (params && params.sort ? params.sort : 'newest')))
+        var url = '/projects/' + id + '/sightings?view=' + getParam(params, 'view', 'thumbnails') + '&sort=' + getParam(params, 'sort', 'newest') +
+            '&query=' + getParam(params, 'query', '') + '&category=' + getParam(params, 'category', '') + '&taxonomy=' + getParam(params, 'taxonomy', '') +
+            '&needsid=' + getParam(params, 'needsid', false) + '&field=' + getParam(params, 'field', '');
+            
+        $.when(getModel(url))
             .done(function (model) {
                 var project = new Project(model.Project);
                 var sightingCollection = new SightingCollection(model.Sightings.PagedListItems,
@@ -229,7 +243,10 @@ function ($, _, Backbone, app, Project, ProjectCollection, ActivityCollection, S
 
     // Show project explore
     ProjectController.showExplore = function (params) {
-        $.when(getModel('/projects?sort=' + (params && params.sort ? params.sort : 'popular')))
+        var url = '/projects?sort=' + getParam(params, 'sort', 'newest') +
+        '&query=' + getParam(params, 'query', '') + '&field=' + getParam(params, 'field', '');
+
+        $.when(getModel(url))
         .done(function (model) {
             var projectCollection = new ProjectCollection(model.Projects.PagedListItems,
                 {

@@ -119,6 +119,8 @@ namespace Bowerbird.Core.Queries
                 Organisations = groupResults.Where(x => x.Group is Organisation).Select(x => _groupViewFactory.Make(x.Group, user)),
                 Teams = groupResults.Where(x => x.Group is Team).Select(x => _groupViewFactory.Make(x.Group, user)),
                 Projects = groupResults.Where(x => x.Group is Project).Select(x => _groupViewFactory.Make(x.Group, user)),
+                // The user's own user project
+                OwnUserProject = _groupViewFactory.Make(groupResults.First(x => x.Group is UserProject && x.Group.User.Id == userId).Group, user),
                 // Get all userprojects that are followed, except the user's own userproject
                 UserProjects = groupResults.Where(x => x.Group is UserProject && x.Group.User.Id != userId).Select(x => _groupViewFactory.Make(x.Group, user)),
                 Memberships = user.Memberships.Select(x => new {

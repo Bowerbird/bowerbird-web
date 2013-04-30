@@ -59,7 +59,7 @@ namespace Bowerbird.Core.EventHandlers
             Check.RequireNotNull(userCreatedEvent, "userCreatedEvent");
 
             //var message = Email
-            //    .From("noreply@bowerbird.org.au", "Bowerbird")
+            //    .From("noreply@bowerbird.org.au", "BowerBird")
             //    .To(userCreatedEvent.DomainModel.Email)
             //    .Subject("Welcome to BowerBird")
             //    .UsingTemplate("WelcomeEmail", new { userCreatedEvent.DomainModel.Name })

@@ -8,15 +8,16 @@
 // AuthenticatedUser
 // -----------------
 
-define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'app', 'models/user', 'collections/usercollection',
+define(['jquery', 'underscore', 'backbone', 'ich', 'bootstrap-data', 'app', 'models/user', 'models/userproject', 'collections/usercollection',
         'collections/projectcollection', 'collections/organisationcollection', 'collections/userprojectcollection'],
-function ($, _, Backbone, ich, bootstrapData, app, User, UserCollection, ProjectCollection, OrganisationCollection, UserProjectCollection) {
+function ($, _, Backbone, ich, bootstrapData, app, User, UserProject, UserCollection, ProjectCollection, OrganisationCollection, UserProjectCollection) {
 
     var AuthenticatedUser = function (data) {
         this.user = new User(data.User);
         this.memberships = data.Memberships;
         this.projects = new ProjectCollection(data.Projects, { sortBy: 'a-z' });
         this.organisations = new OrganisationCollection(data.Organisations, { sortBy: 'a-z' });
+        this.ownUserProject = new UserProject(data.OwnUserProject);
         this.userProjects = new UserProjectCollection(data.UserProjects, { sortBy: 'a-z' });
         this.appRoot = data.AppRoot;
 

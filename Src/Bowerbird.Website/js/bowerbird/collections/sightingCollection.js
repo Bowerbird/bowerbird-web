@@ -150,10 +150,10 @@ function ($, _, Backbone, PaginatedCollection, Sighting, moment) {
         },
 
         hasSearchCriteria: function () {
-            return this.category !== '' ||
+            return this.category != '' ||
                 this.needsId === true ||
-                this.taxonomy !== '' ||
-                this.query !== '';
+                this.taxonomy != '' ||
+                this.query != '';
         },
 
         searchUrl: function (includePagination, pageNumber) {

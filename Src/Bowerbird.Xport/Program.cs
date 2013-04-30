@@ -13,6 +13,7 @@ using Bowerbird.Core.Paging;
 using Bowerbird.Core.ViewModels;
 using Raven.Client;
 using Raven.Client.Document;
+using NLog;
 
 namespace Bowerbird.Xport
 {
@@ -20,34 +21,47 @@ namespace Bowerbird.Xport
     {
         static void Main(string[] args)
         {
-            DataCrawler.Crawl();
+            Logger _logger = LogManager.GetLogger("Bowerbird.Export");
+
+            try
+            {
+                var dataCrawler = new DataCrawler();
+                dataCrawler.CrawlTheData();
+            }
+            catch (Exception exception)
+            {
+                _logger.ErrorException("Error exporting data", exception);
+            }
         }
     }
 
     /// <summary>
     /// Hit the database for pages of objects
     /// </summary>
-    internal class DataCrawler
+    public class DataCrawler
     {
-        private RavenQueryStatistics _stats;
         private int _totalRecrods = 0;
         private int _processedRecords = 0;
+        private int _skippedResults;
         private DumpFile _dumpFile;
+        private IDocumentStore _documentStore;
+        private bool _anyMoreRecords = true;
 
-        public static void Crawl()
-        {
-            new DataCrawler();
-        }
-
-        private DataCrawler()
+        public DataCrawler()
         {
             _dumpFile = new DumpFile();
-
-            CrawlTheData();
         }
 
-        private void CrawlTheData()
+        public void CrawlTheData()
         {
+            _documentStore = new DocumentStore
+            {
+                Url = ConfigSettings.Singleton().GetDatabaseUrl(),
+                DefaultDatabase = ConfigSettings.Singleton().GetDatabaseName()
+            };
+
+            _documentStore.Initialize();
+
             var sightingsQuery = new SightingsQueryInput()
                                      {
                                          Page = 1,
@@ -57,7 +71,7 @@ namespace Bowerbird.Xport
 
             _dumpFile.SavePagedObjects(RunQuery(sightingsQuery));
 
-            while (_processedRecords < _totalRecrods)
+            while (_anyMoreRecords)
             {
                 sightingsQuery.Page++;
                 _dumpFile.SavePagedObjects(RunQuery(sightingsQuery));
@@ -66,39 +80,24 @@ namespace Bowerbird.Xport
 
         private PagedList<string> RunQuery(SightingsQueryInput sightingsQueryInput)
         {
-            var documentStore = new DocumentStore
-                                    {
-                                        ConnectionStringName = ConfigSettings.Singleton().GetDatabaseUrl ( ) ,
-                                        DefaultDatabase = ConfigSettings.Singleton ( ).GetDatabaseName ( )
-                                    };
-
-            using (var session = documentStore.OpenSession())
+            using (var session = _documentStore.OpenSession())
             {
-                var query = session
-                    .Advanced
-                    .LuceneQuery<All_Contributions.Result, All_Contributions>()
-                    .Statistics(out _stats)
-                    .SelectFields<All_Contributions.Result>("GroupIds", "CreatedDateTime", "ParentContributionId",
-                                                            "SubContributionId", "ParentContributionType",
-                                                            "SubContributionType", "UserId", "Observation", "Record",
-                                                            "Post", "User")
-                    .WhereIn("ParentContributionType", new[] {"observation"})
-                    .AndAlso()
-                    .WhereEquals("SubContributionType", null);
+                RavenQueryStatistics stats;
+ 
+                var result = session.Query<Observation>()
+                                .Statistics(out stats)
+                                .Where(x => x.Identifications.Any() && x.Media.Any(y => y.MediaResource.MediaResourceType == "image"))
+                                .Skip(sightingsQueryInput.GetSkipIndex())
+                                .Take(sightingsQueryInput.GetPageSize())
+                                .ToList()
+                                .Select(Transformer.MakeSighting)
+                                .ToPagedList(
+                                    sightingsQueryInput.GetPage(),
+                                    sightingsQueryInput.GetPageSize(),
+                                    stats.TotalResults
+                                );
 
-                var result = query
-                    .Skip(sightingsQueryInput.GetSkipIndex())
-                    .Take(sightingsQueryInput.GetPageSize())
-                    .ToList()
-                    .Select(x => Transformer.MakeSighting(x.Contribution as Observation, x.User))
-                    .ToPagedList(
-                        sightingsQueryInput.GetPage(),
-                        sightingsQueryInput.GetPageSize(),
-                        _stats.TotalResults
-                    );
-
-                _totalRecrods = result.TotalResultCount;
-                _processedRecords += result.PagedListItems.Count();
+                _anyMoreRecords = result.PagedListItems.Any();
 
                 return result;
             }
@@ -117,8 +116,13 @@ namespace Bowerbird.Xport
             _pathToFile = string.Format(
                 "{0}/BowerbirdExport-{1}.txt",
                 ConfigSettings.Singleton().GetEnvironmentRootPath(),
-                DateTime.UtcNow.ToShortDateString()
+                DateTime.UtcNow.ToString("yyyy-MM-dd")
                 );
+
+            if (File.Exists(_pathToFile))
+            {
+                File.Delete(_pathToFile);
+            }
         }
 
         public void SavePagedObjects(PagedList<string> items)
@@ -197,7 +201,7 @@ namespace Bowerbird.Xport
     /// </summary>
     internal class Transformer
     {
-        public static string MakeSighting(Observation observation, User user)
+        public static string MakeSighting(Observation observation)
         {
             StringBuilder str = new StringBuilder ( );
 
@@ -207,25 +211,41 @@ namespace Bowerbird.Xport
                 .Identifications
                 .OrderByDescending(y => y.Votes.Count())
                 .ThenByDescending(y => y.CreatedOn)
-                .FirstOrDefault();
+                .First();
 
-            var mediaResource = observation.PrimaryMedia.MediaResource is ImageMediaResource ? observation.PrimaryMedia.MediaResource as ImageMediaResource: null;
+            var mediaResource = observation.Media.First(x => x.MediaResource.MediaResourceType == "image").MediaResource as ImageMediaResource;
 
-            str.Append ( string.Format ( "{0}{1}" , ConfigSettings.Singleton ( ).GetUriToSite ( ) , observation.Id ) )
+            str.Append ( string.Format ( "{0}/{1}" , ConfigSettings.Singleton ( ).GetUriToSite ( ) , observation.Id ) )
                 .Append ( delimiter )
                 .Append ( observation.Title )
                 .Append ( delimiter )
-                .Append ( observation.ObservedOn.ToShortDateString ( ) )
+                .Append ( observation.ObservedOn.ToString("yyyy-MM-dd") )
                 .Append ( delimiter )
                 .Append ( observation.Latitude )
                 .Append ( delimiter )
                 .Append ( observation.Longitude )
                 .Append ( delimiter )
-                .Append ( identification.Taxonomy )
+                .Append ( identification.TryGetRankName("kingdom") )
                 .Append ( delimiter )
-                .Append ( user.Name )
+                .Append(identification.TryGetRankName("phylum"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("class"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("order"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("family"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("genus"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("genus"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("species"))
+                .Append(delimiter)
+                .Append(identification.TryGetRankName("subspecies"))
+                .Append(delimiter)
+                .Append ( observation.User.Name )
                 .Append ( delimiter )
-                .Append ( mediaResource != null ? mediaResource.Image.Original.Uri : "No Image" )
+                .Append ( mediaResource != null ? ConfigSettings.Singleton ( ).GetUriToSite ( ) + mediaResource.Image.Original.Uri : "No Image" )
                 .Append ( delimiter )
                 .Append ( mediaResource != null ? observation.PrimaryMedia.Licence : "No Image" );
 
