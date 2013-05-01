@@ -114,9 +114,8 @@ namespace Bowerbird.Xport
         public DumpFile()
         {
             _pathToFile = string.Format(
-                "{0}/BowerbirdExport-{1}.txt",
-                ConfigSettings.Singleton().GetEnvironmentRootPath(),
-                DateTime.UtcNow.ToString("yyyy-MM-dd")
+                "{0}/data.txt",
+                ConfigSettings.Singleton().GetEnvironmentRootPath()
                 );
 
             if (File.Exists(_pathToFile))
