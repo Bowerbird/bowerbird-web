@@ -9,7 +9,7 @@
 // ----------------
 
 // View that allows user to choose location on a mpa or via coordinates
-define(['jquery', 'underscore', 'backbone', 'app', 'jqueryui/autocomplete', 'jqueryui/draggable', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
+define(['jquery', 'underscore', 'backbone', 'app', 'jqueryui', 'async!http://maps.google.com/maps/api/js?sensor=false&region=AU'],
 function ($, _, Backbone, app) {
 
     var DummyOverlayView = function (map) {

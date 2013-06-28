@@ -62,6 +62,10 @@ namespace Bowerbird.Xport
 
             _documentStore.Initialize();
 
+            // Add headers to file
+            _dumpFile.SaveHeaders();
+
+            // Add data to file
             var sightingsQuery = new SightingsQueryInput()
                                      {
                                          Page = 1,
@@ -69,12 +73,12 @@ namespace Bowerbird.Xport
                                          PageSize = 100
                                      };
 
-            _dumpFile.SavePagedObjects(RunQuery(sightingsQuery));
+            //_dumpFile.SavePagedObjects(RunQuery(sightingsQuery));
 
             while (_anyMoreRecords)
             {
-                sightingsQuery.Page++;
                 _dumpFile.SavePagedObjects(RunQuery(sightingsQuery));
+                sightingsQuery.Page++;
             }
         }
 
@@ -121,6 +125,41 @@ namespace Bowerbird.Xport
             if (File.Exists(_pathToFile))
             {
                 File.Delete(_pathToFile);
+            }
+        }
+
+        public void SaveHeaders()
+        {
+            using (StreamWriter writer = File.AppendText(_pathToFile))
+            {
+                StringBuilder sb = new StringBuilder();
+                var delimiter = ConfigSettings.Singleton().GetDelimiter();
+
+                //
+
+
+                sb
+                    .Append("recordNumber").Append(delimiter)
+                    .Append("occurrenceRemarks").Append(delimiter)
+                    .Append("eventDate").Append(delimiter)
+                    .Append("decimalLatitude").Append(delimiter)
+                    .Append("decimalLongitude").Append(delimiter)
+                    .Append("geodeticDatum").Append(delimiter)
+                    .Append("kingdom").Append(delimiter)
+                    .Append("phylum").Append(delimiter)
+                    .Append("class").Append(delimiter)
+                    .Append("order").Append(delimiter)
+                    .Append("family").Append(delimiter)
+                    .Append("genus").Append(delimiter)
+                    .Append("subgenus").Append(delimiter)
+                    .Append("scientificName").Append(delimiter)
+                    .Append("infraspecificEpithet").Append(delimiter)
+                    .Append("recordedBy").Append(delimiter)
+                    .Append("associatedMedia").Append(delimiter)
+                    .Append("dcterms:rights");
+
+                writer.WriteLine(sb.ToString());
+                writer.Flush();
             }
         }
 
@@ -229,39 +268,26 @@ namespace Bowerbird.Xport
                 }
             }
 
-            str.Append ( string.Format ( "{0}/{1}" , ConfigSettings.Singleton ( ).GetUriToSite ( ) , observation.Id ) )
-                .Append ( delimiter )
-                .Append ( observation.Title )
-                .Append ( delimiter )
-                .Append ( observation.ObservedOn.ToString("yyyy-MM-dd") )
-                .Append ( delimiter )
-                .Append ( observation.Latitude )
-                .Append ( delimiter )
-                .Append ( observation.Longitude )
-                .Append ( delimiter )
-                .Append ( identification.TryGetRankName("kingdom") )
-                .Append ( delimiter )
-                .Append(identification.TryGetRankName("phylum"))
-                .Append(delimiter)
-                .Append(identification.TryGetRankName("class"))
-                .Append(delimiter)
-                .Append(identification.TryGetRankName("order"))
-                .Append(delimiter)
-                .Append(identification.TryGetRankName("family"))
-                .Append(delimiter)
-                .Append(genus)
-                .Append(delimiter)
-                .Append(subgenus)
-                .Append(delimiter)
-                .Append(identification.TryGetRankName("species"))
-                .Append(delimiter)
-                .Append(identification.TryGetRankName("subspecies"))
-                .Append(delimiter)
-                .Append ( observation.User.Name )
-                .Append ( delimiter )
-                .Append ( mediaResource != null ? ConfigSettings.Singleton ( ).GetUriToSite ( ) + mediaResource.Image.Original.Uri : "No Image" )
-                .Append ( delimiter )
-                .Append ( mediaResource != null ? observation.PrimaryMedia.Licence : "No Image" );
+            str
+                .Append(string.Format("{0}/{1}", ConfigSettings.Singleton().GetUriToSite(), observation.Id)).Append(delimiter) // 1 recordNumber (maybe catalogNumber)
+                .Append(observation.Title).Append(delimiter) // 2 occurrenceRemarks
+                .Append(observation.ObservedOn.ToString("yyyy-MM-ddTHH:mmZ")).Append(delimiter) // 3 eventDate
+                .Append(observation.Latitude).Append(delimiter) // 4 decimalLatitude
+                .Append(observation.Longitude).Append(delimiter) // 5 decimalLongitude
+                .Append("WGS84").Append(delimiter) // 6 geodeticDatum
+                .Append(identification.TryGetRankName("kingdom")).Append(delimiter) // 7 kingdom
+                .Append(identification.TryGetRankName("phylum")).Append(delimiter) // 8 phylum
+                .Append(identification.TryGetRankName("class")).Append(delimiter) // 9 class
+                .Append(identification.TryGetRankName("order")).Append(delimiter) // 10 order
+                .Append(identification.TryGetRankName("family")).Append(delimiter) //11 family
+                .Append(genus).Append(delimiter) // 12 genus
+                .Append(subgenus).Append(delimiter) //13 subgenus
+                .Append(identification.TryGetRankName("species")).Append(delimiter) // 14 scientificName
+                .Append(identification.TryGetRankName("subspecies")).Append(delimiter) // 15 infraspecificEpithet
+                .Append(observation.User.Name).Append(delimiter) // 16 recordedBy
+                .Append(mediaResource != null ? ConfigSettings.Singleton().GetUriToSite() + mediaResource.Image.Full1024.Uri : string.Empty).Append(delimiter) //17 associatedMedia
+                .Append(mediaResource != null ? observation.PrimaryMedia.Licence : string.Empty); // 18 dcterms:rights
+                
 
             return str.ToString ( );
         }

@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -26,6 +27,7 @@ using Bowerbird.Core.Services;
 using Bowerbird.Core.ViewModelFactories;
 using Bowerbird.Core.ViewModels;
 using Bowerbird.Web.Infrastructure;
+using NLog;
 using Raven.Client;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
@@ -40,6 +42,7 @@ namespace Bowerbird.Web.Controllers
     {
         #region Members
 
+        private Logger _logger = LogManager.GetLogger("AccountController");
         private readonly IMessageBus _messageBus;
         private readonly IUserContext _userContext;
         private readonly IDocumentSession _documentSession;
@@ -419,6 +422,8 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult UpdatePassword(AccountUpdatePasswordKeyInput accountUpdatePasswordKeyInput)
         {
+            _logger.Debug("Getting /account/updatepassword. Key: {0}.", accountUpdatePasswordKeyInput.Key);
+
             // This action is used for both logged in users changing their passwords, as well as
             // non-authenticated users wanting to reset their passwords, having obtained a key (which 
             // is emailed to them)
@@ -426,6 +431,8 @@ namespace Bowerbird.Web.Controllers
 
             if (_userContext.IsUserAuthenticated())
             {
+                _logger.Debug("Getting /account/updatepassword. User is authenticated, generating new key.");
+
                 // User is authenticated, generate a key so that they can save their password
                 var user = _documentSession.Load<User>(_userContext.GetAuthenticatedUserId());
                 user.RequestPasswordUpdate(false);
@@ -437,6 +444,10 @@ namespace Bowerbird.Web.Controllers
             }
             else
             {
+                // User is not logged in, so validate the passed Password Key byu checking if it exists in the DB. If not, user can't continue.
+
+                _logger.Debug("Getting /account/updatepassword. Key: {0}. User is unauthenticated, checking passed key.", accountUpdatePasswordKeyInput.Key);
+
                 if (!ModelState.IsValid)
                 {
                     Response.StatusCode = (int) System.Net.HttpStatusCode.BadRequest;
@@ -454,6 +465,8 @@ namespace Bowerbird.Web.Controllers
         [HttpPost]
         public ActionResult UpdatePassword(AccountUpdatePasswordInput accountUpdatePasswordInput)
         {
+            _logger.Debug("Posting /account/updatepassword. Key: {0}, NewPassword: {1}", accountUpdatePasswordInput.Key, accountUpdatePasswordInput.NewPassword);
+
             // This action is used for both logged in users changing their passwords, as well as
             // non-authenticated users wanting to reset their passwords, having obtained a key (which 
             // is emailed to them)
@@ -461,6 +474,8 @@ namespace Bowerbird.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                _logger.Debug("Posting /account/updatepassword. Key is valid");
+
                 _messageBus.Send(
                     new UserUpdatePasswordCommand()
                         {
@@ -484,6 +499,8 @@ namespace Bowerbird.Web.Controllers
             }
             else
             {
+                _logger.Debug("Posting /account/updatepassword. Key is invalid");
+
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
             }
 

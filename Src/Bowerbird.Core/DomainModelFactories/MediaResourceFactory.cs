@@ -256,9 +256,10 @@ namespace Bowerbird.Core.DomainModelFactories
             int height,
             IDictionary<string, object> exifData,
             string filename,
-            long? size)
+            long? size,
+            List<ImageCreationTask> imageCreationTasks = null)
         {
-            return new OriginalImageMediaResourceFile()
+            var file = new OriginalImageMediaResourceFile()
             {
                 MimeType = mimeType,
                 Filename = filename,
@@ -268,6 +269,18 @@ namespace Bowerbird.Core.DomainModelFactories
                 Uri = uri,
                 Size = size
             };
+
+            if (imageCreationTasks != null)
+            {
+                imageCreationTasks.Add(new ImageCreationTask
+                {
+                    File = file,
+                    StoredRepresentation = "Original",
+                    MimeType = mimeType
+                });
+            }
+
+            return file;
         }
 
         public OriginalVideoMediaResourceFile MakeOriginalVideoFile(

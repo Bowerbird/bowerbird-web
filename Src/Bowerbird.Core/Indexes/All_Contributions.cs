@@ -491,7 +491,7 @@ namespace Bowerbird.Core.Indexes
             Store(x => x.SightingIdentificationCount, FieldStorage.No);
             Store(x => x.SightingAllFields, FieldStorage.No);
             Store(x => x.SightingTaxonomicRanks, FieldStorage.No);
-            Store(x => x.SightingVoteCount, FieldStorage.No);
+            Store(x => x.SightingVoteCount, FieldStorage.Yes);
             Store(x => x.PostTitle, FieldStorage.No);
             Store(x => x.PostMessage, FieldStorage.No);
             Store(x => x.PostAllFields, FieldStorage.No);

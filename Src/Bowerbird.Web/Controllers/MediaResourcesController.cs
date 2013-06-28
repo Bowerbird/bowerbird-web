@@ -93,7 +93,8 @@ namespace Bowerbird.Web.Controllers
                 FileStream = type == "file" && mediaResourceCreateInput.File != null ? mediaResourceCreateInput.File.InputStream : null,
                 FileName = type == "file" ? mediaResourceCreateInput.FileName : null,
                 FileMimeType = type == "file" ? GetSupportedMimeType(mediaResourceCreateInput.File.InputStream, mediaResourceCreateInput.FileName, mediaResourceCreateInput.File.ContentType) : null,
-                // External Video propertiesVideoProviderName = type == "externalvideo" ? mediaResourceCreateInput.VideoProviderName : null,
+                // External Video properties
+                VideoProviderName = type == "externalvideo" ? mediaResourceCreateInput.VideoProviderName : null,
                 VideoId = type == "externalvideo" ? mediaResourceCreateInput.VideoId : null
             });
 

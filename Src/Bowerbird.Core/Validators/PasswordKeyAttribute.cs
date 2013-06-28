@@ -18,6 +18,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
+using NLog;
 using Ninject;
 using Raven.Client;
 
@@ -31,6 +32,8 @@ namespace Bowerbird.Core.Validators
     {
             
         #region Members
+
+        private Logger _logger = LogManager.GetLogger("PasswordKeyAttribute");
 
         #endregion
 
@@ -49,19 +52,27 @@ namespace Bowerbird.Core.Validators
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
+            _logger.Debug("Validating password key. Key: {0}.", value);
+
             string resetPasswordKey = string.IsNullOrEmpty(value as string) ? string.Empty : value as string;
 
             if (string.IsNullOrWhiteSpace(resetPasswordKey))
             {
+                _logger.Debug("Validating password key. Key is empty.");
+
                 return new ValidationResult(ErrorMessageString);
             }
 
-            if (DocumentSession
+            if (!DocumentSession
                     .Query<User>()
-                    .All(x => x.ResetPasswordKey != resetPasswordKey))
+                    .Any(x => x.ResetPasswordKey == resetPasswordKey))
             {
+                _logger.Debug("Validating password key. Key: {0}. Key does not exist in database.", value);
+
                 return new ValidationResult(ErrorMessageString);
             }
+
+            _logger.Debug("Validating password key. Key: {0}. Key exists.", value);
 
             return ValidationResult.Success;
         }
