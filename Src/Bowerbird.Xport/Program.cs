@@ -139,24 +139,25 @@ namespace Bowerbird.Xport
 
 
                 sb
-                    .Append("recordNumber").Append(delimiter)
-                    .Append("occurrenceRemarks").Append(delimiter)
-                    .Append("eventDate").Append(delimiter)
-                    .Append("decimalLatitude").Append(delimiter)
-                    .Append("decimalLongitude").Append(delimiter)
-                    .Append("geodeticDatum").Append(delimiter)
-                    .Append("kingdom").Append(delimiter)
-                    .Append("phylum").Append(delimiter)
-                    .Append("class").Append(delimiter)
-                    .Append("order").Append(delimiter)
-                    .Append("family").Append(delimiter)
-                    .Append("genus").Append(delimiter)
-                    .Append("subgenus").Append(delimiter)
-                    .Append("scientificName").Append(delimiter)
-                    .Append("infraspecificEpithet").Append(delimiter)
-                    .Append("recordedBy").Append(delimiter)
-                    .Append("associatedMedia").Append(delimiter)
-                    .Append("dcterms:rights");
+                    .Append("recordNumber").Append(delimiter) // 1
+                    .Append("occurrenceRemarks").Append(delimiter) // 2
+                    .Append("eventDate").Append(delimiter) // 3
+                    .Append("decimalLatitude").Append(delimiter) // 4
+                    .Append("decimalLongitude").Append(delimiter) // 5
+                    .Append("geodeticDatum").Append(delimiter) // 6
+                    .Append("kingdom").Append(delimiter) // 7
+                    .Append("phylum").Append(delimiter) // 8
+                    .Append("class").Append(delimiter) // 9
+                    .Append("order").Append(delimiter) // 10
+                    .Append("family").Append(delimiter) // 11
+                    .Append("genus").Append(delimiter) // 12
+                    .Append("subgenus").Append(delimiter) // 13
+                    .Append("specificEpithet").Append(delimiter) // 14
+                    .Append("infraspecificEpithet").Append(delimiter) // 15
+                    .Append("recordedBy").Append(delimiter) // 16
+                    .Append("associatedMedia").Append(delimiter) // 17
+                    .Append("dcterms:rights").Append(delimiter) // 18
+                    .Append("vernacularName");
 
                 writer.WriteLine(sb.ToString());
                 writer.Flush();
@@ -286,8 +287,8 @@ namespace Bowerbird.Xport
                 .Append(identification.TryGetRankName("subspecies")).Append(delimiter) // 15 infraspecificEpithet
                 .Append(observation.User.Name).Append(delimiter) // 16 recordedBy
                 .Append(mediaResource != null ? ConfigSettings.Singleton().GetUriToSite() + mediaResource.Image.Full1024.Uri : string.Empty).Append(delimiter) //17 associatedMedia
-                .Append(mediaResource != null ? observation.PrimaryMedia.Licence : string.Empty); // 18 dcterms:rights
-                
+                .Append(mediaResource != null ? observation.PrimaryMedia.Licence : string.Empty).Append(delimiter) // 18 dcterms:rights
+                .Append(string.Join(", ", identification.CommonGroupNames.Concat(identification.CommonNames))); // 19 vernacularName
 
             return str.ToString ( );
         }
