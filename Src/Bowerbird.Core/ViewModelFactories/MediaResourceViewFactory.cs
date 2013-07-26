@@ -27,7 +27,7 @@ namespace Bowerbird.Core.ViewModelFactories
 
         #region Methods
 
-        public object Make(MediaResource mediaResource)
+        public object Make(MediaResource mediaResource, bool includeExifData = false)
         {
             dynamic viewModel = new ExpandoObject();
 
@@ -55,19 +55,21 @@ namespace Bowerbird.Core.ViewModelFactories
             {
                 var imageMediaResource = mediaResource as ImageMediaResource;
                 viewModel.Image = new ExpandoObject();
-                    
+
                 if (imageMediaResource.Image.Original != null)
                 {
-                    viewModel.Image.Original = new
-                        {
-                            imageMediaResource.Image.Original.ExifData,
-                            imageMediaResource.Image.Original.Filename,
-                            imageMediaResource.Image.Original.Height,
-                            imageMediaResource.Image.Original.MimeType,
-                            imageMediaResource.Image.Original.Size,
-                            imageMediaResource.Image.Original.Uri,
-                            imageMediaResource.Image.Original.Width
-                        };
+                    viewModel.Image.Original = new ExpandoObject();
+
+                    if (includeExifData)
+                    {
+                        viewModel.Image.Original.ExifData = imageMediaResource.Image.Original.ExifData;
+                    }
+                    viewModel.Image.Original.Filename = imageMediaResource.Image.Original.Filename;
+                    viewModel.Image.Original.Height = imageMediaResource.Image.Original.Height;
+                    viewModel.Image.Original.MimeType = imageMediaResource.Image.Original.MimeType;
+                    viewModel.Image.Original.Size = imageMediaResource.Image.Original.Size;
+                    viewModel.Image.Original.Uri = imageMediaResource.Image.Original.Uri;
+                    viewModel.Image.Original.Width = imageMediaResource.Image.Original.Width;
                 }
                 if (imageMediaResource.Image.Square50 != null) viewModel.Image.Square50 = MakeDerivedFile(imageMediaResource.Image.Square50);
                 if (imageMediaResource.Image.Square100 != null) viewModel.Image.Square100 = MakeDerivedFile(imageMediaResource.Image.Square100);
@@ -80,7 +82,7 @@ namespace Bowerbird.Core.ViewModelFactories
                 if (imageMediaResource.Image.Full1024 != null) viewModel.Image.Full1024 = MakeDerivedFile(imageMediaResource.Image.Full1024);
                 if (imageMediaResource.Image.Small != null) viewModel.Image.Small = MakeDerivedFile(imageMediaResource.Image.Small);
                 if (imageMediaResource.Image.Large != null) viewModel.Image.Large = MakeDerivedFile(imageMediaResource.Image.Large);
-                    
+
             }
             if (mediaResource is VideoMediaResource)
             {
@@ -159,7 +161,7 @@ namespace Bowerbird.Core.ViewModelFactories
             };
         }
 
-        #endregion  
- 
+        #endregion
+
     }
 }
