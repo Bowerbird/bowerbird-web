@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace Bowerbird.Core.CommandHandlers
 {
-    public class UserCreateCommandHandler : ICommandHandler<UserCreateCommand>
+    public class UserCreateCommandHandler : ICommandHandler<UserCreateCommand, User>
     {
         #region Members
 
@@ -57,7 +57,7 @@ namespace Bowerbird.Core.CommandHandlers
 
         #region Methods
 
-        public void Handle(UserCreateCommand userCreateCommand)
+        public User HandleReturn(UserCreateCommand userCreateCommand)
         {
             Check.RequireNotNull(userCreateCommand, "userCreateCommand");
 
@@ -115,6 +115,8 @@ namespace Bowerbird.Core.CommandHandlers
 
             _documentSession.Store(user);
             _documentSession.SaveChanges();
+
+            return user;
         }
 
         #endregion      

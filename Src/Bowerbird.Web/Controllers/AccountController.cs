@@ -18,6 +18,7 @@ using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using Bowerbird.Core.Commands;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
@@ -171,6 +172,12 @@ namespace Bowerbird.Web.Controllers
         [HttpGet]
         public ActionResult LoggingIn(string returnUrl)
         {
+            // HACK: Wait here for a bit in case this is the first time the user is logging in after having
+            // registered. THe waiting time is in case the indexes haven't updated to contain the new user. I 
+            // realise this is a penalty on all users logging in, but its better than getting an error on 
+            // sign up.
+            Thread.Sleep(2500);
+
             if (!_userContext.HasEmailCookieValue())
             {
                 // User attempted to login without cookies enabled
@@ -221,7 +228,7 @@ namespace Bowerbird.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _messageBus.Send(
+                var user = _messageBus.Send<UserCreateCommand, User>(
                     new UserCreateCommand()
                         {
                             Name = accountRegisterInput.Name,
@@ -231,13 +238,9 @@ namespace Bowerbird.Web.Controllers
                             Roles = new[] {"roles/globalmember"}
                         });
 
-                var user = _documentSession
-                    .Query<All_Users.Result, All_Users>()
-                    .Customize(x => x.WaitForNonStaleResultsAsOfLastWrite()) // Wait for user to be persisted
-                    .AsProjection<All_Users.Result>()
-                    .Where(x => x.Email == accountRegisterInput.Email)
-                    .First()
-                    .User;
+                // HACK: We wait here as long as possible to prevent errors due to indexes not yet having been re-indexed. Note that 
+                // this still might not work all the time. 
+                Thread.Sleep(5000);
 
                 _userContext.SignUserIn(user.Id, accountRegisterInput.Email.ToLower(), true);
 

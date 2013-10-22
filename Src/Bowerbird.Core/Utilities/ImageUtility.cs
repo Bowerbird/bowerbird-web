@@ -352,6 +352,17 @@ namespace Bowerbird.Core.Utilities
                     object val;
                     if (reader.GetTagValue(tagID, out val))
                     {
+                        // if val can be cast to double or float and the value is "NaN", then replace it with ""
+                        if (val is double || val is float)
+                        {
+                            var possibleDoubleVal = val as double? ?? (double?)(val as float?);
+                            if (possibleDoubleVal == null || Double.IsNaN((double)possibleDoubleVal) ||
+                                Double.IsInfinity((double)possibleDoubleVal))
+                            {
+                                val = string.Empty;
+                            }
+                        }
+
                         exifData.Add(Enum.GetName(typeof (ExifTags), tagID), val);
                     }
                 }
