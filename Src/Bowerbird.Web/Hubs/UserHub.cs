@@ -1,29 +1,12 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
-
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- 
- Funded by:
- * Atlas of Living Australia
- 
-*/
-
-using System;
-using System.Dynamic;
-using System.Threading.Tasks;
+﻿using System;
+using Bowerbird.Core.Config;
 using Bowerbird.Core.Services;
+using Bowerbird.Core.ViewModelFactories;
 using Microsoft.AspNet.SignalR;
 using Bowerbird.Core.DesignByContract;
 using Raven.Client;
-using Raven.Client.Linq;
-using Bowerbird.Core.Indexes;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Queries;
 
 namespace Bowerbird.Web.Hubs
 {
@@ -32,8 +15,9 @@ namespace Bowerbird.Web.Hubs
         #region Members
 
         private readonly IDocumentSession _documentSession;
-        private readonly IUserViewModelQuery _userViewModelQuery;
         private readonly IBackChannelService _backChannelService;
+        private readonly IUserViewFactory _userViewFactory;
+        private readonly IOnlineUserCache _onlineUserCache;
 
         #endregion
 
@@ -41,16 +25,20 @@ namespace Bowerbird.Web.Hubs
 
         public UserHub(
             IDocumentSession documentSession,
-            IUserViewModelQuery userViewModelQuery,
-            IBackChannelService backChannelService)
+            IUserViewFactory userViewFactory,
+            IBackChannelService backChannelService,
+            IOnlineUserCache onlineUserCache)
+
         {
             Check.RequireNotNull(documentSession, "documentSession");
-            Check.RequireNotNull(userViewModelQuery, "userViewModelQuery");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(backChannelService, "backChannelService");
+            Check.RequireNotNull(onlineUserCache, "onlineUserCache");
 
             _documentSession = documentSession;
-            _userViewModelQuery = userViewModelQuery;
+            _userViewFactory = userViewFactory;
             _backChannelService = backChannelService;
+            _onlineUserCache = onlineUserCache;
         }
 
         #endregion
@@ -61,20 +49,25 @@ namespace Bowerbird.Web.Hubs
 
         #region Methods
 
-        public void RegisterUserClient(string userId)
+        public dynamic RegisterUserClient(string userId)
         {
             var user = _documentSession.Load<User>(userId);
-
+            
             // Add user to their own group
             Groups.Add(Context.ConnectionId, "user-" + userId);
 
-            // Update user's status to online
-            user.AddSession(Context.ConnectionId);
-            _documentSession.Store(user);
-            _documentSession.SaveChanges();
+            // Get all user's memberships and add them to the corresponding group channel
+            foreach (var membership in user.Memberships)
+            {
+                _backChannelService.AddUserToGroupChannel(membership.Group.Id, Context.ConnectionId);
+            }
 
-            // Return all online uses to newly connected client
-            //return _userViewModelQuery.BuildOnlineUserList();
+            _backChannelService.AddUserToOnlineUsersChannel(Context.ConnectionId);
+
+            // ADD TO CACHE
+            _onlineUserCache.AddUserSession(userId, Context.ConnectionId);
+
+            return BuildOnlineUserList();
         }
 
         /// <summary>
@@ -82,57 +75,19 @@ namespace Bowerbird.Web.Hubs
         /// </summary>
         public dynamic UpdateUserClientStatus(string userId, DateTime latestHeartbeat, DateTime latestInteractivity)
         {
-            var user = GetUserByConnectionId(Context.ConnectionId);
+            _onlineUserCache.UpdateUserSession(userId, Context.ConnectionId, latestHeartbeat, latestInteractivity);
 
-            //if (user != null)
-            //{
-                user.UpdateSessionLatestActivity(Context.ConnectionId, latestHeartbeat, latestInteractivity);
-
-                _documentSession.Store(user);
-                _documentSession.SaveChanges();
-            //}
-
-            //dynamic response = new ExpandoObject();
-
-            return _userViewModelQuery.BuildOnlineUserList(user.Id);
-
-            //response.onlineUsers = _userViewModelQuery.BuildOnlineUserList();
-/*
-#if !JS_COMBINE_MINIFY
-            _backChannelService.DebugToClient("SERVER onlineUsers:");
-            _backChannelService.DebugToClient(onlineUsers);
-#endif  
-*/
-            //return response;
-
-            //return onlineUsers;
+            return BuildOnlineUserList();
         }
 
-        //public Task Disconnect()
-        //{
-        //    // Remove this connection session from user
-        //    var user = GetUserByConnectionId(Context.ConnectionId);
-        //    // TODO: This throws an exception when user not found.. 
-        //    user.RemoveSession(Context.ConnectionId);
-        //    _documentSession.Store(user);
-        //    _documentSession.SaveChanges();
-
-        //    Groups.Remove(Context.ConnectionId, "online-users");
-        //    Groups.Remove(Context.ConnectionId, "user-" + user.Id);
-
-        //    return Task.Factory.StartNew(() => { });
-        //}
-
-        private User GetUserByConnectionId(string connectionId)
+        private object BuildOnlineUserList()
         {
-            var result = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.ConnectionIds.Any(y => y == connectionId))
-                .ToList()
-                .FirstOrDefault();
+            // Return connected users (those users active less than 5 minutes ago)
+            var fiveMinutesAgo = DateTime.UtcNow - TimeSpan.FromMinutes(5);
 
-            return result != null ? result.User : null;
+            return _onlineUserCache
+                .CurrentlyOnlineUsers(fiveMinutesAgo)
+                .Select(x => _userViewFactory.Make(x.User, null));
         }
 
         #endregion

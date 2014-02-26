@@ -52,6 +52,7 @@ namespace Bowerbird.Web.Infrastructure
             // Singleton scope
             Bind<IDocumentStore>().ToProvider<NinjectRavenDocumentStoreProvider>().InSingletonScope();
             Bind<ISystemStateManager>().To<SystemStateManager>().InSingletonScope();
+            Bind<IOnlineUserCache>().To<OnlineUserCache>().InSingletonScope();
 
             // Request scope
             //Bind<IDocumentSession>().ToProvider<NinjectRavenSessionProvider>().InRequestScope().OnActivation((x) => Debug.WriteLine("HTTP Request Document Session instantiated."));

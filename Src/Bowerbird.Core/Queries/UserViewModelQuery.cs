@@ -1,15 +1,4 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
-
-Developers:
-* Frank Radocaj : frank@radocaj.com
-* Hamish Crittenden : hamish.crittenden@gmail.com
-Project Manager:
-* Ken Walker : kwalker@museum.vic.gov.au
-Funded by:
-* Atlas of Living Australia
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Bowerbird.Core.Config;
@@ -34,6 +23,7 @@ namespace Bowerbird.Core.Queries
         private readonly IGroupViewFactory _groupViewFactory;
         private readonly IUserContext _userContext;
         private readonly IDateTimeZoneService _dateTimeZoneService;
+        private readonly IOnlineUserCache _onlineUserCache;
 
         #endregion
 
@@ -44,19 +34,22 @@ namespace Bowerbird.Core.Queries
             IUserViewFactory userViewFactory,
             IGroupViewFactory groupViewFactory,
             IUserContext userContext,
-            IDateTimeZoneService dateTimeZoneService)
+            IDateTimeZoneService dateTimeZoneService,
+            IOnlineUserCache onlineUserCache)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(userContext, "userContext");
             Check.RequireNotNull(dateTimeZoneService, "dateTimeZoneService");
+            Check.RequireNotNull(onlineUserCache, "onlineUserCache");
 
             _documentSession = documentSession;
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _userContext = userContext;
             _dateTimeZoneService = dateTimeZoneService;
+            _onlineUserCache = onlineUserCache;
         }
 
         #endregion
