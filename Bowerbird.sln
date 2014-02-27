@@ -3,6 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DEC69C6-40F4-4DC0-8E60-D6C215EB471E}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
@@ -25,6 +26,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Core", "Src\Bowerbird.Core\Bowerbird.Core.csproj", "{F71840F1-86D3-460B-B49A-7770CD7E06E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Xport", "Src\Bowerbird.Xport\Bowerbird.Xport.csproj", "{9146318F-2A1B-4CA8-AE8D-7DDE15C44891}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Yport", "Src\Bowerbird.Yport\Bowerbird.Yport.csproj", "{1CDAB507-D27D-4388-A50D-B3D2EE400F14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -122,6 +125,26 @@ Global
 		{9146318F-2A1B-4CA8-AE8D-7DDE15C44891}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9146318F-2A1B-4CA8-AE8D-7DDE15C44891}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9146318F-2A1B-4CA8-AE8D-7DDE15C44891}.Release|x86.ActiveCfg = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.DebugProd|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.DebugProd|Any CPU.Build.0 = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.DebugProd|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.DebugProd|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.DebugProd|x86.ActiveCfg = Debug|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Prod|Any CPU.ActiveCfg = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Prod|Any CPU.Build.0 = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Prod|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Prod|Mixed Platforms.Build.0 = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Prod|x86.ActiveCfg = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1CDAB507-D27D-4388-A50D-B3D2EE400F14}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Text;
 using System.Configuration;
-using System.Dynamic;
-using System.Security.Cryptography;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Paging;
 using Bowerbird.Core.ViewModels;
 using Raven.Client;
@@ -136,8 +131,6 @@ namespace Bowerbird.Xport
                 var delimiter = ConfigSettings.Singleton().GetDelimiter();
 
                 //
-
-
                 sb
                     .Append("recordNumber").Append(delimiter) // 1
                     .Append("occurrenceRemarks").Append(delimiter) // 2

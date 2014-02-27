@@ -24,6 +24,10 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,7 +135,6 @@
     <Content Include="img\project-Square200.jpg" />
     <Content Include="img\project-Square400.jpg" />
     <Content Include="img\sa.svg" />
-    <Content Include="img\spider.jpg" />
     <Content Include="img\user-Square100.jpg" />
     <Content Include="img\user-Square200.jpg" />
     <Content Include="img\user-Square400.jpg" />
@@ -373,7 +376,6 @@
     <Content Include="img\favourites.png" />
     <Content Include="img\glyphicons-halflings-white.png" />
     <Content Include="img\glyphicons-halflings.png" />
-    <Content Include="img\image-upload.png" />
     <Content Include="packages.config" />
     <None Include="test\index.html" />
     <None Include="test\qunit\qunit.css" />

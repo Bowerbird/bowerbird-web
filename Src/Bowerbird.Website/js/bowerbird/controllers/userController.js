@@ -53,10 +53,10 @@ function ($, _, Backbone, app, User, UserCollection, ActivityCollection, Sightin
     // -------------
 
     // Receive a list of users that are online
-    var setupOnlineUsers = function (onlineUsers) {
-        log('userController.setupOnlineUsers', this, onlineUsers);
-        app.onlineUsers.add(onlineUsers);
-    };
+    //var setupOnlineUsers = function (onlineUsers) {
+    //    log('userController.setupOnlineUsers', this, onlineUsers);
+    //    app.onlineUsers.add(onlineUsers);
+    //};
 
     // ping the server with the user's latest activity
     // in responding, 

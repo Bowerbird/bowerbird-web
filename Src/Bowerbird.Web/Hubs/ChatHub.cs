@@ -1,18 +1,4 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
-
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- 
- Funded by:
- * Atlas of Living Australia
- 
-*/
-
-using System;
+﻿using System;
 using System.Linq;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Infrastructure;
@@ -38,6 +24,7 @@ namespace Bowerbird.Web.Hubs
         private readonly IDocumentSession _documentSession;
         private readonly IMessageBus _messageBus;
         private readonly IPermissionManager _permissionManager;
+        private readonly IOnlineUserCache _onlineUserCache;
 
         #endregion
 
@@ -48,19 +35,22 @@ namespace Bowerbird.Web.Hubs
             IGroupViewFactory groupViewFactory,
             IDocumentSession documentSession,
             IMessageBus messageBus,
-            IPermissionManager permissionManager)
+            IPermissionManager permissionManager,
+            IOnlineUserCache onlineUserCache)
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(messageBus, "messageBus");
             Check.RequireNotNull(permissionManager, "permissionManager");
+            Check.RequireNotNull(onlineUserCache, "onlineUserCache");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
             _documentSession = documentSession;
             _messageBus = messageBus;
             _permissionManager = permissionManager;
+            _onlineUserCache = onlineUserCache;
         }
 
         #endregion
@@ -196,54 +186,10 @@ namespace Bowerbird.Web.Hubs
             return hash.ToString();
         }
 
-        //private string GenerateChatId(IEnumerable<string> ids)
-        //{
-        //    var sortedIds = ids.OrderBy(x => x);
-        //    return "chats/" + GenerateHash(string.Join(string.Empty, sortedIds.ToArray()));
-        //}
-
-        //public Task Disconnect()
-        //{
-        //    // Get user by connection id
-        //    var user = GetUserByConnectionId(Context.ConnectionId);
-
-        //    // Get chats where connection exists
-        //    var chats = _documentSession
-        //                    .Query<Chat>()
-        //                    .Where(x => x.Users.Any(y => y.Id == user.Id))
-        //                    .ToList();
-
-        //    foreach (var chat in chats)
-        //    {
-        //        chat.RemoveUser(user.Id);
-        //        _documentSession.Store(chat);
-        //    }
-
-        //    _documentSession.SaveChanges();
-
-        //    return Task.Factory.StartNew(() => { });
-        //}
-
-        //private IEnumerable<User> GetUsersByConnectionIds(params string[] connectionIds)
-        //{
-        //    return _documentSession
-        //        .Query<All_Users.Result, All_Users>()
-        //        .AsProjection<All_Users.Result>()
-        //        .Where(x => x.ConnectionIds.Any(y => y.In(connectionIds)))
-        //        .ToList()
-        //        .Select(x => x.User);
-        //}
-
         private User GetUserByConnectionId(string connectionId)
         {
-            var result = _documentSession
-                .Query<All_Users.Result, All_Users>()
-                .AsProjection<All_Users.Result>()
-                .Where(x => x.ConnectionIds.Any(y => y == connectionId))
-                .ToList()
-                .FirstOrDefault();
-
-            return result != null ? result.User : null;
+            var onlineUser = _onlineUserCache.GetOnlineUserByConnectionId(connectionId);
+            return onlineUser != null ? _documentSession.Load<User>(onlineUser.Id) : null;
         }
 
         #endregion

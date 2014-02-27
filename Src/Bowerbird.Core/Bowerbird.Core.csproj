@@ -80,11 +80,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Program Files (x86)\Microsoft ASP.NET\ASP.NET MVC 3\Assemblies\System.Web.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="taglib-sharp">
       <HintPath>..\..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
@@ -118,11 +115,14 @@
     <Compile Include="Commands\MemberUpdateCommand.cs" />
     <Compile Include="Commands\VoteUpdateCommand.cs" />
     <Compile Include="Config\Categories.cs" />
+    <Compile Include="Config\IOnlineUserCache.cs" />
+    <Compile Include="Config\OnlineUserCache.cs" />
     <Compile Include="DomainModels\Category.cs" />
     <Compile Include="DomainModels\IVotable.cs" />
     <Compile Include="DomainModels\ISubContribution.cs" />
     <Compile Include="DomainModels\Favourites.cs" />
     <Compile Include="DomainModels\Identification.cs" />
+    <Compile Include="DomainModels\OnlineUser.cs" />
     <Compile Include="DomainModels\SightingNoteDescription.cs" />
     <Compile Include="DomainModels\TaxonomicRank.cs" />
     <Compile Include="DomainModels\Vote.cs" />
@@ -139,6 +139,7 @@
     <Compile Include="EventHandlers\SendRequestPasswordResetEmail.cs" />
     <Compile Include="EventHandlers\SendWelcomeEmail.cs" />
     <Compile Include="EventHandlers\UserSessionUpdated.cs" />
+    <Compile Include="Events\OnlineUserUpdatedEvent.cs" />
     <Compile Include="Internationalisation\I18n.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
