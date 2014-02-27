@@ -1,0 +1,32 @@
+﻿<div class="user-list">
+  {{#Model.Query}}
+  <div class="tab-bar tab-bar-right small">
+    <ul class="tabs">
+      <li>
+        <span class="tab-button search-button" title="Show or hide search options">Search</span>
+      </li>
+      <li>
+        <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+          <span class="tab-list-selection">Alphabetical (A-Z)</span>
+          <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+          <ul>
+            <li>
+              <a data-sort="a-z" href="/{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}users?sort=a-z">Alphabetical (A-Z)</a>
+            </li>
+            <li>
+              <a data-sort="z-a" href="/{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}users?sort=z-a">Alphabetical (Z-A)</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  {{/Model.Query}}
+  <ul class="user-items">
+  {{#Model.Users.PagedListItems}}
+  <li class="user-item tile-user-details">
+    {{>UserTileDetails}}
+  </li>
+  {{/Model.Users.PagedListItems}}
+  </ul>
+</div>

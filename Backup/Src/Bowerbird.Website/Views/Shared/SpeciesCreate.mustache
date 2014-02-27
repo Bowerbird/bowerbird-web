@@ -1,0 +1,74 @@
+﻿  <h2>New Species</h2>
+  <form action="/speices/create" method="post"  enctype="multipart/form-data">
+    <fieldset>
+      <legend>Species Details</legend>
+      <div id="kingdom-field" class="field">
+        <div>
+          <label for="kingdom">Kingdom</label>
+        </div>
+        <div>
+          <input type="text" id="kingdom" name="kingdom" value="{{Kingdom}}" />
+        </div>
+      </div>
+      <div id="group-field" class="field">
+        <div>
+          <label for="group">Group</label>
+        </div>
+        <div>
+          <input type="text" id="group" name="group" value="{{Group}}" />
+        </div>
+      </div>
+      <div id="commonnames-field" class="field">
+        <div>
+          <label for="commonnames">Common Names</label>
+        </div>
+        <div>
+          <input type="text" id="commonnames" name="commonnames" value="{{CommonNames}}" />
+        </div>
+      </div>
+      <div id="taxonomy-field" class="field">
+        <div>
+          <label for="taxonomy">Taxonomy</label>
+        </div>
+        <div>
+          <input type="text" id="taxonomy" name="taxonomy" value="{{Taxonomy}}" />
+        </div>
+      </div>
+      <div id="order-field" class="field">
+        <div>
+          <label for="order">Order</label>
+        </div>
+        <div>
+          <input type="text" id="order" name="order" value="{{Order}}" />
+        </div>
+      </div>
+      <div id="family-field" class="field">
+        <div>
+          <label for="family">Family</label>
+        </div>
+        <div>
+          <input type="text" id="family" name="family" value="{{Family}}" />
+        </div>
+      </div>
+      <div id="genusname-field" class="field">
+        <div>
+          <label for="genusname">Genus</label>
+        </div>
+        <div>
+          <input type="text" id="genusname" name="genusname" value="{{GenusName}}" />
+        </div>
+      </div>
+      <div id="speciesname-field" class="field">
+        <div>
+          <label for="speciesname">Species Name</label>
+        </div>
+        <div>
+          <input type="text" id="speciesname" name="speciesname" value="{{SpeciesName}}" />
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+  </form>

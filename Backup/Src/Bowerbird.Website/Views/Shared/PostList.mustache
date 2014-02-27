@@ -1,0 +1,32 @@
+﻿<div class="post-list">
+  {{#Model.Query}}
+  <div class="tab-bar tab-bar-right small">
+    <ul class="tabs">
+      <li>
+        <span class="tab-button search-button" title="Show or hide search options">Search</span>
+      </li>
+      <li>
+        <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+          <span class="tab-list-selection">Latest Added</span>
+          <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+          <ul>
+            <li>
+              <a data-sort="newest" href="/{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}posts?view={{View}}&sort=newest">Latest Added</a>
+            </li>
+            <li>
+              <a data-sort="oldest" href="/{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}posts?view={{View}}&sort=oldest">Oldest Added</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+  </div>
+  {{/Model.Query}}
+  <ul class="post-items">
+  {{#Model.Posts.PagedListItems}}
+  <li class="post-item">
+    {{>PostListItem}}
+  </li>
+  {{/Model.Posts.PagedListItems}}
+  </ul>
+</div>

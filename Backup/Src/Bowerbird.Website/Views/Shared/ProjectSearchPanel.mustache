@@ -1,0 +1,69 @@
+﻿{{#Model.Query}}
+<div class="search-bar form">
+  <form>
+    <fieldset>
+      <div class="field-row">
+        <div id="search-query-field" class="field">
+          <div>
+            <label for="Query">Search</label>
+          </div>
+          <div>
+            <input name="query" type="text" id="Query" value="{{Model.Query.Query}}" />
+          </div>
+        </div>
+
+        <div id="search-field-field" class="field">
+          <div>
+            <label for="Field">In Field</label>
+          </div>
+          <div>
+            <select name="field" id="Field">
+              <option value="">All Fields</option>
+              {{#Model.FieldSelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.FieldSelectList}}
+            </select>
+
+          </div>
+        </div>
+
+        <div id="search-go-field" class="field">
+          <div>
+            <button id="search-go-button" class="button">Go</button>
+          </div>
+        </div>
+
+        <div id="search-category-field" class="field">
+          <div>
+            <label for="Category">Category</label>
+          </div>
+          <div>
+            <select id="Category" name="category" title="Select a category">
+              <option value="">All Categories</option>
+              {{#Model.CategorySelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.CategorySelectList}}
+            </select>
+          </div>
+          <!--<div class="category-items">
+            <a href="#" class="category-item category-Amphibians selected">Amphibians</a>
+            <a href="#" class="category-item category-Birds">Birds</a>
+            <a href="#" class="category-item category-Fishes">Fishes</a>
+            <a href="#" class="category-item category-FungiLichens">Fungi &amp; Lichens</a>
+            <a href="#" class="category-item category-Invertebrates">Invertebrates</a>
+            <a href="#" class="category-item category-Mammals">Mammals</a>
+            <a href="#" class="category-item category-Others">Others</a>
+            <a href="#" class="category-item category-Plants">Plants</a>
+            <a href="#" class="category-item category-Reptiles">Reptiles</a>
+          </div>-->
+        </div>
+         
+      </div>
+
+      <div class="field-row">
+        <div><button class="button" id="new-search-button">Start New Search</button></div>
+      </div>
+    </fieldset>  
+  </form>
+</div>
+{{/Model.Query}}

@@ -1,0 +1,45 @@
+﻿<h3>
+  <a href="/{{Id}}">{{Name}}</a>
+</h3>
+<div class="avatar">
+  {{#Avatar}}
+  {{>MediaSquare200}}
+  {{/Avatar}}
+</div>
+<ul class="sightings">
+  {{#SampleObservations}}
+  <li>
+    <a href="/{{Id}}">
+      {{#Media.MediaResource}}
+      {{>MediaSquare200}}
+      {{/Media.MediaResource}}
+    </a>
+  </li>
+  {{/SampleObservations}}
+  {{^SampleObservations}}
+  <li class="no-sightings">No sightings yet!</li>
+  {{/SampleObservations}}
+</ul>
+<p class="description">
+  {{Description}}
+</p>
+<div class="info">
+  <div class="sighting-actions">
+    <div class="sightings-badge small">
+      <span class="small-icon observation-icon"></span>
+      <span class="count">{{SightingCount}}</span>
+      <span class="label">sightings</span>
+    </div>
+    <div class="projects-badge small">
+      <span class="small-icon project-icon"></span>
+      <span class="count">{{ProjectCount}}</span>
+      <span class="label">projects</span>
+    </div>
+    <div class="organisations-badge small">
+      <span class="small-icon organisation-icon"></span>
+      <span class="count">{{OrganisationCount}}</span>
+      <span class="label">organisations</span>
+    </div>
+  </div>
+</div>
+<div class="actions"></div>

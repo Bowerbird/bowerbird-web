@@ -1,0 +1,39 @@
+﻿{{#Observations}}
+  <div class="stream-item observation-stream-item">
+    <div class="summary">
+          <img src="{{User.Avatar.UrlToImage}}" alt="" />
+          <p class="description">{{Description}} <span>{{CreatedDateTimeDescription}}</span></p>
+      </div>
+      <div class="details">
+        <h2>{{Item.Title}}</h2>
+        <div>
+          <div class="images">
+            <div class="preview">
+              <img src="{{HighlightMedia.OriginalImageUri}}" alt="" />
+            </div>
+            <div class="thumbnails">
+              {{#Item.ObservationMedia}}
+              <img src="{{ThumbnailImageUri}}" alt="" />
+              {{/Item.ObservationMedia}}
+            </div>
+          </div>
+          <div class="info">
+            <div class="sighting-sighted">
+              Sighted
+              <span>{{ObservedOnDate}}</span>
+              <span>{{ObservedOnTime}} AEST</span>
+            </div>
+            <div class="location">
+              Location
+              <div class="map">
+                <img src="http://maps.googleapis.com/maps/api/staticmap?zoom=8&size=400x200&scale=2&maptype=terrain&markers=color:blue|{{item.latitude}},{{item.longitude}}&sensor=false" alt="Map of location" />
+              </div>
+              <span>{{Item.Address}}</span>
+              <span>Latitude {{Item.Latitude}}</span>
+              <span>Longitude {{Item.Longitude}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+{{/Observations}}

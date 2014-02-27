@@ -1,0 +1,9 @@
+﻿<div class="activity-list">
+  <ul class="activity-items">
+    {{#Model.Activities.PagedListItems}}
+    <li class="activity-item {{Type}}-activity-item">
+      {{>ActivityItem}}
+    </li>
+    {{/Model.Activities.PagedListItems}}
+  </ul>
+</div>

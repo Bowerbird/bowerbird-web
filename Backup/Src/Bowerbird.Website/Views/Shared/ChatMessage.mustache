@@ -1,0 +1,8 @@
+﻿{{#Model.UserMessage}}
+<span class="user">{{Model.UserMessage.From}}</span>
+<span class="timestamp" title="{{Model.Timestamp}}">{{Model.UserMessage.Time}}</span>
+<span class="message">{{{Model.UserMessage.Message}}}</span>
+{{/Model.UserMessage}}
+{{#Model.UserAdded}}
+<span class="message">{{{Model.UserAdded.Message}}}</span>
+{{/Model.UserAdded}}

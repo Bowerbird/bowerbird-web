@@ -1,0 +1,60 @@
+﻿<div class="sighting-list">
+  {{#Model.Query}}
+  <div class="tab-bar tab-bar-right small">
+    <ul class="tabs">
+      <li>
+        <span class="tab-button search-button" title="Show or hide search options">Search</span>
+      </li>
+      <li>
+        <div class="tab-list-button sort-button sub-menu" title="Sort by selected option">
+          <span class="tab-list-selection">Latest Added</span>
+          <span class="tab-list-button-arrow down-arrow-icon-blue"></span>
+          <ul>
+            <li>
+              <a data-sort="newest" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view={{View}}&sort=newest">Latest Added</a>
+            </li>
+            <li>
+              <a data-sort="oldest" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view={{View}}&sort=oldest">Oldest Added</a>
+            </li>
+            <li class="new-section">
+              <a data-sort="a-z" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view={{View}}&sort=a-z">Alphabetical (A-Z)</a>
+            </li>
+            <li>
+              <a data-sort="z-a" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view={{View}}&sort=z-a">Alphabetical (Z-A)</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <a class="tab-image-button thumbnails-view-button" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view=thumbnails&sort={{Sort}}" title="View as thumbnail list">Thumbnails</a>
+      </li>
+      <li>
+        <a class="tab-image-button details-view-button" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view=details&sort={{Sort}}" title="View as detailed list">Details</a>
+      </li>
+      <li class="hidden">
+        <a class="tab-image-button map-view-button" href="/{{#Model.IsFavourites}}favourites{{/Model.IsFavourites}}{{#Model.Query.Id}}{{Id}}/{{/Model.Query.Id}}{{^Model.IsFavourites}}sightings{{/Model.IsFavourites}}?view=map" title="View on a map">Map</a>
+      </li>
+    </ul>
+  </div>
+  {{/Model.Query}}
+  <ul class="sighting-items">
+  {{#Model.Sightings.PagedListItems}}
+  {{#Model.Query.IsThumbnailsView}}
+  <li class="sighting-item tile-sighting-details">
+    {{>SightingTileDetails}}
+  </li>
+  {{/Model.Query.IsThumbnailsView}}
+
+  {{#Model.Query.IsDetailsView}}
+  <li class="sighting-item">
+    {{>SightingListItem}}
+  </li>
+  {{/Model.Query.IsDetailsView}}
+
+  {{#Model.Query.IsMapView}}
+
+  {{/Model.Query.IsMapView}}
+
+  {{/Model.Sightings.PagedListItems}}
+  </ul>
+</div>

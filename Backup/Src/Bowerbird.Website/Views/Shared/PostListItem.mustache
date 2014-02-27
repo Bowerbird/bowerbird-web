@@ -1,0 +1,26 @@
+﻿<div class="summary group-contribution">
+  {{#Group}}
+  {{#Avatar}}
+  {{>MediaSquare100}}
+  {{/Avatar}}
+  {{/Group}}
+  <p class="description">
+    <span>
+      {{#Group}}
+      {{Name}} {{Post.PostType}}
+      {{/Group}}
+    </span>
+    <abbr class="time-description" title="{{CreatedDateTime}}">{{CreatedOnDescription}}</abbr>
+    <div class="group-contribution-user">
+      {{#User.Avatar}}
+      {{>MediaSquare100}}
+      {{/User.Avatar}}
+      <span class="group-contribution-user-description">Posted by {{User.Name}}</span>
+    </div>
+  </p>
+</div>
+<div class="details">
+  <div class="post-details">
+    {{>PostFullDetails}}
+  </div>
+</div>

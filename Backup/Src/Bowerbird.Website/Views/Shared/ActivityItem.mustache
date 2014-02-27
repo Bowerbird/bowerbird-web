@@ -1,0 +1,64 @@
+﻿{{^PostAdded}}
+<div class="summary user-contribution">
+  {{#User.Avatar}}
+  {{>MediaSquare100}}
+  {{/User.Avatar}}
+  <p class="description">
+    <span>
+      {{Description}}
+    </span>
+    <abbr class="time-description" title="{{CreatedDateTime}}">{{CreatedDateTimeDescription}}</abbr>
+  </p>
+</div>
+{{/PostAdded}}
+{{#PostAdded}}
+<div class="summary group-contribution">
+  {{#Groups}}
+  {{#Avatar}}
+  {{>MediaSquare100}}
+  {{/Avatar}}
+  {{/Groups}}
+  <p class="description">
+    <span>
+      {{#Groups}}
+      {{Name}} {{Post.PostType}}
+      {{/Groups}}
+    </span>
+    <abbr class="time-description" title="{{CreatedDateTime}}">{{CreatedDateTimeDescription}}</abbr>
+    <div class="group-contribution-user">
+      {{#User.Avatar}}
+      {{>MediaSquare100}}
+      {{/User.Avatar}}
+      <span class="group-contribution-user-description">Posted by {{User.Name}}</span>
+    </div>
+  </p>
+</div>
+{{/PostAdded}}
+{{#ObservationAdded.Observation}}
+<div class="details">
+  {{>ActivityItemSightingAdded}}
+</div>
+{{/ObservationAdded.Observation}}
+{{#IdentificationAdded}}
+<div class="details">
+  {{>ActivityItemIdentificationAdded}}
+</div>
+{{/IdentificationAdded}}
+{{#SightingNoteAdded}}
+<div class="details">
+  {{>ActivityItemSightingNoteAdded}}
+</div>
+{{/SightingNoteAdded}}
+{{#PostAdded}}
+<div class="details">
+  {{>ActivityItemPostAdded}}
+</div>
+{{/PostAdded}}
+{{#UserJoinedGroup}}
+<div class="details">
+  User joined group
+</div>
+{{/UserJoinedGroup}}
+{{#DeletedActivityItem}}
+<div>{{Message}}</div>
+{{/DeletedActivityItem}}

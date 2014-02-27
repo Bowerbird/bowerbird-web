@@ -1,0 +1,23 @@
+﻿{{#Follow}}
+<a href="/{{Id}}/follow" class="button follow-button" title="&lt;b>Follow this person&lt;/b> &lt;br />See this person\'s activity (sightings, identifications, etc) in your timeline">Follow</a>
+{{/Follow}}
+{{#Unfollow}}
+<a href="/{{Id}}/follow" class="button unfollow-button" title="&lt;b>Unfollow this person&lt;/b> &lt;br />Remove this person from your timeline">Following</a>
+{{/Unfollow}}
+{{#JoinProject}}
+<a href="/{{Id}}/members" class="button join-button" title="&lt;b>Join this project&lt;/b> &lt;br />Become a member of this project to add sightings and see project activity in your timeline">Join</a>
+{{/JoinProject}}
+{{#LeaveProject}}
+<a href="/{{Id}}/members" class="button leave-button" title="&lt;b>Leave this project&lt;/b> &lt;br />Leave the project as a member; you will not longer see project activity in your timeline">Joined</a>
+{{/LeaveProject}}
+{{#JoinOrganisation}}
+<a href="/{{Id}}/members" class="button join-button" title="&lt;b>Join this organisation&lt;/b> &lt;br />Become a member of this organisation to see organisation activity in your timeline">Join</a>
+{{/JoinOrganisation}}
+{{#LeaveOrganisation}}
+<a href="/{{Id}}/members" class="button leave-button" title="&lt;b>Leave this organisation&lt;/b> &lt;br />Leave the organisation as a member; you will not longer see organisation activity in your timeline">Joined</a>
+{{/LeaveOrganisation}}
+{{#MenuChat}}
+<li class="chat-menu-item new-section">
+<span class="chat-menu-item" id="chat-{{Id}}" title="Start a chat">Chat</span>
+</li>
+{{/MenuChat}}

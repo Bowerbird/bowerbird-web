@@ -1,0 +1,25 @@
+﻿<h2><span class="small-icon post-icon"></span>News Item</h2>
+<div class="form-details">
+  {{#Model.Post}}
+  <div class="post-summary">
+    {{#Group}}
+    {{#Avatar}}
+    {{>MediaSquare100}}
+    {{/Avatar}}
+    {{/Group}}
+    <div class="description">
+      <span>{{Group.Name}} {{PostType}}</span>
+      <abbr>{{CreatedOnDescription}}</abbr>
+      <div class="group-contribution-user">
+        {{#User.Avatar}}
+        {{>MediaSquare100}}
+        {{/User.Avatar}}
+        <span class="group-contribution-user-description">Posted by {{User.Name}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="post-full-details">
+    {{>PostFullDetails}}
+  </div>
+  {{/Model.Post}}
+</div>

@@ -1,0 +1,43 @@
+﻿<div class="summary">
+    {{#Model.Project.Avatar}}
+    {{>MediaSquare200}}
+    {{/Model.Project.Avatar}}
+  <div>
+    <h2>{{Model.Project.Name}}</h2>
+    {{^Model.IsMember}}
+    <a href="#" class="join-project-button button">Join Project</a>
+    {{/Model.IsMember}}
+    {{#Model.IsMember}}
+    <a href="#" class="leave-project-button button">Leave Project</a>
+    {{/Model.IsMember}}
+    <ul class="badges">
+      <li>{{Model.Project.UserCount}} {{Model.UserCountDescription}}</li>
+      <li>{{Model.Project.SightingCount}} {{Model.SightingCountDescription}}</li>
+      <li>{{Model.Project.PostCount}} {{Model.PostCountDescription}}</li>
+    </ul>
+    <p>{{Model.Project.Description}}</p>
+  </div>
+</div>
+<div class="details">
+</div>
+<div class="sections">
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a href="/{{Model.Project.Id}}" class="tab-button">Activity</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/sightings" class="tab-button">Sightings</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/posts" class="tab-button">Posts</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/members" class="tab-button">Members</a>
+      </li>
+      <li>
+        <a href="/{{Model.Project.Id}}/about" class="tab-button">About</a>
+      </li>
+    </ul>
+  </div>
+</div>

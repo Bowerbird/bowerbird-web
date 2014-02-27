@@ -1,0 +1,17 @@
+﻿<div class="summary">
+  {{#Model.Activity.User.Avatar}}
+  {{>MediaSquare100}}
+  {{/Model.Activity.User.Avatar}}
+    <p class="name">{{Model.Activity.User.Name}}</p>
+  <p class="description">
+    {{Model.Activity.Description}} <abbr class="time-description" title="{{Model.Activity.CreatedDateTime}}">{{Model.CreatedDateTimeDescription}}</abbr>
+  </p>
+</div>
+{{#Model.Activity.ObservationAdded}}
+<div class="details observation">
+  <p>{{Observation.Title}}</p>
+  {{#Observation.PrimaryMedia.MediaResource}}
+  {{>MediaSquare100}}
+  {{/Observation.PrimaryMedia.MediaResource}}
+</div>
+{{/Model.Activity.ObservationAdded}}

@@ -1,0 +1,105 @@
+﻿<div class="home-what">
+  <h3>What can you do here?</h3>
+  <div class="home-what-item">
+    <img src="/img/what1.png" alt="Add sightings" />
+    <em>Add your own Sightings</em>
+    <p>Gather the images, videos and sounds of Australian nature in BowerBird. Whether you are a specialist, citizen scientist, grey nomad or aspiring student, BowerBird will let you share your discoveries.</p>
+  </div>
+  <div class="home-what-item">
+    <img src="/img/what2.png" alt="Join projects" />
+    <em>Join Projects</em>
+    <p>Create or join Projects. Everyone in a Project can add and share images, videos and sounds as well as add notes and comment on the species you find. It’s the perfect place for a BioBlitz.</p>
+  </div>
+  <div class="home-what-item">
+    <img src="/img/what3.png" alt="Chat" />
+    <em>Chat to like-minded people</em>
+    <p>BowerBird is just like a Naturalist Society. Share what you have found; get help identifying it; ask questions and get answers. Have a conversation about what you have contributed. </p>
+  </div>
+</div>
+
+<!--<div class="home-latest-news">
+  <img src="/img/new-worm-species.jpg" alt="New worm species discovered" />
+  <em>BowerBird member discovers new worm species!</em>
+  <p>
+    Jean and Fred Hort uploaded a photo of a flatworm to BowerBird. A fellow BowerBird member who is an expert on flatworms identified it as a new species, as there were few flatworms known to the area. <a href="http://www.australiangeographic.com.au/journal/new-worm-discovered-by-citizen-scientists.htm" target="new">Read more about the discovery at Australian Geographic</a>
+  </p>
+</div>-->
+
+<div class="home-why">
+  <h3>Why is BowerBird different?</h3>
+  <div class="carousel">
+    <ul>
+      <li>
+        <img src="/img/why1.png" alt="Timeline" />
+        <div class="caption">
+          <em>Keep up to date with your timeline</em>
+          <p>Whenever you return to BowerBird, your timeline will show you what’s been added since you were last here.</p>
+        </div>
+      </li>
+      <li>
+        <img src="/img/why2.png" alt="Sightings" />
+        <div class="caption">
+          <em>Create New Sightings</em>
+          <p>Create your own sightings with images, videos or audio files. It’s so easy.</p>
+        </div>
+      </li>
+      <li>
+        <img src="/img/why3.png" alt="Join Projects and Organisations" />
+        <div class="caption">
+          <em>Join Projects and Organisations</em>
+          <p>Join groups to participate and engage with like-minded naturalists. No joining fees – it’s all free.</p>
+        </div>
+      </li>
+      <!--<li>
+        <img src="" alt="" />
+        <div class="caption">
+          <em>Post News and Comments</em>
+          <p>Got something to add? There are lots of ways you can contribute or ask questions.</p>
+        </div>
+      </li>-->
+      <li>
+        <img src="/img/why4.png" alt="Atlas of Living Australia" />
+        <div class="caption">
+          <em>Contribute to what is known about Australia’s Biodiversity</em>
+          <p>
+            All of the validated contributions to BowerBird will appear and to help fill in gaps on Australia’s National Biodiversity website – the <a href="http://www.ala.org.au">Atlas of Living Australia</a>.
+          </p>
+        </div>
+      </li>
+    </ul>
+    <div class="carousel-button previous-button">
+      <span></span>
+    </div>
+    <div class="carousel-button next-button">
+      <span></span>
+    </div>
+    <div class="pagination"></div>
+  </div>
+  <div class="current-caption">
+    <em>Keep up to date with your timeline</em>
+    <p>Whenever you return to BowerBird, your timeline will show you what’s been added since you were last here.</p>
+  </div>
+</div>
+
+<div class="home-how">
+  <h3>Ready to contribute to the BowerBird community?</h3>
+  <em class="hidden">Example Sightings</em>
+  <div>
+    <div class="carousel">
+      <ul>
+        {{#Model.Sightings.PagedListItems}}
+        <li>
+          <div>
+            <a href="/{{Id}}">
+              {{#PrimaryMedia.MediaResource}}
+              {{>MediaConstrained600}}
+              {{/PrimaryMedia.MediaResource}}
+            </a>
+          </div>
+        </li>
+        {{/Model.Sightings.PagedListItems}}
+      </ul>
+    </div>
+    <a href="/account/register" class="button">Join BowerBird</a>
+  </div>
+</div>

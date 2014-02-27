@@ -1,0 +1,94 @@
+﻿<h2>
+  <span class="small-icon user-icon"></span> Account
+</h2>
+<div class="form form-small form-details">
+<form action="/user/update" method="post"  enctype="multipart/form-data">
+  <fieldset>
+    <legend class="hidden">User Details</legend>
+    <p>Edit your account details below. You can also update your public profile description to enable others to more easily find you.</p>
+    <div class="field-row">
+      <div class="field avatar-field">
+        <div>
+          <label for="avatar">Avatar</label>
+        </div>
+        <div>
+          <div id="avatar-viewer"></div>
+          <div id="avatar-upload-button" class="button avatar-upload-button">
+            Change<input id="file" type="file" name="file" value="Change Avatar" />
+          </div>
+        </div>
+      </div>
+      <div id="name-field" class="field">
+        <div>
+          <label for="Name">
+            Name <span>Required</span>
+          </label>
+        </div>
+        <div>
+          <input type="text" id="Name" name="name" value="{{Model.User.Name}}" />
+        </div>
+      </div>
+      <div id="email-field" class="field">
+        <div>
+          <label for="Email">Email <span>Required</span>
+        </label>
+        </div>
+        <div>
+          <input type="text" id="Email" name="email" value="{{Model.User.Email}}" />
+        </div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div id="description-field" class="field">
+        <div>
+          <label for="description">Description</label>
+        </div>
+        <div>
+          <textarea rows="4" cols="100" id="Description" name="description">{{Model.User.Description}}</textarea>
+        </div>
+      </div>  
+    </div>
+    <div class="field-row">
+      <div id="timezone-field" class="field">
+        <div>
+          <label for="Timezone">
+            Timezone <span>Required</span>
+          </label>
+        </div>
+        <div>
+          <select id="Timezone" name="timezone" title="Select your preferred timezone">
+            <option></option>
+            {{#Model.TimezoneSelectList}}
+            <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+            {{/Model.TimezoneSelectList}}
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div id="licence-field" class="field">
+        <div>
+          <label for="DefaultLicence">
+            Licencing <span>Required</span>
+          </label>
+        </div>
+        <div>
+          <select id="DefaultLicence" name="defaultlicence" title="Select your preferred licence">
+            <option></option>
+            {{#Model.LicenceSelectList}}
+            <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+            {{/Model.LicenceSelectList}}
+          </select>
+          <p>
+            Automatically apply a specific licence on all media that you upload. Please note that changing the licence above will not change licencing on media that has already been uploaded. For more information about Creative Commons licences go to <a target="new" href="http://www.creativecommons.org/">Creative Commons</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <input type="button" value="Save" id="save" />
+    <input type="button" value="Cancel" id="cancel" />
+  </fieldset>
+</form>
+</div>

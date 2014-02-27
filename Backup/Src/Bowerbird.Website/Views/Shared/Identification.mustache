@@ -1,0 +1,14 @@
+﻿{{#Category}}
+<div class="identification-parts">
+	<img alt="" src="/img/category-{{Category}}.png" />
+	<div class="identification-name">{{Name}}</div>
+	<div class="identification-rank-type">({{RankType}})</div>
+	<div class="identification-taxonomy">Taxonomy: {{Taxonomy}}</div>
+	{{#AllCommonNames}}
+	<div class="identification-common-names">Common Names: {{AllCommonNames}}</div>
+	{{/AllCommonNames}}
+</div>
+{{/Category}}
+{{^Category}}
+<span class="identification-none">Not Identified</span>
+{{/Category}} 

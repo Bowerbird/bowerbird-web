@@ -1,8 +1,12 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Website", "Src\Bowerbird.Website\Bowerbird.Website.csproj", "{4E89BE11-AE0B-4A9E-B423-87B5A6261C0E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Web", "Src\Bowerbird.Web\Bowerbird.Web.csproj", "{32CE4221-21E5-48E9-BA54-E0908FD5B80A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Core", "Src\Bowerbird.Core\Bowerbird.Core.csproj", "{F71840F1-86D3-460B-B49A-7770CD7E06E4}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{8DEC69C6-40F4-4DC0-8E60-D6C215EB471E}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\packages.config = .nuget\packages.config
@@ -17,12 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{50BF98F5
 		Build\js-build-tasks.bat = Build\js-build-tasks.bat
 		Build\r.js = Build\r.js
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Website", "Src\Bowerbird.Website\Bowerbird.Website.csproj", "{4E89BE11-AE0B-4A9E-B423-87B5A6261C0E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Web", "Src\Bowerbird.Web\Bowerbird.Web.csproj", "{32CE4221-21E5-48E9-BA54-E0908FD5B80A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Core", "Src\Bowerbird.Core\Bowerbird.Core.csproj", "{F71840F1-86D3-460B-B49A-7770CD7E06E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bowerbird.Xport", "Src\Bowerbird.Xport\Bowerbird.Xport.csproj", "{9146318F-2A1B-4CA8-AE8D-7DDE15C44891}"
 EndProject
