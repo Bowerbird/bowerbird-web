@@ -1,0 +1,72 @@
+﻿<h2>
+  <span class="small-icon post-icon"></span>News Item
+</h2>
+<div class="form-details">
+  <form action="/posts/create" method="post"  enctype="multipart/form-data">
+    <fieldset>
+      <legend class="hidden">News Item Details</legend>
+      {{#Model.Post.Id}}
+      <p>Edit the post by changing the details below.</p>
+      {{/Model.Post.Id}}
+      {{^Model.Post.Id}}
+      <p>Add a post by filling in the details below.</p>
+      {{/Model.Post.Id}}
+      <div class="field-row">
+        <!--<div class="field avatar-field">
+          <div>
+            <label for="avatar">Avatar</label>
+          </div>
+          <div>
+            <div id="avatar-viewer"></div>
+            <div id="avatar-upload-button" class="button avatar-upload-button">
+              Change<input id="file" type="file" name="file" value="Change Avatar" />
+            </div>
+          </div>
+        </div>-->
+        <div id="subject-field" class="field">
+          <div>
+            <label for="name">
+              Title <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <input type="text" id="Subject" name="subject" value="{{Model.Post.Subject}}" title="A brief title for your news item" />
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div id="posttype-field" class="field">
+          <div>
+            <label for="PostType">
+              Type <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <select id="PostType" name="postType" title="Select a type for your news item">
+              <option></option>
+              {{#Model.PostTypeSelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.PostTypeSelectList}}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div id="message-field" class="field">
+          <div>
+            <label for="message">
+              Message <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <textarea rows="15" cols="100" id="Message" name="message" title="The details of your news item">{{Model.Post.Message}}</textarea>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+  </form>
+</div>

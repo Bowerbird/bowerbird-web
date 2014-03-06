@@ -1,0 +1,195 @@
+﻿<h2>
+  <span class="small-icon observation-icon"></span>Sighting
+</h2>
+<div class="form-details">
+  <form action="/observations" method="post"  enctype="multipart/form-data">
+    <fieldset>
+      <legend class="hidden">Sighting Details</legend>
+      {{#Model.Observation.Id}}
+      <p>Edit the sighting by changing the details below.</p>
+      {{/Model.Observation.Id}}
+      {{^Model.Observation.Id}}
+      <p>Add a sighting by filling in the details below. Additionally, you can identify the sighting and add descriptions and tags.</p>
+      {{/Model.Observation.Id}}
+      <div class="field-row media-field-row">
+        <div id="media-details" class="media-field field">
+          <label>
+            Media <span>Required</span>
+          </label>
+          <div class="media-view-pane">
+            <div class="observation-media-items">
+              <!--<div class="media-resource-dropzone">
+                      <p>Drop files here<p>
+                  </div>-->
+              {{^Model.Observation.Media}}
+              <div class="observation-media-items-label">Add Images, Videos and Audio</div>
+              {{/Model.Observation.Media}}
+              {{#Model.Observation.Media}}<div class="observation-media-item-{{MediaResource.Id}} observation-media-item">{{>ObservationMediaItem}}</div>{{/Model.Observation.Media}}
+            </div>
+          </div>
+          <div class="media-add-pane">
+            <p>Upload your media files, or import from other websites.</p>
+              <div tabindex="0" class="button list-button add-media-button sub-menu" id="add-media-button">
+              <span class="list-button-label">Add Media</span>
+              <span class="list-button-arrow down-arrow-icon-blue"></span>
+              <ul>
+                <li>
+                  <div data-descriptionid="files" href="#" title="Upload images and audio files from your computer" class="file-upload-button">
+                    <span class="my-files-icon"></span>
+                    My Files<input id="file" type="file" name="file" multiple="" value="Add Media" />
+                  </div>
+                </li>
+                <li>
+                  <a data-descriptionid="youtube" href="#" title="Add a video from YouTube" id="youtube-upload-button"><span class="youtube-icon"></span> YouTube Video</a>
+                </li>
+                <li>
+                  <a data-descriptionid="vimeo" href="#" title="Add a video from Vimeo" id="vimeo-upload-button"><span class="vimeo-icon"></span>Vimeo Video</a>
+                </li>
+                <!--<li>
+                  <a data-descriptionid="flickr" href="#" original-title="Add a photo from Flickr">Flickr Image</a>
+                </li>
+                <li>
+                  <a data-descriptionid="picasa" href="#" original-title="Add a photo from Picasa">Picasa Image</a>
+                </li>-->
+              </ul>
+            </div>
+            <div id="upload-progress-status">
+              <div id="upload-progress-message"></div>
+              <div class="ui-progress-bar ui-container" id="upload-progress-bar">
+                <div class="ui-progress" style="width: 0%;">
+                  <span class="ui-label" style="display:none;">
+                    <b class="value">0%</b>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div id="title-field" class="field">
+          <div>
+            <label for="Title">
+              Title <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <input type="text" id="Title" name="title" value="{{Model.Observation.Title}}" title="Enter a brief title that describes your sighting" />
+          </div>
+        </div>
+        <div id="category-field" class="field">
+          <div>
+            <label for="Category">
+              Category <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <select id="Category" name="category" title="Select a category for your sighting">
+              <option></option>
+              {{#Model.CategorySelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.CategorySelectList}}
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div id="location-details">
+          <div id="address-field" class="field">
+            <div>
+              <label for="Address">Locality/Address</label>
+            </div>
+            <div>
+              <input type="text" id="Address" name="address" autocomplete="off" value="{{Model.Observation.Address}}" title="Enter an address or a descriptive location of where the sighting was made" />
+            </div>
+          </div>
+          <div id="pin-field" class="field">
+            <div>
+              <label>Drag Pin</label>
+            </div>
+            <div>
+              <div id="location-pin">
+                <img src="/img/map-pin.png" width="38" height="38" alt="" />
+              </div>
+            </div>
+          </div>
+          <div id="anonymise-location-field" class="field field-checkbox-slider">
+            <div>
+              <label>Hide Location</label>
+            </div>
+            <div>
+              <div class="checkbox-slider">
+                <input type="checkbox" id="AnonymiseLocation" name="anonymiseLocation" {{#Model.Observation.AnonymiseLocation}}checked=""{{/Model.Observation.AnonymiseLocation}} />
+                <label for="AnonymiseLocation">
+                  <span class="on">Yes</span><span class="bar"></span><span class="off">No</span>Show Exact Location
+                </label>
+              </div>
+            </div>
+          </div>
+          <div id="location-map"></div>
+          <div id="location-coordinates">
+            <div>Coordinates</div>
+            <span id="lat-long">None</span>
+              <button class="button show-geospatial-form-button">Edit Coordinates</button>
+          </div>
+        </div>
+        <div id="observedon-field" class="field">
+          <div>
+            <label for="ObservedOn">
+              Date Sighted <span>Required</span>
+            </label>
+          </div>
+          <div>
+            <input type="text" id="ObservedOn" name="observedOn" data-datepicker="datepicker" value="{{Model.Observation.ObservedOn}}" readonly="" />
+            <i></i>
+          </div>
+        </div>
+        <div id="projects-field" class="field">
+          <div>
+            <label for="Projects">Projects</label>
+          </div>
+          <div>
+            <select id="Projects" name="projects" title="Select the projects to add this sighting to" multiple="multiple">
+              <option></option>
+              {{#Model.ProjectsSelectList}}
+              <option value="{{Value}}" {{#Selected}}selected=""{{/Selected}}>{{Text}}</option>
+              {{/Model.ProjectsSelectList}}
+            </select>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    {{^Model.Observation.Id}}
+    <fieldset class="sighting-identification-fieldset">
+      <legend class="hidden">Sighting Identification Details</legend>
+      <div class="field-row">
+        <div class="add-sighting-identification-pane">
+          <p>Identify the species if you know what it is.</p>
+        </div>
+        <div id="add-sighting-note-field" class="field">
+          <div>
+            <input type="button" value="Identify" id="add-sighting-identification-button" />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    <fieldset class="sighting-note-fieldset">
+        <legend class="hidden">Sighting Note Details</legend>
+      <div class="field-row">
+        <div class="add-sighting-note-pane">
+          <p>Is there something more you'd like to add? Add a detailed description or some tags.</p>
+        </div>
+        <div id="add-sighting-note-field" class="field">
+          <div>
+            <input type="button" value="Describe" id="add-sighting-note-button" />
+          </div>
+        </div>
+      </div>
+    </fieldset>
+    {{/Model.Observation.Id}}
+    <fieldset>
+      <input type="button" value="Save" id="save" />
+      <input type="button" value="Cancel" id="cancel" />
+    </fieldset>
+  </form>
+</div>

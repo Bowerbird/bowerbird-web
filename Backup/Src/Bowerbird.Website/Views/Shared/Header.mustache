@@ -1,0 +1,115 @@
+﻿<header class="{{#Model.HomeHeader}}home{{/Model.HomeHeader}}{{^Model.HomeHeader}}default{{/Model.HomeHeader}}-header">
+  <div>
+    {{#Model.HomeHeader}}
+    <div class="banner">
+      <div class="slogan">
+        <h1>
+          <img src="/img/logo.svg" alt="" />
+        </h1>
+        <p>
+          A place to share and discuss Australia’s biodiversity.
+        </p>
+        <a href="/account/register" class="button">Join BowerBird</a>
+      </div>
+      <!--<div class="feature-image">
+        <img src="/img/spider.jpg" alt="" />
+      </div>-->
+      <div id="header-carousel">
+        <ul>
+          {{#Model.Sightings.PagedListItems}}
+          <li>
+            <div>
+              <a href="/{{Id}}">
+                {{#PrimaryMedia.MediaResource}}
+                {{>MediaConstrained600}}
+                {{/PrimaryMedia.MediaResource}}
+              </a>
+            </div>
+          </li>
+          {{/Model.Sightings.PagedListItems}}
+        </ul>
+      </div>
+    </div>
+    {{/Model.HomeHeader}}
+    {{^Model.HomeHeader}}
+    <h1>
+      <a href="/">
+        <img src="/img/logo.svg" alt="" />
+      </a>
+    </h1>
+    {{/Model.HomeHeader}}
+    <h2 class="hidden">Your Account</h2>
+    <nav id="account-menu">
+      <ul>
+        {{#Model.AuthenticatedUser}}
+        <li class="user-menu-item">
+          <span class="user-avatar">
+            {{#User.Avatar}}
+            {{>MediaSquare100}}
+            {{/User.Avatar}}
+          </span>
+          <span class="user-name">{{Model.AuthenticatedUser.User.Name}}</span>
+          <div class="sub-menu-button sub-menu">
+            <span class="arrow-icon down-arrow-icon"></span>
+            <ul>
+              <li>
+                <a href="/{{Model.AuthenticatedUser.User.Id}}" class="view-your-profile-button">View My Public Profile</a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a href="/account/updatepassword" class="change-password-button">Edit Password</a>
+              </li>
+              <li>
+                <a href="/account/update" class="account-update-button">Edit Account Details</a>
+              </li>
+              <li class="new-section">
+                <a href="/about">About BowerBird</a>
+              </li>
+              <li>
+                <a href="http://bower-news.blogspot.com.au" target="new">Help</a>
+              </li>
+              <li class="new-section">
+                <a href="/account/logout">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        {{/Model.AuthenticatedUser}}
+        {{^Model.AuthenticatedUser}}
+        <li>
+          <a href="/account/login" class="login-button">Login</a>
+        </li>
+        <li>
+          <a href="/account/register" class="register-button">Join</a>
+        </li>
+        {{/Model.AuthenticatedUser}}
+      </ul>
+    </nav>
+    
+    <h2 class="hidden">Explore</h2>
+    <nav id="explore-menu">
+      <ul>
+        <li>
+          <a href="/sightings">Sightings</a>
+        </li>
+        <li>
+          <a href="/projects">Projects</a>
+        </li>
+        <li>
+          <a href="/users">People</a>
+        </li>
+        <li>
+          <a href="/organisations">Organisations</a>
+        </li>
+      </ul>
+    </nav>
+
+    <nav id="search-menu">
+      <label for="search">Search</label>
+      <input type="text" value="" name="search" id="search" placeholder="Search" />
+    </nav>
+
+
+
+  </div>
+</header>

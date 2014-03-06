@@ -1,0 +1,37 @@
+﻿<div class="window" id="add-videos-window">
+    <div class="window-title-bar">
+    {{Model.name}} Video
+    <span class="close" title="Close"></span>
+    </div>
+    <div class="window-body">
+        <div class="form video-form">
+        <form action="">
+            <fieldset>
+                <legend class="hidden">{{Model.name}} Video Details</legend>
+
+                <div id="video-uri-field" class="field">
+                    <div>
+                        <label for="VideoUri">{{Model.name}} Video Website Address</label>
+                    </div>
+                    <div>
+                        <input type="text" id="VideoUri" name="videouri" value="" placeholder="{{Model.placeholderUri}}" />
+                        <p>For example: <a href="{{Model.exampleUri}}" target="new">{{Model.exampleUri}}</a></p>
+                    </div>
+                </div>
+                <div id="video-preview-field" class="field">
+                    <div>
+                        <label>Preview</label>
+                    </div>
+                    <div>
+                        <div class="video-preview"></div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <input type="button" value="Add" class="add-button" />
+                <input type="button" value="Cancel" class="cancel-button" />
+            </fieldset>
+            </form>
+            </div>
+    </div>
+</div>

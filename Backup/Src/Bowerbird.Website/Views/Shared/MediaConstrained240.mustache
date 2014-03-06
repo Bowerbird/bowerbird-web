@@ -1,0 +1,30 @@
+﻿{{#Image.Constrained240}}
+<div class="image-media media-constrained-240">
+    <img src="{{Uri}}" alt="" />
+</div>
+{{/Image.Constrained240}}
+{{#Video.Constrained240}}
+<div class="video-media media-constrained-240">
+    <iframe class="video-player" width="{{Width}}" height="{{Height}}" src="{{Uri}}" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+</div>
+{{/Video.Constrained240}}
+{{#Audio.Constrained240}}
+<div class="audio-media media-constrained-240">
+    <div id="audio-player-{{Name}}" class="cp-jplayer"></div>
+    <div id="audio-player-container-{{Name}}" class="cp-container">
+        <div class="cp-buffer-holder"> <!-- .cp-gt50 only needed when buffer is > than 50% -->
+            <div class="cp-buffer-1"></div>
+            <div class="cp-buffer-2"></div>
+        </div>
+        <div class="cp-progress-holder"> <!-- .cp-gt50 only needed when progress is > than 50% -->
+            <div class="cp-progress-1"></div>
+            <div class="cp-progress-2"></div>
+        </div>
+        <div class="cp-circle-control"></div>
+        <ul class="cp-controls">
+            <li><a href="#" class="cp-play" tabindex="1">play</a></li>
+            <li><a href="#" class="cp-pause" style="display:none;" tabindex="1">pause</a></li> <!-- Needs the inline style here, or jQuery.show() uses display:inline instead of display:block -->
+        </ul>
+    </div>
+</div>
+{{/Audio.Constrained240}}

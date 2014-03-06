@@ -1,0 +1,12 @@
+﻿<label><input style="display:none;" type="checkbox" name="Licence[]" value="{{Model.Licence.Id}}" {{#Model.Selected}}checked="checked"{{/Model.Selected}} />
+    <div class="licence-name">{{Model.Licence.Name}}</div> 
+    {{#Model.Licence.Icons}}
+    <img src="{{.}}" alt="" />
+    {{/Model.Licence.Icons}}
+    <div class="licence-description">{{{Model.Licence.Description}}}</div>
+    {{#Model.Licence.DeedUri}}
+    <div class="licence-uri">
+        <a href="{{Model.Licence.DeedUri}}" target="new">View Deed Licence</a> / <a href="{{Model.Licence.LegalCodeUri}}">View Legal Code</a>
+    </div>
+    {{/Model.Licence.DeedUri}}
+</label>

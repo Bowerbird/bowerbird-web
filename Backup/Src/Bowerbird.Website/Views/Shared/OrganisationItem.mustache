@@ -1,0 +1,16 @@
+﻿<div class="explore-item">
+    <div class="explore-summary">
+        <span class="explore-avatar">
+            <img src="{{Avatar.Image.ThumbnailMedium.Uri}}" />
+        </span>
+        <span class="explore-name">{{Name}}</span>
+    </div>
+    <div class="explore-details">
+        {{#Website}}<div class="explore-details-property">Website</div><div class="explore-details-value">{{Website}}</div>{{/Website}}
+        {{#UserCount}}<div class="explore-details-property">Teams</div><div class="explore-details-value">{{UserCount}}</div>{{/UserCount}}
+        {{#Description}}<div class="explore-details-property">Description</div><div class="explore-details-value">{{Description}}</div>{{/Description}}
+    </div>
+    <div class="view-organisation">
+        <button value="View" class="view-organisation-button">View Organisation</button>
+    </div>
+</div>

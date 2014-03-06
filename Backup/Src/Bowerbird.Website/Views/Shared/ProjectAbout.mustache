@@ -1,0 +1,87 @@
+﻿<div class="project-about">
+  <div class="about">
+    {{#Model.Project.Description}}
+    <h4>About This Project</h4>
+  
+    <div class="project-description">
+      {{{Model.Project.Description}}}
+    </div>
+    {{/Model.Project.Description}}
+    
+    <h4>Administrators</h4>
+
+    <ul class="administrators">
+      {{#Model.ProjectAdministrators.PagedListItems}}
+      <li>
+        <a href="/{{Id}}">
+          {{#Avatar}}
+          {{>MediaSquare200}}
+          {{/Avatar}}
+        </a>
+      </li>
+      {{/Model.ProjectAdministrators.PagedListItems}}
+    </ul>
+    
+    
+    <div class="project-info">
+      <div id="created">
+        Created <span>{{Model.Project.Created}}</span>
+      </div>
+      {{#Model.Project.Website}}
+      <div id="website">
+        Website <span><a href="{{Model.Project.Website}}" target="new">{{Model.Project.Website}}</a></span>
+      </div>
+      {{/Model.Project.Website}}
+
+      <div id="activity-chart">
+            
+        <table>
+          <caption>Activity in the last 30 days</caption>
+          <thead>
+            <tr>
+              <td></td>
+              {{#Model.ActivityTimeseries}}
+              <th scope="col">{{CreatedDate}}</th>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Sighting added</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{SightingCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Sighting identified</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{IdentificationCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Sighting described</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{NoteCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">News item posted</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{PostCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Comment made</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{CommentCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+          </tbody>
+        </table>
+        <div id="chart-area"></div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>

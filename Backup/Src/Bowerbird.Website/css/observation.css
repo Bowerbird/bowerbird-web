@@ -1,0 +1,1575 @@
+﻿.observation .observation-details {
+    float: left;
+    width: 100%;
+}
+.observation h4 {
+    color: rgb(68, 68, 68);
+    font-size: 1em;
+    font-weight: 600;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation-details
+{
+    float: left;
+    padding: 0.5em;
+}
+.observation-details h3
+{
+    display: block;
+    float: right;
+    font-size: 1.4em;
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1.1em;
+    margin: 0;
+    width: 30%;
+}
+.observation-details h3 a,
+.observation-details h3 a:hover,
+.observation-details h3 a:active,
+.observation-details h3 a:visited
+{
+    color: #222222;
+    text-decoration: none;
+}
+.observation-details .observation-options {
+    display: inline-block;
+    height: 2.1em;
+    position: relative;
+    vertical-align: top;
+    width: 30%;
+}
+.observation-details .sighting-actions {
+    float: left;
+    margin-top: 0.5em;
+    width: 100%;
+}
+.activity-item .actions .button {
+    display: inline-block;
+    padding: 0;
+    position: relative;
+    vertical-align: top;
+}
+.activity-item .actions a.add-favourite-button
+{
+    background-color: rgb(51, 200, 255);
+    border-color: rgb(0, 155, 212);
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.5) inset;
+    text-indent: -99999px;
+    line-height: 0.01em;
+    width: 44px;
+}
+.activity-item .actions a.add-note-button,
+.activity-item .actions .edit-observation-button,
+.activity-item .actions .view-button,
+.activity-item .actions .add-identification-button {
+    font-size: 1.1em;
+    line-height: 1.5em;
+    padding: 4px 22px;
+}
+.activity-item .small-category-icon {
+    margin-right: 2px;
+}
+.activity-item .actions .view-button {
+    float: right;
+    margin: 0;
+}
+.activity-item .actions .button span
+{
+    background-image: url("/img/icons.png");
+    background-repeat: no-repeat;
+    background-size: 626% auto;
+    display: block;
+    margin: 2px auto 1px;
+}
+.activity-item .actions .add-favourite-button span
+{
+    background-position: -130px -1px;
+    height: 31px;
+    width: 31px;
+}
+.activity-item .actions .add-favourite-button.active span
+{
+    background-position: -130px -1px;
+}
+.activity-item .actions a.add-favourite-button:hover
+{
+    background-color: #00baff;
+}
+.activity-item .actions a.add-favourite-button:active
+{
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5) inset;
+}
+.observation-details .observation-options .sub-menu-button {
+    right: -10px;
+    top: -8px;
+}
+.observation-details .images
+{
+    float: left;
+    padding-right: 1em;
+    width: 70%;
+}
+.observation-details .images .preview
+{
+    max-height: 600px;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+.observation-details .images .preview .media-details
+{
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+.observation-details .images .preview .overlay
+{
+    background-color: #000000;
+    bottom: 0;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+.observation-details .images .preview p.description,
+.observation-details .images .preview p.primary-media
+{
+    color: rgb(255, 255, 255);
+    font-size: 0.84em;
+    line-height: 1.3em;
+    margin: 5px 15px;
+    max-height: 63px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    text-shadow: none;
+    white-space: normal;
+    z-index: 1;
+}
+.observation-details .images .thumbnails > div:nth-child(5n+0)
+{
+    margin-right: 0;
+}
+.observation-details .images .thumbnails .image-media,
+.observation-details .images .thumbnails .video-media,
+.observation-details .images .thumbnails .audio-media
+{
+    float: left;
+    height: 19.6%;
+    line-height: 1em;
+    margin-right: 0.5%;
+    margin-top: 0.5%;
+    width: 19.6%;
+    cursor: pointer;
+}
+.observation-details .images .thumbnails > div:last-child
+{
+    margin-right: 0;
+}
+.observation-details .info
+{
+    float: left;
+    width: 30%;
+}
+.observation-details .user,
+.sighting .user
+{
+    display: block;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.7em;
+    vertical-align: top;
+}
+.observation-details .user {
+    margin-bottom: 14px;
+}
+.sightingadded-activity-item .user {
+    display: none;
+}
+.sighting .user .media-square-100 {
+    display: inline-block;
+    width: 35px;
+}
+.sighting .user > span
+{
+    display: inline-block;
+    padding-top: 5px;
+    vertical-align: top;
+}
+.observation-details .sighting-sighted
+{
+    float: left;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1em;
+    margin-top: 0.7em;
+    width: 100%;
+    padding-top: 0.5em;
+    border-top: 1px dotted rgb(221, 221, 221);
+}
+.observation-details .sighting-projects {
+    float: left;
+    margin-top: 0.7em;
+    width: 100%;
+}
+.observation-details .sighting-projects li
+{
+    display: block;
+    float: left;
+    list-style: none outside none;
+    margin-bottom: 1%;
+    margin-right: 1%;
+    width: 19.2%;
+}
+.observation-details .sighting-projects li:nth-child(5n) {
+    margin-right: 0;
+}
+.observation-details .sighting-projects h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1em;
+    padding-bottom: 0.3em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation-details .sighting-sighted span
+{
+    font-weight: 500;
+}
+.observation-details .location
+{
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    margin-top: 0.7em;
+    float: left;
+    width: 100%;
+}
+.observation-details .location .map
+{
+    overflow: hidden;
+    width: 100%;
+}
+@media screen and (min-width: 20em) 
+{
+    .observation-details .location .map
+    {
+        height: 4em;
+    }
+}
+@media screen and (min-width: 37.5em) 
+{
+    .observation-details .location .map
+    {
+        height: 9em;
+    }
+}
+@media screen and (min-width: 64em) 
+{
+    .observation-details .location .map
+    {
+        height: 9.5em;
+    }
+}
+.observation-details .location > span
+{
+    display: none;
+    font-weight: 500;
+    padding: 5px 5px 0 0;
+}
+
+
+
+
+/**********************/
+.call-to-action
+{
+    background-color: rgb(232, 228, 219);
+    border-radius: 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
+    padding: 1.3em;
+    position: relative;
+    width: 100%;
+    float: left;
+}
+.call-to-action h2
+{
+    color: rgb(67, 50, 17);
+    font-size: 1.2em;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    margin-bottom: 15px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.login .call-to-action,
+.register .call-to-action {
+    margin-top: 20px;
+}
+.home-private .call-to-action {
+    margin-bottom: 20px;
+}
+.home-private .call-to-action h2 {
+    font-size: 1.4em;
+}
+.home-private > .details {
+    width: 100%;
+}
+.home-private .tab-bar {
+    padding-bottom: 2%;
+}
+.call-to-action p {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.call-to-action p, 
+.call-to-action li {
+    color: rgb(97, 80, 47);
+    font-size: 0.844em;
+    font-weight: 500;
+    line-height: 1.5em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.call-to-action ul {
+    margin-bottom: 10px;
+    margin-left: 27px;
+    margin-top: 10px;
+}
+.call-to-action h3
+{
+    color: rgb(67, 50, 17);
+    font-size: 0.95em;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 0;
+    margin-top: 15px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.call-to-action .close-call-to-action
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 rgb(67, 50, 17);
+    border: 2px solid rgb(67, 50, 17);
+    border-radius: 10px 10px 10px 10px;
+    display: block;
+    height: 18px;
+    position: absolute;
+    right: 10px;
+    text-indent: -99999px;
+    top: 9px;
+    width: 18px;
+}
+.call-to-action p a,
+.call-to-action p a:active,
+.call-to-action p a:visited
+{
+    color: rgb(64, 64, 64);
+}
+.call-to-action p a:hover {
+    color: rgb(27, 131, 235);
+}
+.call-to-action .close-call-to-action:hover
+{
+    background: url("/img/glyphicons-halflings-white.png") no-repeat scroll -312px 0 #1B83EB;
+    border: 2px solid #1B83EB;
+}
+
+/**********************/
+.project > .summary,
+.organisation > .summary,
+.user > .summary
+{
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: rgb(84, 149, 216);
+    background-origin: padding-box;
+    background-position: center 0;
+    background-repeat: no-repeat;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px 0 rgb(51, 51, 51);
+    float: left;
+    height: 200px;
+    position: relative;
+    width: 100%;
+    z-index: 2;  
+}
+.project > .details,
+.organisation > .details,
+.user > .details
+{
+    background-color: rgb(227, 227, 227);
+    float: left;
+    width: 100%;
+}
+.project > .summary .image-media,
+.organisation > .summary .image-media,
+.user > .summary .image-media 
+{
+    border-radius: 2px;
+    box-shadow: 0 2px 4px 0 rgba(1, 1, 1, 0.9);
+    display: block;
+    height: 100px;
+    margin: 12px auto 0;
+    width: 100px;
+}
+.project > .summary img,
+.organisation > .summary img,
+.user > .summary img
+{
+    border-radius: 4px;
+}
+.project > .summary h1,
+.organisation > .summary h1,
+.user > .summary h1
+{
+    color: rgb(255, 255, 255);
+    display: block;
+    font-size: 2em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.6em;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 0 rgb(0, 0, 0);
+    white-space: nowrap;
+}
+.project > .summary p,
+.organisation > .summary p,
+.user > .summary p
+{
+    display: none;
+    font-size: 0.875em;
+    line-height: 1.4em;
+    margin: 15px 15px 15px 0;
+    max-height: 96px;
+    overflow: hidden;
+}
+.project > .summary .badges,
+.organisation > .summary .badges,
+.user > .summary .badges
+{
+    display: block;
+    text-align: center;
+    width: 100%;
+}
+.project > .summary .badges li,
+.organisation > .summary .badges li,
+.user > .summary .badges li
+{
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    color: rgb(255, 255, 255);
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 600;
+    line-height: 1em;
+    padding: 5px 7px;
+    text-shadow: 0 1px 0 rgb(0, 0, 0);
+}
+.project .tab-bar,
+.organisation .tab-bar,
+.user .tab-bar 
+{
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+
+/******* Project about *******/
+.project-about .about,
+.organisation-about .about,
+.user-about .about {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px 2px 2px 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
+    display: block;
+    float: left;
+    width: 100%;
+}
+.project-about h4,
+.organisation-about h4,
+.user-about h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
+    font-weight: 600;
+    padding: 1em 1em 0;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.project-description,
+.organisation-description,
+.user-description {
+    font-size: 0.875em;
+    line-height: 1.5em;
+    padding: 0 1em;
+}
+.project-info,
+.organisation-info,
+.user-info {
+    font-size: 0.875em;
+    line-height: 1.5em;
+    padding: 1em 0 1em 1em;
+}
+.project-info #created,
+.project-info #website,
+.project-info #activity-chart .visualize .visualize-title,
+.organisation-info #created,
+.organisation-info #website,
+.organisation-info #activity-chart .visualize .visualize-title,
+.user-info #created,
+.user-info #website,
+.user-info #activity-chart .visualize .visualize-title {
+    color: rgb(68, 68, 68);
+    font-size: 0.975em;
+    font-weight: 600;
+    line-height: 1.25em;
+}
+.project-info #created span,
+.project-info #website span,
+.organisation-info #created span,
+.organisation-info #website span,
+.user-info #created span,
+.user-info #website span 
+{
+    display: block;
+    font-weight: 500;
+    margin-bottom: 13px;
+}
+.project-about .administrators,
+.organisation-about .administrators
+{
+    display: block;
+    float: left;
+    list-style: none outside none;
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    width: 100%;
+}
+.project-about .administrators li,
+.organisation-about .administrators li
+{
+    display: block;
+    float: left;
+    margin-right: 0.3em;
+    width: 100px;
+}
+.project-info #website span a,
+.project-info #website span a:active,
+.project-info #website span a:visited,
+.organisation-info #website span a,
+.organisation-info #website span a:active,
+.organisation-info #website span a:visited,
+.user-info #website span a,
+.user-info #website span a:active,
+.user-info #website span a:visited 
+{
+    color: rgb(34, 34, 34);
+}
+.project-info #website span a:hover,
+.organisation-info #website span a:hover,
+.user-info #website span a:hover
+{
+    color: rgb(27, 131, 235);
+}
+.project-info #activity-chart,
+.organisation-info #activity-chart,
+.user-info #activity-chart 
+{
+    margin-bottom: 41px;
+    margin-top: 27px;
+    padding: 2%;
+}
+.project-info #activity-chart table,
+.organisation-info #activity-chart table,
+.user-info #activity-chart table 
+{
+    display: none;
+}
+.project-info #activity-chart .visualize .visualize-info,
+.organisation-info #activity-chart .visualize .visualize-info,
+.user-info #activity-chart .visualize .visualize-info 
+{
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    font-size: 1em;
+    font-weight: 600;
+    left: -18px;
+    opacity: 1;
+    padding: 0;
+    position: relative;
+    right: auto;
+    top: -23px;
+}
+.project-info #activity-chart .visualize ul.visualize-key,
+.organisation-info #activity-chart .visualize ul.visualize-key,
+.user-info #activity-chart .visualize ul.visualize-key 
+{
+    display: block;
+    font-size: 0.95em;
+    font-weight: 500;
+    left: 18px;
+    position: absolute;
+    top: 237px;
+}
+.project-info #activity-chart .visualize-labels-x .label,
+.organisation-info #activity-chart .visualize-labels-x .label,
+.user-info #activity-chart .visualize-labels-x .label 
+{
+    font-size: 0.8em;
+    line-height: 1em;
+    text-align: center;
+}
+.project-info #activity-chart .visualize-labels-y .label,
+.organisation-info #activity-chart .visualize-labels-y .label,
+.user-info #activity-chart .visualize-labels-y .label
+{
+    font-size: 0.8em;
+    line-height: 1em;
+}
+.project-info #activity-chart .visualize-labels-y li span.line,
+.organisation-info #activity-chart .visualize-labels-y li span.line,
+.user-info #activity-chart .visualize-labels-y li span.line 
+{
+    border-style: dotted;
+}
+/****************************************/
+.projects .details,
+.organisations .details,
+.users .details
+{
+    float: left;
+    width: 100%;
+    position: relative;
+}
+.projects .project-list,
+.organisations .organisation-list,
+.sightings .sighting-list,
+.favourites .sighting-list,
+.users .sighting-list
+{
+    float: left;
+    width: 100%;
+}
+.projects .search,
+.organisations .search,
+.sightings .search,
+.favourites .search,
+.users .search
+{
+    padding-top: 44px;
+}
+.projects .join-project-button {
+    background-color: rgb(82, 177, 82);
+    border-color: #0B7700;
+    text-shadow: 0 -1px 0 #004c00;
+}
+.projects .leave-project-button {
+    background-color: rgb(255,175,75);
+    border-color: #ED8200;
+    text-shadow: 0 -1px 0 #b46300;
+}
+#project-explore-welcome,
+#organisation-explore-welcome
+ {
+    margin-bottom: 2%;
+}
+
+
+
+.sighting-note-form {
+    width: 95.6%;
+}
+.sighting-note-form form {
+    display: inline-block;
+    width: 100%;
+}
+
+
+
+
+
+
+
+/*
+
+OBSERVATION FULL DETAILS
+
+*/
+.observation .form-details {
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    box-shadow: 0 1px 1px 1px rgba(51, 51, 51, 0.3);
+}
+.sighting-observation-full-details
+{
+    float: left;
+    width: 100%;
+}
+.sighting-observation-full-details h3
+{
+    float: right;
+    font-size: 1.8125em;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 1.2em;
+    margin: 0;
+    width: 30%;
+}
+.sighting-observation-full-details h3 a,
+.sighting-observation-full-details h3 a:hover,
+.sighting-observation-full-details h3 a:active,
+.sighting-observation-full-details h3 a:visited
+{
+    color: #222222;
+    text-decoration: none;
+}
+.sighting-observation-full-details .observation-options {
+    display: inline-block;
+    height: 2.1em;
+    position: relative;
+    vertical-align: top;
+    width: 30%;
+}
+.sighting-observation-full-details .observation-options .sub-menu-button {
+    right: -10px;
+    top: -8px;
+}
+.sighting-observation-full-details .images
+{
+    float: left;
+    padding-right: 1em;
+    vertical-align: top;
+    width: 70%;
+}
+.sighting-observation-full-details .images .preview
+{
+    max-height: 600px;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    position: relative;
+}
+.sighting-observation-full-details .images .preview .media-details
+{
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+.sighting-observation-full-details .images .preview .overlay
+{
+    background-color: #000000;
+    bottom: 0;
+    height: 100%;
+    opacity: 0.5;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
+.sighting-observation-full-details .images .preview p.description,
+.sighting-observation-full-details .images .preview p.primary-media
+{
+    color: rgb(255, 255, 255);
+    font-size: 0.85em;
+    line-height: 1.5em;
+    margin: 5px 15px;
+    max-height: 63px;
+    overflow: hidden;
+    position: relative;
+    text-align: left;
+    text-shadow: none;
+    white-space: normal;
+    z-index: 1;
+}
+.sighting-observation-full-details .images .thumbnails > div:nth-child(5n+0)
+{
+    margin-right: 0;
+}
+.sighting-observation-full-details .images .thumbnails .image-media,
+.sighting-observation-full-details .images .thumbnails .video-media,
+.sighting-observation-full-details .images .thumbnails .audio-media
+{
+    float: left;
+    height: 19.6%;
+    line-height: 1em;
+    margin-right: 0.5%;
+    margin-top: 0.5%;
+    width: 19.6%;
+    cursor: pointer;
+}
+.sighting-observation-full-details .images .thumbnails > div:last-child
+{
+    margin-right: 0;
+}
+.sighting-observation-full-details .info
+{
+    float: left;
+    width: 30%;
+}
+.sighting-observation-full-details .user
+{
+    display: block;
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.7em;
+    vertical-align: top;
+}
+.sighting-observation-full-details .user {
+    margin-bottom: 14px;
+    display: none;
+}
+.sighting-observation-full-details .user .media-square-100 {
+    display: inline-block;
+    width: 35px;
+}
+.sighting-observation-full-details .user > span
+{
+    display: inline-block;
+    padding-top: 5px;
+    vertical-align: top;
+}
+.sighting-observation-full-details .sighting-sighted,
+.sighting-observation-full-details .sighting-added,
+.sighting-observation-full-details .observation-projects
+{
+    float: left;
+    font-size: 0.875em;
+    font-weight: 600;
+    width: 100%;
+}
+.sighting-observation-full-details .sighting-sighted,
+.sighting-observation-full-details .observation-projects,
+.sighting-observation-full-details .sighting-actions {
+    float: left;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.sighting-observation-full-details .sighting-sighted {
+    margin-top: 0.5em;
+    border-top: 1px dotted rgb(221, 221, 221);
+}
+.sighting-observation-full-details .observation-projects {
+    margin: 20px 0 0;    
+}
+.sighting-observation-full-details .observation-projects-list
+{
+    margin-top: 4px;
+}
+.sighting-observation-full-details .observation-project
+{
+    display: block;
+    float: left;
+    margin-right: 1.1%;
+    margin-top: 1.1%;
+    width: 32.6%;
+}
+.sighting-observation-full-details .observation-project:nth-child(3n+0)
+{
+    margin-right: 0;
+}
+.sighting-observation-full-details .sighting-sighted span,
+.sighting-observation-full-details .sighting-added span
+{
+    font-weight: 500;
+}
+.sighting-observation-full-details .location
+{
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1.25em;
+    padding-top: 0.7em;
+    float: left;
+    width: 100%;
+}
+.sighting-observation-full-details .location .map
+{
+    overflow: hidden;
+    width: 100%;
+}
+@media screen and (min-width: 20em) 
+{
+    .sighting-observation-full-details .location .map
+    {
+        height: 4em;
+    }
+}
+@media screen and (min-width: 37.5em) 
+{
+    .sighting-observation-full-details .location .map
+    {
+        height: 9em;
+    }
+}
+@media screen and (min-width: 64em) 
+{
+    .sighting-observation-full-details .location .map
+    {
+        height: 13.5em;
+    }
+}
+.sighting-observation-full-details .location > span
+{
+    display: block;
+    font-weight: 500;
+    padding: 5px 5px 0 0;
+}
+.sighting-summary,
+.post-summary
+{
+    background-color: rgb(249, 249, 249);
+    border-bottom: 1px solid rgb(221, 221, 221);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    float: left;
+    padding: 1em;
+    width: 100%;
+}
+.sighting-summary .image-media.media-square-100,
+.post-summary .image-media.media-square-100
+{
+    display: inline-block;
+    float: left;
+}
+.sighting-summary .image-media.media-square-100 {
+    height: 46px;
+    width: 46px;
+}
+.post-summary .image-media.media-square-100 {
+    height: 75px;
+    width: 75px;
+}
+.sighting-summary .description,
+.post-summary .description
+{
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding-left: 0.5em;
+    vertical-align: top;
+}
+.sighting-summary .description > span,
+.post-summary .description > span
+{
+    display: inline-block;
+    float: left;
+    line-height: 1.6em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
+}
+.sighting-summary .description abbr,
+.post-summary .description abbr
+{
+    color: rgb(128, 128, 128);
+    display: inline-block;
+    float: left;
+    font-size: 0.85em;
+    font-weight: 400;
+    line-height: 1.2em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
+}
+.post-summary .group-contribution-user {
+    display: inline-block;
+    margin-top: 0.5em;
+    vertical-align: top;
+}
+.post-summary .group-contribution-user .image-media.media-square-100 {
+    height: 20px;
+    width: 20px;
+}
+.post-summary .group-contribution-user-description {
+    color: rgb(102, 102, 102);
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.5em;
+    margin-left: 0.5em;
+    vertical-align: top;
+}
+.observation .sighting-projects 
+{
+    float: left;
+    margin-top: 0.7em;
+    width: 100%;
+}
+.observation .sighting-projects li
+{
+    display: block;
+    float: left;
+    list-style: none outside none;
+    margin-bottom: 1%;
+    margin-right: 1%;
+    width: 19.2%;
+}
+.observation .sighting-projects li:nth-child(5n) {
+    margin-right: 0;
+}
+.observation .identifications,
+.observation .sighting-notes {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    width: 100%;
+}
+.observation .sighting-projects h4 {
+    color: rgb(68, 68, 68);
+    font-size: 0.875em;
+    font-weight: 600;
+    line-height: 1em;
+    padding-bottom: 0.3em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .identifications .add-identification-heading,
+.observation .sighting-notes .add-sighting-notes-heading {
+    background-color: rgb(249, 249, 249);
+    float: left;
+    padding: 1em;
+    width: 100%;
+}
+.observation .identifications h4,
+.observation .sighting-notes h4 
+{
+    float: left;
+    width: 70%;
+}
+.observation .identifications .add-identification,
+.observation .sighting-notes .add-sighting-note {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 1em;
+    text-align: center;
+    width: 100%;
+}
+.observation .identifications .add-identification .button,
+.observation .sighting-notes .add-sighting-note  .button
+{
+    margin: 0;
+}
+.observation .no-sighting-notes 
+{
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 0.5em;
+    width: 100%;
+}
+.observation .no-sighting-notes p {
+    color: rgb(102, 102, 102);
+    font-size: 0.9em;
+    margin: 15px auto;
+    text-align: center;
+    width: 50%;
+}
+.observation .sighting-note {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 0.5em;
+    width: 100%;
+    list-style: none;
+}
+.observation .identifications .identification {
+    border-top: 1px solid rgb(221, 221, 221);
+    float: left;
+    padding: 0.5em;
+    width: 100%;
+    list-style: none;
+}
+.observation .identifications .identification-user,
+.observation .sighting-notes .sighting-note-user {
+    float: left;
+    width: 100%;
+}
+.observation .identifications .identification-info {
+    float: left;
+    padding-right: 1em;
+    width: 70%;
+}
+.observation .identifications .info {
+    float: left;
+    width: 30%;
+}
+.observation .identification-panel
+ {
+    float: left;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.observation .sighting-notes-actions,
+.observation .identification-actions {
+    float: left;
+    width: 100%;
+}
+.observation .identification-summary,
+.observation .sighting-note-summary
+{
+    float: left;
+    width: 100%;
+    border-bottom: 1px dotted rgb(221, 221, 221);
+    padding-bottom: 0.5em;
+}
+.activity-item .identification-summary,
+.activity-item .sighting-note-summary 
+{
+    display: none;
+}
+.observation .identification-summary .image-media.media-square-100,
+.observation .sighting-note-summary .image-media.media-square-100
+{
+    display: inline-block;
+    float: left;
+    height: 40px;
+    width: 40px;
+}
+.observation .identification-summary .description,
+.observation .sighting-note-summary .description
+{
+    display: inline-block;
+    font-size: 0.9em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0;
+    padding-left: 0.5em;
+    vertical-align: top;
+}
+.observation .identification-summary .description > span,
+.observation .sighting-note-summary .description > span
+{
+    display: inline-block;
+    float: left;
+    line-height: 1.5em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+    width: 100%;
+}
+.observation .identification-summary .description abbr,
+.observation .sighting-note-summary .description abbr
+{
+    color: rgb(128, 128, 128);
+    display: inline-block;
+    float: left;
+    font-size: 0.85em;
+    font-weight: 400;
+    line-height: 1.1em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .identifications .identification-comments,
+.observation .sighting-notes .sighting-note-comments
+{
+    border-top: 1px dotted rgb(221, 221, 221);
+    float: left;
+    margin-top: 0.5em;
+    padding-top: 0.5em;
+    position: relative;
+    width: 100%;
+}
+
+.observation .identification-comments .image-media.media-square-100, 
+.observation .sighting-note-comments .image-media.media-square-100 {
+    display: block;
+    height: 25px;
+    position: absolute;
+    top: 0.5em;
+    width: 25px;
+}
+.observation .identifications .identification-comments span,
+.observation .sighting-notes .sighting-note-comments span 
+{
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1.25em;
+    margin-left: 35px;
+}
+.observation .identifications .identification-comments p,
+.observation .sighting-notes .sighting-note-comments p 
+{
+    color: rgb(119, 119, 119);
+    font-size: 0.8em;
+    font-weight: 500;
+    line-height: 1.3em;
+    margin-left: 35px;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .identification-actions .vote-panel,
+.observation .sighting-notes-actions .vote-panel
+{
+    margin-top: 0;
+}
+.observation .sighting-notes .note-info {
+    float: left;
+    padding-right: 1em;
+    width: 70%;
+}
+.observation .sighting-notes .info
+{
+    float: left;
+    width: 30%;
+}
+.observation .sighting-notes .sighting-note-description {
+    float: left;
+    font-size: 0.875em;
+    padding-top: 0.5em;
+    width: 100%;
+}
+.observation .sighting-notes .sighting-note-description span {
+    font-weight: 600;
+}
+.observation .sighting-notes .sighting-note-description p {
+    font-size: 1em;
+    font-weight: 500;
+    line-height: 1.35em;
+    text-shadow: 0 1px 0 rgb(255, 255, 255);
+}
+.observation .sighting-notes .sighting-note-tags {
+    padding-top: 0.5em;
+    float: left;
+    width: 100%;
+}
+.observation .sighting-notes .sighting-note-tags a {
+    background-color: rgb(237, 244, 250);
+    border: 1px solid rgb(171, 208, 245);
+    border-radius: 4px 4px 4px 4px;
+    color: rgb(0, 0, 0);
+    font-size: 0.825em;
+    line-height: inherit;
+    padding: 0.1em 0.4em 0.2em;
+    position: relative;
+    text-decoration: none;
+}
+.observation .sighting-notes .sighting-note-tags a:hover {
+    border-color: rgb(67, 146, 225);
+}
+.observation .sighting-notes .sighting-note-tags span {
+    display: block;
+    font-weight: 600;
+    font-size: 0.875em;
+    margin-bottom: 5px;
+}
+
+
+.post .post-info {
+    width: 100%;
+}
+
+
+.vote-panel,
+.favourites-panel,
+.identify-panel,
+.describe-panel,
+.comment-panel
+{
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 2px 2px 2px 2px;
+    float: left;
+    height: 56px;
+    margin-right: 2%;
+    padding: 4px;
+    width: 69px;
+}
+.comment-panel {
+    display: none;
+}
+.edit-panel
+{
+    float: left;
+    height: 56px;
+    margin-right: 2%;
+    padding: 4px;
+    width: 69px;
+}
+.vote-panel.with-buttons,
+.favourites-panel.with-buttons,
+.identify-panel.with-buttons,
+.describe-panel.with-buttons,
+.comment-panel.with-buttons,
+.edit-panel.with-buttons 
+{
+    height: 79px;
+}
+.vote-panel,
+.favourites-panel
+{
+    margin-bottom: 2%;
+}
+.identify-panel 
+{
+    clear: left;
+}
+.vote-panel .vote-up,
+.vote-panel .vote-down
+{
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.5em;
+    font-weight: 700;
+    height: 22px;
+    line-height: 0.8em;
+    margin: 2px 0 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: top;
+    width: 22px;
+}
+.vote-panel .vote-down {
+    float: right;
+    line-height: 0.7em;
+}
+.vote-panel .vote-up.button.user-vote-score1,
+.vote-panel .vote-down.button.user-vote-score-1
+{
+    background-color: rgb(109, 173, 118);
+    border-color: rgb(52, 120, 62);
+}
+.vote-panel .vote-score
+{
+    display: block;
+    font-size: 1.3em;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-top: 3px;
+    text-align: center;
+    border-radius: 2px 2px 2px 2px;
+    min-width: 25px;
+    padding-left: 5px;
+    padding-right: 6px;
+    text-align: center;
+}
+.vote-panel.with-buttons .vote-score.user-vote-score1,
+.vote-panel.with-buttons .vote-score.user-vote-score-1 {
+    background-color: rgb(109, 173, 118);
+    color: rgb(255, 255, 255);
+}
+.vote-panel .vote-label {
+    color: rgb(102, 102, 102);
+    display: block;
+    font-size: 0.75em;
+    line-height: 1em;
+    padding-bottom: 7px;
+    text-align: center;
+}
+.favourites-panel .favourites-button {
+    background-image: url("/img/icons.png");
+    background-position: -191px -140px;
+    background-repeat: no-repeat;
+    background-size: 624% auto;
+    cursor: pointer;
+    height: 41px;
+    margin: 0 auto;
+    width: 41px;
+    padding-bottom: 2px;
+}
+.favourites-panel .favourites-button:hover 
+{
+    background-position: -191px -183px;
+}
+.favourites-panel .favourites-button:active 
+{
+    background-position: -149px -183px;
+}
+.favourites-panel .favourites-button.selected 
+{
+    background-position: -171px -1px;
+}
+.favourites-panel .favourites-count {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1em;
+    text-align: center;
+}
+.favourites-panel .favourites-label {
+    display: none;
+}
+.favourites-panel.with-buttons .favourites-label 
+{
+    color: rgb(102, 102, 102);
+    display: block;
+    font-size: 0.75em;
+    line-height: 1em;
+    padding-bottom: 5px;
+    text-align: center;
+}
+.identify-panel .identify-icon {
+    background-image: url("/img/icons.png");
+    background-position: -391px -130px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.favourites-panel .favourites-star {
+    background-image: url("/img/icons.png");
+    background-position: -343px -130px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.describe-panel .describe-icon {
+    background-image: url("/img/icons.png");
+    background-position: -296px -83px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.comment-panel .comment-icon {
+    background-image: url("/img/icons.png");
+    background-position: -391px -83px;
+    background-size: 1500% auto;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    width: 30px;
+}
+.identify-panel .identify-count,
+.describe-panel .describe-count,
+.comment-panel .comment-count {
+    display: block;
+    font-size: 0.9em;
+    font-weight: 700;
+    line-height: 1em;
+    margin-bottom: 4px;
+    text-align: center;
+}
+.identify-panel .add-identification-button,
+.describe-panel .add-note-button,
+.comment-panel .add-comment-button,
+.edit-panel .edit-button {
+    display: block;
+    font-size: 0.8em;
+    line-height: 1.5em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+}
+/***
+BADGES
+***/
+.votes-badge,
+.favourites-badge,
+.identifications-badge,
+.notes-badge,
+.comments-badge,
+.users-badge,
+.sightings-badge ,
+.projects-badge,
+.organisations-badge
+{
+    background-color: rgb(251, 251, 251);
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 2px 2px 2px 2px;
+    display: block;
+    float: left;
+    margin-right: 1.1%;
+    padding: 2px;
+    width: 19.1%;
+}
+.votes-badge.small,
+.favourites-badge.small,
+.identifications-badge.small,
+.notes-badge.small,
+.comments-badge.small,
+.users-badge.small,
+.sightings-badge.small,
+.projects-badge.small,
+.organisations-badge.small
+{
+    line-height: 0.01em;
+    padding: 0 6px 3px;
+    width: auto;
+}
+.comments-badge {
+    margin-right: 0;
+}
+.votes-badge .small-icon,
+.favourites-badge .small-icon,
+.identifications-badge .small-icon,
+.notes-badge .small-icon,
+.comments-badge .small-icon,
+.users-badge .small-icon,
+.sightings-badge .small-icon,
+.projects-badge .small-icon,
+.organisations-badge .small-icon
+{
+    display: block;
+    margin: 0 auto;
+}
+.votes-badge.small .small-icon,
+.favourites-badge.small .small-icon,
+.identifications-badge.small .small-icon,
+.notes-badge.small .small-icon,
+.comments-badge.small .small-icon,
+.users-badge.small .small-icon,
+.sightings-badge.small .small-icon,
+.projects-badge.small .small-icon,
+.organisations-badge.small .small-icon
+{
+    display: inline-block;
+}
+.votes-badge .count,
+.favourites-badge .count,
+.identifications-badge .count,
+.notes-badge .count,
+.comments-badge .count,
+.users-badge .count,
+.sightings-badge .count,
+.projects-badge .count,
+.organisations-badge .count
+{
+    display: block;
+    font-size: 0.8em;
+    font-weight: 600;
+    line-height: 1em;
+    margin-top: 5px;
+    text-align: center;
+    width: 100%;
+}
+.votes-badge.small .count,
+.favourites-badge.small .count,
+.identifications-badge.small .count,
+.notes-badge.small .count,
+.comments-badge.small .count,
+.users-badge.small .count,
+.sightings-badge.small .count,
+.projects-badge.small .count,
+.organisations-badge.small .count
+{
+    display: inline-block;
+    margin: 0;
+    width: auto;
+}
+.votes-badge .label,
+.favourites-badge .label,
+.identifications-badge .label,
+.notes-badge .label,
+.comments-badge .label,
+.users-badge .label ,
+.sightings-badge .label,
+.projects-badge .label,
+.organisations-badge .label
+{
+    color: rgb(119, 119, 119);
+    display: block;
+    font-size: 0.7em;
+    line-height: 1em;
+    text-align: center;
+    width: 100%;
+}
+.votes-badge.small .label,
+.favourites-badge.small .label,
+.identifications-badge.small .label,
+.notes-badge.small .label,
+.comments-badge.small .label,
+.users-badge.small .label,
+.sightings-badge .label,
+.projects-badge .label,
+.organisations-badge .label
+{
+    display: none;
+}

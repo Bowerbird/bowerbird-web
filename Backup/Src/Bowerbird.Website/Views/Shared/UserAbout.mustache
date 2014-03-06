@@ -1,0 +1,67 @@
+﻿<div class="user-about">
+  <div class="about">
+    {{#Model.User.Description}}
+    <h4>About {{Model.User.Name}}</h4>
+  
+    <div class="user-description">
+      {{{Model.User.Description}}}
+    </div>
+    {{/Model.User.Description}}
+
+    <div class="user-info">
+      <div id="created">
+        Joined <span>{{Model.User.Joined}}</span>
+      </div>
+
+      <div id="activity-chart">
+            
+        <table>
+          <caption>Activity in the last 30 days</caption>
+          <thead>
+            <tr>
+              <td></td>
+              {{#Model.ActivityTimeseries}}
+              <th scope="col">{{CreatedDate}}</th>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Sighting added</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{SightingCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Sighting identified</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{IdentificationCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Sighting described</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{NoteCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">News item posted</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{PostCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+            <tr>
+              <th scope="row">Comment made</th>
+              {{#Model.ActivityTimeseries}}
+              <td>{{CommentCount}}</td>
+              {{/Model.ActivityTimeseries}}
+            </tr>
+          </tbody>
+        </table>
+        <div id="chart-area"></div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>

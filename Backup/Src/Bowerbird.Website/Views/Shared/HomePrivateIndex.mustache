@@ -1,0 +1,57 @@
+﻿<h2><span class="small-icon home-icon"></span>Home</h2>
+{{#Model.ShowUserWelcome}}
+<div class="call-to-action" id="user-welcome">
+  <a href="#" class="close-call-to-action" title="Close">Close</a>
+  <h2>Welcome to BowerBird, {{Model.User.Name}}!</h2>
+  <p>Now that you have joined, please take the time to have a look at the introduction to familiarise yourself with BowerBird.</p>
+
+  <h3>Projects</h3>
+  <p>
+    A project is a group of people with a common goal or interests in making sightings. You will find lots of projects you can join by clicking the Projects link above. 
+  </p>
+  <h3>Sightings</h3>
+  <p>
+    A sighting is an observation or a record of something you have seen. It consists of a title, a combination of photos, video and audio and a location. If you are a member of a project, you can add your observation to that project so that other members can view, discuss and identify your contribution. And that's just the start!
+  </p>
+  <h3>Learn More</h3>
+  <p>There's a lot more to BowerBird than meets the eye. <a href="#">Learn more here</a></p>
+</div>
+{{/Model.ShowUserWelcome}}
+<div class="list-details">
+  <div class="tab-bar large">
+    <ul class="tabs">
+      <li>
+        <a class="tab-button activities-tab-button {{#Model.ShowActivities}}selected{{/Model.ShowActivities}}" href="/">Timeline</a>
+      </li>
+      <li>
+        <a class="tab-button sightings-tab-button {{#Model.ShowSightings}}selected{{/Model.ShowSightings}}" href="/home/sightings">Sightings</a>
+      </li>
+      <li>
+        <a class="tab-button posts-tab-button {{#Model.ShowPosts}}selected{{/Model.ShowPosts}}" href="/home/posts">News</a>
+      </li>
+    </ul>
+  </div>
+  <div class="search">
+    <div>
+      {{#Model.ShowSightings}}
+      {{>SightingSearchPanel}}
+      {{/Model.ShowSightings}}
+      {{#Model.ShowPosts}}
+      {{>PostSearchPanel}}
+      {{/Model.ShowPosts}}
+    </div>
+  </div>
+  <div class="list">
+    <div>
+      {{#Model.ShowActivities}}
+      {{>ActivityList}}
+      {{/Model.ShowActivities}}
+      {{#Model.ShowSightings}}
+      {{>SightingList}}
+      {{/Model.ShowSightings}}
+      {{#Model.ShowPosts}}
+      {{>PostList}}
+      {{/Model.ShowPosts}}
+    </div>
+  </div>
+</div>

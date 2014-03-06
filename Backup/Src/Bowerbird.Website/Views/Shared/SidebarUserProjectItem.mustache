@@ -1,0 +1,24 @@
+﻿  <a href="/{{Id}}">
+      <div class="avatar">
+        {{#Avatar}}
+        {{>MediaSquare100}}
+        {{/Avatar}}
+      </div>
+      <div>
+          <p>{{Name}}</p>
+      </div>
+  </a>
+  <div class="sub-menu-button sub-menu">
+    <span class="arrow-icon right-arrow-icon"></span>
+    <ul>
+      <li>
+        <a href="/{{Id}}" title="View this person's timeline">Timeline</a>
+      </li>
+      <li>
+        <a href="/{{Id}}/sightings" title="View this person's sightings">Sightings</a>
+      </li>
+      <li>
+        <a href="/{{Id}}/about" title="View details about this person">About {{Name}}</a>
+      </li>
+    </ul>
+  </div>
