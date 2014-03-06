@@ -4,7 +4,6 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.DesignByContract;
@@ -16,24 +15,9 @@ namespace Bowerbird.Core.ViewModelFactories
 
         #region Members
 
-        private readonly IConfigSettings _configSettings;
-        private readonly IMediaFilePathFactory _mediaFilePathFactory;
-
         #endregion
 
         #region Constructors
-
-        public MediaResourceViewFactory(
-            IConfigSettings configSettings, 
-            IMediaFilePathFactory mediaFilePathFactory
-            )
-        {
-            Check.RequireNotNull(configSettings, "configSettings");
-            Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
-
-            _configSettings = configSettings;
-            _mediaFilePathFactory = mediaFilePathFactory;
-        }
 
         #endregion
 
@@ -43,7 +27,7 @@ namespace Bowerbird.Core.ViewModelFactories
 
         #region Methods
 
-        public object Make(MediaResource mediaResource)
+        public object Make(MediaResource mediaResource, bool includeExifData = false)
         {
             dynamic viewModel = new ExpandoObject();
 
@@ -71,21 +55,21 @@ namespace Bowerbird.Core.ViewModelFactories
             {
                 var imageMediaResource = mediaResource as ImageMediaResource;
                 viewModel.Image = new ExpandoObject();
-                    
+
                 if (imageMediaResource.Image.Original != null)
                 {
-                    var uri = _mediaFilePathFactory.MakeMediaUri(imageMediaResource.Image.Original.Uri);
+                    viewModel.Image.Original = new ExpandoObject();
 
-                    viewModel.Image.Original = new
-                        {
-                            imageMediaResource.Image.Original.ExifData,
-                            imageMediaResource.Image.Original.Filename,
-                            imageMediaResource.Image.Original.Height,
-                            imageMediaResource.Image.Original.MimeType,
-                            imageMediaResource.Image.Original.Size,
-                            Uri = uri,
-                            imageMediaResource.Image.Original.Width
-                        };
+                    if (includeExifData)
+                    {
+                        viewModel.Image.Original.ExifData = imageMediaResource.Image.Original.ExifData;
+                    }
+                    viewModel.Image.Original.Filename = imageMediaResource.Image.Original.Filename;
+                    viewModel.Image.Original.Height = imageMediaResource.Image.Original.Height;
+                    viewModel.Image.Original.MimeType = imageMediaResource.Image.Original.MimeType;
+                    viewModel.Image.Original.Size = imageMediaResource.Image.Original.Size;
+                    viewModel.Image.Original.Uri = imageMediaResource.Image.Original.Uri;
+                    viewModel.Image.Original.Width = imageMediaResource.Image.Original.Width;
                 }
                 if (imageMediaResource.Image.Square50 != null) viewModel.Image.Square50 = MakeDerivedFile(imageMediaResource.Image.Square50);
                 if (imageMediaResource.Image.Square100 != null) viewModel.Image.Square100 = MakeDerivedFile(imageMediaResource.Image.Square100);
@@ -98,7 +82,7 @@ namespace Bowerbird.Core.ViewModelFactories
                 if (imageMediaResource.Image.Full1024 != null) viewModel.Image.Full1024 = MakeDerivedFile(imageMediaResource.Image.Full1024);
                 if (imageMediaResource.Image.Small != null) viewModel.Image.Small = MakeDerivedFile(imageMediaResource.Image.Small);
                 if (imageMediaResource.Image.Large != null) viewModel.Image.Large = MakeDerivedFile(imageMediaResource.Image.Large);
-                    
+
             }
             if (mediaResource is VideoMediaResource)
             {
@@ -169,17 +153,15 @@ namespace Bowerbird.Core.ViewModelFactories
 
         private object MakeDerivedFile(DerivedMediaResourceFile derivedMediaResourceFile)
         {
-            var uri = _mediaFilePathFactory.MakeMediaUri(derivedMediaResourceFile.Uri);
-
             return new
             {
                 derivedMediaResourceFile.Height,
-                Uri = uri,
+                derivedMediaResourceFile.Uri,
                 derivedMediaResourceFile.Width
             };
         }
 
-        #endregion  
- 
+        #endregion
+
     }
 }

@@ -44,6 +44,20 @@ namespace Bowerbird.Core.DomainModelFactories
         #endregion
 
         #region Methods
+        
+        public string MakeMediaUri(string uri)
+        {
+            // don't alter relative application paths
+            if (uri.StartsWith("/img/")) return uri;
+
+            if (uri.StartsWith("/media/")) uri = uri.Replace("/media", "");
+
+            return string.Format(
+                "{0}/{1}",
+                GetCleanMediaRootUri(),
+                uri
+            );
+        }
 
         public string MakeRelativeMediaFileUri(string mediaResourceId, string storedRepresentation, string extension)
         {
@@ -137,5 +151,7 @@ namespace Bowerbird.Core.DomainModelFactories
         }
 
         #endregion
+
+
     }
 }

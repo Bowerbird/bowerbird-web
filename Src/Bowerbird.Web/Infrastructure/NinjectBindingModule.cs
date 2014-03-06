@@ -93,6 +93,7 @@ namespace Bowerbird.Web.Infrastructure
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatDeleteCommandHandler>()
                     .Excluding<Bowerbird.Core.CommandHandlers.ChatMessageCreateCommandHandler>()
                     .Excluding<Bowerbird.Core.EventHandlers.ChatUpdated>()
+                    .Excluding<OnlineUserCache>()
                     .Excluding<MessageBus>()
                     .BindAllInterfaces();
 
