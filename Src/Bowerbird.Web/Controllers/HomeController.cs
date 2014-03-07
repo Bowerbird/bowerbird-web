@@ -1,28 +1,11 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
-
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- 
- Funded by:
- * Atlas of Living Australia
- 
-*/
-
-using System.Collections;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
-using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.Indexes;
 using Bowerbird.Core.Infrastructure;
 using Bowerbird.Core.ViewModels;
 using Bowerbird.Core.Queries;
-using System;
 using System.Dynamic;
 using Raven.Client;
 using Raven.Client.Linq;

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Linq;
-using System.Text;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.ViewModelFactories
@@ -16,7 +11,6 @@ namespace Bowerbird.Core.ViewModelFactories
 
         #region Members
 
-        private readonly IConfigSettings _configSettings;
         private readonly IMediaFilePathFactory _mediaFilePathFactory;
 
         #endregion
@@ -24,14 +18,11 @@ namespace Bowerbird.Core.ViewModelFactories
         #region Constructors
 
         public MediaResourceViewFactory(
-            IConfigSettings configSettings, 
             IMediaFilePathFactory mediaFilePathFactory
             )
         {
-            Check.RequireNotNull(configSettings, "configSettings");
             Check.RequireNotNull(mediaFilePathFactory, "mediaFilePathFactory");
 
-            _configSettings = configSettings;
             _mediaFilePathFactory = mediaFilePathFactory;
         }
 

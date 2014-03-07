@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using Bowerbird.Core.Config;
+﻿using System.Dynamic;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.ViewModelFactories
@@ -18,7 +11,6 @@ namespace Bowerbird.Core.ViewModelFactories
 
         private readonly IUserViewFactory _userViewFactory;
         private readonly IGroupViewFactory _groupViewFactory;
-        private readonly IUserContext _userContext;
 
         #endregion
 
@@ -26,16 +18,14 @@ namespace Bowerbird.Core.ViewModelFactories
 
         public PostViewFactory(
             IUserViewFactory userViewFactory,
-            IGroupViewFactory groupViewFactory,
-            IUserContext userContext)
+            IGroupViewFactory groupViewFactory
+            )
         {
             Check.RequireNotNull(userViewFactory, "userViewFactory");
             Check.RequireNotNull(groupViewFactory, "groupViewFactory");
-            Check.RequireNotNull(userContext, "userContext");
 
             _userViewFactory = userViewFactory;
             _groupViewFactory = groupViewFactory;
-            _userContext = userContext;
         }
 
         #endregion

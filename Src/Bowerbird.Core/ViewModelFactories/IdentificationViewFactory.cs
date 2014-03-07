@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Dynamic;
+﻿using System.Dynamic;
 using System.Linq;
-using System.Text;
-using Bowerbird.Core.Config;
 using Bowerbird.Core.DomainModels;
-using Bowerbird.Core.Indexes;
 using Bowerbird.Core.DesignByContract;
 
 namespace Bowerbird.Core.ViewModelFactories

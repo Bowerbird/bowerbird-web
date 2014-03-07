@@ -1,18 +1,4 @@
-﻿/* Bowerbird V1 - Licensed under MIT 1.1 Public License
-
- Developers: 
- * Frank Radocaj : frank@radocaj.com
- * Hamish Crittenden : hamish.crittenden@gmail.com
- 
- Project Manager: 
- * Ken Walker : kwalker@museum.vic.gov.au
- 
- Funded by:
- * Atlas of Living Australia
- 
-*/
-
-using System;
+﻿using System;
 using System.IO;
 using Bowerbird.Core.DesignByContract;
 using Bowerbird.Core.Config;
@@ -50,6 +36,7 @@ namespace Bowerbird.Core.DomainModelFactories
             // don't alter relative application paths
             if (uri.StartsWith("/img/")) return uri;
 
+            // legacy path from pre-aws hosting
             if (uri.StartsWith("/media/")) uri = uri.Replace("/media", "");
 
             return string.Format(

@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Drawing.Printing;
 using System.Dynamic;
 using System.Linq;
-using System.Web.UI.WebControls;
 using Bowerbird.Core.DomainModelFactories;
 using Bowerbird.Core.DomainModels;
 using Bowerbird.Core.DesignByContract;
-using Raven.Client.Linq.Indexing;
 
 namespace Bowerbird.Core.ViewModelFactories
 {

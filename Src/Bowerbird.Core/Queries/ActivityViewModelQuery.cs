@@ -45,6 +45,7 @@ namespace Bowerbird.Core.Queries
         private readonly IIdentificationViewFactory _identificationViewFactory;
         private readonly IPostViewFactory _postViewFactory;
         private readonly IUserContext _userContext;
+        private readonly IUserViewFactory _userViewFactory;
 
         #endregion
 
@@ -56,7 +57,8 @@ namespace Bowerbird.Core.Queries
             ISightingNoteViewFactory sightingNoteViewFactory,
             IIdentificationViewFactory identificationViewFactory,
             IPostViewFactory postViewFactory,
-            IUserContext userContext)
+            IUserContext userContext,
+            IUserViewFactory userViewFactory)
         {
             Check.RequireNotNull(documentSession, "documentSession");
             Check.RequireNotNull(sightingViewFactory, "sightingViewFactory");
@@ -64,6 +66,7 @@ namespace Bowerbird.Core.Queries
             Check.RequireNotNull(identificationViewFactory, "identificationViewFactory");
             Check.RequireNotNull(postViewFactory, "postViewFactory");
             Check.RequireNotNull(userContext, "userContext");
+            Check.RequireNotNull(userViewFactory, "userViewFactory");
 
             _documentSession = documentSession;
             _sightingViewFactory = sightingViewFactory;
@@ -71,6 +74,7 @@ namespace Bowerbird.Core.Queries
             _identificationViewFactory = identificationViewFactory;
             _postViewFactory = postViewFactory;
             _userContext = userContext;
+            _userViewFactory = userViewFactory;
         }
 
         #endregion
@@ -184,6 +188,7 @@ namespace Bowerbird.Core.Queries
                 contributions = _documentSession
                     .Query<All_Contributions.Result, All_Contributions>()
                     .AsProjection<All_Contributions.Result>()
+                    .Include(x => x.Contribution.User.Id)
                     .Where(x => x.ParentContributionId.In(contributionIds))
                     .ToList();
             }
@@ -214,7 +219,9 @@ namespace Bowerbird.Core.Queries
                         activity.CreatedDateTime = x.CreatedDateTime;
                         activity.CreatedDateTimeOrder = x.CreatedDateTimeOrder;
                         activity.Description = x.Description;
-                        activity.User = x.User;
+
+                        var user = _documentSession.Load<User>((string)x.User.Id);
+                        activity.User = _userViewFactory.Make(user, null);
                         activity.Groups = x.Groups;
                         activity.ContributionId = x.ContributionId;
                         activity.SubContributionId = x.SubContributionId;
