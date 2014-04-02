@@ -1,6 +1,6 @@
 Project Description
 ===================
-Bowerbird is:
+BowerBird is:
 *	A social network without walls, closed doors or exclusivity; totally open, totally visible and totally collaborative
 *	A continuous activity stream of natural history observations
 *	A workspace tool for the Citizen Science as well as the Scientific Biodiversity and Biosecurity communities where individuals can form groups; communicate and collaborate; make, discuss and identify their observations.
@@ -83,7 +83,7 @@ To build and run the source code for BowerBird on your development machine you w
 
 First Run
 =========
-Bowerbird has over 200,000 species that need to be loaded and indexed. This will happen on the first load as part of the system setup. This may take a long time
+BowerBird has over 200,000 species that need to be loaded and indexed. This will happen on the first load as part of the system setup. This may take a long time
 * When running in Debug mode, the species import will be limited to the _testImportLimit property in Bowerbird.Core.Config.SetupSystem
 * When running in DebugProd or DebugRelease mode, all species will be imported
 * You can see the status of the indexing by browsing to your RavenDB instance (at your local address or localhost:8080 if running in memory) and clicking on 'Stale Indexes' in the footer of the home page
@@ -98,7 +98,7 @@ If you have a healthy running application, the homepage will load, you will be a
 
 Issues
 ======
-If you have any issues or feature requests or improvements for this document, submit them to https://github.com/Bowerbird/bowerbird-web/issues
+If you have any issues or feature requests or improvements for this document, submit them to https://github.com/bowerbird/bowerbird-web/issues
 
 
 Have Fun!
