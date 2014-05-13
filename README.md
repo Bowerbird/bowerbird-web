@@ -101,6 +101,12 @@ Issues
 If you have any issues or feature requests or improvements for this document, submit them to https://github.com/bowerbird/bowerbird-web/issues
 
 
+Development Schedule
+====================
+Current Version: 1.0.32.1 - Released: 15 April 2014
+Next Version Scheduled for release: 25 May 2014
+
+
 Have Fun!
 =========
 Frank - frank@radocaj.com
