@@ -107,6 +107,11 @@ Current Version: 1.0.32.1 - Released: 15 April 2014
 Next Version Scheduled for release: 25 May 2014
 
 
+With Thanks To
+==============
+The BowerBird development team would like to thank JetBrains for their commitment to Open Source Software projects with their granting of a free ReSharper licence to each of us to use when developing BowerBird.
+
+
 Have Fun!
 =========
 Frank - frank@radocaj.com
