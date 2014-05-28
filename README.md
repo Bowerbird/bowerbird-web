@@ -109,7 +109,7 @@ Next Version Scheduled for release: 5 June 2014
 
 With Thanks To
 ==============
-The BowerBird development team would like to thank JetBrains for their commitment to Open Source Software projects with their granting of a free ReSharper licence to each of us to use when developing BowerBird.
+The BowerBird development team would like to thank JetBrains for their commitment to Open Source Software projects with their granting of ReSharper and TeamCity licences to help us develop BowerBird.
 
 
 Have Fun!
