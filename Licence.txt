@@ -1,21 +1,15 @@
 
 Bowerbird - http://www.bowerbird.org.au
 
-Developers: 
-* Frank Radocaj : frank@radocaj.com
-* Hamish Crittenden : hamish@critto.net
- 
-Project Manager: 
+Creators: 
+* Frank Radocaj : frank@melbournemade.com.au
+* Hamish Crittenden : hamish@melbournemade.com.au
 * Ken Walker : kwalker@museum.vic.gov.au
  
-Funded by:
-* Atlas of Living Australia - http://www.ala.org.au
-
+BowerBird is hosted and managed by Melbourne Made Apps and is licensed under the MIT 1.1 Open Source Licence
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 The MIT License (MIT)
-
-Copyright (c) 2012 Atlas of Living Australia
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
