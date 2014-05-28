@@ -114,6 +114,6 @@ The BowerBird development team would like to thank JetBrains for their commitmen
 
 Have Fun!
 =========
-Frank - frank@radocaj.com
-Hamish - hamish.crittenden@gmail.com
+Frank - frank@melbournemade.com.au
+Hamish - hamish@melbournemade.com.au
 Ken - kwalker@museum.vic.gov.au
