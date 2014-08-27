@@ -103,8 +103,8 @@ If you have any issues or feature requests or improvements for this document, su
 
 Development Schedule
 ====================
-Current Version: 1.0.32.1 - Released: 15 April 2014
-Next Version Scheduled for release: 5 June 2014
+Current Version: 1.0.47 - Released: 12 August 2014
+Next Version Scheduled for release: 15 September 2014
 
 
 With Thanks To
