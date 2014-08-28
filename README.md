@@ -111,6 +111,7 @@ With Thanks To
 ==============
 The BowerBird development team would like to thank JetBrains for their commitment to Open Source Software projects with their granting of ReSharper and TeamCity licences to help us develop BowerBird.
 
+<a href="http://www.jetbrains.com/resharper/">ReSharper</a> - the most advanced productivity add-in for Visual Studio!
 
 Have Fun!
 =========
